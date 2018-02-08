@@ -70,6 +70,9 @@
     <Filter Include="playGround\loadingTest">
       <UniqueIdentifier>{086d7d42-5749-4b9a-95a5-47cb332d63cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\BattleScene">
+      <UniqueIdentifier>{c3eff8c5-1a84-4625-81d6-7b8e68610cc7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -189,6 +192,9 @@
     <ClInclude Include="playScene.h">
       <Filter>playGround\loadingTest</Filter>
     </ClInclude>
+    <ClInclude Include="BattleScene.h">
+      <Filter>playGround\BattleScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -289,6 +295,9 @@
     </ClCompile>
     <ClCompile Include="playScene.cpp">
       <Filter>playGround\loadingTest</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleScene.cpp">
+      <Filter>playGround\BattleScene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

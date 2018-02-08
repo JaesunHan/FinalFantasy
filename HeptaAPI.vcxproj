@@ -83,6 +83,7 @@
     <ClInclude Include="animation.h" />
     <ClInclude Include="aStarScene.h" />
     <ClInclude Include="aStarTest.h" />
+    <ClInclude Include="BattleScene.h" />
     <ClInclude Include="bullets.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="collision.h" />
@@ -123,6 +124,7 @@
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="aStarScene.cpp" />
     <ClCompile Include="aStarTest.cpp" />
+    <ClCompile Include="BattleScene.cpp" />
     <ClCompile Include="bullets.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="collision.cpp" />
