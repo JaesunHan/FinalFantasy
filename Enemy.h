@@ -1,6 +1,16 @@
 #pragma once
 #include "gameNode.h"
 
+enum EnemyState
+{
+	ENEMY_IDEL,
+	ENEMY_HIT,
+	ENEMY_SPELL,
+	ENEMY_DIE
+};
+
+class BattleScene;
+
 class Enemy : public gameNode
 {
 protected:
@@ -23,6 +33,11 @@ protected:
 	unsigned int _hitRate;					//명중률
 	unsigned int _block;					//방어율
 
+	bool _enemyTurn;						//에너미들 턴이니?
+
+	EnemyState _state;						//에너미들 상태값
+	
+	BattleScene* _battle;
 
 public:
 	Enemy();
@@ -31,7 +46,9 @@ public:
 	virtual void update();
 	virtual void render();
 
-	//================= 접근자 / 설정자 ===================
+	void setBattleSceneMemoryAddressLink(BattleScene* bs) { _battle = bs; }
+
+	//=========================== 접근자 / 설정자 =============================
 
 	inline int getLv() { return _Lv; }
 
@@ -62,6 +79,9 @@ public:
 
 	inline int getBlock() { return _block; }
 
-	//====================================================
+	inline bool getEnemyTurn() { return _enemyTurn; }
+	inline void setEnemyTurn(bool enemyTurn) { _enemyTurn = enemyTurn; }
+
+	//========================================================================
 };
 
