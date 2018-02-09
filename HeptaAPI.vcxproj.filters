@@ -31,9 +31,6 @@
     <Filter Include="2DGameFramework\image">
       <UniqueIdentifier>{efeeb4a5-f3de-4942-a317-21258d10129e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\bullets">
-      <UniqueIdentifier>{c0baca9e-5efa-4ae8-a7df-08910ac1b783}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2DGameFramework\progressBar">
       <UniqueIdentifier>{f316504a-bdda-4a8d-b01b-87142c0dfff6}</UniqueIdentifier>
     </Filter>
@@ -57,9 +54,6 @@
     </Filter>
     <Filter Include="2DGameFramework\action">
       <UniqueIdentifier>{b3e765fe-3f62-4682-9f1a-6ee96401a17c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="playGround\tankScene">
-      <UniqueIdentifier>{488fc336-5f2f-4352-a338-30cb712cf6df}</UniqueIdentifier>
     </Filter>
     <Filter Include="playGround\A%2aScene">
       <UniqueIdentifier>{592fd72d-6c4b-4a6f-8b8c-e87a13e07a44}</UniqueIdentifier>
@@ -117,9 +111,6 @@
     <ClInclude Include="imageManager.h">
       <Filter>2DGameFramework\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="bullets.h">
-      <Filter>playGround\bullets</Filter>
-    </ClInclude>
     <ClInclude Include="progressBar.h">
       <Filter>2DGameFramework\progressBar</Filter>
     </ClInclude>
@@ -161,18 +152,6 @@
     </ClInclude>
     <ClInclude Include="keyAniManager.h">
       <Filter>2DGameFramework\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="tankScene.h">
-      <Filter>playGround\tankScene</Filter>
-    </ClInclude>
-    <ClInclude Include="tileNode.h">
-      <Filter>playGround\tankScene</Filter>
-    </ClInclude>
-    <ClInclude Include="tankMap.h">
-      <Filter>playGround\tankScene</Filter>
-    </ClInclude>
-    <ClInclude Include="tank.h">
-      <Filter>playGround\tankScene</Filter>
     </ClInclude>
     <ClInclude Include="tile.h">
       <Filter>playGround\A%2aScene</Filter>
@@ -224,9 +203,6 @@
     <ClCompile Include="imageManager.cpp">
       <Filter>2DGameFramework\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="bullets.cpp">
-      <Filter>playGround\bullets</Filter>
-    </ClCompile>
     <ClCompile Include="progressBar.cpp">
       <Filter>2DGameFramework\progressBar</Filter>
     </ClCompile>
@@ -268,15 +244,6 @@
     </ClCompile>
     <ClCompile Include="keyAniManager.cpp">
       <Filter>2DGameFramework\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="tankScene.cpp">
-      <Filter>playGround\tankScene</Filter>
-    </ClCompile>
-    <ClCompile Include="tank.cpp">
-      <Filter>playGround\tankScene</Filter>
-    </ClCompile>
-    <ClCompile Include="tankMap.cpp">
-      <Filter>playGround\tankScene</Filter>
     </ClCompile>
     <ClCompile Include="tile.cpp">
       <Filter>playGround\A%2aScene</Filter>
