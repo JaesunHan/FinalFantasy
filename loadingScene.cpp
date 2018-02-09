@@ -24,43 +24,20 @@ HRESULT loadingScene::init()
 	//하지만 지금은 이미지가 한 장이므로, 키 값을 다르게 해서
 	//여러장 로딩을 하는 것으로 함!
 
-	for (int i = 0; i < 50; i++)
+	for (int i = 0; i < 500; i++)
 	{
 		ZeroMemory(image, sizeof(image));
-		sprintf(image, "오버쿡플레이0%d", i);
-		_loading->loadImage(image, "오버쿡플레이.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+		sprintf(image, "메뉴씬%d", i);
+		_loading->loadImage(image, ".//menuImage//start_Bg.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 		
 	}
-	for (int i = 0; i < 20; i++)
-	{
-		ZeroMemory(image, sizeof(image));
-		sprintf(image, "오버쿡플레이1%d", i);
-		_loading->loadImage(image, "background2.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
-	}
-	for (int i = 0; i < 30; i++)
-	{
-		ZeroMemory(image, sizeof(image));
-		sprintf(image, "오버쿡플레이2%d", i);
-		_loading->loadImage(image, "guilmon.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
-	}
-	for (int i = 0; i < 10; ++i)
-	{
-		ZeroMemory(sound, sizeof(sound));
-		sprintf(sound, "사운드0%d", i);
-		_loading->loadSound(sound, "Hello, world!.mp3", true, false);
-	}
-	for (int i = 0; i < 10; ++i)
-	{
-		ZeroMemory(sound, sizeof(sound));
-		sprintf(sound, "사운드1%d", i);
-		_loading->loadSound(sound, "Haikyuu!!+I’M A BELIEVER.mp3", true, false);
-	}
-	for (int i = 0; i < 10; ++i)
-	{
-		ZeroMemory(sound, sizeof(sound));
-		sprintf(sound, "사운드2%d", i);
-		_loading->loadSound(sound, "Sugar Song&Bitter Step.mp3", true, false);
-	}
+
+	//for (int i = 0; i < 10; ++i)
+	//{
+	//	ZeroMemory(sound, sizeof(sound));
+	//	sprintf(sound, "사운드2%d", i);
+	//	_loading->loadSound(sound, "Sugar Song&Bitter Step.mp3", true, false);
+	//}
 	
 	return S_OK;
 }

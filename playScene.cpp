@@ -30,5 +30,5 @@ void playScene::update()
 
 void playScene::render() 
 {
-	IMAGEMANAGER->findImage("¿À¹öÄîÇÃ·¹ÀÌ0")->render(getMemDC(), 0, 0);
+	IMAGEMANAGER->findImage("¸Ş´º¾À0")->render(getMemDC(), 0, 0);
 }

@@ -56,7 +56,7 @@ public:
 	TCHAR* getImageFileName(){ 
 		TCHAR str[512];
 		wsprintf(str, "%s", _imageResource.fileName);
-		GetCurrentDirectory(_MAX_PATH, str);
+		GetCurrentDirectory(_MAX_PATH, str); 
 		TCHAR str2[512];
 		wsprintf(str2, "%s/%s", str, _imageResource.fileName);
 		return str2;

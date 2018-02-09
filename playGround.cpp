@@ -16,7 +16,7 @@ HRESULT playGround::init()
 {
 	gameNode::init(true);
 
-	IMAGEMANAGER->addImage("오버쿡플레이", "오버쿡플레이.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("타이틀씬", ".//menuImage//start_Bg.bmp.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 
 	SCENEMANAGER->addScene("로딩씬", new loadingScene);
 	SCENEMANAGER->addScene("플레이씬", new playScene);

@@ -103,23 +103,22 @@ loading::~loading()
 
 HRESULT loading::init()
 {
-	_background = IMAGEMANAGER->addImage("로딩백그라운드", "오버쿡로딩.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	_background = IMAGEMANAGER->addImage("로딩백그라운드", ".//menuImage//loading_sqgEnix.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 
 	_loadingBar = new progressBar;
-	_loadingBar->init("loadingBarTop", "loadingBarBottom", WINSIZEX / 2, WINSIZEY - 20, WINSIZEX, 20);
+	_loadingBar->init("loading_frontBar", "loading_backBar", "menuImage",  WINSIZEX / 2, WINSIZEY - 50, 731, 25);
 	_loadingBar->setGauge(0, 0);
 
 	_currentGauge = 0;
 
 	//로딩할때 띄울 움직이는 프레임 이미지
 	_loadChacracter = new image;
-	_loadChacracter = IMAGEMANAGER->addFrameImage("loadKirby", "KirbyFly.bmp", _loadingBar->getRcProgress().left, _loadingBar->getRcProgress().top, 336, 56, 6, 1, true, RGB(255, 0, 255));
+	_loadChacracter = IMAGEMANAGER->addFrameImage("loadingFish", ".//menuImage//loading_fish.bmp", _loadingBar->getRcProgress().left, _loadingBar->getRcProgress().top, 200, 24, 3, 1, true, RGB(255, 0, 255));
 	
 	_loadCharAnim = new animation;
-	_loadCharAnim->init(336,56,56, 56);
-	int animArr[] = { 0,1, 2, 3, 4, 5 };
-	_loadCharAnim->setPlayFrame(animArr, 6, true);
-	_loadCharAnim->setFPS(1);
+	int animArr[] = { 0, 1, 2 }; 
+	KEYANIMANAGER->addArrayFrameAnimation("로딩꽁치", "loadingFish", animArr, 3, 5, true);
+	_loadCharAnim = KEYANIMANAGER->findAnimation("로딩꽁치");
 	_loadCharAnim->start();
 
 	return S_OK;
@@ -133,15 +132,16 @@ void loading::release()
 void loading::update() 
 {
 	_loadingBar->update();
-	_loadCharAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 14);
+	KEYANIMANAGER->update();
 }
 
 void loading::render() 
 {
 	_background->render(getMemDC());
 	_loadingBar->render();
-	_loadChacracter->aniRender(getMemDC(), _loadingBar->getWidth(), _loadingBar->getRcProgress().top-20, _loadCharAnim);
-	TextOut(getMemDC(), 100, WINSIZEY / 2, _filePathName, strlen(_filePathName));
+
+	_loadChacracter->aniRender(getMemDC(), _loadingBar->getWidth(), _loadingBar->getRcProgress().top + 10, _loadCharAnim);
+	//TextOut(getMemDC(), 100, WINSIZEY / 2, _filePathName, strlen(_filePathName));
 }
 
 
