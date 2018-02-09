@@ -67,11 +67,11 @@
     <Filter Include="playGround\BattleScene">
       <UniqueIdentifier>{c3eff8c5-1a84-4625-81d6-7b8e68610cc7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\testFilter1">
-      <UniqueIdentifier>{af90e09f-da12-45f5-babe-a52314ab0aed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\player">
       <UniqueIdentifier>{0d0cca3c-c64a-48f3-8afb-2994189bda27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\battlePlayer">
+      <UniqueIdentifier>{f1dd624b-c9ff-4e56-bb8f-aaad9ecdff33}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -183,6 +183,12 @@
     <ClInclude Include="playerMother.h">
       <Filter>playGround\player</Filter>
     </ClInclude>
+    <ClInclude Include="battlePlayerMother.h">
+      <Filter>playGround\battlePlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Tina.h">
+      <Filter>playGround\player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -276,6 +282,12 @@
       <Filter>playGround\BattleScene</Filter>
     </ClCompile>
     <ClCompile Include="playerMother.cpp">
+      <Filter>playGround\player</Filter>
+    </ClCompile>
+    <ClCompile Include="battlePlayerMother.cpp">
+      <Filter>playGround\battlePlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="Tina.cpp">
       <Filter>playGround\player</Filter>
     </ClCompile>
   </ItemGroup>

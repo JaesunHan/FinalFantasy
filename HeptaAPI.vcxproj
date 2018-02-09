@@ -83,6 +83,7 @@
     <ClInclude Include="animation.h" />
     <ClInclude Include="aStarScene.h" />
     <ClInclude Include="aStarTest.h" />
+    <ClInclude Include="battlePlayerMother.h" />
     <ClInclude Include="BattleScene.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="collision.h" />
@@ -112,6 +113,7 @@
     <ClInclude Include="tile.h" />
     <ClInclude Include="timeManager.h" />
     <ClInclude Include="timer.h" />
+    <ClInclude Include="Tina.h" />
     <ClInclude Include="txtData.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
@@ -120,6 +122,7 @@
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="aStarScene.cpp" />
     <ClCompile Include="aStarTest.cpp" />
+    <ClCompile Include="battlePlayerMother.cpp" />
     <ClCompile Include="BattleScene.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="collision.cpp" />
@@ -147,6 +150,7 @@
     <ClCompile Include="tile.cpp" />
     <ClCompile Include="timeManager.cpp" />
     <ClCompile Include="timer.cpp" />
+    <ClCompile Include="Tina.cpp" />
     <ClCompile Include="txtData.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="winMain.cpp" />
