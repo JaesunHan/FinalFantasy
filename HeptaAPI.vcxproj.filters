@@ -67,6 +67,9 @@
     <Filter Include="playGround\BattleScene">
       <UniqueIdentifier>{c3eff8c5-1a84-4625-81d6-7b8e68610cc7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\testFilter1">
+      <UniqueIdentifier>{af90e09f-da12-45f5-babe-a52314ab0aed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
