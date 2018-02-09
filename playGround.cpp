@@ -16,13 +16,6 @@ HRESULT playGround::init()
 {
 	gameNode::init(true);
 
-	IMAGEMANAGER->addImage("Å¸ÀÌÆ²¾À", ".//menuImage//start_Bg.bmp.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
-
-	SCENEMANAGER->addScene("·Îµù¾À", new loadingScene);
-	SCENEMANAGER->addScene("ÇÃ·¹ÀÌ¾À", new playScene);
-
-	SCENEMANAGER->changeScene("·Îµù¾À");
-
 	
 	return S_OK;
 }

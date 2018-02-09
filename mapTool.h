@@ -1,6 +1,7 @@
 #pragma once
 #include "gameNode.h"
 #include "tile.h"
+#include <commdlg.h>
 
 /********************************************************/
 /* 맵툴 클래스											*/
@@ -71,5 +72,8 @@ public:
 //	void setTerrainTileSet(string tileSetKeyName, POINT tileSize);
 
 	void createDefaultMap(POINT mapSize);		//맵 사이즈 받아서 기본맵 생성
+
+	void mapSave(string mapName);
+	void mapLoad(string mapName);
 };
 

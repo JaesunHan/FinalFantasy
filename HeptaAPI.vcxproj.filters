@@ -55,9 +55,6 @@
     <Filter Include="2DGameFramework\action">
       <UniqueIdentifier>{b3e765fe-3f62-4682-9f1a-6ee96401a17c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\A%2aScene">
-      <UniqueIdentifier>{592fd72d-6c4b-4a6f-8b8c-e87a13e07a44}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2DGameFramework\loading">
       <UniqueIdentifier>{74449c60-db19-4868-b90c-d0f54861ab46}</UniqueIdentifier>
     </Filter>
@@ -174,17 +171,8 @@
     <ClInclude Include="keyAniManager.h">
       <Filter>2DGameFramework\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="aStarTest.h">
-      <Filter>playGround\A%2aScene</Filter>
-    </ClInclude>
-    <ClInclude Include="aStarScene.h">
-      <Filter>playGround\A%2aScene</Filter>
-    </ClInclude>
     <ClInclude Include="loading.h">
       <Filter>2DGameFramework\loading</Filter>
-    </ClInclude>
-    <ClInclude Include="loadingScene.h">
-      <Filter>playGround\loadingTest</Filter>
     </ClInclude>
     <ClInclude Include="BattleScene.h">
       <Filter>playGround\BattleScene</Filter>
@@ -230,6 +218,9 @@
     </ClInclude>
     <ClInclude Include="VectorPup.h">
       <Filter>playGround\BattleScene\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="loadingScene.h">
+      <Filter>playGround\loadingTest</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -302,17 +293,8 @@
     <ClCompile Include="keyAniManager.cpp">
       <Filter>2DGameFramework\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="aStarTest.cpp">
-      <Filter>playGround\A%2aScene</Filter>
-    </ClCompile>
-    <ClCompile Include="aStarScene.cpp">
-      <Filter>playGround\A%2aScene</Filter>
-    </ClCompile>
     <ClCompile Include="loading.cpp">
       <Filter>2DGameFramework\loading</Filter>
-    </ClCompile>
-    <ClCompile Include="loadingScene.cpp">
-      <Filter>playGround\loadingTest</Filter>
     </ClCompile>
     <ClCompile Include="BattleScene.cpp">
       <Filter>playGround\BattleScene</Filter>
@@ -355,6 +337,9 @@
     </ClCompile>
     <ClCompile Include="VectorPup.cpp">
       <Filter>playGround\BattleScene\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="loadingScene.cpp">
+      <Filter>playGround\loadingTest</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

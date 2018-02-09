@@ -78,7 +78,6 @@ void mapTool::render(void)
 			_worldMapObjectTileSet[i].render();
 		}
 	}
-	
 
 	buttonDraw();
 }
@@ -119,9 +118,9 @@ void mapTool::worldMapObjectTileSetInie(void)
 
 void mapTool::clickButton(void)
 {
-	//if (PtInRect(&_saveBtn, _ptMouse)) _currentSelectMode = EDIT_BUTTON_SAVE;
-	//else if (PtInRect(&_loadBtn, _ptMouse)) _currentSelectMode = EDIT_BUTTON_LOAD;
-	if (PtInRect(&_terrainBtn, _ptMouse)) _currentSelectMode = MODE_WORLDMAP_TERRAIN_SELECT;
+	if (PtInRect(&_saveBtn, _ptMouse)) mapSave("test");
+	else if (PtInRect(&_loadBtn, _ptMouse)) mapLoad("test");
+	else if (PtInRect(&_terrainBtn, _ptMouse)) _currentSelectMode = MODE_WORLDMAP_TERRAIN_SELECT;
 	else if (PtInRect(&_objectBtn, _ptMouse)) _currentSelectMode = MODE_WORLDMAP_OBJECT_SELECT;
 	else if (PtInRect(&_eraserBtn, _ptMouse)) _currentSelectMode = MODE_ERASER;
 	//else if (PtInRect(&_changeGameModeBtn, _ptMouse)) _currentSelectMode = EDIT_BUTTON_CHANGE_GAME_MODE;
@@ -217,4 +216,46 @@ void mapTool::createDefaultMap(POINT mapSize)
 		_worldMapTiles[i].setTerrain(TR_GRASS);
 		//맵 타일 초기화 부분
 	}
+}
+
+void mapTool::mapSave(string mapName)
+{
+	HANDLE file;
+	DWORD write;
+
+	file = CreateFile(mapName.c_str(), GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	WriteFile(file, _worldMapTiles, sizeof(tile) * _mapSize.x * _mapSize.y, &write, NULL);
+
+	CloseHandle(file);
+}
+
+void mapTool::mapLoad(string mapName)
+{
+	HANDLE file;
+	DWORD write;
+
+	OPENFILENAME ofn;
+	char filePath[1024] = "";
+	ZeroMemory(&ofn, sizeof(OPENFILENAME));
+
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = NULL;
+	ofn.lpstrFile = filePath;
+	ofn.nMaxFile = sizeof(filePath);
+	ofn.nFilterIndex = true;
+	ofn.nMaxFileTitle = NULL;
+	ofn.lpstrFileTitle = NULL;
+	ofn.lpstrInitialDir = NULL;
+	ofn.lpstrFilter = "Map File(*.map)\0*.map\0";
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+	//예외처리
+	if (GetOpenFileName(&ofn) == FALSE) return;
+
+	file = CreateFile(mapName.c_str(), GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	ReadFile(file, _worldMapTiles, sizeof(tile) * _mapSize.x * _mapSize.y, &write, NULL);
+
+	CloseHandle(file);
 }
