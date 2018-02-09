@@ -103,17 +103,17 @@ loading::~loading()
 
 HRESULT loading::init()
 {
-	_background = IMAGEMANAGER->addImage("로딩백그라운드", ".//menuImage//loading_sqgEnix.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	_background = IMAGEMANAGER->addImage("로딩백그라운드", ".//prevProjectResource//SceneImage//loading_sqgEnix.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 
 	_loadingBar = new progressBar;
-	_loadingBar->init("loading_frontBar", "loading_backBar", "menuImage",  WINSIZEX / 2, WINSIZEY - 50, 731, 25);
+	_loadingBar->init("loading_frontBar", "loading_backBar", "SceneImage",  WINSIZEX / 2, WINSIZEY - 50, 700, 25);
 	_loadingBar->setGauge(0, 0);
 
 	_currentGauge = 0;
 
 	//로딩할때 띄울 움직이는 프레임 이미지
 	_loadChacracter = new image;
-	_loadChacracter = IMAGEMANAGER->addFrameImage("loadingFish", ".//menuImage//loading_fish.bmp", _loadingBar->getRcProgress().left, _loadingBar->getRcProgress().top, 200, 24, 3, 1, true, RGB(255, 0, 255));
+	_loadChacracter = IMAGEMANAGER->addFrameImage("loadingFish", ".//prevProjectResource//SceneImage//loading_fish.bmp", _loadingBar->getRcProgress().left, _loadingBar->getRcProgress().top, 201, 24, 3, 1, true, RGB(255, 0, 255));
 	
 	_loadCharAnim = new animation;
 	int animArr[] = { 0, 1, 2 }; 

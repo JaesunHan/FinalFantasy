@@ -61,9 +61,6 @@
     <Filter Include="2DGameFramework\loading">
       <UniqueIdentifier>{74449c60-db19-4868-b90c-d0f54861ab46}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\loadingTest">
-      <UniqueIdentifier>{086d7d42-5749-4b9a-95a5-47cb332d63cb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\BattleScene">
       <UniqueIdentifier>{c3eff8c5-1a84-4625-81d6-7b8e68610cc7}</UniqueIdentifier>
     </Filter>
@@ -87,6 +84,12 @@
     </Filter>
     <Filter Include="playGround\BattleScene\battlePlayer">
       <UniqueIdentifier>{f1dd624b-c9ff-4e56-bb8f-aaad9ecdff33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\MenuScene">
+      <UniqueIdentifier>{086d7d42-5749-4b9a-95a5-47cb332d63cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\MenuScene\Scene">
+      <UniqueIdentifier>{3f7d5fa3-144e-40bb-a5c7-3ea0f2eed245}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -183,9 +186,6 @@
     <ClInclude Include="loading.h">
       <Filter>2DGameFramework\loading</Filter>
     </ClInclude>
-    <ClInclude Include="loadingScene.h">
-      <Filter>playGround\loadingTest</Filter>
-    </ClInclude>
     <ClInclude Include="BattleScene.h">
       <Filter>playGround\BattleScene</Filter>
     </ClInclude>
@@ -230,6 +230,33 @@
     </ClInclude>
     <ClInclude Include="VectorPup.h">
       <Filter>playGround\BattleScene\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMenuManager.h">
+      <Filter>playGround\MenuScene</Filter>
+    </ClInclude>
+    <ClInclude Include="abilitiesMenu.h">
+      <Filter>playGround\MenuScene\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="equipMenu.h">
+      <Filter>playGround\MenuScene\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="itemMenu.h">
+      <Filter>playGround\MenuScene\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="loadingScene.h">
+      <Filter>playGround\MenuScene</Filter>
+    </ClInclude>
+    <ClInclude Include="statusMenu.h">
+      <Filter>playGround\MenuScene\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="menu.h">
+      <Filter>playGround\MenuScene</Filter>
+    </ClInclude>
+    <ClInclude Include="saveLoadMenu.h">
+      <Filter>playGround\MenuScene\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="configMenu.h">
+      <Filter>playGround\MenuScene\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -311,9 +338,6 @@
     <ClCompile Include="loading.cpp">
       <Filter>2DGameFramework\loading</Filter>
     </ClCompile>
-    <ClCompile Include="loadingScene.cpp">
-      <Filter>playGround\loadingTest</Filter>
-    </ClCompile>
     <ClCompile Include="BattleScene.cpp">
       <Filter>playGround\BattleScene</Filter>
     </ClCompile>
@@ -355,6 +379,33 @@
     </ClCompile>
     <ClCompile Include="VectorPup.cpp">
       <Filter>playGround\BattleScene\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMenuManager.cpp">
+      <Filter>playGround\MenuScene</Filter>
+    </ClCompile>
+    <ClCompile Include="abilitiesMenu.cpp">
+      <Filter>playGround\MenuScene\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="equipMenu.cpp">
+      <Filter>playGround\MenuScene\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="itemMenu.cpp">
+      <Filter>playGround\MenuScene\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="loadingScene.cpp">
+      <Filter>playGround\MenuScene</Filter>
+    </ClCompile>
+    <ClCompile Include="statusMenu.cpp">
+      <Filter>playGround\MenuScene\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="menu.cpp">
+      <Filter>playGround\MenuScene</Filter>
+    </ClCompile>
+    <ClCompile Include="saveLoadMenu.cpp">
+      <Filter>playGround\MenuScene\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="configMenu.cpp">
+      <Filter>playGround\MenuScene\Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
