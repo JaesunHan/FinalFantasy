@@ -228,6 +228,12 @@
     <ClInclude Include="battleShadow.h">
       <Filter>playGround\BattleScene\battlePlayer</Filter>
     </ClInclude>
+    <ClInclude Include="battleLocke.h">
+      <Filter>playGround\BattleScene\battlePlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="battleCeles.h">
+      <Filter>playGround\BattleScene\battlePlayer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -351,6 +357,12 @@
       <Filter>playGround\BattleScene\battlePlayer</Filter>
     </ClCompile>
     <ClCompile Include="battleShadow.cpp">
+      <Filter>playGround\BattleScene\battlePlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="battleCeles.cpp">
+      <Filter>playGround\BattleScene\battlePlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="battleLocke.cpp">
       <Filter>playGround\BattleScene\battlePlayer</Filter>
     </ClCompile>
   </ItemGroup>

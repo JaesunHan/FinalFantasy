@@ -81,6 +81,8 @@
   <ItemGroup>
     <ClInclude Include="action.h" />
     <ClInclude Include="animation.h" />
+    <ClInclude Include="battleCeles.h" />
+    <ClInclude Include="battleLocke.h" />
     <ClInclude Include="battlePlayerMother.h" />
     <ClInclude Include="BattleScene.h" />
     <ClInclude Include="battleShadow.h" />
@@ -129,6 +131,8 @@
   <ItemGroup>
     <ClCompile Include="action.cpp" />
     <ClCompile Include="animation.cpp" />
+    <ClCompile Include="battleCeles.cpp" />
+    <ClCompile Include="battleLocke.cpp" />
     <ClCompile Include="battlePlayerMother.cpp" />
     <ClCompile Include="BattleScene.cpp" />
     <ClCompile Include="battleShadow.cpp" />

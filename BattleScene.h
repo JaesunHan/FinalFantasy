@@ -1,5 +1,10 @@
 #pragma once
 #include "gameNode.h"
+#include "battleShadow.h"
+#include "battleTina.h"
+#include "Bear.h"
+#include "DarkWind.h"
+#include "VectorPup.h"
 #include <queue>
 #include <vector>
 
@@ -14,8 +19,9 @@ enum BATTLECHARACTER
 struct tagBattleCharacters
 {
 	BATTLECHARACTER characterType;		//배틀 캐릭터
-	int ABTcounter = 30000;				//배틀 카운터
-
+	int ABTcounter;				//배틀 카운터
+	Enemy* enemy;
+	battlePlayerMother* player;
 };
 
 class BattleScene : public gameNode
@@ -33,5 +39,7 @@ public:
 	void release();
 	void update();
 	void render();
+
+
 };
 
