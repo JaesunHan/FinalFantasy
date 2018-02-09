@@ -13,10 +13,21 @@ Debug/collision.obj
 Debug/database.obj
 Debug/effect.obj
 Debug/effectManager.obj
+=======
+.vs/FinalFantasy/v15/ipch/4974d92552d73389.ipch
+Debug/vc141.idb
+Debug/winMain.obj
+Debug/vc141.pdb
+Debug/utils.obj
+Debug/action.obj
+Debug/animation.obj
+*.obj
+>>>>>>> d66ecd1370f7bf726767449690e9c38f4e92d5a2
 Debug/FinalFantasy.exe
 Debug/FinalFantasy.ilk
 Debug/FinalFantasy.pch
 Debug/FinalFantasy.pdb
+<<<<<<< HEAD
 Debug/FinalFantasy.tlog/CL.command.1.tlog
 Debug/FinalFantasy.tlog/CL.read.1.tlog
 Debug/FinalFantasy.tlog/CL.write.1.tlog
@@ -47,3 +58,9 @@ Debug/utils.obj
 Debug/vc141.idb
 Debug/vc141.pdb
 Debug/winMain.obj
+=======
+*.tlog
+Debug/HeptaAPI.log
+playScene.cpp
+playScene.cpp
+>>>>>>> d66ecd1370f7bf726767449690e9c38f4e92d5a2
