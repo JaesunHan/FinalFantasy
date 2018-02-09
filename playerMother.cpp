@@ -4,9 +4,11 @@
 
 playerMother::playerMother()
 {
+	
 }
 
 
 playerMother::~playerMother()
 {
+	
 }

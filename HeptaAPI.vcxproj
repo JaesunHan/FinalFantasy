@@ -108,7 +108,6 @@
     <ClInclude Include="mapTool.h" />
     <ClInclude Include="playerMother.h" />
     <ClInclude Include="playGround.h" />
-    <ClInclude Include="playScene.h" />
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="randomFunction.h" />
     <ClInclude Include="Resource.h" />
@@ -156,7 +155,6 @@
     <ClCompile Include="mapTool.cpp" />
     <ClCompile Include="playerMother.cpp" />
     <ClCompile Include="playGround.cpp" />
-    <ClCompile Include="playScene.cpp" />
     <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="shadow.cpp" />

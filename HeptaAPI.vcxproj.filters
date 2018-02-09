@@ -70,9 +70,6 @@
     <Filter Include="playGround\player">
       <UniqueIdentifier>{0d0cca3c-c64a-48f3-8afb-2994189bda27}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\battlePlayer">
-      <UniqueIdentifier>{f1dd624b-c9ff-4e56-bb8f-aaad9ecdff33}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\Item">
       <UniqueIdentifier>{54a45e7b-f0e4-4e54-8925-6c8a6d24991d}</UniqueIdentifier>
     </Filter>
@@ -85,8 +82,11 @@
     <Filter Include="playGround\tile">
       <UniqueIdentifier>{febc90b2-d2f8-4e6b-8304-28157990cf17}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\enemy">
+    <Filter Include="playGround\BattleScene\enemy">
       <UniqueIdentifier>{e47d2557-b5bc-4e84-b86f-440974d60961}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\BattleScene\battlePlayer">
+      <UniqueIdentifier>{f1dd624b-c9ff-4e56-bb8f-aaad9ecdff33}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -186,9 +186,6 @@
     <ClInclude Include="loadingScene.h">
       <Filter>playGround\loadingTest</Filter>
     </ClInclude>
-    <ClInclude Include="playScene.h">
-      <Filter>playGround\loadingTest</Filter>
-    </ClInclude>
     <ClInclude Include="BattleScene.h">
       <Filter>playGround\BattleScene</Filter>
     </ClInclude>
@@ -196,7 +193,7 @@
       <Filter>playGround\player</Filter>
     </ClInclude>
     <ClInclude Include="battlePlayerMother.h">
-      <Filter>playGround\battlePlayer</Filter>
+      <Filter>playGround\BattleScene\battlePlayer</Filter>
     </ClInclude>
     <ClInclude Include="Tina.h">
       <Filter>playGround\player</Filter>
@@ -223,16 +220,16 @@
       <Filter>playGround\tile</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
-      <Filter>playGround\enemy</Filter>
+      <Filter>playGround\BattleScene\enemy</Filter>
     </ClInclude>
     <ClInclude Include="DarkWind.h">
-      <Filter>playGround\enemy</Filter>
+      <Filter>playGround\BattleScene\enemy</Filter>
     </ClInclude>
     <ClInclude Include="Bear.h">
-      <Filter>playGround\enemy</Filter>
+      <Filter>playGround\BattleScene\enemy</Filter>
     </ClInclude>
     <ClInclude Include="VectorPup.h">
-      <Filter>playGround\enemy</Filter>
+      <Filter>playGround\BattleScene\enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -317,9 +314,6 @@
     <ClCompile Include="loadingScene.cpp">
       <Filter>playGround\loadingTest</Filter>
     </ClCompile>
-    <ClCompile Include="playScene.cpp">
-      <Filter>playGround\loadingTest</Filter>
-    </ClCompile>
     <ClCompile Include="BattleScene.cpp">
       <Filter>playGround\BattleScene</Filter>
     </ClCompile>
@@ -327,7 +321,7 @@
       <Filter>playGround\player</Filter>
     </ClCompile>
     <ClCompile Include="battlePlayerMother.cpp">
-      <Filter>playGround\battlePlayer</Filter>
+      <Filter>playGround\BattleScene\battlePlayer</Filter>
     </ClCompile>
     <ClCompile Include="Tina.cpp">
       <Filter>playGround\player</Filter>
@@ -351,16 +345,16 @@
       <Filter>playGround\tile</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
-      <Filter>playGround\enemy</Filter>
+      <Filter>playGround\BattleScene\enemy</Filter>
     </ClCompile>
     <ClCompile Include="DarkWind.cpp">
-      <Filter>playGround\enemy</Filter>
+      <Filter>playGround\BattleScene\enemy</Filter>
     </ClCompile>
     <ClCompile Include="Bear.cpp">
-      <Filter>playGround\enemy</Filter>
+      <Filter>playGround\BattleScene\enemy</Filter>
     </ClCompile>
     <ClCompile Include="VectorPup.cpp">
-      <Filter>playGround\enemy</Filter>
+      <Filter>playGround\BattleScene\enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

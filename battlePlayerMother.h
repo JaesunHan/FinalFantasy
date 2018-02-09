@@ -17,6 +17,10 @@ private:
 	unsigned int _evasion;			//회피율
 	image* _faceImg;				//얼굴이미지
 
+	//애니메이션 변수 만들기
+	image* _idle;
+
+
 public:
 	battlePlayerMother();
 	~battlePlayerMother();
