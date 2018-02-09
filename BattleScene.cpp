@@ -34,7 +34,7 @@ HRESULT BattleScene::init()
 	temp.player = new battleTina;
 	_battleCharacters.push_back(temp);
 
-	_maxMonster = RND->getInt(6) + 1;
+	_maxMonster = RND->getInt(3) + 1;
 	
 	for (int i = 0; i < _maxMonster; ++i)
 	{
@@ -88,6 +88,18 @@ void BattleScene::update()
 void BattleScene::render() 
 {
 	IMAGEMANAGER->findImage("battleBG")->render(getMemDC());
+	for (int i = 0; i < _battleCharacters.size(); ++i)
+	{
+		if (_battleCharacters[i].characterType <= 3)
+		{
+			if (_battleCharacters[i].player->getCurHP() < 0) continue;
+		}
+		if (_battleCharacters[i].characterType > 3)
+		{
+			if (_battleCharacters[i].enemy->getCurHP() < 0) continue;
+			_battleCharacters[i].enemy->render();
+		}
+	}
 }
 
 void BattleScene::monsterAttack()
