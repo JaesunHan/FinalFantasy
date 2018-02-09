@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "VectorPup.h"
-#include "battleCeles.h"
-#include "battleLocke.h"
-#include "battleShadow.h"
-#include "battleTina.h"
+#include "battlePlayerMother.h"
 
 VectorPup::VectorPup()
 {
@@ -41,7 +38,7 @@ VectorPup::~VectorPup()
 
 void VectorPup::update()
 {
-
+	enemyAttack();
 }
 
 void VectorPup::render() 
@@ -51,10 +48,8 @@ void VectorPup::render()
 
 void VectorPup::vectorPupAttack()
 {
-	if (_enemyTurn == true)
-	{
-		
-	}
+	
+
 }
 
 void VectorPup::vectorPupSkill()

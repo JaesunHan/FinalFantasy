@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "Bear.h"
-#include "battleCeles.h"
-#include "battleLocke.h"
-#include "battleShadow.h"
-#include "battleTina.h"
+#include "battlePlayerMother.h"
 
 Bear::Bear()
 {
@@ -46,7 +43,7 @@ void Bear::update()
 
 void Bear::render()
 {
-
+	IMAGEMANAGER->findImage("bear")->frameRender(getMemDC(), _x, _y);
 }
 
 void Bear::bearSkill()

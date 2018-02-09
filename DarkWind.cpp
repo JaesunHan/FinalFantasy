@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "DarkWind.h"
-#include "battleCeles.h"
-#include "battleLocke.h"
-#include "battleShadow.h"
-#include "battleTina.h"
+#include "battlePlayerMother.h"
 
 DarkWind::DarkWind()
 {

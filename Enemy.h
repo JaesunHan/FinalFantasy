@@ -9,10 +9,8 @@ enum EnemyState
 	ENEMY_DIE
 };
 
-class battleTina;
-class battleShadow;
-class battleLocke;
-class battleCeles;
+class battlePlayerMother;
+
 
 class Enemy : public gameNode
 {
@@ -26,6 +24,8 @@ protected:
 	
 	unsigned int _attack;					//기본 데미지
 	unsigned int _magic;					//마법 데미지
+
+	unsigned int _damage;					//최종 데미지
 	
 	unsigned int _m_Def;					//마법 방어력
 	unsigned int _a_Def;					//물리 방어력
@@ -42,10 +42,10 @@ protected:
 
 	EnemyState _state;						//에너미들 상태값
 	
-	battleTina* _tina;
-	battleShadow* _shadow;
-	battleLocke* _locke;
-	battleCeles* _celes;
+	battlePlayerMother* _tina;
+	battlePlayerMother* _shadow;
+	battlePlayerMother* _locke;
+	battlePlayerMother* _celes;
 
 public:
 	Enemy();
@@ -57,10 +57,10 @@ public:
 
 	virtual void enemyAttack();
 
-	void setBattleTinaMemoryAddressLink(battleTina* tina) { _tina = tina; }
-	void setBattleShadowMemoryAddressLink(battleShadow* shadow) { _shadow = shadow; }
-	void setBattleLockeMemoryAddressLink(battleLocke* locke) { _locke = locke; }
-	void setBattleCelesMemoryAddressLink(battleCeles* celes) { _celes = celes; }
+	void setBattleTinaMemoryAddressLink(battlePlayerMother* tina) { _tina = tina; }
+	void setBattleShadowMemoryAddressLink(battlePlayerMother* shadow) { _shadow = shadow; }
+	void setBattleLockeMemoryAddressLink(battlePlayerMother* locke) { _locke = locke; }
+	void setBattleCelesMemoryAddressLink(battlePlayerMother* celes) { _celes = celes; }
 
 	//=========================== 접근자 / 설정자 =============================
 
