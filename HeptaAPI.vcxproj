@@ -98,6 +98,7 @@
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="loading.h" />
     <ClInclude Include="loadingScene.h" />
+    <ClInclude Include="playerMother.h" />
     <ClInclude Include="playGround.h" />
     <ClInclude Include="playScene.h" />
     <ClInclude Include="progressBar.h" />
@@ -133,6 +134,7 @@
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="loading.cpp" />
     <ClCompile Include="loadingScene.cpp" />
+    <ClCompile Include="playerMother.cpp" />
     <ClCompile Include="playGround.cpp" />
     <ClCompile Include="playScene.cpp" />
     <ClCompile Include="progressBar.cpp" />
