@@ -11,9 +11,7 @@ protected:
 	unsigned int _curHP, _maxHP;			//현재 체력, 최대 체력
 	unsigned int _curMP, _maxMP;			//현재 마력, 최대 마력
 	
-	unsigned int _strength;					//물리 데미지
-	unsigned int _attack;					//기본 공격력 + 무기의 공격력
-	
+	unsigned int _attack;					//기본 데미지
 	unsigned int _magic;					//마법 데미지
 	
 	unsigned int _m_Def;					//마법 방어력
@@ -43,18 +41,8 @@ public:
 	inline int getCurHP() { return _curHP; }
 	inline void setCurHP(int curHP) { _curHP = curHP; }
 
-	inline int getMaxHP() { return _maxHP; }
-	inline void setMaxHP(int maxHP) { _maxHP = maxHP; }
-
 	inline int getCurMP() { return _curMP; }
 	inline void setCurMP(int curMP) { _curMP = curMP; }
-
-	inline int getMaxMP() { return _maxMP; }
-	inline void setMaxMP(int maxMP) { _maxMP = maxMP; }
-
-	inline int getStrength() { return _Lv; }
-
-	inline int getLv() { return _strength; }
 
 	inline int getMagic() { return _magic; }
 
