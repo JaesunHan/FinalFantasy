@@ -27,6 +27,7 @@
 #include "collision.h"
 #include "txtData.h"
 #include "database.h"
+#include "dialogueManager.h"
 
 using namespace std;
 using namespace HEPTA_UTIL;
@@ -53,6 +54,7 @@ using namespace HEPTA_UTIL;
 #define TXTDATA			txtData::getSingleton()
 #define INIDATA			iniDataManager::getSingleton()
 #define DATABASE		database::getSingleton()
+#define DIALOGUEMANAGER dialogueManager::getSingleton()
 
 //=======================================================
 // ## ∏≈≈©∑Œ ## 2017.11.15 ##

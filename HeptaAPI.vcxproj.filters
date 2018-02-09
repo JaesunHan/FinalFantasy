@@ -73,6 +73,21 @@
     <Filter Include="playGround\battlePlayer">
       <UniqueIdentifier>{f1dd624b-c9ff-4e56-bb8f-aaad9ecdff33}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\Item">
+      <UniqueIdentifier>{54a45e7b-f0e4-4e54-8925-6c8a6d24991d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DGameFramework\dialogue">
+      <UniqueIdentifier>{8231fef2-85b3-45cc-b453-9a728e3142b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\mapTool">
+      <UniqueIdentifier>{65baf068-6464-439c-8123-fbc2de1b1840}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\tile">
+      <UniqueIdentifier>{febc90b2-d2f8-4e6b-8304-28157990cf17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\enemy">
+      <UniqueIdentifier>{e47d2557-b5bc-4e84-b86f-440974d60961}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -159,9 +174,6 @@
     <ClInclude Include="keyAniManager.h">
       <Filter>2DGameFramework\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="tile.h">
-      <Filter>playGround\A%2aScene</Filter>
-    </ClInclude>
     <ClInclude Include="aStarTest.h">
       <Filter>playGround\A%2aScene</Filter>
     </ClInclude>
@@ -188,6 +200,39 @@
     </ClInclude>
     <ClInclude Include="Tina.h">
       <Filter>playGround\player</Filter>
+    </ClInclude>
+    <ClInclude Include="Locke.h">
+      <Filter>playGround\player</Filter>
+    </ClInclude>
+    <ClInclude Include="shadow.h">
+      <Filter>playGround\player</Filter>
+    </ClInclude>
+    <ClInclude Include="itemMother.h">
+      <Filter>playGround\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="celes.h">
+      <Filter>playGround\player</Filter>
+    </ClInclude>
+    <ClInclude Include="mapTool.h">
+      <Filter>playGround\mapTool</Filter>
+    </ClInclude>
+    <ClInclude Include="tileInfo.h">
+      <Filter>playGround\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="tile.h">
+      <Filter>playGround\tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="DarkWind.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Bear.h">
+      <Filter>playGround\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorPup.h">
+      <Filter>playGround\enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -260,9 +305,6 @@
     <ClCompile Include="keyAniManager.cpp">
       <Filter>2DGameFramework\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="tile.cpp">
-      <Filter>playGround\A%2aScene</Filter>
-    </ClCompile>
     <ClCompile Include="aStarTest.cpp">
       <Filter>playGround\A%2aScene</Filter>
     </ClCompile>
@@ -289,6 +331,36 @@
     </ClCompile>
     <ClCompile Include="Tina.cpp">
       <Filter>playGround\player</Filter>
+    </ClCompile>
+    <ClCompile Include="Locke.cpp">
+      <Filter>playGround\player</Filter>
+    </ClCompile>
+    <ClCompile Include="shadow.cpp">
+      <Filter>playGround\player</Filter>
+    </ClCompile>
+    <ClCompile Include="itemMother.cpp">
+      <Filter>playGround\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="celes.cpp">
+      <Filter>playGround\player</Filter>
+    </ClCompile>
+    <ClCompile Include="mapTool.cpp">
+      <Filter>playGround\mapTool</Filter>
+    </ClCompile>
+    <ClCompile Include="tile.cpp">
+      <Filter>playGround\tile</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="DarkWind.cpp">
+      <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Bear.cpp">
+      <Filter>playGround\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="VectorPup.cpp">
+      <Filter>playGround\enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
