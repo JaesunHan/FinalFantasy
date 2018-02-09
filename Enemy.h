@@ -1,14 +1,13 @@
 #pragma once
 #include "gameNode.h"
 
-
-
 class Enemy : public gameNode
 {
 protected:
 	unsigned int _Lv;						//레벨
-	
-	unsigned int _curEXP, _maxEXP;			//현재 경험치, 최대 경험치
+	unsigned int _maxEXP;					//경험치
+	unsigned int _gold;						//돈
+
 	unsigned int _curHP, _maxHP;			//현재 체력, 최대 체력
 	unsigned int _curMP, _maxMP;			//현재 마력, 최대 마력
 	
@@ -26,23 +25,17 @@ protected:
 	unsigned int _hitRate;					//명중률
 	unsigned int _block;					//방어율
 
-	unsigned int _gold;						//돈
 
 public:
 	Enemy();
 	~Enemy();
 
-	virtual HRESULT init();
-	virtual void release();
 	virtual void update();
 	virtual void render();
 
 	//================= 접근자 / 설정자 ===================
 
 	inline int getLv() { return _Lv; }
-
-	inline int getCurEXP() { return _curEXP; }
-	inline void setCurEXP(int curEXP) { _curEXP = curEXP; }
 
 	inline int getMaxEXP() { return _maxEXP; }
 	inline void setMaxEXP(int maxEXP) { _maxEXP = maxEXP; }

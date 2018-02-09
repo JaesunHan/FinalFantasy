@@ -1,7 +1,7 @@
 #pragma once
 #include "Enemy.h"
-class Bear :
-	public Enemy
+
+class Bear : public Enemy
 {
 public:
 	Bear();
