@@ -1,5 +1,7 @@
 #pragma once
-class battleCeles
+#include "battlePlayerMother.h"
+
+class battleCeles : public battlePlayerMother
 {
 public:
 	battleCeles();

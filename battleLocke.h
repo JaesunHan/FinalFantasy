@@ -1,5 +1,7 @@
 #pragma once
-class battleLocke
+#include "battlePlayerMother.h"
+
+class battleLocke : public battlePlayerMother
 {
 public:
 	battleLocke();
