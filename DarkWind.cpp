@@ -1,5 +1,9 @@
 #include "stdafx.h"
 #include "DarkWind.h"
+#include "battleCeles.h"
+#include "battleLocke.h"
+#include "battleShadow.h"
+#include "battleTina.h"
 
 DarkWind::DarkWind()
 {
@@ -29,11 +33,12 @@ DarkWind::~DarkWind()
 
 }
 
-void DarkWind::darkWindSkill()
-{
-
-}
-
+//HRESULT DarkWind::init()
+//{
+//
+//
+//	return S_OK;
+//}
 
 void DarkWind::update()
 {
@@ -41,6 +46,11 @@ void DarkWind::update()
 }
 
 void DarkWind::render()
+{
+
+}
+
+void DarkWind::darkWindSkill()
 {
 
 }

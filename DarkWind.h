@@ -7,9 +7,10 @@ public:
 	DarkWind();
 	~DarkWind();
 
-	virtual void darkWindSkill();
-
+	//virtual HRESULT init();
 	virtual void update();
 	virtual void render();
+
+	virtual void darkWindSkill();
 };
 

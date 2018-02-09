@@ -9,7 +9,10 @@ enum EnemyState
 	ENEMY_DIE
 };
 
-class BattleScene;
+class battleTina;
+class battleShadow;
+class battleLocke;
+class battleCeles;
 
 class Enemy : public gameNode
 {
@@ -33,20 +36,31 @@ protected:
 	unsigned int _hitRate;					//명중률
 	unsigned int _block;					//방어율
 
+	unsigned int _x, _y;
+
 	bool _enemyTurn;						//에너미들 턴이니?
 
 	EnemyState _state;						//에너미들 상태값
 	
-	BattleScene* _battle;
+	battleTina* _tina;
+	battleShadow* _shadow;
+	battleLocke* _locke;
+	battleCeles* _celes;
 
 public:
 	Enemy();
 	~Enemy();
 
+	virtual HRESULT init(int x, int y);
 	virtual void update();
 	virtual void render();
 
-	void setBattleSceneMemoryAddressLink(BattleScene* bs) { _battle = bs; }
+	virtual void enemyAttack();
+
+	void setBattleTinaMemoryAddressLink(battleTina* tina) { _tina = tina; }
+	void setBattleShadowMemoryAddressLink(battleShadow* shadow) { _shadow = shadow; }
+	void setBattleLockeMemoryAddressLink(battleLocke* locke) { _locke = locke; }
+	void setBattleCelesMemoryAddressLink(battleCeles* celes) { _celes = celes; }
 
 	//=========================== 접근자 / 설정자 =============================
 

@@ -7,9 +7,10 @@ public:
 	Bear();
 	~Bear();
 
-	virtual void bearSkill();
-
+	//virtual HRESULT init();
 	virtual void update();
 	virtual void render();
+
+	virtual void bearSkill();
 };
 

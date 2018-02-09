@@ -1,5 +1,9 @@
 #include "stdafx.h"
 #include "Bear.h"
+#include "battleCeles.h"
+#include "battleLocke.h"
+#include "battleShadow.h"
+#include "battleTina.h"
 
 Bear::Bear()
 {
@@ -28,11 +32,12 @@ Bear::~Bear()
 
 }
 
-void Bear::bearSkill()
-{
-
-}
-
+//HRESULT Bear::init()
+//{
+//
+//
+//	return S_OK;
+//}
 
 void Bear::update()
 {
@@ -40,6 +45,11 @@ void Bear::update()
 }
 
 void Bear::render()
+{
+
+}
+
+void Bear::bearSkill()
 {
 
 }

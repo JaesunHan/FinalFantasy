@@ -8,9 +8,12 @@ public:
 	VectorPup();
 	~VectorPup();
 
-	virtual void vectorPupSkill();
-
+	//virtual HRESULT init();
 	virtual void update();
 	virtual void render();
+
+	virtual void vectorPupAttack();
+
+	virtual void vectorPupSkill();
 };
 
