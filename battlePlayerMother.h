@@ -17,11 +17,15 @@ private:
 	unsigned int _evasion;			//회피율
 	image* _faceImg;				//얼굴이미지
 
+	//애니메이션 변수 만들기
+	image* _idle;
+
+
 public:
 	battlePlayerMother();
 	~battlePlayerMother();
 
-	//============================Start 접근자 설정자 =======================================
+	//===============================Start 접근자 설정자 =======================================
 	inline int getLv() { return _Lv; }		inline void setLv(int lv) { _Lv = lv; }
 
 	inline int getCurEXP() { return _curEXP; }	inline void setCurEXP(int curEXP) { _curEXP = curEXP; }
@@ -41,7 +45,7 @@ public:
 	inline int getAttack() { return _attack; }
 	inline int getEvasion() { return _evasion; }
 	inline image* getFaceImg() { return _faceImg; }
-	//============================== End 접근자 설정자 ======================================
+	//====================================== End 접근자 설정자 ======================================
 
 };
 

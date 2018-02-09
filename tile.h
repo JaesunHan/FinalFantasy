@@ -1,75 +1,80 @@
 #pragma once
 #include "gameNode.h"
+#include "tileInfo.h"
+
+/********************************************************/
+/* 타일 객체 클래스										*/
+/* 작업자 : 이호형										*/
+/********************************************************/
 
 class tile : public gameNode
 {
 private:
-	int _idX;
-	int _idY;
+	POINT _centerPt;
+	POINT _index;
+	RECT _tileRc;
 
-	POINT _center;
-	RECT _rc;
+	BOOL _isChecked;
 
-	//F = G + H 
-	//F == 총 거리 비용 (TotalCost)
-	//G == 시작점으로부터 현재 노드까지 경로비용(CostFromStart)
-	//H == 현재노드로부터 도착점까지 경로비용(CostToGoal)
+private:
+	TERRAIN _terrain;
+	OBJECT _object;
 
-	float _totalCost;
-	float _costFromStart;
-	float _costToGoal;
+private:
+	string _terrainImageKey;
+	string _objectImageKey;
 
-	bool _isOpen;//갈수있는 타일인지 유무
+	POINT _terrainFramePos;
+	POINT _objectFramePos;
 
-	tile* _parentNode; //제일 상위 타일 (계속 갱신되는 타일)
-
-	COLORREF	_color;
-	HBRUSH		_brush;
-	HPEN		_pen;
-	
-	string _attribute;
 public:
 	tile();
 	~tile();
 
-	HRESULT init(int idX, int idY);
-	void release();
-	void update();
-	void render();
+	HRESULT init(POINT center);
+	void release(void);
+	void update(void);
+	void render(void);
 
-	int getIdX() { return _idX; }
-	int getIdY() { return _idY; }
+	void terrainRender(void);
+	void objectRender(void);
 
-	void setColor(COLORREF color)
-	{
-		DeleteObject(_brush);
-		_color = color;
-		_brush = CreateSolidBrush(_color);
-	}
+	void selectTerrain(tile sour);
+	void selectObject(tile sour);
 
-	RECT getRect() { return _rc; }
+	void setTerrain(tile sour);
+	void setObject(tile sour);
+	void eraseObject(void);
 
-	//============ 편리를 위한 접근자 & 설정자 ===============
-	void setCenter(POINT center) { _center = center; }
-	POINT getCenter() { return _center; }
+	//======================= 설정자 & 접근자 =======================
+	inline void setCenterPt(POINT center) { _centerPt = center; }
+	inline POINT getCenterPt(void) { return _centerPt; }
 
-	void setAttribute(string str) { _attribute = str; }
-	string getAttribute() { return _attribute; }
+	inline void setIndex(POINT id) { _index = id; }
+	inline POINT getIndex(void) { return _index; }
 
-	void setTotalCost(float totalCost) { _totalCost = totalCost; }
-	float getTotalCost() { return _totalCost; }
+	inline void setTileRect(RECT rc) { _tileRc = rc; }
+	inline RECT getTileRect(void) { return _tileRc; }
 
-	void setCostFromStart(float costFromStart) { _costFromStart = costFromStart; }
-	float getCostFromStart() { return _costFromStart; }
+	inline void setIsChecked(BOOL isChecked) { _isChecked = isChecked; }
+	inline BOOL getIsChecked(void) { return _isChecked; }
 
+	inline void setTerrain(TERRAIN terrain) { _terrain = terrain; }
+	inline TERRAIN getTerrain(void) { return _terrain; }
 
-	void setCostToGoal(float costToGoal) { _costToGoal = costToGoal; }
-	float getCostToGoal() { return _costToGoal; }
+	inline void setObject(OBJECT obj) { _object = obj; }
+	inline OBJECT getObject(void) { return _object; }
 
-	void setParentNode(tile* t) { _parentNode = t; }
-	tile* getParentNode() { return _parentNode; }
+	inline void setTerrainImageKey(string imageKey) { _terrainImageKey = imageKey; }
+	inline string getTerrainImageKey(void) { return _terrainImageKey; }
 
-	void setIsOpen(bool isOpen) { _isOpen = isOpen; }
-	bool getIsOpen() { return _isOpen; }
+	inline void setObjectImageKey(string imageKey) { _objectImageKey = imageKey; }
+	inline string getObjectImageKey(void) { return _objectImageKey; }
+
+	inline void setTerrainFramePos(POINT framePos) { _terrainFramePos = framePos; }
+	inline POINT getTerrainFramePos(void) { return _terrainFramePos; }
+
+	inline void setObjectFramePos(POINT framePos) { _objectFramePos = framePos; }
+	inline POINT getObjectFramePos(void) { return _objectFramePos; }
 };
 

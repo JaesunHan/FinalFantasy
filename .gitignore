@@ -1,3 +1,20 @@
 
 .vs/FinalFantasy/v15/Browse.VC.db
 .vs/FinalFantasy/v15/Browse.VC.opendb
+.vs/FinalFantasy/v15/.suo
+.vs/FinalFantasy/v15/ipch/4974d92552d73389.ipch
+Debug/vc141.idb
+Debug/winMain.obj
+Debug/vc141.pdb
+Debug/utils.obj
+Debug/action.obj
+Debug/animation.obj
+*.obj
+Debug/FinalFantasy.exe
+Debug/FinalFantasy.ilk
+Debug/FinalFantasy.pch
+Debug/FinalFantasy.pdb
+*.tlog
+Debug/HeptaAPI.log
+playScene.cpp
+playScene.cpp

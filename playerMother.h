@@ -2,7 +2,7 @@
 
 class playerMother
 {
-private:
+protected:
 	unsigned int _Lv;
 	unsigned int _curEXP, _maxEXP;
 	unsigned int _curHP, _maxHP;
@@ -14,6 +14,10 @@ private:
 	unsigned int _a_Def;			//물리 방어력
 	unsigned int _attack;			//기본 공격력 + 무기의 공격력
 	unsigned int _evasion;			//회피율
+	unsigned int _m_evasion;		//마법 회피
+	unsigned int _stamina;			//스태미나가 뭔지는 모르겠는데 자료에 있당...
+
+
 	image* _faceImg;				//얼굴이미지
 
 public:
@@ -39,6 +43,8 @@ public:
 	int getADef() { return _a_Def; }
 	int getAttack() { return _attack; }
 	int getEvasion() { return _evasion; }
+	int getMEvasion() { return _m_evasion; }
+	int getStamina() { return _stamina; }
 	image* getFaceImg() { return _faceImg; }
 	//============================== End 접근자 설정자 ======================================
 

@@ -1,54 +1,100 @@
 #include "stdafx.h"
 #include "tile.h"
-#include "aStarTest.h"
 
-//¸â¹ö ÀÌ´Ï¼È¶óÀÌÁî
+
 tile::tile()
-	: _totalCost(0), _costFromStart(0),
-	_costToGoal(0), _parentNode(NULL), 
-	_idX(0), _idY(0)
 {
 }
 
 
 tile::~tile()
 {
-
 }
 
-HRESULT tile::init(int idX, int idY)
+HRESULT tile::init(POINT center)
 {
-	_color = RGB(250, 150, 0);
-	_brush = CreateSolidBrush(_color);
-	_pen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
+	_centerPt = center;
+	_index = PointMake(_centerPt.x / TILE_SIZEX, _centerPt.y / TILE_SIZEY);
 
-	_center = PointMake(idX * TILEWIDTH + (TILEWIDTH / 2),
-		idY * TILEHEIGHT + (TILEHEIGHT / 2));
+	_tileRc = RectMakeCenter(_centerPt.x, _centerPt.y, TILE_SIZEX, TILE_SIZEY);
+	_isChecked = FALSE;
 
-	_idX = idX;
-	_idY = idY;
+	_terrain = TR_NONE;
+	_object = OBJ_NONE;
 
-	_rc = RectMakeCenter(_center.x, _center.y, TILEWIDTH, TILEHEIGHT);
+	_terrainImageKey = "none";
+	_objectImageKey = "none";
+
+	_terrainFramePos = PointMake(0, 0);
+	_objectFramePos = PointMake(0, 0);
+
 
 	return S_OK;
 }
 
-void tile::release()
-{
-	DeleteObject(_brush);
-	DeleteObject(_pen);
-}
-
-void tile::update()	
+void tile::release(void)
 {
 
 }
 
-void tile::render()	
+void tile::update(void)
 {
-	SelectObject(getMemDC(), (HBRUSH)_brush);
-	FillRect(getMemDC(), &_rc, _brush);
 
-	SelectObject(getMemDC(), (HPEN)_pen);
-	RectangleMake(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
+}
+
+void tile::render(void)
+{
+	if (_terrain != TR_NONE) terrainRender();
+	if (_object != OBJ_NONE) objectRender();
+}
+
+void tile::terrainRender(void)
+{
+	if (_terrainImageKey != "none")
+	{
+		IMAGEMANAGER->frameRender(_terrainImageKey, getMemDC(), _tileRc.left, _tileRc.top, _terrainFramePos.x, _terrainFramePos.y);
+	}
+}
+
+void tile::objectRender(void)
+{
+	if (_objectImageKey != "none")
+	{
+		IMAGEMANAGER->frameRender(_objectImageKey, getMemDC(), _tileRc.left, _tileRc.top, _objectFramePos.x, _objectFramePos.y);
+	}
+}
+
+void tile::selectTerrain(tile sour)
+{
+	_terrain = sour.getTerrain();
+	_terrainImageKey = sour.getTerrainImageKey();
+	_terrainFramePos = sour.getIndex();
+}
+
+void tile::selectObject(tile sour)
+{
+	_object = sour.getObject();
+	_objectImageKey = sour.getObjectImageKey();
+	_objectFramePos = sour.getIndex();
+}
+
+void tile::setTerrain(tile sour)
+{
+	_terrain = sour.getTerrain();
+	_terrainImageKey = sour.getTerrainImageKey();
+	_terrainFramePos = sour.getTerrainFramePos();
+}
+
+void tile::setObject(tile sour)
+{
+	_object = sour.getObject();
+	_objectImageKey = sour.getObjectImageKey();
+	_objectFramePos = sour.getObjectFramePos();
+}
+
+void tile::eraseObject(void)
+{
+	_object = OBJ_NONE;
+	_objectImageKey = "";
+	_objectFramePos = PointMake(0, 0);
 }
