@@ -1,7 +1,7 @@
 #pragma once
 #include "gameNode.h"
 #include "mapTool.h"
-
+#include "BattleScene.h"
 class playGround : public gameNode
 {
 private:

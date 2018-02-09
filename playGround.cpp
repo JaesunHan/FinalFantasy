@@ -17,7 +17,9 @@ HRESULT playGround::init()
 	gameNode::init(true);
 
 	SCENEMANAGER->addScene("mapToolScene", new mapTool);
-	SCENEMANAGER->changeScene("mapToolScene");
+	SCENEMANAGER->addScene("¹èÆ²¾À", new BattleScene);
+	SCENEMANAGER->changeScene("¹èÆ²¾À");
+	//SCENEMANAGER->changeScene("mapToolScene");
 	
 	((mapTool*)SCENEMANAGER->findScene("mapToolScene"))->createDefaultMap(PointMake(20, 20));
 

@@ -41,18 +41,19 @@ HRESULT BattleScene::init()
 		int monsterType = RND->getInt(3);
 		temp.characterType = i + 4;
 		temp.ABTcounter = 0;
-		switch (monsterType)
-		{
-		case(0):
-			temp.enemy = new Bear;
-			break;
-		case(1):
-			temp.enemy = new DarkWind;
-			break;
-		case(2):
-			temp.enemy = new VectorPup;
-			break;
-		}
+		temp.enemy = new Bear;
+		//switch (monsterType)
+		//{
+		//case(0):
+		//	temp.enemy = new Bear;
+		//	break;
+		//case(1):
+		//	temp.enemy = new DarkWind;
+		//	break;
+		//case(2):
+		//	temp.enemy = new VectorPup;
+		//	break;
+		//}
 		_battleCharacters.push_back(temp);
 	}
 
