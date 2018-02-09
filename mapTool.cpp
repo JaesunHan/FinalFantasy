@@ -14,19 +14,18 @@ mapTool::~mapTool()
 HRESULT mapTool::init(void)
 {
 	//버튼 초기화
-	_saveBtn = RectMake(900, 500, 100, 30);
-	_loadBtn = RectMake(1010, 500, 100, 30);
-	_terrainBtn = RectMake(900, 560, 100, 30);
-	_objectBtn = RectMake(1010, 560, 100, 30);
-	_eraserBtn = RectMake(1120, 560, 100, 30);
-	_changeGameModeBtn = RectMake(900, 620, 100, 30);
-	_changeMapEditModeBtn = RectMake(1010, 620, 100, 30);
+	_saveBtn = RectMake(850, 520, 100, 30);
+	_loadBtn = RectMake(960, 520, 100, 30);
+	_terrainBtn = RectMake(850, 560, 100, 30);
+	_objectBtn = RectMake(960, 560, 100, 30);
+	_eraserBtn = RectMake(1070, 560, 100, 30);
+	_changeGameModeBtn = RectMake(850, 600, 100, 30);
+	_changeMapEditModeBtn = RectMake(960, 600, 100, 30);
 
 	//타일셋 초기화
 	worldMapTerrainTileSetInit();
 	worldMapObjectTileSetInie();
 	
-
 	//맵 초기화
 	_worldMapTiles = NULL;
 	_mapSize = PointMake(0, 0);
@@ -84,7 +83,7 @@ void mapTool::render(void)
 
 void mapTool::worldMapTerrainTileSetInit(void)
 {
-	_worldMapTerrainTileImage = IMAGEMANAGER->addFrameImage("worldMapTerrainTileSet", ".//tileSet//worldMapTerrainTileSet.bmp", 384, 192, 12, 6, true, RGB(255, 0, 255));
+	_worldMapTerrainTileImage = IMAGEMANAGER->addFrameImage("worldTerrain", ".//tileSet//worldMapTerrainTileSet.bmp", 384, 192, 12, 6, true, RGB(255, 0, 255));
 	_worldMapTerrainTileSize = PointMake(_worldMapTerrainTileImage->getMaxFrameX() + 1, _worldMapTerrainTileImage->getMaxFrameY() + 1);
 	_worldMapTerrainTileSet = new tile[_worldMapTerrainTileSize.x * _worldMapTerrainTileSize.y];
 
@@ -92,7 +91,7 @@ void mapTool::worldMapTerrainTileSetInit(void)
 	{
 		_worldMapTerrainTileSet[i].init(PointMake(WINSIZEX - _worldMapTerrainTileImage->getWidth()
 			+ TILE_SIZEX / 2 + (i % _worldMapTerrainTileSize.x) * TILE_SIZEX, TILE_SIZEY / 2 + (i / _worldMapTerrainTileSize.x) * TILE_SIZEY));
-		_worldMapTerrainTileSet[i].setTerrainImageKey("worldMapTerrainTileSet");
+		_worldMapTerrainTileSet[i].setTerrainImageKey("worldTerrain");
 		_worldMapTerrainTileSet[i].setTerrainFramePos(PointMake(i % _worldMapTerrainTileSize.x, i / _worldMapTerrainTileSize.x));
 		_worldMapTerrainTileSet[i].setIndex(PointMake(i % _worldMapTerrainTileSize.x, i / _worldMapTerrainTileSize.x));
 		_worldMapTerrainTileSet[i].setTerrain(TR_GRASS);
@@ -118,8 +117,16 @@ void mapTool::worldMapObjectTileSetInie(void)
 
 void mapTool::clickButton(void)
 {
-	if (PtInRect(&_saveBtn, _ptMouse)) mapSave("test");
-	else if (PtInRect(&_loadBtn, _ptMouse)) mapLoad("test");
+	if (PtInRect(&_saveBtn, _ptMouse))
+	{
+		mapSave("test");
+		return;
+	}
+	else if (PtInRect(&_loadBtn, _ptMouse))
+	{
+		mapLoad("test");
+		return;
+	}
 	else if (PtInRect(&_terrainBtn, _ptMouse)) _currentSelectMode = MODE_WORLDMAP_TERRAIN_SELECT;
 	else if (PtInRect(&_objectBtn, _ptMouse)) _currentSelectMode = MODE_WORLDMAP_OBJECT_SELECT;
 	else if (PtInRect(&_eraserBtn, _ptMouse)) _currentSelectMode = MODE_ERASER;
@@ -178,7 +185,6 @@ void mapTool::clickButton(void)
 			}
 		}
 	}
-	
 }
 
 void mapTool::buttonDraw(void)
@@ -211,7 +217,7 @@ void mapTool::createDefaultMap(POINT mapSize)
 	for (int i = 0; i < _mapSize.x * _mapSize.y; i++)
 	{
 		_worldMapTiles[i].init(PointMake(TILE_SIZEX / 2 + TILE_SIZEX * (i % _mapSize.x), TILE_SIZEY / 2 + TILE_SIZEY * (i / _mapSize.x)));
-		_worldMapTiles[i].setTerrainImageKey("worldMapTerrainTileSet");
+		_worldMapTiles[i].setTerrainImageKey("worldTerrain");
 		_worldMapTiles[i].setTerrainFramePos(PointMake(1, 1));
 		_worldMapTiles[i].setTerrain(TR_GRASS);
 		//맵 타일 초기화 부분
@@ -223,7 +229,28 @@ void mapTool::mapSave(string mapName)
 	HANDLE file;
 	DWORD write;
 
-	file = CreateFile(mapName.c_str(), GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	TCHAR szFile[260] = _T("");
+
+	OPENFILENAME ofn;
+	char filePath[1024] = "";
+	ZeroMemory(&ofn, sizeof(OPENFILENAME));
+
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = NULL;
+	ofn.lpstrFile = filePath;
+	ofn.nMaxFile = sizeof(filePath);
+	ofn.nFilterIndex = true;
+	ofn.nMaxFileTitle = NULL;
+	ofn.lpstrFileTitle = NULL;
+	ofn.lpstrInitialDir = NULL;
+	ofn.lpstrFilter = "Map File(*.map)\0*.map\0";
+	ofn.Flags = OFN_OVERWRITEPROMPT;
+
+	if (GetSaveFileName(&ofn) == false) return;
+
+	//TCHAR *return_path = ofn.lpstrFile;
+
+	file = CreateFile(ofn.lpstrFile, GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	WriteFile(file, _worldMapTiles, sizeof(tile) * _mapSize.x * _mapSize.y, &write, NULL);
 
@@ -253,7 +280,7 @@ void mapTool::mapLoad(string mapName)
 	//예외처리
 	if (GetOpenFileName(&ofn) == FALSE) return;
 
-	file = CreateFile(mapName.c_str(), GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	file = CreateFile(ofn.lpstrFile, GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	ReadFile(file, _worldMapTiles, sizeof(tile) * _mapSize.x * _mapSize.y, &write, NULL);
 

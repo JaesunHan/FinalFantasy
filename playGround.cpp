@@ -16,7 +16,11 @@ HRESULT playGround::init()
 {
 	gameNode::init(true);
 
+	SCENEMANAGER->addScene("mapToolScene", new mapTool);
+	SCENEMANAGER->changeScene("mapToolScene");
 	
+	((mapTool*)SCENEMANAGER->findScene("mapToolScene"))->createDefaultMap(PointMake(20, 20));
+
 	return S_OK;
 }
 
