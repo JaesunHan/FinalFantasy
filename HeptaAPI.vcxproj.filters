@@ -222,6 +222,12 @@
     <ClInclude Include="loadingScene.h">
       <Filter>playGround\loadingTest</Filter>
     </ClInclude>
+    <ClInclude Include="battleTina.h">
+      <Filter>playGround\BattleScene\battlePlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="battleShadow.h">
+      <Filter>playGround\BattleScene\battlePlayer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -340,6 +346,12 @@
     </ClCompile>
     <ClCompile Include="loadingScene.cpp">
       <Filter>playGround\loadingTest</Filter>
+    </ClCompile>
+    <ClCompile Include="battleTina.cpp">
+      <Filter>playGround\BattleScene\battlePlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="battleShadow.cpp">
+      <Filter>playGround\BattleScene\battlePlayer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

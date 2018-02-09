@@ -83,6 +83,8 @@
     <ClInclude Include="animation.h" />
     <ClInclude Include="battlePlayerMother.h" />
     <ClInclude Include="BattleScene.h" />
+    <ClInclude Include="battleShadow.h" />
+    <ClInclude Include="battleTina.h" />
     <ClInclude Include="Bear.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="celes.h" />
@@ -129,6 +131,8 @@
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="battlePlayerMother.cpp" />
     <ClCompile Include="BattleScene.cpp" />
+    <ClCompile Include="battleShadow.cpp" />
+    <ClCompile Include="battleTina.cpp" />
     <ClCompile Include="Bear.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="celes.cpp" />
