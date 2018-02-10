@@ -96,6 +96,9 @@ public:
 	//·»´õ¸µÇÔ¼ö »Ñ¸±DC , »Ñ¸±°÷X(Left), »Ñ¸±°÷Y(top)
 	void render(HDC hdc, int destX, int destY);
 	void render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
+	
+	//È®´ë ·»´õ ÇÔ¼ö
+	void enlargeRender(HDC hdc, int destX, int destY, int destWidth, int destHeight);
 
 	void frameRender(HDC hdc, int destX, int destY);
 	void frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);

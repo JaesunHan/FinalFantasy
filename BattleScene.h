@@ -21,20 +21,21 @@ enum BATTLECHARACTER
 struct tagBattleCharacters
 {
 	int characterType;		//배틀 캐릭터
-	int ABTcounter;				//배틀 카운터
+	int ATBcounter;				//배틀 카운터
 	Enemy* enemy;
 	battlePlayerMother* player;
+	bool turnStart = false;
+	bool turnEnd = false;
 };
 
 class BattleScene : public gameNode
 {
 private:
-	queue<BATTLECHARACTER> _battleTurn;				//턴이 돌아올 캐릭터들을 담아둘 큐
+	queue<int> _battleTurn;				//턴이 돌아올 캐릭터들을 담아둘 큐
 	vector<tagBattleCharacters> _battleCharacters;
 	int _maxMonster;
 	int _currentTurn;
-	bool _turnStart = false;
-	bool _turnEnd = false;
+	bool _counterRoll = true;
 public:
 	BattleScene();
 	~BattleScene();
@@ -44,6 +45,6 @@ public:
 	void update();
 	void render();
 
-	void monsterAttack();
+	void ATBGauzeTimer();
 };
 
