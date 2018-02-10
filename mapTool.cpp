@@ -295,11 +295,12 @@ void mapTool::mapLoad(void)
 	//예외처리
 	if (GetOpenFileName(&ofn) == FALSE) return;
 
-	//this->init();
+	this->init();
 
 	file = CreateFile(ofn.lpstrFile, GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	ReadFile(file, &_mapSize, sizeof(POINT), &read, NULL);
+	_worldMapTiles = new tile[_mapSize.x * _mapSize.y];
 	ReadFile(file, _worldMapTiles, sizeof(tile) * _mapSize.x * _mapSize.y, &read, NULL);
 
 	CloseHandle(file);
