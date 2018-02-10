@@ -46,5 +46,10 @@ public:
 	void render();
 
 	void ATBGauzeTimer();
+
+	inline battlePlayerMother* getTinaAddress() { return _battleCharacters[0].player; }
+	inline battlePlayerMother* getLockeAddress() { return _battleCharacters[1].player; }
+	inline battlePlayerMother* getCelesAddress() { return _battleCharacters[2].player; }
+	inline battlePlayerMother* getShadowAddress() { return _battleCharacters[3].player; }
 };
 
