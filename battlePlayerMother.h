@@ -19,6 +19,7 @@ private:
 	unsigned int _evasion;			//회피율
 	unsigned int _m_evasion;		//마법 회피
 	unsigned int _stamina;			//스태미나가 뭔지는 모르겠는데 자료에 있당...
+
 	image* _faceImg;				//얼굴이미지
 
 	//애니메이션 변수 만들기
@@ -36,8 +37,8 @@ private:
 	animation* _winAnim;
 	image* _winBeforeImg;		//이겼을때 모션 나오기 직전에 나올 이미지
 	animation* _winBeforeAnim;
-	image* _dead;				//죽은 모습 : 1프레임
-	image* _dying;				//죽어가는 모습 : 1프레임
+	image* _deadImg;				//죽은 모습 
+	animation* _deadAnim;
 	image* _jump;				//점프 모습 : 1프레임
 
 
