@@ -2,6 +2,7 @@
 #include "menu.h"
 
 
+
 class saveLoadMenu : public menu
 {
 private:
@@ -9,6 +10,12 @@ private:
 
 
 public:
+	HRESULT init();
+	void release();
+	void update();
+
+
+
 	saveLoadMenu();
 	~saveLoadMenu();
 };

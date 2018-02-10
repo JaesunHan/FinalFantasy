@@ -29,5 +29,118 @@ void menu::update()
 
 void menu::render()	
 {
-
+	_bgImage->render(getMemDC());
+	cursorRender();
 }
+
+
+//============================== cursor ==============================
+//                     커서형태(L,R)     커서위치X     커서위치Y
+void  menu::cursorInit(CURSOR_TYPE type, float startX, float startY)
+{
+	_cursorType = type;
+
+	_cursor.img = IMAGEMANAGER->findImage("선택커서");
+	_cursor.x = startX;
+	_cursor.y = startY;
+	_cursor.speed = 1.0f;
+	_cursor.fForce = 0.01f;
+	_cursor.startX = _cursor.x;
+	_cursor.startY = _cursor.y;
+	_cursor.currentNum = 0;
+	_cursor.cursorOn = false;
+
+	switch (_cursorType)
+	{
+		case CUSOR_LEFT:		
+			_cursor.img->setFrameX(1);
+		break;
+		case CUSOR_RIGHT:
+			_cursor.img->setFrameX(0);
+		break;
+	}
+}
+
+void  menu::cursorUpdate()
+{
+	switch (_cursorType)
+	{
+		case CUSOR_LEFT:
+			//처음 위치로
+			if (_cursor.x > _cursor.startX)
+			{
+				_cursor.x = _cursor.startX;
+				_cursor.fForce = 0.01f;
+				_cursor.speed = 1.0f;
+			}
+			
+			//커서 움직임
+			_cursor.fForce += 0.001f;
+			_cursor.speed -= _cursor.fForce;
+			_cursor.x -= _cursor.speed;
+		break;
+		case CUSOR_RIGHT:
+			//처음 위치로
+			if (_cursor.x < _cursor.startX)
+			{
+				_cursor.x = _cursor.startX;
+				_cursor.fForce = 0.01f;
+				_cursor.speed = 1.0f;
+			}
+
+			//커서 움직임
+			_cursor.fForce += 0.001f;
+			_cursor.speed -= _cursor.fForce;
+			_cursor.x += _cursor.speed;
+		break;
+	}
+}
+
+//                          커서Y축 이동값    이동횟수
+void menu::cursorKeyControl(float downValueY, int downNumber)
+{
+	if (!_cursor.cursorOn)
+	{
+		_cursor.currentNum = 0;
+		_cursor.cursorOn = true;
+	}
+
+
+	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+	{
+		_cursor.y += downValueY;
+		_cursor.currentNum++;
+
+		//예외처리: 커서가 선택항목을 벗어나면 다시 처음 선택지로~~
+		if (_cursor.y > _cursor.startY + (downValueY * (downNumber - 1)))
+		{
+			_cursor.y = _cursor.startY;
+			_cursor.currentNum = downNumber - 1;
+		}
+
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_UP))
+	{
+		_cursor.y -= downValueY;
+		_cursor.currentNum--;
+
+		//예외처리: 커서가 선택항목을 벗어나면 마지막 선택지로~~
+		if (_cursor.y < _cursor.startY)
+		{
+			_cursor.y = _cursor.startY + (downValueY * (downNumber - 1));
+			_cursor.currentNum = 0;
+		}
+	}
+
+
+	//예외처리: 커서 선택위치 반환을 위한...
+	if (_cursor.currentNum <= 0)				_cursor.currentNum = 0;
+	if (_cursor.currentNum >= (downNumber - 1)) _cursor.currentNum = (downNumber - 1);
+}
+
+void menu::cursorRender()
+{
+	_cursor.img->frameRender(getMemDC(), _cursor.x, _cursor.y);
+}
+//============================== cursor ==============================

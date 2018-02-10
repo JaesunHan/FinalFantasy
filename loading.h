@@ -74,6 +74,17 @@ public:
 	~loadItem();
 };
 
+enum IMGTYPE
+{
+	IMGTYPE_01,
+	IMGTYPE_02,
+	IMGTYPE_03,
+	IMGTYPE_04,
+	IMGTYPE_05,
+	IMGTYPE_END
+
+};
+
 class loading : public gameNode
 {
 private:
@@ -89,9 +100,10 @@ private:
 	TCHAR _filePathName[512];
 
 	int _currentGauge;			//로딩 게이지
+	int _ioadingCount;          //로딩 지연타임
 
 public:
-	HRESULT init();
+	HRESULT init(int imgType);
 	void release();
 	void update();
 	void render();
@@ -104,7 +116,7 @@ public:
 	void loadSound(string keyName, const char* fileName, bool bgm, bool loop);
 
 
-	BOOL loadingDone();
+	BOOL loadingDone(int delayTime);
 
 	vector<loadItem*> getLoadItem() { return _vLoadItem; }
 

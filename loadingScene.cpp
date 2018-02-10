@@ -15,29 +15,30 @@ loadingScene::~loadingScene()
 HRESULT loadingScene::init()
 {
 	_loading = new loading;
-	_loading->init();
+	_loading->init(3);
 
-	char image[256];
-	char sound[256];
+	//메뉴 이미지
+	_loading->loadImage("능력메뉴", ".//prevProjectResource//SceneImage//abilitiesMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	_loading->loadImage("옵션메뉴", ".//prevProjectResource//SceneImage//configMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	_loading->loadImage("장비메뉴", ".//prevProjectResource//SceneImage//equipMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	_loading->loadImage("아이템메뉴", ".//prevProjectResource//SceneImage//itemMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	_loading->loadImage("메인메뉴", ".//prevProjectResource//SceneImage//mainMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	_loading->loadImage("세이브로드메뉴", ".//prevProjectResource//SceneImage//saveLoadMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	_loading->loadImage("상태메뉴", ".//prevProjectResource//SceneImage//statusMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	_loading->loadImage("타이틀메뉴", ".//prevProjectResource//SceneImage//tilteMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	_loading->loadImage("뉴게임", ".//prevProjectResource//SceneImage//menu_newGame.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 
-	//여기에 로딩처리를 하면 된다
-	//하지만 지금은 이미지가 한 장이므로, 키 값을 다르게 해서
-	//여러장 로딩을 하는 것으로 함!
 
-	for (int i = 0; i < 500; i++)
-	{
-		ZeroMemory(image, sizeof(image));
-		sprintf(image, "메뉴씬%d", i);
-		_loading->loadImage(image, ".//menuImage//start_Bg.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
-		
-	}
+	//버튼 이미지
+	_loading->loadImage("옵션버튼", ".//prevProjectResource//SceneImage//button.bmp", 0, 0, 273, 59, true, RGB(255, 0, 255));
+	_loading->loadImage("옵션버튼롱", ".//prevProjectResource//SceneImage//button1.bmp", 0, 0, 205, 44, true, RGB(255, 0, 255));
+	_loading->loadImage("캐릭터얼굴뒷배경", ".//prevProjectResource//SceneImage//faceBackground.bmp", 0, 0, 108, 108, true, RGB(255, 0, 255));
+	_loading->loadImage("사운드볼륨상", ".//prevProjectResource//SceneImage//soundVolume_high.bmp", 0, 0, 552, 61, true, RGB(255, 0, 255));
+	_loading->loadImage("사운드볼륨중", ".//prevProjectResource//SceneImage//soundVolume_medium.bmp", 0, 0, 552, 61, true, RGB(255, 0, 255));
+	_loading->loadImage("사운드볼륨하", ".//prevProjectResource//SceneImage//soundVolume_low.bmp", 0, 0, 552, 61, true, RGB(255, 0, 255));
+	_loading->loadImage("사운드볼륨끔", ".//prevProjectResource//SceneImage//soundVolume_off.bmp", 0, 0, 552, 61, true, RGB(255, 0, 255));
+	_loading->loadFrameImage("선택커서", ".//prevProjectResource//SceneImage//selectCursor.bmp",54, 27, 2, 1, true, RGB(255, 0, 255));
 
-	//for (int i = 0; i < 10; ++i)
-	//{
-	//	ZeroMemory(sound, sizeof(sound));
-	//	sprintf(sound, "사운드2%d", i);
-	//	_loading->loadSound(sound, "Sugar Song&Bitter Step.mp3", true, false);
-	//}
 	
 	return S_OK;
 }
@@ -51,9 +52,9 @@ void loadingScene::update()
 {
 	_loading->update();
 
-	if (_loading->loadingDone())
+	if (_loading->loadingDone(10))
 	{
-		SCENEMANAGER->changeScene("플레이씬");
+		SCENEMANAGER->changeScene("타이틀");
 	}
 }
 

@@ -101,25 +101,59 @@ loading::~loading()
 
 }
 
-HRESULT loading::init()
+HRESULT loading::init(int imgType)
 {
-	_background = IMAGEMANAGER->addImage("로딩백그라운드", ".//menuImage//loading_sqgEnix.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	_ioadingCount = 0;
 
+	//=================================================== 로딩백그라운드 이미지 ===================================================
+	if (imgType < 0 || imgType > 4) imgType = 0;
+	switch (imgType)
+	{
+		case IMGTYPE_01:
+			_background = IMAGEMANAGER->addImage("로딩백그라운드", ".//prevProjectResource//SceneImage//loading_sqgEnix.bmp",
+				WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+		break;
+		case IMGTYPE_02:
+			_background = IMAGEMANAGER->addImage("로딩백그라운드", ".//prevProjectResource//SceneImage//loading_01.bmp",
+				WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+		break;
+		case IMGTYPE_03:
+			_background = IMAGEMANAGER->addImage("로딩백그라운드", ".//prevProjectResource//SceneImage//loading_02.bmp",
+				WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+		break;
+		case IMGTYPE_04:
+			_background = IMAGEMANAGER->addImage("로딩백그라운드", ".//prevProjectResource//SceneImage//loading_03.bmp",
+				WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+		break;
+		case IMGTYPE_05:
+			_background = IMAGEMANAGER->addImage("로딩백그라운드", ".//prevProjectResource//SceneImage//loading_04.bmp",
+				WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+		break;
+	}
+	//=================================================== 로딩백그라운드 이미지 ===================================================
+
+
+	//======================================================= 로딩바 게이지 =======================================================
 	_loadingBar = new progressBar;
-	_loadingBar->init("loading_frontBar", "loading_backBar", "menuImage",  WINSIZEX / 2, WINSIZEY - 50, 731, 25);
+	_loadingBar->init("loading_frontBar", "loading_backBar", ".//prevProjectResource//SceneImage", WINSIZEX / 2, WINSIZEY - 70, 700, 25);
 	_loadingBar->setGauge(0, 0);
-
 	_currentGauge = 0;
+	//======================================================= 로딩바 게이지 =======================================================
 
-	//로딩할때 띄울 움직이는 프레임 이미지
+
+	//======================================================= 로딩 캐릭터 =======================================================
 	_loadChacracter = new image;
-	_loadChacracter = IMAGEMANAGER->addFrameImage("loadingFish", ".//menuImage//loading_fish.bmp", _loadingBar->getRcProgress().left, _loadingBar->getRcProgress().top, 200, 24, 3, 1, true, RGB(255, 0, 255));
-	
+	_loadChacracter = IMAGEMANAGER->addFrameImage("loadingFish", ".//prevProjectResource//SceneImage//loading_fish.bmp",
+		_loadingBar->getRcProgress().left - 100, _loadingBar->getRcProgress().top, 201, 24, 3, 1, true, RGB(255, 0, 255));
+
 	_loadCharAnim = new animation;
-	int animArr[] = { 0, 1, 2 }; 
-	KEYANIMANAGER->addArrayFrameAnimation("로딩꽁치", "loadingFish", animArr, 3, 5, true);
+	int animArr[] = { 0, 1, 2 };
+	KEYANIMANAGER->addArrayFrameAnimation("로딩꽁치", "loadingFish", animArr, 3, 7, true);
 	_loadCharAnim = KEYANIMANAGER->findAnimation("로딩꽁치");
 	_loadCharAnim->start();
+	//======================================================= 로딩 캐릭터 =======================================================
+
+
 
 	return S_OK;
 }
@@ -131,7 +165,9 @@ void loading::release()
 
 void loading::update() 
 {
+
 	_loadingBar->update();
+
 	KEYANIMANAGER->update();
 }
 
@@ -140,7 +176,10 @@ void loading::render()
 	_background->render(getMemDC());
 	_loadingBar->render();
 
-	_loadChacracter->aniRender(getMemDC(), _loadingBar->getWidth(), _loadingBar->getRcProgress().top + 10, _loadCharAnim);
+	//로딩 캐릭터 렌더
+	_loadChacracter->aniRender(getMemDC(), _loadingBar->getRcProgress().left + _loadingBar->getWidth() - 45,
+		_loadingBar->getRcProgress().top + 10, _loadCharAnim);
+
 	//TextOut(getMemDC(), 100, WINSIZEY / 2, _filePathName, strlen(_filePathName));
 }
 
@@ -195,13 +234,19 @@ void loading::loadSound(string keyName, const char* fileName, bool bgm, bool loo
 	_vLoadItem.push_back(item);
 }
 
-BOOL loading::loadingDone()
+BOOL loading::loadingDone(int delayTime)
 {
+	//예외처리
+	if (delayTime <= 0) delayTime = 1;
+
 	//현재 로딩게이지가 벡터의 사이즈보다 크다 (로딩이 끝났다)
 	if (_currentGauge >= _vLoadItem.size())
 	{
+		_currentGauge = _vLoadItem.size();
+		_loadingBar->setGauge(_currentGauge, _vLoadItem.size());
 		return TRUE;
 	}
+
 
 
 	loadItem* item = _vLoadItem[_currentGauge];
@@ -258,8 +303,15 @@ BOOL loading::loadingDone()
 		break;
 	}
 
-	_loadingBar->setGauge(_currentGauge, _vLoadItem.size());
-	_currentGauge++;
+	_ioadingCount++;
+
+	if (_ioadingCount % delayTime == 0)
+	{
+		_loadingBar->setGauge(_currentGauge, _vLoadItem.size());
+		_currentGauge++;
+	}
+
+
 
 	return FALSE;
 }

@@ -19,9 +19,9 @@ HRESULT progressBar::init(int x, int y, int width, int height)
 
 	_rcProgress = RectMake(x, y, width, height);
 
-	_progressBarTop = IMAGEMANAGER->addImage("frontBar", ".//menuImage//loading_frontBar.bmp", x, y, width, height, true, RGB(255, 0, 255));
+	_progressBarTop = IMAGEMANAGER->addImage("frontBar", ".//prevProjectResource//SceneImage//loading_frontBar.bmp", x, y, width, height, true, RGB(255, 0, 255));
 
-	_progressBarBottom = IMAGEMANAGER->addImage("backBar", ".//menuImage//loading_backBar.bmp", x, y, width, height, true, RGB(255, 0, 255));
+	_progressBarBottom = IMAGEMANAGER->addImage("backBar", ".//prevProjectResource//SceneImage//loading_backBar.bmp", x, y, width, height, true, RGB(255, 0, 255));
 
 	//설정된 가로크기로!
 	_width = _progressBarTop->getWidth();
@@ -42,8 +42,8 @@ HRESULT progressBar::init(char* frontImage, char* backImage, char* fileDirectory
 	ZeroMemory(strTopImageName, sizeof(strTopImageName));
 	ZeroMemory(strBottomImageName, sizeof(strBottomImageName));
 
-	sprintf(strTopImageName, ".//%s//%s.bmp", fileDirectory, frontImage);
-	sprintf(strBottomImageName, ".//%s//%s.bmp", fileDirectory, backImage);
+	sprintf(strTopImageName, "%s//%s.bmp", fileDirectory, frontImage);
+	sprintf(strBottomImageName, "%s//%s.bmp", fileDirectory, backImage);
 
 	_progressBarBottom = IMAGEMANAGER->addImage(backImage, strBottomImageName, x, y, width, height, true, RGB(255, 0, 255));
 
