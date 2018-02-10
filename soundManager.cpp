@@ -23,7 +23,7 @@ HRESULT soundManager::init()
 	_system->init(TOTALSOUNDBUFFER, FMOD_INIT_NORMAL, NULL);
 
 	_sound = new Sound*[TOTALSOUNDBUFFER];
-	_channel = new Channel*[TOTALSOUNDBUFFER];
+	_channel = new Channel*[MAX_CHANNEL];
 
 	ZeroMemory(_sound, sizeof(_sound));
 	ZeroMemory(_channel, sizeof(_channel));
@@ -49,17 +49,38 @@ void soundManager::release()
 	//	}
 	//}
 	//
-	////메모리 지워준다
-	////배열이므로
-	//SAFE_DELETE_ARRAY(_channel);
-	//SAFE_DELETE_ARRAY(_sound);
-	//
-	////마지막으로 FMOD 사운드 시스템 닫아줌
-	//if (_system != NULL)
-	//{
-	//	_system->release();
-	//	_system->close();		//셧더 내립니다
-	//}
+
+	for (int i = 0; i < MAX_CHANNEL; ++i)
+	{
+		_channel[i]->stop();
+	}
+
+	for (int i = _mTotalSounds.size() - 1; i > 0; --i)
+	{
+		arrSoundsIter iter = _mTotalSounds.begin();
+	
+		for (iter; iter != _mTotalSounds.end(); ++iter)
+		{
+			if (&_sound[i] == iter->second)
+			{
+				_mTotalSounds.erase(iter);
+				break;
+			}
+		}
+		_sound[i]->release();
+	}
+
+	//메모리 지워준다
+	//배열이므로
+	SAFE_DELETE_ARRAY(_channel);
+	SAFE_DELETE_ARRAY(_sound);
+	
+	//마지막으로 FMOD 사운드 시스템 닫아줌
+	if (_system != NULL)
+	{
+		_system->release();
+		_system->close();		//셧더 내립니다
+	}
 	
 }
 
@@ -120,6 +141,22 @@ void soundManager::play(string keyName, float volume)
 	}
 }
 
+void soundManager::play(string keyName, CHANNELTYPE channel, float volume)
+{
+	arrSoundsIter iter = _mTotalSounds.begin();
+
+	for (iter; iter != _mTotalSounds.end(); ++iter)
+	{
+		if (keyName == iter->first)
+		{
+			_system->playSound(FMOD_CHANNEL_REUSE, *iter->second, false, &_channel[channel]);
+
+			_channel[channel]->setVolume(volume);
+			break;
+		}
+	}
+}
+
 void soundManager::stop(string keyName)				 
 {
 	arrSoundsIter iter = _mTotalSounds.begin();
@@ -134,6 +171,11 @@ void soundManager::stop(string keyName)
 			break;
 		}
 	}
+}
+
+void soundManager::stop(CHANNELTYPE channel)
+{
+	_channel[channel]->stop();
 }
 
 void soundManager::pause(string keyName)			 
@@ -207,4 +249,69 @@ bool soundManager::isPauseSound(string keyName)
 	}
 
 	return isPause;
+}
+
+void soundManager::releaseSound(int num)
+{
+	arrSoundsIter iter = _mTotalSounds.begin();
+
+	for (iter; iter != _mTotalSounds.end(); ++iter)
+	{
+		if (&_sound[num] == iter->second)
+		{
+			_mTotalSounds.erase(iter);
+			break;
+		}
+	}
+	for (int i = num; i < (_mTotalSounds.size()); ++i)
+	{
+		arrSoundsIter iter = _mTotalSounds.begin();
+		for (iter; iter != _mTotalSounds.end(); ++iter)
+		{
+			if (&_sound[i + 1] == iter->second)
+			{
+				_mTotalSounds[iter->first] = &_sound[i];
+				break;
+			}
+		}
+		_sound[i] = _sound[i + 1];
+	}
+
+	_sound[_mTotalSounds.size()]->release();
+}
+
+void soundManager::releaseSound(string keyName)
+{
+	arrSoundsIter iter = _mTotalSounds.begin();
+	int soundNum;
+	for (iter; iter != _mTotalSounds.end(); ++iter)
+	{
+		if (keyName == iter->first)
+		{
+			for (int i = 0; i < _mTotalSounds.size(); ++i)
+			{
+				if (&_sound[i] == iter->second)
+				{
+					soundNum = i;
+				}
+			}
+			_mTotalSounds.erase(iter);
+			break;
+		}
+	}
+	for (int i = soundNum; i < (_mTotalSounds.size()); ++i)
+	{
+		arrSoundsIter iter = _mTotalSounds.begin();
+		for (iter; iter != _mTotalSounds.end(); ++iter)
+		{
+			if (&_sound[i + 1] == iter->second)
+			{
+				_mTotalSounds[iter->first] = &_sound[i];
+				break;
+			}
+		}
+		_sound[i] = _sound[i + 1];
+	}
+
+	_sound[_mTotalSounds.size()]->release();
 }

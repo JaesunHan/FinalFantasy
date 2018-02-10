@@ -20,6 +20,9 @@ HRESULT BattleScene::init()
 	IMAGEMANAGER->addImage("progressBarTop", ".\\image\\userInterface\\progressBarTop.bmp", 170, 23, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("progressBarComplete", ".\\image\\userInterface\\progressBarComplete.bmp", 150, 17, true, RGB(255, 0, 255));
 
+	SOUNDMANAGER->addSound("battleBGM", ".\\sound\\battleSound\\05 - Battle Theme.mp3", false, false);
+	SOUNDMANAGER->play("battleBGM", CH_BGM, 1.0f);
+
 	tagBattleCharacters temp;
 	
 	temp.characterType = TINA;
@@ -90,6 +93,12 @@ void BattleScene::update()
 	{
 
 	}
+	//if (KEYMANAGER->isOnceKeyDown('R'))
+	//{
+	//	//SOUNDMANAGER->releaseSound(0);
+	//	//SOUNDMANAGER->releaseSound("battleBGM");
+	//	SOUNDMANAGER->stop(CH_BGM);
+	//}
 }
 
 void BattleScene::render() 
@@ -110,7 +119,15 @@ void BattleScene::render()
 	for (int i = 0; i < 4; ++i)
 	{
 		IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 250, 160 * i, 250, 160);
-		IMAGEMANAGER->findImage("progressBarBottom")->enlargeRender(getMemDC(), WINSIZEX - 197, 160 * i + 121, 144 * _battleCharacters[i].ATBcounter / 65536, 17);
+		//_battleCharacters[i].player->getFaceImg()->render(getMemDC(), WINSIZEX - 240, 160 * i + 10);
+		if (_battleCharacters[i].ATBcounter > 65535)
+		{
+			IMAGEMANAGER->findImage("progressBarComplete")->enlargeRender(getMemDC(), WINSIZEX - 197, 160 * i + 121, 144, 17);
+		}
+		else
+		{
+			IMAGEMANAGER->findImage("progressBarBottom")->enlargeRender(getMemDC(), WINSIZEX - 197, 160 * i + 121, 144 * _battleCharacters[i].ATBcounter / 65536, 17);
+		}
 		IMAGEMANAGER->findImage("progressBarTop")->render(getMemDC(), WINSIZEX - 210, 160 * i + 120);
 	}
 }

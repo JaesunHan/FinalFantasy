@@ -20,11 +20,11 @@ enum BATTLECHARACTER
 
 struct tagBattleCharacters
 {
-	int characterType;		//배틀 캐릭터
-	int ATBcounter;				//배틀 카운터
-	Enemy* enemy;
-	battlePlayerMother* player;
-	bool turnStart = false;
+	int characterType;			//배틀 캐릭터
+	unsigned int ATBcounter;				//배틀 카운터
+	Enemy* enemy;				//에너미 주소
+	battlePlayerMother* player;	//플레이어 주소
+	bool turnStart = false;		//턴이 돌아오면 
 	bool turnEnd = false;
 };
 

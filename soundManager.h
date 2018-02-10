@@ -12,6 +12,16 @@ using namespace FMOD;
 
 #define TOTALSOUNDBUFFER SOUNDBUFFER + EXTRACHANNELBUFFER
 
+enum CHANNELTYPE
+{
+	CH_BGM,
+	CH_MENU_EFFECT,
+	CH_EFFECT01,
+	CH_EFFECT02,
+	CH_EFFECT03,
+	MAX_CHANNEL
+};
+
 class soundManager : public singletonBase<soundManager>
 {
 private:
@@ -40,9 +50,14 @@ public:
 
 	// 1.0 maximum 0.0 ~ 1.0 -> 0 ~ 255
 	void play(string keyName, float volume = 1.0f);
+	void play(string keyName, CHANNELTYPE channel, float volume = 1.0f);
 	void stop(string keyName);
+	void stop(CHANNELTYPE channel);
 	void pause(string keyName);
 	void resume(string keyName);
+
+	void releaseSound(int num);
+	void releaseSound(string keyName);
 
 	bool isPlaySound(string keyName);
 	bool isPauseSound(string keyName);
