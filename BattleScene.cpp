@@ -39,7 +39,7 @@ HRESULT BattleScene::init()
 	temp.player = new battleCeles;
 	_battleCharacters.push_back(temp);
 
-	_maxMonster = RND->getInt(6) + 1;
+	_maxMonster = RND->getInt(3) + 1;
 	
 	for (int i = 0; i < _maxMonster; ++i)
 	{
