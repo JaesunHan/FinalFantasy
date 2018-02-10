@@ -7,6 +7,14 @@ Bear::Bear()
 	//에너미 이미지
 	IMAGEMANAGER->addFrameImage("bear", ".\\image\\enemyImg\\bear.bmp", 180, 106, 2, 1, true, RGB(255, 0, 255));
 
+	//에너미 이펙트 이미지
+	IMAGEMANAGER->addImage("이펙트", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, true, RGB(255, 0, 255));
+	
+	_test = new effect;
+	_test->init(IMAGEMANAGER->findImage("이펙트"), 117, 85, 1.0f, 0.5f);
+	
+	EFFECTMANAGER->addEffect("폭발", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, 117, 85, 1.0f, 1.0f, 1000); 
+
 	_Lv = 5;										//레벨
 	_maxEXP = RND->getFromIntTo(150, 170);	 		//현재 경험치, 최대 경험치
 	_gold = RND->getFromIntTo(172, 196);			//돈
@@ -41,12 +49,26 @@ Bear::~Bear()
 
 void Bear::update()
 {
-	
+	//if (KEYMANAGER->isStayKeyDown(VK_RBUTTON))
+	//{
+	//	EFFECTMANAGER->play("폭발", _ptMouse.x, _ptMouse.y);
+	//}
+
+	if (_effectFire == true)
+	{
+		EFFECTMANAGER->play("폭발", 800, 320);
+
+		_effectFire = false;
+	}
+
+	EFFECTMANAGER->update();
 }
 
 void Bear::render()
 {
 	IMAGEMANAGER->findImage("bear")->frameRender(getMemDC(), _x, _y);
+
+	EFFECTMANAGER->render();
 }
 
 void Bear::bearSkill()

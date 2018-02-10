@@ -27,6 +27,7 @@ protected:
 	unsigned int _magic;					//마법 데미지
 
 	unsigned int _damage;					//최종 데미지
+	unsigned int _spellDamage;				//스킬 데미지
 	
 	unsigned int _m_Def;					//마법 방어력
 	unsigned int _a_Def;					//물리 방어력
@@ -40,6 +41,7 @@ protected:
 	unsigned int _x, _y;					//이미지 뿌리기 위한 좌표
 
 	bool _enemyTurn;						//에너미들 턴이니?
+	bool _effectFire = true;
 
 	EnemyState _state;						//에너미들 상태값
 	
@@ -63,7 +65,7 @@ public:
 	virtual void update();
 	virtual void render();
 
-	virtual void enemyAttack(int damage);				//데미지 공식 함수
+	virtual void enemyTurn(int damage);				//데미지 공식 함수
 
 	//======================================= 전방선언 ========================================================
 
@@ -107,6 +109,9 @@ public:
 
 	inline bool getEnemyTurn() { return _enemyTurn; }
 	inline void setEnemyTurn(bool enemyTurn) { _enemyTurn = enemyTurn; }
+
+	inline bool getEffectFire() { return _effectFire; }
+	inline void setEffectFire(bool effectFire) { _effectFire = effectFire; }
 
 	//========================================================================
 };
