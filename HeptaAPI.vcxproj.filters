@@ -58,9 +58,6 @@
     <Filter Include="2DGameFramework\loading">
       <UniqueIdentifier>{74449c60-db19-4868-b90c-d0f54861ab46}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\loadingTest">
-      <UniqueIdentifier>{086d7d42-5749-4b9a-95a5-47cb332d63cb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\BattleScene">
       <UniqueIdentifier>{c3eff8c5-1a84-4625-81d6-7b8e68610cc7}</UniqueIdentifier>
     </Filter>
@@ -84,6 +81,15 @@
     </Filter>
     <Filter Include="playGround\BattleScene\battlePlayer">
       <UniqueIdentifier>{f1dd624b-c9ff-4e56-bb8f-aaad9ecdff33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\gameMenu">
+      <UniqueIdentifier>{e71890ab-cb9a-45d4-9190-44bcdd3654df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\gameMenu\menu">
+      <UniqueIdentifier>{9dce1b1e-f6c3-4509-af36-14ed6e29dd33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\gameMenu\scene">
+      <UniqueIdentifier>{6e70b746-f8e2-4566-ad0f-1fb008f3de66}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -219,9 +225,6 @@
     <ClInclude Include="VectorPup.h">
       <Filter>playGround\BattleScene\enemy</Filter>
     </ClInclude>
-    <ClInclude Include="loadingScene.h">
-      <Filter>playGround\loadingTest</Filter>
-    </ClInclude>
     <ClInclude Include="battleTina.h">
       <Filter>playGround\BattleScene\battlePlayer</Filter>
     </ClInclude>
@@ -263,6 +266,39 @@
     </ClInclude>
     <ClInclude Include="playerImproveInfo.h">
       <Filter>playGround\player</Filter>
+    </ClInclude>
+    <ClInclude Include="abilitiesMenu.h">
+      <Filter>playGround\gameMenu\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="configMenu.h">
+      <Filter>playGround\gameMenu\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="equipMenu.h">
+      <Filter>playGround\gameMenu\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMenuManager.h">
+      <Filter>playGround\gameMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="itemMenu.h">
+      <Filter>playGround\gameMenu\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="loadingScene.h">
+      <Filter>playGround\gameMenu\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="openingScene.h">
+      <Filter>playGround\gameMenu\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="saveLoadMenu.h">
+      <Filter>playGround\gameMenu\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="statusMenu.h">
+      <Filter>playGround\gameMenu\menu</Filter>
+    </ClInclude>
+    <ClInclude Include="titleScene.h">
+      <Filter>playGround\gameMenu\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="menu.h">
+      <Filter>playGround\gameMenu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -380,9 +416,6 @@
     <ClCompile Include="VectorPup.cpp">
       <Filter>playGround\BattleScene\enemy</Filter>
     </ClCompile>
-    <ClCompile Include="loadingScene.cpp">
-      <Filter>playGround\loadingTest</Filter>
-    </ClCompile>
     <ClCompile Include="battleTina.cpp">
       <Filter>playGround\BattleScene\battlePlayer</Filter>
     </ClCompile>
@@ -418,6 +451,39 @@
     </ClCompile>
     <ClCompile Include="playerManager.cpp">
       <Filter>playGround\player</Filter>
+    </ClCompile>
+    <ClCompile Include="abilitiesMenu.cpp">
+      <Filter>playGround\gameMenu\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="configMenu.cpp">
+      <Filter>playGround\gameMenu\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="equipMenu.cpp">
+      <Filter>playGround\gameMenu\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMenuManager.cpp">
+      <Filter>playGround\gameMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="itemMenu.cpp">
+      <Filter>playGround\gameMenu\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="loadingScene.cpp">
+      <Filter>playGround\gameMenu\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="openingScene.cpp">
+      <Filter>playGround\gameMenu\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="saveLoadMenu.cpp">
+      <Filter>playGround\gameMenu\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="statusMenu.cpp">
+      <Filter>playGround\gameMenu\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="titleScene.cpp">
+      <Filter>playGround\gameMenu\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="menu.cpp">
+      <Filter>playGround\gameMenu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

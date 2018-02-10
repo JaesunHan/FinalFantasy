@@ -38,6 +38,8 @@ HRESULT loadingScene::init()
 	_loading->loadImage("사운드볼륨하", ".//prevProjectResource//SceneImage//soundVolume_low.bmp", 0, 0, 552, 61, true, RGB(255, 0, 255));
 	_loading->loadImage("사운드볼륨끔", ".//prevProjectResource//SceneImage//soundVolume_off.bmp", 0, 0, 552, 61, true, RGB(255, 0, 255));
 	_loading->loadFrameImage("선택커서", ".//prevProjectResource//SceneImage//selectCursor.bmp",54, 27, 2, 1, true, RGB(255, 0, 255));
+	_loading->loadFrameImage("버튼예스", ".//prevProjectResource//SceneImage//button_yes.bmp", 317, 32, 2, 1, true, RGB(255, 0, 255));
+	_loading->loadFrameImage("버튼노", ".//prevProjectResource//SceneImage//button_no.bmp", 317, 32, 2, 1, true, RGB(255, 0, 255));
 
 	
 	return S_OK;

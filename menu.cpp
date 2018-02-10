@@ -30,6 +30,7 @@ void menu::update()
 void menu::render()	
 {
 	_bgImage->render(getMemDC());
+	buttonRender();
 	cursorRender();
 }
 
@@ -139,8 +140,55 @@ void menu::cursorKeyControl(float downValueY, int downNumber)
 	if (_cursor.currentNum >= (downNumber - 1)) _cursor.currentNum = (downNumber - 1);
 }
 
-void menu::cursorRender()
+void  menu::cursorRender()
 {
 	_cursor.img->frameRender(getMemDC(), _cursor.x, _cursor.y);
 }
 //============================== cursor ==============================
+
+
+//============================== button ==============================
+void menu::buttonInit(string keyName, float x, float y)
+{
+	char temp[128];
+	ZeroMemory(temp, sizeof(temp));
+	sprintf(temp, "%s", keyName.c_str());
+
+	ZeroMemory(&_button, sizeof(_button));
+	_button.img = IMAGEMANAGER->findImage(keyName);
+	_button.x = x;
+	_button.y = y;
+	_button.aniStart = false;
+	_button.ani = new animation;
+	int arrAni[] = { 0, 1 };
+	KEYANIMANAGER->addArrayFrameAnimation("버튼시작", temp, arrAni, 2, 2, true);
+	_button.ani = KEYANIMANAGER->findAnimation("버튼시작");
+
+	_vButton.push_back(_button);
+}
+
+void menu::buttonUpdate()
+{
+	for (int i = 0; i < _vButton.size(); ++i)
+	{
+		if (_vButton[i].aniStart)
+		{
+			if (!_vButton[i].ani->isPlay()) _vButton[i].ani->start();
+			_vButton[i].aniStart = false;
+		}
+	}
+
+
+	KEYANIMANAGER->update();
+}
+
+void menu::buttonRender()
+{
+	for (int i = 0; i < _vButton.size(); ++i)
+	{
+		_vButton[i].img->aniRender(getMemDC(), _vButton[i].x, _vButton[i].y, _vButton[i].ani);
+	}
+
+}
+//============================== button ==============================
+

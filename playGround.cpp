@@ -27,6 +27,12 @@ HRESULT playGround::init()
 	
 	((mapTool*)SCENEMANAGER->findScene("mapToolScene"))->createDefaultMap(PointMake(20, 20));
 
+	//=========================== 메뉴씬 ===========================
+	SCENEMANAGER->addScene("로딩", new loadingScene);
+	SCENEMANAGER->addScene("타이틀", new titleScene);
+	SCENEMANAGER->addScene("세이브로드", new saveLoadMenu);
+	//=========================== 메뉴씬 ===========================
+
 	return S_OK;
 }
 
@@ -47,6 +53,10 @@ void playGround::update(void)
 		_pm->setPlayerInfoToBattlePlayer();
 		_isBattle = false;
 	}
+
+	//================================ 메뉴씬 ================================
+	if (KEYMANAGER->isOnceKeyDown('W')) SCENEMANAGER->changeScene("로딩");
+	//================================ 메뉴씬 ================================
 
 	SCENEMANAGER->update();
 }

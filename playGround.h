@@ -3,6 +3,9 @@
 #include "mapTool.h"
 #include "BattleScene.h"
 #include "playerManager.h"
+#include "loadingScene.h"
+#include "titleScene.h"
+#include "saveLoadMenu.h"
 
 class playGround : public gameNode
 {

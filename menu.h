@@ -1,5 +1,6 @@
 #pragma once
 #include "gameNode.h"
+#include <vector>
 
 enum CURSOR_TYPE
 {
@@ -24,8 +25,22 @@ enum SAVE_TYPE
 	SAVE_LOADGAME
 };
 
+struct tagButton
+{
+	image* img;             //버튼 이미지
+	float x, y;             //버튼 위치
+	bool aniStart;          //버튼 에니시작
+	animation* ani;         //버튼 에니메이션
+};
+
+
+
 class menu : public gameNode
 {
+private:
+	typedef vector<tagButton>			    vButton;
+	typedef vector<tagButton>::iterator     viButton;
+
 protected:
 	//======== cursor ========
 	tagCursor _cursor;
@@ -35,6 +50,12 @@ protected:
 	//======= saveLoad =======
 	int _saveType;
 	//======= saveLoad =======
+
+	//======== button ========
+	tagButton _button;
+	vButton   _vButton;
+	viButton  _viButton;
+	//======== button ========
 
 
 	//백그라운드 이미지
@@ -46,12 +67,18 @@ public:
 	virtual void update();
 	virtual void render();
 
-	//=========== cusor ===========
+	//================================ cusor ================================
 	virtual void cursorInit(CURSOR_TYPE type, float startX, float startY);
 	virtual void cursorUpdate();
 	virtual void cursorRender();
 	virtual void cursorKeyControl(float downValueY, int downNumber);
-	//=========== cusor ===========
+	//================================ cusor ================================
+
+	//================================ button ===============================
+	virtual void buttonInit(string keyName, float x, float y);
+	virtual void buttonUpdate();
+	virtual void buttonRender();
+	//================================ button ===============================
 
 	menu();
 	~menu();
