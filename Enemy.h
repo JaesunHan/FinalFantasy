@@ -1,10 +1,10 @@
 #pragma once
 #include "gameNode.h"
+#include "effect.h"
 
 //에너미 상태값
 enum EnemyState
 {
-	ENEMY_IDEL,
 	ENEMY_HIT,
 	ENEMY_SPELL,
 	ENEMY_DIE
@@ -37,12 +37,14 @@ protected:
 	unsigned int _hitRate;					//명중률
 	unsigned int _block;					//방어율
 
-	unsigned int _x, _y;
+	unsigned int _x, _y;					//이미지 뿌리기 위한 좌표
 
 	bool _enemyTurn;						//에너미들 턴이니?
 
 	EnemyState _state;						//에너미들 상태값
 	
+	effect* _test;							//에너미들 공격 이펙트 테스트
+
 	//============= 전방선언 =============
 
 	battlePlayerMother* _tina;
@@ -63,10 +65,14 @@ public:
 
 	virtual void enemyAttack(int damage);				//데미지 공식 함수
 
+	//======================================= 전방선언 ========================================================
+
 	void setBattleTinaMemoryAddressLink(battlePlayerMother* tina) { _tina = tina; }
 	void setBattleShadowMemoryAddressLink(battlePlayerMother* shadow) { _shadow = shadow; }
 	void setBattleLockeMemoryAddressLink(battlePlayerMother* locke) { _locke = locke; }
 	void setBattleCelesMemoryAddressLink(battlePlayerMother* celes) { _celes = celes; }
+
+	//========================================================================================================
 
 	//=========================== 접근자 / 설정자 =============================
 

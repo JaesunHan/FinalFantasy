@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "siren.h"
-
+#include "battlePlayerMother.h"
 
 siren::siren()
 {
 	//에너미 이미지
-	//IMAGEMANAGER->addFrameImage("bear", ".\\image\\enemyImg\\bear.bmp", 160, 103, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("siren", ".\\image\\enemyImg\\siren.bmp", 368, 148, 2, 1, true, RGB(255, 0, 255));
 
 	_Lv = 50;										//레벨
 	_maxEXP = RND->getFromIntTo(2800, 3200);		//현재 경험치, 최대 경험치
@@ -40,7 +40,7 @@ void siren::update()
 
 void siren::render()
 {
-
+	IMAGEMANAGER->findImage("siren")->frameRender(getMemDC(), _x, _y);
 }
 
 

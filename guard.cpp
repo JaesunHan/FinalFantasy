@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "guard.h"
-
+#include "battlePlayerMother.h"
 
 guard::guard()
 {
 	//에너미 이미지
-	//IMAGEMANAGER->addFrameImage("bear", ".\\image\\enemyImg\\bear.bmp", 160, 103, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("guard", ".\\image\\enemyImg\\guard.bmp", 132, 62, 2, 1, true, RGB(255, 0, 255));
 
 	_Lv = 5;										//레벨
 	_maxEXP = RND->getFromIntTo(45, 50);	 		//현재 경험치, 최대 경험치
@@ -40,7 +40,7 @@ void guard::update()
 
 void guard::render()
 {
-
+	IMAGEMANAGER->findImage("guard")->frameRender(getMemDC(), _x, _y);
 }
 
 

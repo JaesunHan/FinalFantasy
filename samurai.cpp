@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "samurai.h"
-
+#include "battlePlayerMother.h"
 
 samurai::samurai()
 {
 	//에너미 이미지
-	//IMAGEMANAGER->addFrameImage("bear", ".\\image\\enemyImg\\bear.bmp", 160, 103, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("samurai", ".\\image\\enemyImg\\samurai.bmp", 108, 103, 2, 1, true, RGB(255, 0, 255));
 
 	_Lv = 40;										//레벨
 	_maxEXP = RND->getFromIntTo(1500, 1600);		//현재 경험치, 최대 경험치
@@ -40,7 +40,7 @@ void samurai::update()
 
 void samurai::render()
 {
-
+	IMAGEMANAGER->findImage("samurai")->frameRender(getMemDC(), _x, _y);
 }
 
 

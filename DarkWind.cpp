@@ -47,7 +47,7 @@ void DarkWind::update()
 
 void DarkWind::render()
 {
-	//IMAGEMANAGER->findImage("darkWind")->frameRender(getMemDC(), _x, _y);
+	IMAGEMANAGER->findImage("darkWind")->frameRender(getMemDC(), _x, _y);
 }
 
 void DarkWind::darkWindSkill()

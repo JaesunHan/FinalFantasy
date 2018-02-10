@@ -22,8 +22,8 @@ HRESULT playGround::init()
 	SCENEMANAGER->addScene("mapToolScene", new mapTool);
 	SCENEMANAGER->addScene("배틀씬", _bts);
 	//배틀씬으로 전환할 거면 _isBattle 이라는 bool 변수의 값도 true로 저장해주세요
-	SCENEMANAGER->changeScene("배틀씬");			_isBattle = true;
-	//SCENEMANAGER->changeScene("mapToolScene");
+	//SCENEMANAGER->changeScene("배틀씬");			_isBattle = true;
+	SCENEMANAGER->changeScene("mapToolScene");
 	
 	((mapTool*)SCENEMANAGER->findScene("mapToolScene"))->createDefaultMap(PointMake(20, 20));
 

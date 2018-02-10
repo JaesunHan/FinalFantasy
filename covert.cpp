@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "covert.h"
-
+#include "battlePlayerMother.h"
 
 covert::covert()
 {
 	//에너미 이미지
-	//IMAGEMANAGER->addFrameImage("bear", ".\\image\\enemyImg\\bear.bmp", 160, 103, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("covert", ".\\image\\enemyImg\\covert.bmp", 260, 91, 2, 1, true, RGB(255, 0, 255));
 
 	_Lv = 44;										//레벨
 	_maxEXP = RND->getFromIntTo(1600, 1900);		//현재 경험치, 최대 경험치
@@ -40,7 +40,7 @@ void covert::update()
 
 void covert::render()
 {
-
+	IMAGEMANAGER->findImage("covert")->frameRender(getMemDC(), _x, _y);
 }
 
 

@@ -266,6 +266,7 @@ void mapTool::mapSave(void)
 
 	file = CreateFile(ofn.lpstrFile, GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
+	WriteFile(file, &_mapSize, sizeof(POINT), &write, NULL);
 	WriteFile(file, _worldMapTiles, sizeof(tile) * _mapSize.x * _mapSize.y, &write, NULL);
 
 	CloseHandle(file);
@@ -296,6 +297,7 @@ void mapTool::mapLoad(void)
 
 	file = CreateFile(ofn.lpstrFile, GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
+	ReadFile(file, &_mapSize, sizeof(POINT), &write, NULL);
 	ReadFile(file, _worldMapTiles, sizeof(tile) * _mapSize.x * _mapSize.y, &write, NULL);
 
 	CloseHandle(file);

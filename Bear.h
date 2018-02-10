@@ -3,6 +3,8 @@
 
 class Bear : public Enemy
 {
+private:
+
 public:
 	Bear();
 	~Bear();
