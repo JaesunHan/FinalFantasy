@@ -58,7 +58,7 @@ private:
 private:
 	WPARAM _wParam;
 
-	HWND _hDlgMain;
+	HWND _hDlgNewTile;
 
 public:
 	mapTool();
@@ -85,6 +85,6 @@ public:
 
 	inline void setWParam(WPARAM wParam) { _wParam = wParam; }
 
-	friend BOOL CALLBACK MainDlgProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam);
+	friend BOOL CALLBACK newTileProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam);
 };
 

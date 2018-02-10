@@ -239,7 +239,7 @@ void mapTool::createDefaultMap(POINT mapSize)
 void mapTool::newTileMap(void)
 {
 	this->init();
-	DialogBoxParam(_hInstance, MAKEINTRESOURCE(IDD_DIALOG1), _hWnd, MainDlgProc, (LPARAM)this);
+	DialogBoxParam(_hInstance, MAKEINTRESOURCE(IDD_DIALOG1), _hWnd, newTileProc, (LPARAM)this);
 }
 
 void mapTool::mapSave(void)
@@ -275,7 +275,7 @@ void mapTool::mapSave(void)
 void mapTool::mapLoad(void)
 {
 	HANDLE file;
-	DWORD write;
+	DWORD read;
 
 	OPENFILENAME ofn;
 	char filePath[1024] = "";
@@ -295,15 +295,17 @@ void mapTool::mapLoad(void)
 	//예외처리
 	if (GetOpenFileName(&ofn) == FALSE) return;
 
+	//this->init();
+
 	file = CreateFile(ofn.lpstrFile, GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
-	ReadFile(file, &_mapSize, sizeof(POINT), &write, NULL);
-	ReadFile(file, _worldMapTiles, sizeof(tile) * _mapSize.x * _mapSize.y, &write, NULL);
+	ReadFile(file, &_mapSize, sizeof(POINT), &read, NULL);
+	ReadFile(file, _worldMapTiles, sizeof(tile) * _mapSize.x * _mapSize.y, &read, NULL);
 
 	CloseHandle(file);
 }
 
-BOOL CALLBACK MainDlgProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam)
+BOOL CALLBACK newTileProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
 	int mapSizeX = 0;
 	int mapSizeY = 0;
@@ -317,7 +319,7 @@ BOOL CALLBACK MainDlgProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam
 		SetWindowPos(hDlg, HWND_TOP, 100, 100, 0,0,SWP_NOSIZE);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 		pThis = (mapTool*)lParam;
-		pThis->_hDlgMain = hDlg;
+		pThis->_hDlgNewTile = hDlg;
 		break;
 
 	case WM_COMMAND:
@@ -330,7 +332,7 @@ BOOL CALLBACK MainDlgProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam
 			pThis->createDefaultMap(PointMake(mapSizeX, mapSizeY));
 		case IDCANCEL:
 
-			EndDialog(pThis->_hDlgMain, 0);
+			EndDialog(pThis->_hDlgNewTile, 0);
 
 			return TRUE;
 		}
