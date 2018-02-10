@@ -21,21 +21,22 @@ enum BATTLECHARACTER
 struct tagBattleCharacters
 {
 	int characterType;			//배틀 캐릭터
-	unsigned int ATBcounter;				//배틀 카운터
+	unsigned int ATBcounter;	//배틀 카운터
 	Enemy* enemy;				//에너미 주소
 	battlePlayerMother* player;	//플레이어 주소
-	bool turnStart = false;		//턴이 돌아오면 
-	bool turnEnd = false;
+	bool turnStart = false;		//카운터가 꽉 찼을때 큐에 푸시하는걸 방지하는 변수
+	bool turnEnd = false;		//왠 만든건지 모르겠는 변수
 };
 
 class BattleScene : public gameNode
 {
 private:
-	queue<int> _battleTurn;				//턴이 돌아올 캐릭터들을 담아둘 큐
-	vector<tagBattleCharacters> _battleCharacters;
-	int _maxMonster;
-	int _currentTurn;
-	bool _counterRoll = true;
+	queue<int> _battleTurn;							//턴이 돌아올 캐릭터들을 담아둘 큐
+	vector<tagBattleCharacters> _battleCharacters;	//캐릭터들을 생성할 구조체 벡터
+	int _maxMonster;								//최대 몬스터 수
+	int _currentTurn;								//현재 턴이 누구턴인가 저장... 하려고 했으나 아직 안씀
+	int _menuNum;									//메뉴 선택 번호(1번 공격, 2번 스킬, 3번 아이템, 4번 방어)
+	bool _counterRoll = true;						//참일때만 카운터 증가
 public:
 	BattleScene();
 	~BattleScene();

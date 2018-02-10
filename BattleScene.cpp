@@ -24,7 +24,7 @@ HRESULT BattleScene::init()
 	SOUNDMANAGER->play("battleBGM", CH_BGM, 1.0f);
 
 	tagBattleCharacters temp;
-	
+	//플레이어 동적 할당 후 벡터에 담기
 	temp.characterType = TINA;
 	temp.ATBcounter = 25000 + RND->getInt(10000);
 	temp.player = new battleTina;
@@ -42,33 +42,29 @@ HRESULT BattleScene::init()
 	temp.player = new battleCeles;
 	_battleCharacters.push_back(temp);
 
-	_maxMonster = RND->getInt(3) + 1;
-	
+	_maxMonster = RND->getInt(3) + 1;		//최대 몬스터 랜덤 지정
+	//에너미 동적할당 후 벡터에 담기
 	for (int i = 0; i < _maxMonster; ++i)
 	{
 		int monsterType = RND->getInt(3);
 		temp.characterType = i + 4;
 		temp.ATBcounter = 0;
-		//temp.enemy = new Bear;
-		switch (monsterType)
-		{
-		case(0):
-			temp.enemy = new Bear;
-			break;
-		case(1):
-			temp.enemy = new DarkWind;
-			break;
-		case(2):
-			temp.enemy = new VectorPup;
-			break;
-		}
+		temp.enemy = new Bear;
+		//switch (monsterType)
+		//{
+		//case(0):
+		//	temp.enemy = new Bear;
+		//	break;
+		//case(1):
+		//	temp.enemy = new DarkWind;
+		//	break;
+		//case(2):
+		//	temp.enemy = new VectorPup;
+		//	break;
+		//}
 		_battleCharacters.push_back(temp);
 	}
-
-	//_battleCharacters[4].enemy->init(100, 100);
-	//_battleCharacters[5].enemy->init(300, 100);
-	//_battleCharacters[6].enemy->init(100, 540);
-	//_battleCharacters[7].enemy->init(300, 540);
+	//에너미 클래스 init 및 플레이어 주소 어드레쓰 링크
 	for (int i = 0; i < _maxMonster; ++i)
 	{
 		_battleCharacters[i + 4].enemy->init(250 + (240 / _maxMonster * (_maxMonster - 1)) * cosf(PI2 / _maxMonster * i + PI / 2), 300 - (240 / _maxMonster * (_maxMonster - 1)) * sinf(PI2 / _maxMonster * i + PI / 2));
@@ -89,21 +85,31 @@ void BattleScene::release()
 void BattleScene::update() 
 {
 	ATBGauzeTimer();
-	for (int i = 0; i < _battleCharacters.size(); ++i)
-	{
-
-	}
-	//if (KEYMANAGER->isOnceKeyDown('R'))
+	//for (int i = 0; i < _battleCharacters.size(); ++i)
 	//{
-	//	//SOUNDMANAGER->releaseSound(0);
-	//	//SOUNDMANAGER->releaseSound("battleBGM");
-	//	SOUNDMANAGER->stop(CH_BGM);
+	//	if (_battleTurn.front() <= 3)
+	//	{
+	//		_battleCharacters[_battleTurn.front()].player->update();
+	//	}
+	//	else
+	//	{
+	//		_battleCharacters[_battleTurn.front()].enemy->update();
+	//	}
 	//}
+	for (int i = 4; i < _battleCharacters.size(); ++i)
+	{
+		if (_battleCharacters[i].ATBcounter > 65535)
+		{
+			_battleCharacters[i].enemy->update();
+		}
+	}
 }
 
 void BattleScene::render() 
 {
+	//배틀 백그라운드 랜더
 	IMAGEMANAGER->findImage("battleBG")->render(getMemDC());
+	//플레이어 및 에너미 랜더
 	for (int i = 0; i < _battleCharacters.size(); ++i)
 	{
 		if (_battleCharacters[i].characterType <= 3)
@@ -116,6 +122,7 @@ void BattleScene::render()
 			_battleCharacters[i].enemy->render();
 		}
 	}
+	//UI 랜더
 	for (int i = 0; i < 4; ++i)
 	{
 		IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 250, 160 * i, 250, 160);
@@ -131,7 +138,7 @@ void BattleScene::render()
 		IMAGEMANAGER->findImage("progressBarTop")->render(getMemDC(), WINSIZEX - 210, 160 * i + 120);
 	}
 }
-
+//배틀 타이머 돌리는 함수
 void BattleScene::ATBGauzeTimer()
 {
 	if (_counterRoll == true)
