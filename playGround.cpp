@@ -16,6 +16,7 @@ HRESULT playGround::init()
 {
 	gameNode::init(true);
 
+	_pm = new playerManager;
 	_pm->init();
 	_bts = new BattleScene;
 	SCENEMANAGER->addScene("mapToolScene", new mapTool);

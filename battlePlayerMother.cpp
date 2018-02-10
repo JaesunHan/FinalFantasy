@@ -4,6 +4,7 @@
 
 battlePlayerMother::battlePlayerMother()
 {
+	//여기나 아니면 init 에 이미지 초기화 넣기	
 }
 
 

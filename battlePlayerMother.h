@@ -27,7 +27,7 @@ private:
 	image* _stanbyImg;			//공격하기 직전에 기모으기!!!
 	animation* _stanbyAnim;		
 	image* _magicAtkImg;		//마법 공격
-	animation* _magincAtkAnim;
+	animation* _magicAtkAnim;
 	image* _magicStanbyImg;		//마법 공격 직전에 기모으기!
 	animation* _magicStanbyAnim;
 	image* _winImg;				//이겼을때
@@ -72,5 +72,13 @@ public:
 	inline image* getFaceImg() { return _faceImg; }
 	//====================================== End 접근자 설정자 ======================================
 
+	//배틀시작할 때 한꺼번에 모든 배틀플레이어를 세팅하자
+	inline void setAllBattlePlayerInfo(int lv, int curExp, int maxExp, int curHp, int maxHp, int curMp, 
+		int maxMp, int speed, int strength, int magic, int m_def, int a_def, int attack , int evasion) 
+	{
+		_Lv = lv, curExp = curExp, _maxEXP = maxExp, _curHP = curHp, _maxHP = maxHp;
+		_curMP = curMp, _maxMP = maxMp, _speed = speed, _strength = strength, _magic = magic;
+		_m_Def = m_def, _a_Def = a_def, _attack = attack, _evasion = evasion;
+	}
 };
 

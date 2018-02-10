@@ -1,6 +1,10 @@
 #include "stdafx.h"
 #include "playerManager.h"
 #include "BattleScene.h"
+#include "battleCeles.h"
+#include "battleLocke.h"
+#include "battleShadow.h"
+#include "battleTina.h"
 
 
 playerManager::playerManager()
