@@ -17,6 +17,8 @@ private:
 	unsigned int _a_Def;			//물리 방어력
 	unsigned int _attack;			//기본 공격력 + 무기의 공격력
 	unsigned int _evasion;			//회피율
+	unsigned int _m_evasion;		//마법 회피
+	unsigned int _stamina;			//스태미나가 뭔지는 모르겠는데 자료에 있당...
 	image* _faceImg;				//얼굴이미지
 
 	//애니메이션 변수 만들기
@@ -73,12 +75,8 @@ public:
 	//====================================== End 접근자 설정자 ======================================
 
 	//배틀시작할 때 한꺼번에 모든 배틀플레이어를 세팅하자
-	inline void setAllBattlePlayerInfo(int lv, int curExp, int maxExp, int curHp, int maxHp, int curMp, 
-		int maxMp, int speed, int strength, int magic, int m_def, int a_def, int attack , int evasion) 
-	{
-		_Lv = lv, curExp = curExp, _maxEXP = maxExp, _curHP = curHp, _maxHP = maxHp;
-		_curMP = curMp, _maxMP = maxMp, _speed = speed, _strength = strength, _magic = magic;
-		_m_Def = m_def, _a_Def = a_def, _attack = attack, _evasion = evasion;
-	}
+	void setAllBattlePlayerInfo(int lv, int curExp, int maxExp, int curHp, int maxHp, int curMp,
+		int maxMp, int speed, int strength, int magic, int m_def, int a_def, int attack, int evasion, int m_evasion, int stamina);
+	
 };
 
