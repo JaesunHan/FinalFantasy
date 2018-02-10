@@ -28,9 +28,11 @@
 #include "txtData.h"
 #include "database.h"
 #include "dialogueManager.h"
+#include "playerImproveInfo.h"
 
 using namespace std;
 using namespace HEPTA_UTIL;
+using namespace PLAYER_IMPROVE_INFO;
 
 //=======================================================
 // ## 윈도우 설정 디파인 ## 2017.11.08 ##
