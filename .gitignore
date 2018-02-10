@@ -63,3 +63,5 @@ Debug/winMain.obj
 Debug/HeptaAPI.log
 >>>>>>> d66ecd1370f7bf726767449690e9c38f4e92d5a2
 *.ipch
+HeptaAPI.vcxproj
+HeptaAPI.vcxproj.filters

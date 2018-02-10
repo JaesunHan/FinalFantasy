@@ -1,7 +1,9 @@
 #pragma once
+#include "gameNode.h"
 
 
-class battlePlayerMother
+
+class battlePlayerMother : public gameNode
 {
 private:
 	unsigned int _Lv;
@@ -18,12 +20,35 @@ private:
 	image* _faceImg;				//얼굴이미지
 
 	//애니메이션 변수 만들기
-	image* _idle;
+	image* _idleImg;			//대기상태
+	animation* _idleAnim;
+	image* _atkImg;				//공격
+	animation* _atkAnim;
+	image* _stanbyImg;			//공격하기 직전에 기모으기!!!
+	animation* _stanbyAnim;		
+	image* _magicAtkImg;		//마법 공격
+	animation* _magincAtkAnim;
+	image* _magicStanbyImg;		//마법 공격 직전에 기모으기!
+	animation* _magicStanbyAnim;
+	image* _winImg;				//이겼을때
+	animation* _winAnim;
+	image* _winBeforeImg;		//이겼을때 모션 나오기 직전에 나올 이미지
+	animation* _winBeforeAnim;
+	image* _dead;				//죽은 모습 : 1프레임
+	image* _dying;				//죽어가는 모습 : 1프레임
+	image* _jump;				//점프 모습 : 1프레임
+
 
 
 public:
 	battlePlayerMother();
 	~battlePlayerMother();
+
+	virtual HRESULT init();
+	virtual void update();
+	virtual void render();
+	virtual void draw();
+	virtual void release();
 
 	//===============================Start 접근자 설정자 =======================================
 	inline int getLv() { return _Lv; }		inline void setLv(int lv) { _Lv = lv; }
