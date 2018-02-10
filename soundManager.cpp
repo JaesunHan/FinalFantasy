@@ -64,7 +64,6 @@ void soundManager::release()
 			if (&_sound[i] == iter->second)
 			{
 				_mTotalSounds.erase(iter);
-				break;
 			}
 		}
 		_sound[i]->release();
@@ -143,6 +142,8 @@ void soundManager::play(string keyName, float volume)
 
 void soundManager::play(string keyName, CHANNELTYPE channel, float volume)
 {
+	_channel[channel]->stop();
+
 	arrSoundsIter iter = _mTotalSounds.begin();
 
 	for (iter; iter != _mTotalSounds.end(); ++iter)
