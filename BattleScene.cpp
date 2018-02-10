@@ -23,19 +23,19 @@ HRESULT BattleScene::init()
 	tagBattleCharacters temp;
 	
 	temp.characterType = TINA;
-	temp.ATBcounter = 30000;
+	temp.ATBcounter = 25000 + RND->getInt(10000);
 	temp.player = new battleTina;
 	_battleCharacters.push_back(temp);
 	temp.characterType = LOCKE;
-	temp.ATBcounter = 30000;
+	temp.ATBcounter = 25000 + RND->getInt(10000);
 	temp.player = new battleLocke;
 	_battleCharacters.push_back(temp);
 	temp.characterType = SHADOW;
-	temp.ATBcounter = 30000;
+	temp.ATBcounter = 25000 + RND->getInt(10000);
 	temp.player = new battleShadow;
 	_battleCharacters.push_back(temp);
 	temp.characterType = CELES;
-	temp.ATBcounter = 30000;
+	temp.ATBcounter = 25000 + RND->getInt(10000);
 	temp.player = new battleCeles;
 	_battleCharacters.push_back(temp);
 
@@ -46,19 +46,19 @@ HRESULT BattleScene::init()
 		int monsterType = RND->getInt(3);
 		temp.characterType = i + 4;
 		temp.ATBcounter = 0;
-		temp.enemy = new Bear;
-		//switch (monsterType)
-		//{
-		//case(0):
-		//	temp.enemy = new Bear;
-		//	break;
-		//case(1):
-		//	temp.enemy = new DarkWind;
-		//	break;
-		//case(2):
-		//	temp.enemy = new VectorPup;
-		//	break;
-		//}
+		//temp.enemy = new Bear;
+		switch (monsterType)
+		{
+		case(0):
+			temp.enemy = new Bear;
+			break;
+		case(1):
+			temp.enemy = new DarkWind;
+			break;
+		case(2):
+			temp.enemy = new VectorPup;
+			break;
+		}
 		_battleCharacters.push_back(temp);
 	}
 
@@ -110,6 +110,8 @@ void BattleScene::render()
 	for (int i = 0; i < 4; ++i)
 	{
 		IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 250, 160 * i, 250, 160);
+		IMAGEMANAGER->findImage("progressBarBottom")->enlargeRender(getMemDC(), WINSIZEX - 197, 160 * i + 121, 144 * _battleCharacters[i].ATBcounter / 65536, 17);
+		IMAGEMANAGER->findImage("progressBarTop")->render(getMemDC(), WINSIZEX - 210, 160 * i + 120);
 	}
 }
 
