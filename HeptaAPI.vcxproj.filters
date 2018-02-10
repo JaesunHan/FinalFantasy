@@ -234,6 +234,27 @@
     <ClInclude Include="battleCeles.h">
       <Filter>playGround\BattleScene\battlePlayer</Filter>
     </ClInclude>
+    <ClInclude Include="bossAtma.h">
+      <Filter>playGround\BattleScene\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="covert.h">
+      <Filter>playGround\BattleScene\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="gobbler.h">
+      <Filter>playGround\BattleScene\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="guard.h">
+      <Filter>playGround\BattleScene\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="samurai.h">
+      <Filter>playGround\BattleScene\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="siren.h">
+      <Filter>playGround\BattleScene\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="tornadoShark.h">
+      <Filter>playGround\BattleScene\enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -364,6 +385,27 @@
     </ClCompile>
     <ClCompile Include="battleLocke.cpp">
       <Filter>playGround\BattleScene\battlePlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="bossAtma.cpp">
+      <Filter>playGround\BattleScene\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="covert.cpp">
+      <Filter>playGround\BattleScene\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="gobbler.cpp">
+      <Filter>playGround\BattleScene\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="guard.cpp">
+      <Filter>playGround\BattleScene\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="samurai.cpp">
+      <Filter>playGround\BattleScene\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="siren.cpp">
+      <Filter>playGround\BattleScene\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="tornadoShark.cpp">
+      <Filter>playGround\BattleScene\enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
