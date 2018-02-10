@@ -112,6 +112,7 @@
     <ClInclude Include="loadingScene.h" />
     <ClInclude Include="Locke.h" />
     <ClInclude Include="mapTool.h" />
+    <ClInclude Include="playerManager.h" />
     <ClInclude Include="playerMother.h" />
     <ClInclude Include="playGround.h" />
     <ClInclude Include="progressBar.h" />
@@ -168,6 +169,7 @@
     <ClCompile Include="loadingScene.cpp" />
     <ClCompile Include="Locke.cpp" />
     <ClCompile Include="mapTool.cpp" />
+    <ClCompile Include="playerManager.cpp" />
     <ClCompile Include="playerMother.cpp" />
     <ClCompile Include="playGround.cpp" />
     <ClCompile Include="progressBar.cpp" />

@@ -255,6 +255,9 @@
     <ClInclude Include="tornadoShark.h">
       <Filter>playGround\BattleScene\enemy</Filter>
     </ClInclude>
+    <ClInclude Include="playerManager.h">
+      <Filter>playGround\player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -406,6 +409,9 @@
     </ClCompile>
     <ClCompile Include="tornadoShark.cpp">
       <Filter>playGround\BattleScene\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="playerManager.cpp">
+      <Filter>playGround\player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
