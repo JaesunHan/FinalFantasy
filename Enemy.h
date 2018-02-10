@@ -1,6 +1,7 @@
 #pragma once
 #include "gameNode.h"
 
+//에너미 상태값
 enum EnemyState
 {
 	ENEMY_IDEL,
@@ -9,8 +10,8 @@ enum EnemyState
 	ENEMY_DIE
 };
 
+//배틀플레이어 부모클래스 전방선언
 class battlePlayerMother;
-
 
 class Enemy : public gameNode
 {
@@ -42,20 +43,25 @@ protected:
 
 	EnemyState _state;						//에너미들 상태값
 	
+	//============= 전방선언 =============
+
 	battlePlayerMother* _tina;
 	battlePlayerMother* _shadow;
 	battlePlayerMother* _locke;
 	battlePlayerMother* _celes;
 
+	//===================================
+
 public:
 	Enemy();
 	~Enemy();
-
+	
+	//		  몬스터를 뿌려줄 x,     y
 	virtual HRESULT init(int x, int y);
 	virtual void update();
 	virtual void render();
 
-	virtual void enemyAttack();
+	virtual void enemyAttack(int damage);				//데미지 공식 함수
 
 	void setBattleTinaMemoryAddressLink(battlePlayerMother* tina) { _tina = tina; }
 	void setBattleShadowMemoryAddressLink(battlePlayerMother* shadow) { _shadow = shadow; }

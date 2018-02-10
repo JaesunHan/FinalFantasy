@@ -4,6 +4,9 @@
 
 Bear::Bear()
 {
+	//에너미 이미지
+	IMAGEMANAGER->addFrameImage("bear", ".\\image\\enemyImg\\bear.bmp", 160, 103, 2, 1, true, RGB(255, 0, 255));
+	
 	_Lv = 5;										//레벨
 	_maxEXP = RND->getFromIntTo(150, 170);	 		//현재 경험치, 최대 경험치
 	_gold = RND->getFromIntTo(172, 196);			//돈
@@ -43,7 +46,7 @@ void Bear::update()
 
 void Bear::render()
 {
-	IMAGEMANAGER->findImage("bear")->frameRender(getMemDC(), _x, _y);
+	//IMAGEMANAGER->findImage("bear")->frameRender(getMemDC(), _x, _y);
 }
 
 void Bear::bearSkill()

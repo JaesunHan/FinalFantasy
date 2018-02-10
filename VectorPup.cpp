@@ -4,6 +4,9 @@
 
 VectorPup::VectorPup()
 {
+	//에너미 이미지
+	IMAGEMANAGER->addFrameImage("vectorPup", ".\\image\\enemyImg\\VectorPup.bmp", 184, 46, 2, 1, true, RGB(255, 0, 255));
+	
 	_Lv = 11;										//레벨
 	_maxEXP = RND->getFromIntTo(125, 135);	 		//현재 경험치, 최대 경험치
 	_gold = RND->getFromIntTo(75, 90);				//돈
@@ -38,12 +41,12 @@ VectorPup::~VectorPup()
 
 void VectorPup::update()
 {
-	enemyAttack();
+	//enemyAttack();
 }
 
 void VectorPup::render() 
 {
-	
+	IMAGEMANAGER->findImage("vectorPup")->frameRender(getMemDC(), _x, _y);
 }
 
 void VectorPup::vectorPupAttack()

@@ -13,8 +13,6 @@ Enemy::~Enemy()
 
 HRESULT Enemy::init(int x, int y)
 {
-	IMAGEMANAGER->addFrameImage("bear", ".\\image\\enemyImg\\bear.bmp", 160, 103, 2, 1, true, RGB(255, 0, 255));
-
 	_x = x;
 	_y = y;
 
@@ -31,7 +29,7 @@ void Enemy::render()
 	
 }
 
-void Enemy::enemyAttack()
+void Enemy::enemyAttack(int damage)
 {
 	if (_state == ENEMY_HIT)
 	{
@@ -39,6 +37,8 @@ void Enemy::enemyAttack()
 		_2Lv = _Lv * _Lv;
 
 		//몬스터가 플레이어를 공격할때 
-		_damage = _2Lv * (_attack * 4 + (RND->getFromIntTo(56, 63))) / 256;
+		//공식 = Damage = Level * Level * (Battle Power * 4 + Vigor) / 256
+		//Vigor = 56 ~ 63 랜덤수
+		_damage = _2Lv * (damage * 4 + (RND->getFromIntTo(56, 63))) / 256;
 	}
 }

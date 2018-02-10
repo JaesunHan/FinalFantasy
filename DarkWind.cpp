@@ -4,6 +4,9 @@
 
 DarkWind::DarkWind()
 {
+	//에너미 이미지
+	IMAGEMANAGER->addFrameImage("darkWind", ".\\image\\enemyImg\\DarkWind.bmp", 132, 81, 2, 1, true, RGB(255, 0, 255));
+	
 	_Lv = 5;										//레벨
 	_maxEXP = RND->getFromIntTo(25, 30);			//현재 경험치, 최대 경험치
 	_gold = RND->getFromIntTo(38, 42);				//돈
@@ -44,7 +47,7 @@ void DarkWind::update()
 
 void DarkWind::render()
 {
-
+	//IMAGEMANAGER->findImage("darkWind")->frameRender(getMemDC(), _x, _y);
 }
 
 void DarkWind::darkWindSkill()
