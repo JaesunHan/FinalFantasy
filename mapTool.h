@@ -1,12 +1,12 @@
 #pragma once
 #include "gameNode.h"
 #include "tile.h"
+#include "resource1.h"
 #include <commdlg.h>
 
 /********************************************************/
 /* 맵툴 클래스											*/
 /* 작업자 : 이호형										*/
-/* 최종 수정 : 2018. 02. 08								*/
 /********************************************************/
 
 enum SELECTMODE
@@ -50,9 +50,15 @@ private:
 	tile _selectedObjectTile;
 
 private:
+	RECT _newBtn;
 	RECT _saveBtn, _loadBtn;
 	RECT _terrainBtn, _objectBtn, _eraserBtn;
 	RECT _changeGameModeBtn, _changeMapEditModeBtn;
+
+private:
+	WPARAM _wParam;
+
+	HWND _hDlgMain;
 
 public:
 	mapTool();
@@ -72,8 +78,13 @@ public:
 //	void setTerrainTileSet(string tileSetKeyName, POINT tileSize);
 
 	void createDefaultMap(POINT mapSize);		//맵 사이즈 받아서 기본맵 생성
+	void newTileMap(void);
 
-	void mapSave(string mapName);
-	void mapLoad(string mapName);
+	void mapSave(void);
+	void mapLoad(void);
+
+	inline void setWParam(WPARAM wParam) { _wParam = wParam; }
+
+	friend BOOL CALLBACK MainDlgProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam);
 };
 

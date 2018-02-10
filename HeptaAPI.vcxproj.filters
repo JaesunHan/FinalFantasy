@@ -258,6 +258,9 @@
     <ClInclude Include="playerManager.h">
       <Filter>playGround\player</Filter>
     </ClInclude>
+    <ClInclude Include="resource1.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -413,5 +416,10 @@
     <ClCompile Include="playerManager.cpp">
       <Filter>playGround\player</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FinalFantasy1.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

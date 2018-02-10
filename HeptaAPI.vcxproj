@@ -118,6 +118,7 @@
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="randomFunction.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="resource1.h" />
     <ClInclude Include="samurai.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="shadow.h" />
@@ -191,6 +192,9 @@
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="VectorPup.cpp" />
     <ClCompile Include="winMain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FinalFantasy1.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

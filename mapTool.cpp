@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "mapTool.h"
 
+//BOOL CALLBACK MainDlgProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam);
 
 mapTool::mapTool()
 {
@@ -14,6 +15,7 @@ mapTool::~mapTool()
 HRESULT mapTool::init(void)
 {
 	//버튼 초기화
+	_newBtn = RectMake(850, 480, 100, 30);
 	_saveBtn = RectMake(850, 520, 100, 30);
 	_loadBtn = RectMake(960, 520, 100, 30);
 	_terrainBtn = RectMake(850, 560, 100, 30);
@@ -36,6 +38,9 @@ HRESULT mapTool::init(void)
 	_selectedObjectTile.init(PointMake(0, 0));
 
 	_selectedTerrainTile.selectTerrain(_worldMapTerrainTileSet[0]);
+
+	//DialogBox(_hInstance, MAKEINTRESOURCE(IDD_DIALOG1), HWND_DESKTOP, MainDlgProc);
+	
 
 	return S_OK;
 }
@@ -117,14 +122,19 @@ void mapTool::worldMapObjectTileSetInie(void)
 
 void mapTool::clickButton(void)
 {
-	if (PtInRect(&_saveBtn, _ptMouse))
+	if (PtInRect(&_newBtn, _ptMouse))
 	{
-		mapSave("test");
+		newTileMap();
+		return;
+	}
+	else if (PtInRect(&_saveBtn, _ptMouse))
+	{
+		mapSave();
 		return;
 	}
 	else if (PtInRect(&_loadBtn, _ptMouse))
 	{
-		mapLoad("test");
+		mapLoad();
 		return;
 	}
 	else if (PtInRect(&_terrainBtn, _ptMouse)) _currentSelectMode = MODE_WORLDMAP_TERRAIN_SELECT;
@@ -191,6 +201,8 @@ void mapTool::buttonDraw(void)
 {
 	//타일 세팅을 위한 버튼
 	SetTextAlign(getMemDC(), TA_CENTER);
+	Rectangle(getMemDC(), _newBtn.left, _newBtn.top, _newBtn.right, _newBtn.bottom);
+	TextOut(getMemDC(), _newBtn.left + 50, _newBtn.top + 7, "new", strlen("new"));
 	Rectangle(getMemDC(), _saveBtn.left, _saveBtn.top, _saveBtn.right, _saveBtn.bottom);
 	TextOut(getMemDC(), _saveBtn.left + 50, _saveBtn.top + 7, "save", strlen("save"));
 	Rectangle(getMemDC(), _loadBtn.left, _loadBtn.top, _loadBtn.right, _loadBtn.bottom);
@@ -224,12 +236,16 @@ void mapTool::createDefaultMap(POINT mapSize)
 	}
 }
 
-void mapTool::mapSave(string mapName)
+void mapTool::newTileMap(void)
+{
+	this->init();
+	DialogBoxParam(_hInstance, MAKEINTRESOURCE(IDD_DIALOG1), _hWnd, MainDlgProc, (LPARAM)this);
+}
+
+void mapTool::mapSave(void)
 {
 	HANDLE file;
 	DWORD write;
-
-	TCHAR szFile[260] = _T("");
 
 	OPENFILENAME ofn;
 	char filePath[1024] = "";
@@ -248,8 +264,6 @@ void mapTool::mapSave(string mapName)
 
 	if (GetSaveFileName(&ofn) == false) return;
 
-	//TCHAR *return_path = ofn.lpstrFile;
-
 	file = CreateFile(ofn.lpstrFile, GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	WriteFile(file, _worldMapTiles, sizeof(tile) * _mapSize.x * _mapSize.y, &write, NULL);
@@ -257,7 +271,7 @@ void mapTool::mapSave(string mapName)
 	CloseHandle(file);
 }
 
-void mapTool::mapLoad(string mapName)
+void mapTool::mapLoad(void)
 {
 	HANDLE file;
 	DWORD write;
@@ -285,4 +299,45 @@ void mapTool::mapLoad(string mapName)
 	ReadFile(file, _worldMapTiles, sizeof(tile) * _mapSize.x * _mapSize.y, &write, NULL);
 
 	CloseHandle(file);
+}
+
+BOOL CALLBACK MainDlgProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam)
+{
+	int mapSizeX = 0;
+	int mapSizeY = 0;
+
+	auto pThis = (mapTool*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+
+	switch (iMessage)
+	{
+	case WM_INITDIALOG:
+
+		SetWindowPos(hDlg, HWND_TOP, 100, 100, 0,0,SWP_NOSIZE);
+		SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)lParam);
+		pThis = (mapTool*)lParam;
+		pThis->_hDlgMain = hDlg;
+		break;
+
+	case WM_COMMAND:
+
+		switch (LOWORD(wParam))
+		{
+		case IDOK:
+			mapSizeX = GetDlgItemInt(hDlg, IDC_EDIT1, NULL, FALSE);
+			mapSizeY = GetDlgItemInt(hDlg, IDC_EDIT2, NULL, FALSE);
+			pThis->createDefaultMap(PointMake(mapSizeX, mapSizeY));
+		case IDCANCEL:
+
+			EndDialog(pThis->_hDlgMain, 0);
+
+			return TRUE;
+		}
+
+		return FALSE;
+	case WM_CLOSE:
+		PostQuitMessage(0);
+		return TRUE;
+	}
+	return FALSE;
+
 }
