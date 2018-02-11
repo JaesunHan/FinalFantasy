@@ -53,6 +53,8 @@ struct tagPlayer
 	int level;              //플레이어 레벨
 	int hp, maxHp;          //플레이어 체력
 	int mp, maxMp;          //플레이어 마력
+	string name;            //플레이어 이름
+	string job;             //플레이어 직업
 };
 
 
@@ -111,12 +113,16 @@ public:
 	//================================ button ===============================
 
 	//================================ player ===============================
-	//void playerInit();
+	virtual void playerSlotInit(string keyName, float x, float y, int level, string job, int hp, int maxHp, int mp, int maxMp);
+	virtual void playerSlotUpdate();
+	virtual void playerSlotKeyControl(float slotValueY, int slotNum);
+	virtual void playerSlotRender();
+	virtual void playerSlotRemove();
 	//================================ player ===============================
 
 	//================================= text ================================
-	virtual void textPrint(int fontWidth, int fontThick, char* fontName, 
-		char* textInput, int textX, int textY, COLORREF RGB = COLOR_WHITE);
+	virtual void textPrint(int fontWidth, int fontThick, char* fontName, char* textInput, int textX, int textY, COLORREF RGB = COLOR_WHITE);
+	virtual char* menu::c2s(string str);
 	//================================= text ================================
 
 	menu();

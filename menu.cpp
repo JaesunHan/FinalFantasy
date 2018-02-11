@@ -169,6 +169,7 @@ void menu::buttonInit(string keyName, float x, float y)
 
 	tagButton _button;
 	ZeroMemory(&_button, sizeof(_button));
+
 	_button.img = IMAGEMANAGER->findImage(keyName);
 	_button.x = x;
 	_button.y = y;
@@ -246,17 +247,79 @@ void menu::textPrint(int fontWidth, int fontThick, char* fontName, char* textInp
 	SetTextColor(getMemDC(), COLOR_BLACK);
 }
 
+char* menu::c2s(string str)
+{
+	char tempName[256];
+	sprintf(tempName, "%s", str);
+
+	return tempName;
+}
+
 //=============================== text ===============================
 
 //============================== player ==============================
 
-//void menu::playerInit()
-//{
-//	
-//	tagPlayer player;
-//	ZeroMemory(&player, sizeof(player));
-//	player.hp = 0;
-//
-//}
+//                        이미지키값      이미지위치XY      레벨	   직업	       체력    최대체력   마력    최대마력
+void menu::playerSlotInit(string keyName, float x, float y, int level, string job, int hp, int maxHp, int mp, int maxMp)
+{
+	tagPlayer player;
+	ZeroMemory(&player, sizeof(player));
+
+	player.img = IMAGEMANAGER->findImage(keyName);
+	player.name = keyName;
+	player.x = x;
+	player.y = y;
+	player.level = level;
+	player.hp = hp;
+	player.maxHp = maxHp;
+	player.mp = mp;
+	player.maxMp = maxMp;
+	player.job = job;
+
+	_vPlayer.push_back(player);
+}
+
+void menu::playerSlotUpdate()
+{
+	for (int i = 0; i < _vPlayer.size(); ++i)
+	{
+		
+	}
+}
+
+void menu::playerSlotKeyControl(float slotValueY, int slotNum)
+{
+
+	for (int i = 0; i < _vPlayer.size(); ++i)
+	{
+		_vPlayer[i].y += slotValueY * slotNum;
+	}
+}
+
+void menu::playerSlotRender()	 
+{
+	for (int i = 0; i < _vPlayer.size(); ++i)
+	{
+		_vPlayer[i].img->render(getMemDC(), _vPlayer[i].x, _vPlayer[i].y);
+
+		textPrint(20, 20, "HY견고딕", c2s(_vPlayer[i].name), _vPlayer[i].x + 100, _vPlayer[i].y - 50, COLOR_WHITE);			 //이름
+		//textPrint(20, 20, "HY견고딕", _vPlayer[i].job.c_str, _vPlayer[i].x + 200, _vPlayer[i].y - 50, COLOR_WHITE);				 //직업
+		//textPrint(20, 20, "HY견고딕", "LV", _vPlayer[i].x + 100, _vPlayer[i].y - 40, COLOR_BLUE);							     //"LV"
+		//textPrint(20, 20, "HY견고딕", to_string(_vPlayer[i].level).c_str, _vPlayer[i].x + 100, _vPlayer[i].y - 40, COLOR_BLUE);  //레벨
+	}
+}
+
+void menu::playerSlotRemove()
+{
+	if (_vPlayer.size() != 0)
+	{
+		for (int i = 0; i < _vPlayer.size(); ++i)
+		{
+			_vPlayer.erase(_vPlayer.begin() + i);
+		}
+	}
+
+	_vPlayer.clear();
+}
 
 //============================== player ==============================
