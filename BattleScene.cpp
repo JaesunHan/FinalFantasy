@@ -85,24 +85,31 @@ void BattleScene::release()
 void BattleScene::update() 
 {
 	ATBGauzeTimer();
-	//for (int i = 0; i < _battleCharacters.size(); ++i)
-	//{
-	//	if (_battleTurn.front() <= 3)
-	//	{
-	//		_battleCharacters[_battleTurn.front()].player->update();
-	//	}
-	//	else
-	//	{
-	//		_battleCharacters[_battleTurn.front()].enemy->update();
-	//	}
-	//}
-	for (int i = 4; i < _battleCharacters.size(); ++i)
+	
+	if (_battleTurn.size() > 0)
 	{
-		if (_battleCharacters[i].ATBcounter > 65535)
+		if (_battleTurn.front() <= 3)
 		{
-			_battleCharacters[i].enemy->update();
+			_battleCharacters[_battleTurn.front()].player->update();
+		}
+		else
+		{
+			_battleCharacters[_battleTurn.front()].enemy->update();
+			if (_battleCharacters[_battleTurn.front()].enemy->getTurnEnd() == true)
+			{
+				_battleTurn.pop();
+			}
 		}
 	}
+	
+	
+	//for (int i = 4; i < _battleCharacters.size(); ++i)
+	//{
+	//	if (_battleCharacters[i].ATBcounter > 65535)
+	//	{
+	//		_battleCharacters[i].enemy->update();
+	//	}
+	//}
 }
 
 void BattleScene::render() 
@@ -115,12 +122,12 @@ void BattleScene::render()
 		if (_battleCharacters[i].characterType <= 3)
 		{
 			if (_battleCharacters[i].player->getCurHP() < 0) continue;
+			_battleCharacters[i].player->render();
 		}
 		if (_battleCharacters[i].characterType > 3)
 		{
 			if (_battleCharacters[i].enemy->getCurHP() < 0) continue;
 			_battleCharacters[i].enemy->render();
-			_battleCharacters[i].turnStart = false;
 		}
 	}
 	//UI ·£´õ
@@ -150,7 +157,7 @@ void BattleScene::ATBGauzeTimer()
 			if (_battleCharacters[i].characterType <= 3)
 			{
 				if (_battleCharacters[i].player->getCurHP() < 0) continue;
-				_battleCharacters[i].ATBcounter += 96 * (_battleCharacters[i].player->getSpeed() + 20) / 32;
+				//_battleCharacters[i].ATBcounter += 96 * (_battleCharacters[i].player->getSpeed() + 20) / 32;
 			}
 			if (_battleCharacters[i].characterType > 3)
 			{
@@ -158,12 +165,13 @@ void BattleScene::ATBGauzeTimer()
 				_battleCharacters[i].ATBcounter += 96 * (_battleCharacters[i].enemy->getSpeed() + 20) / 32;
 			}
 		}
-		for (int i = 0; i < _battleCharacters.size(); ++i)
+		for (int i = 4; i < _battleCharacters.size(); ++i)
 		{
 			if (_battleCharacters[i].ATBcounter > 65535 && _battleCharacters[i].turnStart == false)
 			{
 				_battleTurn.push(_battleCharacters[i].characterType);
 				_battleCharacters[i].turnStart = true;
+				_battleCharacters[i].enemy->setTurnEnd(false);
 			}
 		}
 	}
