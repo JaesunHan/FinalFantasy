@@ -87,17 +87,20 @@ void mapTool::render(void)
 		int indexY = 0;
 		
 		if (renderX > 23) renderX = 22;
+		else ++renderX;
+
 		if (renderY > 23) renderY = 22;
-		
+		else ++renderY;
+
 		if (_mapMove.x / TILE_SIZEX < 0) indexX = 1;
 		else indexX = 0;
 
 		if (_mapMove.y / TILE_SIZEY < 0) indexY = 1;
 		else indexY = 0;
 
-		for (int i = indexY; i < renderY; i++)
+		for (int i = indexY; i < renderY; ++i)
 		{
-			for (int j = indexX; j < renderX; j++)
+			for (int j = indexX; j < renderX; ++j)
 			{
 				_mapTiles[_mapMove.x / TILE_SIZEX + j + (_mapMove.y / TILE_SIZEY + i) * _mapSize.x].render(tileMapDC->getMemDC(), _mapMove.x, _mapMove.y);
 			}
