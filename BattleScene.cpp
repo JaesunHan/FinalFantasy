@@ -86,6 +86,11 @@ void BattleScene::update()
 {
 	ATBGauzeTimer();
 	
+	for (int i = 0; i < 4; ++i)
+	{
+		_battleCharacters[i].player->animationFrameUpdate();
+	}
+
 	if (_battleTurn.size() > 0)
 	{
 		if (_battleTurn.front() <= 3)
