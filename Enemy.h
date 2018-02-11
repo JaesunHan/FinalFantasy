@@ -40,12 +40,12 @@ protected:
 
 	unsigned int _x, _y;					//이미지 뿌리기 위한 좌표
 
-	bool _enemyTurn;						//에너미들 턴이니?
-	bool _effectFire = true;
+	bool _turnEnd;							//에너미들 턴이니?
 
 	EnemyState _state;						//에너미들 상태값
 	
 	effect* _test;							//에너미들 공격 이펙트 테스트
+	bool _effectFire = true;				//이펙트 터트리기 위한 불값
 
 	//============= 전방선언 =============
 
@@ -107,8 +107,8 @@ public:
 
 	inline int getBlock() { return _block; }
 
-	inline bool getEnemyTurn() { return _enemyTurn; }
-	inline void setEnemyTurn(bool enemyTurn) { _enemyTurn = enemyTurn; }
+	inline bool getTurnEnd() { return _turnEnd; }
+	inline void setTurnEnd(bool enemyTurn) { _turnEnd = enemyTurn; }
 
 	inline bool getEffectFire() { return _effectFire; }
 	inline void setEffectFire(bool effectFire) { _effectFire = effectFire; }

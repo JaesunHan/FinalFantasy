@@ -60,15 +60,11 @@ void Bear::update()
 
 		_effectFire = false;
 	}
-
-	EFFECTMANAGER->update();
 }
 
 void Bear::render()
 {
 	IMAGEMANAGER->findImage("bear")->frameRender(getMemDC(), _x, _y);
-
-	EFFECTMANAGER->render();
 }
 
 void Bear::bearSkill()
