@@ -94,6 +94,12 @@
     <Filter Include="playGround\MapScene">
       <UniqueIdentifier>{b3920b6a-4d32-4b31-8d0e-7d58cf3cfefb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\A%2a">
+      <UniqueIdentifier>{f1200452-fd40-4a4a-a492-12c97be95f13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\MapScene\map">
+      <UniqueIdentifier>{f4d88816-4013-4158-bf7a-ee9380dfaab6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -315,6 +321,15 @@
     <ClInclude Include="townScene.h">
       <Filter>playGround\MapScene</Filter>
     </ClInclude>
+    <ClInclude Include="worldMap.h">
+      <Filter>playGround\MapScene\map</Filter>
+    </ClInclude>
+    <ClInclude Include="townMap.h">
+      <Filter>playGround\MapScene\map</Filter>
+    </ClInclude>
+    <ClInclude Include="aStar.h">
+      <Filter>playGround\A%2a</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -511,6 +526,15 @@
     </ClCompile>
     <ClCompile Include="townScene.cpp">
       <Filter>playGround\MapScene</Filter>
+    </ClCompile>
+    <ClCompile Include="worldMap.cpp">
+      <Filter>playGround\MapScene\map</Filter>
+    </ClCompile>
+    <ClCompile Include="townMap.cpp">
+      <Filter>playGround\MapScene\map</Filter>
+    </ClCompile>
+    <ClCompile Include="aStar.cpp">
+      <Filter>playGround\A%2a</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

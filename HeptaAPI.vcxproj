@@ -82,6 +82,7 @@
     <ClInclude Include="abilitiesMenu.h" />
     <ClInclude Include="action.h" />
     <ClInclude Include="animation.h" />
+    <ClInclude Include="aStar.h" />
     <ClInclude Include="battleCeles.h" />
     <ClInclude Include="battleLocke.h" />
     <ClInclude Include="battlePlayerMother.h" />
@@ -146,16 +147,19 @@
     <ClInclude Include="Tina.h" />
     <ClInclude Include="titleScene.h" />
     <ClInclude Include="tornadoShark.h" />
+    <ClInclude Include="townMap.h" />
     <ClInclude Include="townScene.h" />
     <ClInclude Include="txtData.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="VectorPup.h" />
+    <ClInclude Include="worldMap.h" />
     <ClInclude Include="worldMapScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="abilitiesMenu.cpp" />
     <ClCompile Include="action.cpp" />
     <ClCompile Include="animation.cpp" />
+    <ClCompile Include="aStar.cpp" />
     <ClCompile Include="battleCeles.cpp" />
     <ClCompile Include="battleLocke.cpp" />
     <ClCompile Include="battlePlayerMother.cpp" />
@@ -215,11 +219,13 @@
     <ClCompile Include="Tina.cpp" />
     <ClCompile Include="titleScene.cpp" />
     <ClCompile Include="tornadoShark.cpp" />
+    <ClCompile Include="townMap.cpp" />
     <ClCompile Include="townScene.cpp" />
     <ClCompile Include="txtData.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="VectorPup.cpp" />
     <ClCompile Include="winMain.cpp" />
+    <ClCompile Include="worldMap.cpp" />
     <ClCompile Include="worldMapScene.cpp" />
   </ItemGroup>
   <ItemGroup>
