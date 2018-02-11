@@ -73,11 +73,12 @@ void gameNode::update(void)
 {
 	SOUNDMANAGER->update();
 	EFFECTMANAGER->update();
+	KEYANIMANAGER->update();
 }
 
 void gameNode::render(void)
 {
-
+	
 }
 
 

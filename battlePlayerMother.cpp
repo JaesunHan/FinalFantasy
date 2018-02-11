@@ -26,26 +26,7 @@ void battlePlayerMother::update()
 		_status = (baattlePlayerStatus)((int)_status + 1);
 	}
 	//================= Start 현재 상태에 따라서 각각 다른 애니메이션의 프레임 업뎃을 해준다.==========
-	if (_status == BATTLE_PLAYER_IDLE)
-	{
-		_idleAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
-	}
-	if (_status == BATTLE_PLAYER_ATTACK)
-	{
-		_atkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
-	}
-	if (_status == BATTLE_PLAYER_MAGIC_ATTACK)
-	{
-		_magicAtkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
-	}
-	if (_status == BATTLE_PLAYER_DEAD)
-	{
-		_deadAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
-	}
-	if (_status == BATTLE_PLAYER_WIN)
-	{
-		_winAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
-	}
+	
 	//================= End 현재 상태에 따라서 각각 다른 애니메이션의 프레임 업뎃을 해준다.==========
 
 }
@@ -89,4 +70,28 @@ void battlePlayerMother::setAllBattlePlayerInfo(int lv, int curExp, int maxExp, 
 	_Lv = lv, curExp = curExp, _maxEXP = maxExp, _curHP = curHp, _maxHP = maxHp;
 	_curMP = curMp, _maxMP = maxMp, _speed = speed, _strength = strength, _magic = magic;
 	_m_Def = m_def, _a_Def = a_def, _attack = attack, _evasion = evasion;
+}
+
+void battlePlayerMother::animationFrameUpdate()
+{
+	if (_status == BATTLE_PLAYER_IDLE)
+	{
+		_idleAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+	}
+	if (_status == BATTLE_PLAYER_ATTACK)
+	{
+		_atkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+	}
+	if (_status == BATTLE_PLAYER_MAGIC_ATTACK)
+	{
+		_magicAtkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+	}
+	if (_status == BATTLE_PLAYER_DEAD)
+	{
+		_deadAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+	}
+	if (_status == BATTLE_PLAYER_WIN)
+	{
+		_winAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+	}
 }

@@ -65,6 +65,8 @@ public:
 	virtual void draw();
 	virtual void release();
 
+	virtual void animationFrameUpdate();
+
 	//===============================Start 접근자 설정자 =======================================
 	inline int getLv() { return _Lv; }		inline void setLv(int lv) { _Lv = lv; }
 
