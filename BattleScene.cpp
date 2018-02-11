@@ -97,6 +97,8 @@ void BattleScene::update()
 			_battleCharacters[_battleTurn.front()].enemy->update();
 			if (_battleCharacters[_battleTurn.front()].enemy->getTurnEnd() == true)
 			{
+				_battleCharacters[_battleTurn.front()].ATBcounter = 0;
+				_battleCharacters[_battleTurn.front()].turnStart = false;
 				_battleTurn.pop();
 			}
 		}
