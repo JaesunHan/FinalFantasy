@@ -30,7 +30,6 @@
 #include "dialogueManager.h"
 #include "playerImproveInfo.h"
 
-
 using namespace std;
 using namespace HEPTA_UTIL;
 using namespace PLAYER_IMPROVE_INFO;
@@ -59,7 +58,6 @@ using namespace PLAYER_IMPROVE_INFO;
 #define DATABASE		database::getSingleton()
 #define DIALOGUEMANAGER dialogueManager::getSingleton()
 
-
 //=======================================================
 // ## 매크로 ## 2017.11.15 ##
 //=======================================================
@@ -76,3 +74,4 @@ extern HINSTANCE	_hInstance;		//인스턴스 핸들
 extern HWND			_hWnd;			//핸들
 extern POINT		_ptMouse;
 extern BOOL			_leftButtonDown;
+extern BOOL			_isDebug;

@@ -58,6 +58,14 @@ void playGround::update(void)
 	if (KEYMANAGER->isOnceKeyDown('W')) SCENEMANAGER->changeScene("·Îµù");
 	//================================ ¸Ş´º¾À ================================
 
+	//================================ ¸ÊÅø¾À ================================
+	if (KEYMANAGER->isOnceKeyDown('M')) SCENEMANAGER->changeScene("mapToolScene");
+	//================================ ¸ÊÅø¾À ================================
+
+	//================================ ¸ÊÅø¾À ================================
+	if (KEYMANAGER->isOnceKeyDown(VK_F1)) _isDebug = !_isDebug;
+	//================================ ¸ÊÅø¾À ================================
+
 	SCENEMANAGER->update();
 }
 
