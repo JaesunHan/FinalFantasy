@@ -33,7 +33,7 @@ HRESULT mapTool::init(void)
 	//¸Ê ÃÊ±âÈ­
 	_mapTiles = NULL;
 	_mapSize = PointMake(0, 0);
-	_mapMove = PointMake(32, 32);
+	_mapMove = PointMake(-32, -32);
 
 	_currentSelectMode = MODE_WORLDMAP_TERRAIN_SELECT;
 
@@ -57,19 +57,19 @@ void mapTool::update(void)
 		clickButton();
 	}
 
-	if (KEYMANAGER->isStayKeyDown(VK_UP) && _mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().bottom > 640) _mapMove.y += MAP_MOVE_SPEED;
-	if (KEYMANAGER->isStayKeyDown(VK_DOWN) && _mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().bottom > 640) _mapMove.y -= MAP_MOVE_SPEED;
-	if (KEYMANAGER->isStayKeyDown(VK_LEFT) && _mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().right > 640) _mapMove.x += MAP_MOVE_SPEED;
-	if (KEYMANAGER->isStayKeyDown(VK_RIGHT) && _mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().right > 640) _mapMove.x -= MAP_MOVE_SPEED;
+	if (KEYMANAGER->isStayKeyDown(VK_UP) && _mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().bottom > 640) _mapMove.y -= MAP_MOVE_SPEED;
+	if (KEYMANAGER->isStayKeyDown(VK_DOWN) && _mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().bottom > 640) _mapMove.y += MAP_MOVE_SPEED;
+	if (KEYMANAGER->isStayKeyDown(VK_LEFT) && _mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().right > 640) _mapMove.x -= MAP_MOVE_SPEED;
+	if (KEYMANAGER->isStayKeyDown(VK_RIGHT) && _mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().right > 640) _mapMove.x += MAP_MOVE_SPEED;
 
-	if (_mapMove.x > TILE_SIZEX) _mapMove.x = TILE_SIZEX;
-	if (_mapMove.y > TILE_SIZEY) _mapMove.y = TILE_SIZEY;
+	if (_mapMove.x < -TILE_SIZEX) _mapMove.x = -TILE_SIZEX;
+	if (_mapMove.y < -TILE_SIZEY) _mapMove.y = -TILE_SIZEY;
 	if (_mapSize.x != 0 && _mapSize.y != 0)
 	{
-		if (_mapMove.x < -1 * (_mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().right - MAP_AREA + TILE_SIZEX) && _mapSize.x > 20)
-			_mapMove.x = -1 * (_mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().right - MAP_AREA + TILE_SIZEX);
-		if (_mapMove.y < -1 * (_mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().bottom - MAP_AREA + TILE_SIZEY) && _mapSize.y > 20)
-			_mapMove.y = -1 * (_mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().bottom - MAP_AREA + TILE_SIZEY);
+		if (_mapMove.x > (_mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().right - MAP_AREA + TILE_SIZEX) && _mapSize.x > 20)
+			_mapMove.x = (_mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().right - MAP_AREA + TILE_SIZEX);
+		if (_mapMove.y > (_mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().bottom - MAP_AREA + TILE_SIZEY) && _mapSize.y > 20)
+			_mapMove.y = (_mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().bottom - MAP_AREA + TILE_SIZEY);
 	}
 	
 }
@@ -81,9 +81,26 @@ void mapTool::render(void)
 	
 	if (_mapTiles != NULL)
 	{
-		for (int i = 0; i < _mapSize.x * _mapSize.y; i++)
+		int renderX = _mapSize.x;
+		int renderY = _mapSize.y;
+		int indexX = 0;
+		int indexY = 0;
+		
+		if (renderX > 23) renderX = 22;
+		if (renderY > 23) renderY = 22;
+		
+		if (_mapMove.x / TILE_SIZEX < 0) indexX = 1;
+		else indexX = 0;
+
+		if (_mapMove.y / TILE_SIZEY < 0) indexY = 1;
+		else indexY = 0;
+
+		for (int i = indexY; i < renderY; i++)
 		{
-			_mapTiles[i].render(tileMapDC->getMemDC(), _mapMove.x, _mapMove.y);
+			for (int j = indexX; j < renderX; j++)
+			{
+				_mapTiles[_mapMove.x / TILE_SIZEX + j + (_mapMove.y / TILE_SIZEY + i) * _mapSize.x].render(tileMapDC->getMemDC(), _mapMove.x, _mapMove.y);
+			}
 		}
 	}
 
@@ -200,7 +217,7 @@ void mapTool::clickButton(void)
 
 		for (int i = 0; i < _mapSize.x * _mapSize.y; i++)
 		{
-			if (PtInRect(&_mapTiles[i].getTileRect(), _ptMouse - _mapMove + PointMake(TILE_SIZEX, TILE_SIZEY)))
+			if (PtInRect(&_mapTiles[i].getTileRect(), _ptMouse + _mapMove + PointMake(TILE_SIZEX, TILE_SIZEY)))
 			{
 				_mapTiles[i].setTerrain(_selectedTerrainTile);
 				break;
@@ -220,7 +237,7 @@ void mapTool::clickButton(void)
 
 		for (int i = 0; i < _mapSize.x * _mapSize.y; i++)
 		{
-			if (PtInRect(&_mapTiles[i].getTileRect(), _ptMouse - _mapMove + PointMake(TILE_SIZEX, TILE_SIZEY)))
+			if (PtInRect(&_mapTiles[i].getTileRect(), _ptMouse + _mapMove + PointMake(TILE_SIZEX, TILE_SIZEY)))
 			{
 				_mapTiles[i].setObject(_selectedObjectTile);
 				break;

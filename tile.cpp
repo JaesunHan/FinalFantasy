@@ -56,7 +56,7 @@ void tile::terrainRender(HDC hdc, int destX, int destY)
 {
 	if (_terrainImageKey != "none")
 	{
-		IMAGEMANAGER->frameRender(_terrainImageKey, hdc, _tileRc.left + destX, _tileRc.top + destY, _terrainFramePos.x, _terrainFramePos.y);
+		IMAGEMANAGER->frameRender(_terrainImageKey, hdc, _tileRc.left - destX, _tileRc.top - destY, _terrainFramePos.x, _terrainFramePos.y);
 	}
 }
 
@@ -64,7 +64,7 @@ void tile::objectRender(HDC hdc, int destX, int destY)
 {
 	if (_objectImageKey != "none")
 	{
-		IMAGEMANAGER->frameRender(_objectImageKey, hdc, _tileRc.left + destX, _tileRc.top + destY, _objectFramePos.x, _objectFramePos.y);
+		IMAGEMANAGER->frameRender(_objectImageKey, hdc, _tileRc.left - destX, _tileRc.top - destY, _objectFramePos.x, _objectFramePos.y);
 	}
 }
 
@@ -79,13 +79,13 @@ void tile::attributeRender(HDC hdc, int destX, int destY)
 	{
 		hPen = (HPEN)CreatePen(PS_SOLID, 2, RGB(255, 0, 0));
 		oPen = (HPEN)SelectObject(hdc, hPen);
-		MoveToEx(hdc, _tileRc.left + destX, _tileRc.top + destY, NULL);
-		LineTo(hdc, _tileRc.right + destX, _tileRc.bottom + destY);
-		MoveToEx(hdc, _tileRc.right + destX, _tileRc.top + destY, NULL);
-		LineTo(hdc, _tileRc.left + destX, _tileRc.bottom + destY);
+		MoveToEx(hdc, _tileRc.left - destX, _tileRc.top - destY, NULL);
+		LineTo(hdc, _tileRc.right - destX, _tileRc.bottom - destY);
+		MoveToEx(hdc, _tileRc.right - destX, _tileRc.top - destY, NULL);
+		LineTo(hdc, _tileRc.left - destX, _tileRc.bottom - destY);
 	}
 
-	Rectangle(hdc, _tileRc.left + destX, _tileRc.top + destY, _tileRc.right + destX, _tileRc.bottom + destY);
+	Rectangle(hdc, _tileRc.left - destX, _tileRc.top - destY, _tileRc.right - destX, _tileRc.bottom - destY);
 
 	if (_terrainAttribute == ATTR_UNMOVE || _objectAttribute == ATTR_UNMOVE)
 	{
