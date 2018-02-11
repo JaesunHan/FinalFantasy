@@ -6,6 +6,7 @@
 #include "loadingScene.h"
 #include "titleScene.h"
 #include "saveLoadMenu.h"
+#include "optionMenu.h"
 
 class playGround : public gameNode
 {

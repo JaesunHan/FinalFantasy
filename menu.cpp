@@ -228,14 +228,15 @@ void menu::buttonRemove()
 
 //=============================== text ===============================
 
-//                   폰트SIZE        폰트굵기       폰트명          입력할텍스트     텍스트위치 XY        텍스트색상(기본흰색)  
-void menu::textPrint(int fontWidth, int fontThick, char* fontName, char* textInput, int textX, int textY, COLORREF RGB)
+//                   폰트SIZE       폰트굵기       폰트명          입력할텍스트     텍스트위치 XY		  텍스트색상(기본흰색)  텍스트 중앙정렬 
+void menu::textPrint(int fontWidth, int fontThick, char* fontName, char* textInput, int textX, int textY, COLORREF RGB, BOOL textCenter)
 {
 	//----------------------------------- 폰트셋팅
 	char str[256];
 	HFONT font, oldFont;
-	SetBkMode(getMemDC(), TRANSPARENT);
-	SetTextColor(getMemDC(), RGB);
+	SetBkMode(getMemDC(), TRANSPARENT);                  //문자 투명배경
+	if (textCenter) SetTextAlign(getMemDC(), TA_CENTER); //문자 중앙정렬
+	SetTextColor(getMemDC(), RGB);                       //문자 색상변경
 	font = CreateFont(fontWidth, 0, 0, 0, fontThick, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, TEXT(fontName));
 	oldFont = (HFONT)SelectObject(getMemDC(), font);
 	//----------------------------------- 문자출력
@@ -245,6 +246,7 @@ void menu::textPrint(int fontWidth, int fontThick, char* fontName, char* textInp
 	SelectObject(getMemDC(), oldFont);
 	DeleteObject(font);
 	SetTextColor(getMemDC(), COLOR_BLACK);
+	SetTextAlign(getMemDC(), TA_LEFT);
 }
 
 //string_to_char

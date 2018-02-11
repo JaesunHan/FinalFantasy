@@ -121,7 +121,7 @@ public:
 	//================================ player ===============================
 
 	//================================= text ================================
-	virtual void textPrint(int fontWidth, int fontThick, char* fontName, char* textInput, int textX, int textY, COLORREF RGB = COLOR_WHITE);
+	virtual void textPrint(int fontWidth, int fontThick, char* fontName, char* textInput, int textX, int textY, COLORREF RGB = COLOR_WHITE, BOOL textCenter = TRUE);
 	virtual char* s2c(string str);
 	virtual char* i2c(int i);
 	//================================= text ================================

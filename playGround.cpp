@@ -30,6 +30,7 @@ HRESULT playGround::init()
 	SCENEMANAGER->addScene("로딩", new loadingScene);
 	SCENEMANAGER->addScene("타이틀", new titleScene);
 	SCENEMANAGER->addScene("세이브로드", new saveLoadMenu);
+	SCENEMANAGER->addScene("옵션", new optionMenu);
 	//=========================== 메뉴씬 ===========================
 	
 	SCENEMANAGER->changeScene("로딩");
@@ -60,6 +61,11 @@ void playGround::update(void)
 	{
 		SOUNDMANAGER->stop(CH_BGM);
 		SCENEMANAGER->changeScene("로딩");
+	}
+	//옵션메뉴
+	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
+	{
+		SCENEMANAGER->changeScene("옵션");
 	}
 	//================================ 메뉴씬 ================================
 
