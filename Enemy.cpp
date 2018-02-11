@@ -11,10 +11,9 @@ Enemy::~Enemy()
 
 }
 
+//	     몬스터를 뿌려줄 x,     y
 HRESULT Enemy::init(int x, int y)
 {
-	
-	
 	_x = x;
 	_y = y;
 
@@ -31,6 +30,7 @@ void Enemy::render()
 	
 }
 
+//몬스터 턴이 되면
 void Enemy::enemyTurn(int damage)
 {
 	if (_state == RND->getFromIntTo(ENEMY_HIT, ENEMY_SPELL));

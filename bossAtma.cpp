@@ -5,7 +5,7 @@
 bossAtma::bossAtma()
 {
 	//에너미 이미지
-	IMAGEMANAGER->addFrameImage("bossAtma", ".\\image\\enemyImg\\bossAtma.bmp", 1000, 500, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("bossAtma", ".\\image\\enemyImg\\bossAtma.bmp", 1000, 500, 2, 1, true, RGB(255, 0, 255), true);
 
 	_Lv = 67;										//레벨
 	_maxEXP = 0;	 								//현재 경험치, 최대 경험치

@@ -8,8 +8,9 @@
 image::image()
 	: _imageInfo(NULL),
 	_fileName(NULL),
-	_trans(false), 
-	_transColor(RGB(0,0,0))
+	_trans(false),
+	_transColor(RGB(0, 0, 0)),
+	_alphablend(false)
 {
 }
 
@@ -20,7 +21,7 @@ image::~image()
 }
 
 //빈 비트맵 이미지 초기화
-HRESULT image::init(int width, int height)
+HRESULT image::init(int width, int height, BOOL alphablend)
 {
 	//이미지 정보가 뭔가있다면 해제해줘라
 	if (_imageInfo != NULL) release();
@@ -47,14 +48,17 @@ HRESULT image::init(int width, int height)
 	_blendFunc.AlphaFormat = 0;
 	_blendFunc.BlendOp = AC_SRC_OVER;
 
-	_blendImage = new IMAGE_INFO;
-	_blendImage->loadType = LOAD_EMPTY;
-	_blendImage->resID = 0;
-	_blendImage->hMemDC = CreateCompatibleDC(hdc);
-	_blendImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, WINSIZEX, WINSIZEY);
-	_blendImage->hOBit = (HBITMAP)SelectObject(_blendImage->hMemDC, _blendImage->hBit);
-	_blendImage->width = WINSIZEX;
-	_blendImage->height = WINSIZEY;
+	if (_alphablend)
+	{
+		_blendImage = new IMAGE_INFO;
+		_blendImage->loadType = LOAD_EMPTY;
+		_blendImage->resID = 0;
+		_blendImage->hMemDC = CreateCompatibleDC(hdc);
+		_blendImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, WINSIZEX, WINSIZEY);
+		_blendImage->hOBit = (HBITMAP)SelectObject(_blendImage->hMemDC, _blendImage->hBit);
+		_blendImage->width = WINSIZEX;
+		_blendImage->height = WINSIZEY;
+	}
 
 	//비트맵이 생성이 되지않았다면
 	if (_imageInfo->hBit == NULL)
@@ -72,7 +76,7 @@ HRESULT image::init(int width, int height)
 
 //파일로부터 이미지 초기화
 HRESULT image::init(const char* fileName, int width, int height,
-	BOOL trans, COLORREF transColor)
+	BOOL trans, COLORREF transColor, BOOL alphablend)
 {
 	//이미지 정보가 뭔가있다면 해제해줘라
 	if (_imageInfo != NULL) release();
@@ -103,15 +107,18 @@ HRESULT image::init(const char* fileName, int width, int height,
 	_blendFunc.BlendFlags = 0;
 	_blendFunc.AlphaFormat = 0;
 	_blendFunc.BlendOp = AC_SRC_OVER;
-
-	_blendImage = new IMAGE_INFO;
-	_blendImage->loadType = LOAD_EMPTY;
-	_blendImage->resID = 0;
-	_blendImage->hMemDC = CreateCompatibleDC(hdc);
-	_blendImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, WINSIZEX, WINSIZEY);
-	_blendImage->hOBit = (HBITMAP)SelectObject(_blendImage->hMemDC, _blendImage->hBit);
-	_blendImage->width = WINSIZEX;
-	_blendImage->height = WINSIZEY;
+	_alphablend = alphablend;
+	if (_alphablend)
+	{
+		_blendImage = new IMAGE_INFO;
+		_blendImage->loadType = LOAD_EMPTY;
+		_blendImage->resID = 0;
+		_blendImage->hMemDC = CreateCompatibleDC(hdc);
+		_blendImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, WINSIZEX, WINSIZEY);
+		_blendImage->hOBit = (HBITMAP)SelectObject(_blendImage->hMemDC, _blendImage->hBit);
+		_blendImage->width = WINSIZEX;
+		_blendImage->height = WINSIZEY;
+	}
 
 
 	//비트맵이 생성이 되지않았다면
@@ -130,7 +137,7 @@ HRESULT image::init(const char* fileName, int width, int height,
 
 //파일로부터 이미지 초기화           처음 시작 좌표      가로       세로
 HRESULT image::init(const char* fileName, float x, float y, int width, int height,
-	BOOL trans, COLORREF transColor)
+	BOOL trans, COLORREF transColor, BOOL alphablend)
 {
 	//이미지 정보가 뭔가있다면 해제해줘라
 	if (_imageInfo != NULL) release();
@@ -164,15 +171,18 @@ HRESULT image::init(const char* fileName, float x, float y, int width, int heigh
 	_blendFunc.BlendFlags = 0;
 	_blendFunc.AlphaFormat = 0;
 	_blendFunc.BlendOp = AC_SRC_OVER;
-
-	_blendImage = new IMAGE_INFO;
-	_blendImage->loadType = LOAD_EMPTY;
-	_blendImage->resID = 0;
-	_blendImage->hMemDC = CreateCompatibleDC(hdc);
-	_blendImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, WINSIZEX, WINSIZEY);
-	_blendImage->hOBit = (HBITMAP)SelectObject(_blendImage->hMemDC, _blendImage->hBit);
-	_blendImage->width = WINSIZEX;
-	_blendImage->height = WINSIZEY;
+	_alphablend = alphablend;
+	if (alphablend)
+	{
+		_blendImage = new IMAGE_INFO;
+		_blendImage->loadType = LOAD_EMPTY;
+		_blendImage->resID = 0;
+		_blendImage->hMemDC = CreateCompatibleDC(hdc);
+		_blendImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, WINSIZEX, WINSIZEY);
+		_blendImage->hOBit = (HBITMAP)SelectObject(_blendImage->hMemDC, _blendImage->hBit);
+		_blendImage->width = WINSIZEX;
+		_blendImage->height = WINSIZEY;
+	}
 
 
 	//비트맵이 생성이 되지않았다면
@@ -191,7 +201,7 @@ HRESULT image::init(const char* fileName, float x, float y, int width, int heigh
 
 //이미지 + 프레임초기화
 HRESULT image::init(const char* fileName, float x, float y, int width, int height,
-	int frameX, int frameY, BOOL trans, COLORREF transColor)
+	int frameX, int frameY, BOOL trans, COLORREF transColor, BOOL alphablend)
 {
 	//이미지 정보가 뭔가있다면 해제해줘라
 	if (_imageInfo != NULL) release();
@@ -215,7 +225,7 @@ HRESULT image::init(const char* fileName, float x, float y, int width, int heigh
 	_imageInfo->currentFrameY = 0;
 	_imageInfo->maxFrameX = frameX - 1;
 	_imageInfo->maxFrameY = frameY - 1;
-	
+
 	//파일 길이를 알아온다
 	int len = strlen(fileName);
 
@@ -230,15 +240,18 @@ HRESULT image::init(const char* fileName, float x, float y, int width, int heigh
 	_blendFunc.BlendFlags = 0;
 	_blendFunc.AlphaFormat = 0;
 	_blendFunc.BlendOp = AC_SRC_OVER;
-
-	_blendImage = new IMAGE_INFO;
-	_blendImage->loadType = LOAD_EMPTY;
-	_blendImage->resID = 0;
-	_blendImage->hMemDC = CreateCompatibleDC(hdc);
-	_blendImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, WINSIZEX, WINSIZEY);
-	_blendImage->hOBit = (HBITMAP)SelectObject(_blendImage->hMemDC, _blendImage->hBit);
-	_blendImage->width = WINSIZEX;
-	_blendImage->height = WINSIZEY;
+	_alphablend = alphablend;
+	if (alphablend)
+	{
+		_blendImage = new IMAGE_INFO;
+		_blendImage->loadType = LOAD_EMPTY;
+		_blendImage->resID = 0;
+		_blendImage->hMemDC = CreateCompatibleDC(hdc);
+		_blendImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, WINSIZEX, WINSIZEY);
+		_blendImage->hOBit = (HBITMAP)SelectObject(_blendImage->hMemDC, _blendImage->hBit);
+		_blendImage->width = WINSIZEX;
+		_blendImage->height = WINSIZEY;
+	}
 
 
 	//비트맵이 생성이 되지않았다면
@@ -257,7 +270,7 @@ HRESULT image::init(const char* fileName, float x, float y, int width, int heigh
 
 
 HRESULT image::init(const char* fileName, int width, int height,
-	int frameX, int frameY, BOOL trans, COLORREF transColor)
+	int frameX, int frameY, BOOL trans, COLORREF transColor, BOOL alphablend)
 {
 	//이미지 정보가 뭔가있다면 해제해줘라
 	if (_imageInfo != NULL) release();
@@ -294,15 +307,18 @@ HRESULT image::init(const char* fileName, int width, int height,
 	_blendFunc.BlendFlags = 0;
 	_blendFunc.AlphaFormat = 0;
 	_blendFunc.BlendOp = AC_SRC_OVER;
-
-	_blendImage = new IMAGE_INFO;
-	_blendImage->loadType = LOAD_EMPTY;
-	_blendImage->resID = 0;
-	_blendImage->hMemDC = CreateCompatibleDC(hdc);
-	_blendImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, WINSIZEX, WINSIZEY);
-	_blendImage->hOBit = (HBITMAP)SelectObject(_blendImage->hMemDC, _blendImage->hBit);
-	_blendImage->width = WINSIZEX;
-	_blendImage->height = WINSIZEY;
+	_alphablend = alphablend;
+	if (alphablend)
+	{
+		_blendImage = new IMAGE_INFO;
+		_blendImage->loadType = LOAD_EMPTY;
+		_blendImage->resID = 0;
+		_blendImage->hMemDC = CreateCompatibleDC(hdc);
+		_blendImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, WINSIZEX, WINSIZEY);
+		_blendImage->hOBit = (HBITMAP)SelectObject(_blendImage->hMemDC, _blendImage->hBit);
+		_blendImage->width = WINSIZEX;
+		_blendImage->height = WINSIZEY;
+	}
 
 
 	//비트맵이 생성이 되지않았다면
@@ -329,15 +345,18 @@ void image::release(void)
 		SelectObject(_imageInfo->hMemDC, _imageInfo->hOBit);
 		DeleteObject(_imageInfo->hBit);
 		DeleteDC(_imageInfo->hMemDC);
-		
-		//init함수 안에 블렌드 이미지 정보도 있기에 이렇게 구성한다 
-		SelectObject(_blendImage->hMemDC, _blendImage->hOBit);
-		DeleteObject(_blendImage->hBit);
-		DeleteDC(_blendImage->hMemDC);
+
+		if (_alphablend == true)
+		{
+			//init함수 안에 블렌드 이미지 정보도 있기에 이렇게 구성한다 
+			SelectObject(_blendImage->hMemDC, _blendImage->hOBit);
+			DeleteObject(_blendImage->hBit);
+			DeleteDC(_blendImage->hMemDC);
+			SAFE_DELETE(_blendImage);
+		}
 
 		SAFE_DELETE(_imageInfo);
 		SAFE_DELETE(_fileName);
-		SAFE_DELETE(_blendImage);
 
 		_trans = false;
 		_transColor = RGB(0, 0, 0);
@@ -350,6 +369,20 @@ void image::setTransColor(BOOL trans, COLORREF transColor)
 {
 	_trans = trans;
 	_transColor = transColor;
+}
+
+void image::setAlphablend(BOOL alphablend, HDC hdc)
+{
+	_alphablend == alphablend;
+
+	_blendImage = new IMAGE_INFO;
+	_blendImage->loadType = LOAD_EMPTY;
+	_blendImage->resID = 0;
+	_blendImage->hMemDC = CreateCompatibleDC(hdc);
+	_blendImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, WINSIZEX, WINSIZEY);
+	_blendImage->hOBit = (HBITMAP)SelectObject(_blendImage->hMemDC, _blendImage->hBit);
+	_blendImage->width = WINSIZEX;
+	_blendImage->height = WINSIZEY;
 }
 
 void image::render(HDC hdc)
@@ -371,7 +404,7 @@ void image::render(HDC hdc)
 	else
 	{
 		//백버퍼에 있는 것을 DC영역으로 고속복사해주는 함수
-		BitBlt(hdc, 
+		BitBlt(hdc,
 			_imageInfo->x,
 			_imageInfo->y,
 			_imageInfo->width,
@@ -437,32 +470,6 @@ void image::render(HDC hdc, int destX, int destY, int sourX, int sourY, int sour
 			SRCCOPY);
 	}
 
-}
-
-void image::enlargeRender(HDC hdc, int destX, int destY, int destWidth, int destHeight)
-{
-	if (_trans)
-	{
-		GdiTransparentBlt(
-			hdc,					//복사될 영역DC
-			destX,					//복사될 좌표 X
-			destY,					//복사될 좌표 Y
-			destWidth,				//확대될 크기(가로)
-			destHeight,				//확대될 크기(세로)
-			_imageInfo->hMemDC,		//복사해올 DC
-			0, 0,					//복사해올 좌표
-			_imageInfo->width,		//복사해올 크기
-			_imageInfo->height,		//복사해올 크기
-			_transColor);			//복사해올때 어떤 컬러를 빼고 가져올꺼냐
-	}
-	else
-	{
-		BitBlt(hdc, destX, destY,
-			_imageInfo->width,
-			_imageInfo->height,
-			_imageInfo->hMemDC,
-			0, 0, SRCCOPY);
-	}
 }
 
 void image::loopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY)
@@ -552,7 +559,7 @@ void image::frameRender(HDC hdc, int destX, int destY)
 			_imageInfo->frameHeight,
 			_imageInfo->hMemDC,
 			_imageInfo->currentFrameX * _imageInfo->frameWidth,
-			_imageInfo->currentFrameY * _imageInfo->frameHeight, 
+			_imageInfo->currentFrameY * _imageInfo->frameHeight,
 			SRCCOPY);
 	}
 }
@@ -593,6 +600,9 @@ void image::frameRender(HDC hdc, int destX, int destY, int currentFrameX, int cu
 void image::alphaRender(HDC hdc, BYTE alpha)
 {
 	//실제 이미지 소스에 알파블렌드를 접목시켜주는 함수 == BYTE는 알파수치 0 ~ 255
+
+	if (!_alphablend) return render(hdc);
+
 	_blendFunc.SourceConstantAlpha = alpha;
 
 	if (_trans)
@@ -618,6 +628,9 @@ void image::alphaRender(HDC hdc, BYTE alpha)
 void image::alphaRender(HDC hdc, int destX, int destY, BYTE alpha)
 {
 	//실제 이미지 소스에 알파블렌드를 접목시켜주는 함수 == BYTE는 알파수치 0 ~ 255
+
+	if (!_alphablend) return render(hdc, destX, destY);
+
 	_blendFunc.SourceConstantAlpha = alpha;
 
 	if (_trans)
@@ -631,6 +644,7 @@ void image::alphaRender(HDC hdc, int destX, int destY, BYTE alpha)
 		//복사하는 곳, 복사해오는 곳을 유심히 보기 바란다. 북두칠성 충성충성^^7
 		AlphaBlend(hdc, destX, destY, _imageInfo->width,
 			_imageInfo->height, _blendImage->hMemDC, 0, 0, _imageInfo->width, _imageInfo->height, _blendFunc);
+
 	}
 	else
 	{
@@ -645,7 +659,152 @@ void image::alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int
 	//여기는 북두칠성 그 외 사람들이 짜서 북두칠성에게 선물주는 것으로
 	//오늘과제 1
 	//알파 공부하라고 주는 것!
+	//실제 이미지 소스에 알파블렌드를 접목시켜주는 함수 == BYTE는 알파수치 0 ~ 255
 
+	if (!_alphablend) return render(hdc, destX, destY, sourX, sourY, sourWidth, sourHeight);
+
+	_blendFunc.SourceConstantAlpha = alpha;
+
+	if (_trans)
+	{
+		//알파 먹일 이미지를 복사한다
+		BitBlt(_blendImage->hMemDC, 0, 0, sourWidth, sourHeight, hdc, destX, destY, SRCCOPY);
+		//복사해온 이미지에서 트랜스컬러를 벗겨낸다
+		GdiTransparentBlt(_blendImage->hMemDC, 0, 0, sourWidth,
+			sourHeight, _imageInfo->hMemDC, 0, 0, sourWidth, sourHeight, _transColor);
+		//벗겨낸 최종이미지에 알파블렌드를 적용시킨다
+		//복사하는 곳, 복사해오는 곳을 유심히 보기 바란다. 북두칠성 충성충성^^7
+		AlphaBlend(hdc, destX, destY, sourWidth,
+			sourHeight, _blendImage->hMemDC, sourX, sourY, sourWidth, sourHeight, _blendFunc);
+	}
+	else
+	{
+		AlphaBlend(hdc, destX, destY, sourWidth,
+			sourHeight, _imageInfo->hMemDC, 0, 0, sourWidth,
+			sourHeight, _blendFunc);
+	}
+}
+
+void image::alphaFrameRender(HDC hdc, int destX, int destY, BYTE alpha)
+{
+	if (!_alphablend) return frameRender(hdc, destX, destY);
+
+	_blendFunc.SourceConstantAlpha = alpha;
+
+	if (_trans)
+	{
+		//알파 먹일 이미지를 복사한다
+		BitBlt(_blendImage->hMemDC, 0, 0, _imageInfo->frameWidth, _imageInfo->frameHeight, hdc, destX, destY, SRCCOPY);
+		//복사해온 이미지에서 트랜스컬러를 벗겨낸다
+		GdiTransparentBlt(_blendImage->hMemDC, 0, 0, _imageInfo->frameWidth,
+			_imageInfo->frameHeight, _imageInfo->hMemDC, _imageInfo->currentFrameX * _imageInfo->frameWidth, _imageInfo->currentFrameY * _imageInfo->frameHeight,
+			_imageInfo->frameWidth, _imageInfo->frameHeight, _transColor);
+		//벗겨낸 최종이미지에 알파블렌드를 적용시킨다
+		//복사하는 곳, 복사해오는 곳을 유심히 보기 바란다. 북두칠성 충성충성^^7
+		AlphaBlend(hdc, destX, destY, _imageInfo->width,
+			_imageInfo->height, _blendImage->hMemDC, 0, 0, _imageInfo->frameWidth, _imageInfo->frameHeight, _blendFunc);
+
+	}
+	else
+	{
+		AlphaBlend(hdc, destX, destY, _imageInfo->frameWidth,
+			_imageInfo->frameHeight, _imageInfo->hMemDC, _imageInfo->currentFrameX * _imageInfo->frameWidth, _imageInfo->currentFrameY * _imageInfo->frameHeight,
+			_imageInfo->frameWidth, _imageInfo->frameHeight, _blendFunc);
+	}
+}
+
+void image::alphaFrameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha)
+{
+	if (!_alphablend) return frameRender(hdc, destX, destY, currentFrameX, currentFrameY);
+
+	_imageInfo->currentFrameX = currentFrameX;
+	_imageInfo->currentFrameY = currentFrameY;
+
+	_blendFunc.SourceConstantAlpha = alpha;
+
+	if (_trans)
+	{
+		//알파 먹일 이미지를 복사한다
+		BitBlt(_blendImage->hMemDC, 0, 0, _imageInfo->frameWidth, _imageInfo->frameHeight, hdc, destX, destY, SRCCOPY);
+		//복사해온 이미지에서 트랜스컬러를 벗겨낸다
+		GdiTransparentBlt(_blendImage->hMemDC, 0, 0, _imageInfo->frameWidth,
+			_imageInfo->frameHeight, _imageInfo->hMemDC, _imageInfo->currentFrameX * _imageInfo->frameWidth, _imageInfo->currentFrameY * _imageInfo->frameHeight,
+			_imageInfo->frameWidth, _imageInfo->frameHeight, _transColor);
+		//벗겨낸 최종이미지에 알파블렌드를 적용시킨다
+		//복사하는 곳, 복사해오는 곳을 유심히 보기 바란다. 북두칠성 충성충성^^7
+		AlphaBlend(hdc, destX, destY, _imageInfo->frameWidth,
+			_imageInfo->frameHeight, _blendImage->hMemDC, 0, 0, _imageInfo->frameWidth, _imageInfo->frameHeight, _blendFunc);
+
+	}
+	else
+	{
+		AlphaBlend(hdc, destX, destY, _imageInfo->frameWidth,
+			_imageInfo->frameHeight, _imageInfo->hMemDC, _imageInfo->currentFrameX * _imageInfo->frameWidth, _imageInfo->currentFrameY * _imageInfo->frameHeight,
+			_imageInfo->frameWidth, _imageInfo->frameHeight, _blendFunc);
+	}
+}
+
+void image::alphaLoopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY, BYTE alpha)
+{
+	if (!_alphablend) return loopRender(hdc, drawArea, offSetX, offSetY);
+
+	_blendFunc.SourceConstantAlpha = alpha;
+
+	if (offSetX < 0) offSetX = _imageInfo->width + (offSetX % _imageInfo->width);
+	if (offSetY < 0) offSetY = _imageInfo->height + (offSetY % _imageInfo->height);
+
+	int sourWidth;
+	int sourHeight;
+
+	RECT rcDest;
+	RECT rcSour;
+
+	int drawAreaX = drawArea->left;
+	int drawAreaY = drawArea->top;
+	int drawAreaW = drawArea->right - drawAreaX;
+	int drawAreaH = drawArea->bottom - drawAreaY;
+
+	//Y축 루프부터
+	for (int y = 0; y < drawAreaH; y += sourHeight)
+	{
+		rcSour.top = (y + offSetY) % _imageInfo->height;
+		rcSour.bottom = _imageInfo->height;
+
+		sourHeight = rcSour.bottom - rcSour.top;
+
+		//화면밖으로 나갔으면~  나간영역만큼을 확보한다
+		if (y + sourHeight > drawAreaH)
+		{
+			rcSour.bottom -= (y + sourHeight) - drawAreaH;
+			sourHeight = rcSour.bottom - rcSour.top;
+		}
+
+		//화면밖으로 나간영역만큼 뿌려줄 위치에 산정한다
+		rcDest.top = y + drawAreaY;
+		rcDest.bottom = rcDest.top + sourHeight;
+
+		for (int x = 0; x < drawAreaW; x += sourWidth)
+		{
+			rcSour.left = (x + offSetX) % _imageInfo->width;
+			rcSour.right = _imageInfo->width;
+
+			sourWidth = rcSour.right - rcSour.left;
+
+			if (x + sourWidth > drawAreaW)
+			{
+				rcSour.right -= (x + sourWidth) - drawAreaW;
+				sourWidth = rcSour.right - rcSour.left;
+			}
+
+			rcDest.left = x + drawAreaX;
+			rcDest.right = rcDest.left + sourWidth;
+
+			alphaRender(hdc, rcDest.left, rcDest.top,//뿌려줄 위치 X, Y
+				rcSour.left, rcSour.top,		//뿌려올 위치
+				rcSour.right - rcSour.left,		//가로크기
+				rcSour.bottom - rcSour.top, alpha);	//세로크기
+		}
+	}
 }
 
 void image::aniRender(HDC hdc, int destX, int destY, animation* ani)

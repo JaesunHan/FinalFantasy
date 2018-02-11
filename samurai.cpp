@@ -5,7 +5,7 @@
 samurai::samurai()
 {
 	//에너미 이미지
-	IMAGEMANAGER->addFrameImage("samurai", ".\\image\\enemyImg\\samurai.bmp", 108, 103, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("samurai", ".\\image\\enemyImg\\samurai.bmp", 108, 103, 2, 1, true, RGB(255, 0, 255), true);
 
 	_Lv = 40;										//레벨
 	_maxEXP = RND->getFromIntTo(1500, 1600);		//현재 경험치, 최대 경험치

@@ -39,22 +39,22 @@ public:
 
 		tagImageInfo()
 		{
-			resID			= 0;
-			hMemDC			= NULL;
-			hBit			= NULL;
-			hOBit			= NULL;
-			x				= 0;
-			y				= 0;
-			width			= 0;
-			height			= 0;
-			currentFrameX	= 0;
-			currentFrameY	= 0;
-			maxFrameX		= 0;
-			maxFrameY		= 0;
-			frameWidth		= 0;
-			frameHeight		= 0;
-			loadType		= LOAD_RESOURCE;
-			boundingBox		= RectMake(0, 0, 0, 0);
+			resID = 0;
+			hMemDC = NULL;
+			hBit = NULL;
+			hOBit = NULL;
+			x = 0;
+			y = 0;
+			width = 0;
+			height = 0;
+			currentFrameX = 0;
+			currentFrameY = 0;
+			maxFrameX = 0;
+			maxFrameY = 0;
+			frameWidth = 0;
+			frameHeight = 0;
+			loadType = LOAD_RESOURCE;
+			boundingBox = RectMake(0, 0, 0, 0);
 		}
 	}IMAGE_INFO, *LPIMAGE_INFO;
 
@@ -64,41 +64,40 @@ private:
 	BOOL			_trans;			//트랜스컬러 유무(특정 픽셀값 삭제)
 	COLORREF		_transColor;	//제거한다면 어떤 컬러?
 
+	BOOL			_alphablend;	//알파블렌드 적용 유무
 	BLENDFUNCTION	_blendFunc;		//알파블렌드에 관한 함수
 	LPIMAGE_INFO	_blendImage;	//알파블렌드 먹일 이미지
 public:
 	image();
 	~image();
-	
+
 	//빈 비트맵 이미지 초기화
-	HRESULT init(int width, int height);
+	HRESULT init(int width, int height, BOOL alphablend = FALSE);
 	//파일로부터 이미지 초기화
 	HRESULT init(const char* fileName, int width, int height,
-		BOOL trans = FALSE, COLORREF transColor = FALSE);
+		BOOL trans = FALSE, COLORREF transColor = FALSE, BOOL alphablend = FALSE);
 	//파일로부터 이미지 초기화           처음 시작 좌표      가로       세로
 	HRESULT init(const char* fileName, float x, float y, int width, int height,
-		BOOL trans = FALSE, COLORREF transColor = FALSE);
+		BOOL trans = FALSE, COLORREF transColor = FALSE, BOOL alphablend = FALSE);
 
 	//이미지 + 프레임초기화
 	HRESULT init(const char* fileName, float x, float y, int width, int height,
-		int frameX, int frameY, BOOL trans = FALSE, COLORREF transColor = RGB(255, 0, 255));
+		int frameX, int frameY, BOOL trans = FALSE, COLORREF transColor = RGB(255, 0, 255), BOOL alphablend = FALSE);
 
-	HRESULT init(const char* fileName, int width, int height, int frameX, int frameY, 
-		BOOL trans = FALSE, COLORREF transColor = RGB(255, 0, 255));
+	HRESULT init(const char* fileName, int width, int height, int frameX, int frameY,
+		BOOL trans = FALSE, COLORREF transColor = RGB(255, 0, 255), BOOL alphablend = FALSE);
 
 	//이미지 릴리즈
 	void release(void);
 
 	//혹시 트랜스처리를 다른 픽셀값으로 바꿔야한다면
 	void setTransColor(BOOL trans, COLORREF transColor);
+	void setAlphablend(BOOL alphablend, HDC hdc);
 
 	void render(HDC hdc);
 	//렌더링함수 뿌릴DC , 뿌릴곳X(Left), 뿌릴곳Y(top)
 	void render(HDC hdc, int destX, int destY);
 	void render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
-	
-	//확대 렌더 함수
-	void enlargeRender(HDC hdc, int destX, int destY, int destWidth, int destHeight);
 
 	void frameRender(HDC hdc, int destX, int destY);
 	void frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
@@ -109,6 +108,9 @@ public:
 	void alphaRender(HDC hdc, BYTE alpha);
 	void alphaRender(HDC hdc, int destX, int destY, BYTE alpha);
 	void alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha);
+	void alphaFrameRender(HDC hdc, int destX, int destY, BYTE alpha);
+	void alphaFrameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, BYTE alpha);
+	void alphaLoopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY, BYTE alpha);
 
 	//애니메이션 렌더링 (뿌려줄 DC, 뿌려줄 위치 X, Y(left, top) 재생하고픈 애니메이션)
 	void aniRender(HDC hdc, int destX, int destY, animation* ani);
@@ -153,9 +155,9 @@ public:
 	inline RECT boundingBox(void)
 	{
 		RECT rc = { int(_imageInfo->x),
-					int(_imageInfo->y),
-					int(_imageInfo->x + _imageInfo->frameWidth),
-					int(_imageInfo->y + _imageInfo->frameHeight) };
+			int(_imageInfo->y),
+			int(_imageInfo->x + _imageInfo->frameWidth),
+			int(_imageInfo->y + _imageInfo->frameHeight) };
 
 		return rc;
 	}
@@ -183,4 +185,3 @@ public:
 	inline int getFrameHeight(void) { return _imageInfo->frameHeight; }
 
 };
-

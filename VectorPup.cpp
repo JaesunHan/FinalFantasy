@@ -5,7 +5,7 @@
 VectorPup::VectorPup()
 {
 	//에너미 이미지
-	IMAGEMANAGER->addFrameImage("vectorPup", ".\\image\\enemyImg\\VectorPup.bmp", 184, 46, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("vectorPup", ".\\image\\enemyImg\\VectorPup.bmp", 184, 46, 2, 1, true, RGB(255, 0, 255), true);
 	
 	_Lv = 11;										//레벨
 	_maxEXP = RND->getFromIntTo(125, 135);	 		//현재 경험치, 최대 경험치

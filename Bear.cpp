@@ -5,10 +5,10 @@
 Bear::Bear()
 {
 	//에너미 이미지
-	IMAGEMANAGER->addFrameImage("bear", ".\\image\\enemyImg\\bear.bmp", 180, 106, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("bear", ".\\image\\enemyImg\\bear.bmp", 180, 106, 2, 1, true, RGB(255, 0, 255), true);
 
 	//에너미 이펙트 이미지
-	IMAGEMANAGER->addImage("이펙트", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("이펙트", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, true, RGB(255, 0, 255), true);
 	
 	_test = new effect;
 	_test->init(IMAGEMANAGER->findImage("이펙트"), 117, 85, 1.0f, 0.5f);

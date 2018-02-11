@@ -5,7 +5,7 @@
 gobbler::gobbler()
 {
 	//에너미 이미지
-	IMAGEMANAGER->addFrameImage("gobbler", ".\\image\\enemyImg\\gobbler.bmp", 334, 171, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("gobbler", ".\\image\\enemyImg\\gobbler.bmp", 334, 171, 2, 1, true, RGB(255, 0, 255), true);
 
 	_Lv = 19;										//레벨
 	_maxEXP = RND->getFromIntTo(400, 450);			//현재 경험치, 최대 경험치

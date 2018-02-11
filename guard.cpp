@@ -5,7 +5,7 @@
 guard::guard()
 {
 	//에너미 이미지
-	IMAGEMANAGER->addFrameImage("guard", ".\\image\\enemyImg\\guard.bmp", 132, 62, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("guard", ".\\image\\enemyImg\\guard.bmp", 132, 62, 2, 1, true, RGB(255, 0, 255), true);
 
 	_Lv = 5;										//레벨
 	_maxEXP = RND->getFromIntTo(45, 50);	 		//현재 경험치, 최대 경험치

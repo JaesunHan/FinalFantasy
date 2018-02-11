@@ -5,7 +5,7 @@
 tornadoShark::tornadoShark()
 {
 	//에너미 이미지
-	IMAGEMANAGER->addFrameImage("tornadoShack", ".\\image\\enemyImg\\tornadoShack.bmp", 262, 118, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("tornadoShack", ".\\image\\enemyImg\\tornadoShack.bmp", 262, 118, 2, 1, true, RGB(255, 0, 255), true);
 
 	_Lv = 29;										//레벨
 	_maxEXP = RND->getFromIntTo(500, 550);	 		//현재 경험치, 최대 경험치
