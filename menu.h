@@ -55,6 +55,7 @@ protected:
 	tagButton _button;
 	vButton   _vButton;
 	viButton  _viButton;
+	int       _buttonNum;
 	//======== button ========
 
 
@@ -78,6 +79,7 @@ public:
 	virtual void buttonInit(string keyName, float x, float y);
 	virtual void buttonUpdate();
 	virtual void buttonRender();
+	virtual void buttonRemove();
 	//================================ button ===============================
 
 	menu();

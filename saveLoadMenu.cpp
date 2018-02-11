@@ -17,14 +17,14 @@ HRESULT saveLoadMenu::init()
 
 	switch (_saveType)
 	{
-	case SAVE_NEWGAME:
-		_bgImage = IMAGEMANAGER->findImage("뉴게임");
-		cursorInit(CUSOR_RIGHT, 950, 190);
+		case SAVE_NEWGAME:
+			_bgImage = IMAGEMANAGER->findImage("뉴게임");
+			cursorInit(CUSOR_RIGHT, 950, 190);
 
-		buttonInit("버튼예스", 1000, 187);
-		buttonInit("버튼노", 1000, 238);
+			buttonInit("버튼예스", 1000, 187);
+			buttonInit("버튼노", 1000, 238);
 		break;
-	case SAVE_LOADGAME:
+		case SAVE_LOADGAME:
 
 		break;
 	}
@@ -50,23 +50,27 @@ void saveLoadMenu::update()
 	//선택
 	switch (_cursor.currentNum)
 	{
-	case 0:
-		//버튼 에니메이션 활성화
-		//_vButton[0].aniStart = true;
+		case 0:
+			//버튼 에니메이션 활성화
+			_vButton[0].aniStart = true;
+			_vButton[1].aniStart = false;
 
-		if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
-		{
-			SCENEMANAGER->changeScene("로딩");
-		}
+			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+			{
+				buttonRemove();
+				SCENEMANAGER->changeScene("로딩");
+			}
 		break;
-	case 1:
-		//버튼 에니메이션 활성화
+		case 1:
+			//버튼 에니메이션 활성화
+			_vButton[1].aniStart = true;
+			_vButton[0].aniStart = false;
 
-
-		if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
-		{
-			SCENEMANAGER->changeScene("로딩");
-		}
+			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+			{
+				buttonRemove();
+				SCENEMANAGER->changeScene("로딩");
+			}
 		break;
 	}
 }

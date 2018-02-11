@@ -103,6 +103,7 @@ private:
 	int _ioadingCount;          //로딩 지연타임
 
 public:
+	HRESULT init();
 	HRESULT init(int imgType);
 	void release();
 	void update();

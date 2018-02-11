@@ -2,6 +2,7 @@
 #include "gameNode.h"
 #include "loading.h"
 
+
 class loadingScene : public gameNode
 {
 private:

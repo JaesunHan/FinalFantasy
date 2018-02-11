@@ -30,6 +30,7 @@
 #include "dialogueManager.h"
 #include "playerImproveInfo.h"
 
+
 using namespace std;
 using namespace HEPTA_UTIL;
 using namespace PLAYER_IMPROVE_INFO;
@@ -57,6 +58,7 @@ using namespace PLAYER_IMPROVE_INFO;
 #define INIDATA			iniDataManager::getSingleton()
 #define DATABASE		database::getSingleton()
 #define DIALOGUEMANAGER dialogueManager::getSingleton()
+
 
 //=======================================================
 // ## ∏≈≈©∑Œ ## 2017.11.15 ##

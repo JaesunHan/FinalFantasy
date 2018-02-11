@@ -101,6 +101,14 @@ loading::~loading()
 
 }
 
+HRESULT loading::init()
+{
+
+	return S_OK;
+}
+
+
+
 HRESULT loading::init(int imgType)
 {
 	_ioadingCount = 0;
