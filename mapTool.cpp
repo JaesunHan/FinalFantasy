@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "mapTool.h"
 
-//BOOL CALLBACK MainDlgProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam);
+POINT operator+(POINT operand1, POINT operand2);
+POINT operator-(POINT operand1, POINT operand2);
+
 
 mapTool::mapTool()
 {
@@ -29,8 +31,9 @@ HRESULT mapTool::init(void)
 	worldMapObjectTileSetInie();
 	
 	//맵 초기화
-	_worldMapTiles = NULL;
+	_mapTiles = NULL;
 	_mapSize = PointMake(0, 0);
+	_mapMove = PointMake(32, 32);
 
 	_currentSelectMode = MODE_WORLDMAP_TERRAIN_SELECT;
 
@@ -38,9 +41,6 @@ HRESULT mapTool::init(void)
 	_selectedObjectTile.init(PointMake(0, 0));
 
 	_selectedTerrainTile.selectTerrain(_worldMapTerrainTileSet[0]);
-
-	//DialogBox(_hInstance, MAKEINTRESOURCE(IDD_DIALOG1), HWND_DESKTOP, MainDlgProc);
-	
 
 	return S_OK;
 }
@@ -56,15 +56,34 @@ void mapTool::update(void)
 	{
 		clickButton();
 	}
+
+	if (KEYMANAGER->isStayKeyDown(VK_UP) && _mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().bottom > 640) _mapMove.y += MAP_MOVE_SPEED;
+	if (KEYMANAGER->isStayKeyDown(VK_DOWN) && _mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().bottom > 640) _mapMove.y -= MAP_MOVE_SPEED;
+	if (KEYMANAGER->isStayKeyDown(VK_LEFT) && _mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().right > 640) _mapMove.x += MAP_MOVE_SPEED;
+	if (KEYMANAGER->isStayKeyDown(VK_RIGHT) && _mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().right > 640) _mapMove.x -= MAP_MOVE_SPEED;
+
+	if (_mapMove.x > TILE_SIZEX) _mapMove.x = TILE_SIZEX;
+	if (_mapMove.y > TILE_SIZEY) _mapMove.y = TILE_SIZEY;
+	if (_mapSize.x != 0 && _mapSize.y != 0)
+	{
+		if (_mapMove.x < -1 * (_mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().right - MAP_AREA + TILE_SIZEX) && _mapSize.x > 20)
+			_mapMove.x = -1 * (_mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().right - MAP_AREA + TILE_SIZEX);
+		if (_mapMove.y < -1 * (_mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().bottom - MAP_AREA + TILE_SIZEY) && _mapSize.y > 20)
+			_mapMove.y = -1 * (_mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().bottom - MAP_AREA + TILE_SIZEY);
+	}
+	
 }
 
 void mapTool::render(void)
 {
-	if (_worldMapTiles != NULL)
+	PatBlt(tileMapDC->getMemDC(), 0, 0, MAP_AREA, MAP_AREA, BLACKNESS);
+	//================== 이 위는 손대지 마시오 =========================
+	
+	if (_mapTiles != NULL)
 	{
 		for (int i = 0; i < _mapSize.x * _mapSize.y; i++)
 		{
-			_worldMapTiles[i].render();
+			_mapTiles[i].render(tileMapDC->getMemDC(), _mapMove.x, _mapMove.y);
 		}
 	}
 
@@ -72,18 +91,20 @@ void mapTool::render(void)
 	{
 		for (int i = 0; i < _worldMapTerrainTileSize.x * _worldMapTerrainTileSize.y; i++)
 		{
-			_worldMapTerrainTileSet[i].render();
+			_worldMapTerrainTileSet[i].render(getMemDC(), 0, 0);
 		}
 	}
 	if (_currentSelectMode == MODE_WORLDMAP_OBJECT_SELECT)
 	{
 		for (int i = 0; i < _worldMapObjectTileSize.x * _worldMapObjectTileSize.y; i++)
 		{
-			_worldMapObjectTileSet[i].render();
+			_worldMapObjectTileSet[i].render(getMemDC(), 0, 0);
 		}
 	}
 
 	buttonDraw();
+
+	tileMapDC->render(getMemDC(), -32, -32, 0, 0, 672, 672);
 }
 
 void mapTool::worldMapTerrainTileSetInit(void)
@@ -99,7 +120,21 @@ void mapTool::worldMapTerrainTileSetInit(void)
 		_worldMapTerrainTileSet[i].setTerrainImageKey("worldTerrain");
 		_worldMapTerrainTileSet[i].setTerrainFramePos(PointMake(i % _worldMapTerrainTileSize.x, i / _worldMapTerrainTileSize.x));
 		_worldMapTerrainTileSet[i].setIndex(PointMake(i % _worldMapTerrainTileSize.x, i / _worldMapTerrainTileSize.x));
-		_worldMapTerrainTileSet[i].setTerrain(TR_GRASS);
+		
+		// 지형 타입 부여
+		_worldMapTerrainTileSet[i].setTerrain(TR_GRASS);		// 대부분이 초원 타입이기 때문에 우선 초원 타입으로 초기화
+
+		if ((i >= 0 && i <= 2) || i == 12 || i == 14 || (i >= 24 && i <= 26) || i == 40 || i == 41 || i == 52 || i == 53 || i == 63)
+		{
+			_worldMapTerrainTileSet[i].setTerrain(TR_WATER);
+		}
+		if ((i >= 6 && i <= 8) || (i >= 18 && i <= 20) || (i >= 32 && i <= 34) || i == 36 || i == 37 || i == 48 || i == 49)
+		{
+			_worldMapTerrainTileSet[i].setTerrain(TR_DESERT);
+		}
+
+		// 지형 타입에 따른 속성 부여
+		_worldMapTerrainTileSet[i].updateTerrainAttr();
 	}
 }
 
@@ -116,7 +151,15 @@ void mapTool::worldMapObjectTileSetInie(void)
 		_worldMapObjectTileSet[i].setObjectImageKey("worldMapObjectTileSet");
 		_worldMapObjectTileSet[i].setObjectFramePos(PointMake(i % _worldMapObjectTileSize.x, i / _worldMapObjectTileSize.x));
 		_worldMapObjectTileSet[i].setIndex(PointMake(i % _worldMapObjectTileSize.x, i / _worldMapObjectTileSize.x));
-		_worldMapObjectTileSet[i].setObject(OBJ_MOUNTAIN);
+		
+		//오브젝트 타입 부여
+		_worldMapObjectTileSet[i].setObject(OBJ_MOUNTAIN);		//대부분 산 타입이기 때문에 산 타입으로 초기화
+
+		if (i == 16 || i == 17 || i == 24 || i == 25) _worldMapObjectTileSet[i].setObject(OBJ_CASTLE);
+		else if (i == 18 || i == 19 || i == 26 || i == 27) _worldMapObjectTileSet[i].setObject(OBJ_TOWN);
+		else if (i == 29) _worldMapObjectTileSet[i].setObject(OBJ_CAVE);
+
+		_worldMapObjectTileSet[i].updateObjectAttr();
 	}
 }
 
@@ -157,9 +200,9 @@ void mapTool::clickButton(void)
 
 		for (int i = 0; i < _mapSize.x * _mapSize.y; i++)
 		{
-			if (PtInRect(&_worldMapTiles[i].getTileRect(), _ptMouse))
+			if (PtInRect(&_mapTiles[i].getTileRect(), _ptMouse - _mapMove + PointMake(TILE_SIZEX, TILE_SIZEY)))
 			{
-				_worldMapTiles[i].setTerrain(_selectedTerrainTile);
+				_mapTiles[i].setTerrain(_selectedTerrainTile);
 				break;
 			}
 		}
@@ -177,9 +220,9 @@ void mapTool::clickButton(void)
 
 		for (int i = 0; i < _mapSize.x * _mapSize.y; i++)
 		{
-			if (PtInRect(&_worldMapTiles[i].getTileRect(), _ptMouse))
+			if (PtInRect(&_mapTiles[i].getTileRect(), _ptMouse - _mapMove + PointMake(TILE_SIZEX, TILE_SIZEY)))
 			{
-				_worldMapTiles[i].setObject(_selectedObjectTile);
+				_mapTiles[i].setObject(_selectedObjectTile);
 				break;
 			}
 		}
@@ -188,9 +231,9 @@ void mapTool::clickButton(void)
 	{
 		for (int i = 0; i < _mapSize.x * _mapSize.y; i++)
 		{
-			if (PtInRect(&_worldMapTiles[i].getTileRect(), _ptMouse))
+			if (PtInRect(&_mapTiles[i].getTileRect(), _ptMouse))
 			{
-				_worldMapTiles[i].eraseObject();
+				_mapTiles[i].eraseObject();
 				break;
 			}
 		}
@@ -218,20 +261,47 @@ void mapTool::buttonDraw(void)
 	TextOut(getMemDC(), _changeGameModeBtn.left + 50, _changeGameModeBtn.top + 7, "gameMode", strlen("gameMode"));
 	Rectangle(getMemDC(), _changeMapEditModeBtn.left, _changeMapEditModeBtn.top, _changeMapEditModeBtn.right, _changeMapEditModeBtn.bottom);
 	TextOut(getMemDC(), _changeMapEditModeBtn.left + 50, _changeMapEditModeBtn.top + 7, "mapEdit", strlen("mapEdit"));
+
+	HBRUSH hBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+	HBRUSH oBrush = (HBRUSH)SelectObject(getMemDC(), hBrush);
+	HPEN hPen = (HPEN)CreatePen(PS_SOLID, 4, RGB(200, 100, 0));
+	HPEN oPen = (HPEN)SelectObject(getMemDC(), hPen);
+
+	if (_currentSelectMode == MODE_WORLDMAP_TERRAIN_SELECT)
+	{
+		int selectIndex = _selectedTerrainTile.getTerrainFramePos().x + _selectedTerrainTile.getTerrainFramePos().y * _worldMapTerrainTileSize.x;
+		RECT selectTileRc = _worldMapTerrainTileSet[selectIndex].getTileRect();
+		
+		Rectangle(getMemDC(), selectTileRc.left + 2, selectTileRc.top + 2, selectTileRc.right - 2, selectTileRc.bottom - 2);
+	}
+	else if (_currentSelectMode == MODE_WORLDMAP_OBJECT_SELECT)
+	{
+		int selectIndex = _selectedObjectTile.getObjectFramePos().x + _selectedObjectTile.getObjectFramePos().y * _worldMapObjectTileSize.x;
+		RECT selectTileRc = _worldMapObjectTileSet[selectIndex].getTileRect();
+
+		Rectangle(getMemDC(), selectTileRc.left + 2, selectTileRc.top + 2, selectTileRc.right - 2, selectTileRc.bottom - 2);
+	}
+
+	SelectObject(getMemDC(), oPen);
+	DeleteObject(hPen);
+	DeleteObject(oPen);
+	SelectObject(getMemDC(), oBrush);
+	DeleteObject(hBrush);
+	DeleteObject(oBrush);
 }
 
 void mapTool::createDefaultMap(POINT mapSize)
 {
 	_mapSize = mapSize;
 
-	_worldMapTiles = new tile[_mapSize.x * _mapSize.y];
+	_mapTiles = new tile[_mapSize.x * _mapSize.y];
 
 	for (int i = 0; i < _mapSize.x * _mapSize.y; i++)
 	{
-		_worldMapTiles[i].init(PointMake(TILE_SIZEX / 2 + TILE_SIZEX * (i % _mapSize.x), TILE_SIZEY / 2 + TILE_SIZEY * (i / _mapSize.x)));
-		_worldMapTiles[i].setTerrainImageKey("worldTerrain");
-		_worldMapTiles[i].setTerrainFramePos(PointMake(1, 1));
-		_worldMapTiles[i].setTerrain(TR_GRASS);
+		_mapTiles[i].init(PointMake(TILE_SIZEX / 2 + TILE_SIZEX * (i % _mapSize.x), TILE_SIZEY / 2 + TILE_SIZEY * (i / _mapSize.x)));
+		_mapTiles[i].setTerrainImageKey("worldTerrain");
+		_mapTiles[i].setTerrainFramePos(PointMake(1, 1));
+		_mapTiles[i].setTerrain(TR_GRASS);
 		//맵 타일 초기화 부분
 	}
 }
@@ -267,7 +337,7 @@ void mapTool::mapSave(void)
 	file = CreateFile(ofn.lpstrFile, GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	WriteFile(file, &_mapSize, sizeof(POINT), &write, NULL);
-	WriteFile(file, _worldMapTiles, sizeof(tile) * _mapSize.x * _mapSize.y, &write, NULL);
+	WriteFile(file, _mapTiles, sizeof(tile) * _mapSize.x * _mapSize.y, &write, NULL);
 
 	CloseHandle(file);
 }
@@ -300,8 +370,8 @@ void mapTool::mapLoad(void)
 	file = CreateFile(ofn.lpstrFile, GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	ReadFile(file, &_mapSize, sizeof(POINT), &read, NULL);
-	_worldMapTiles = new tile[_mapSize.x * _mapSize.y];
-	ReadFile(file, _worldMapTiles, sizeof(tile) * _mapSize.x * _mapSize.y, &read, NULL);
+	_mapTiles = new tile[_mapSize.x * _mapSize.y];
+	ReadFile(file, _mapTiles, sizeof(tile) * _mapSize.x * _mapSize.y, &read, NULL);
 
 	CloseHandle(file);
 }
@@ -345,4 +415,15 @@ BOOL CALLBACK newTileProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam
 	}
 	return FALSE;
 
+}
+
+
+POINT operator+(POINT operand1, POINT operand2)
+{
+	return PointMake(operand1.x + operand2.x, operand1.y + operand2.y);
+}
+
+POINT operator-(POINT operand1, POINT operand2)
+{
+	return PointMake(operand1.x - operand2.x, operand1.y - operand2.y);
 }

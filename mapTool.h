@@ -9,6 +9,11 @@
 /* 작업자 : 이호형										*/
 /********************************************************/
 
+#define MAP_AREA 704
+#define MAP_MOVE_SPEED 4
+
+static image* tileMapDC = IMAGEMANAGER->addImage("tileMapArea", MAP_AREA, MAP_AREA);
+
 enum SELECTMODE
 {
 	MODE_WORLDMAP_TERRAIN_SELECT,
@@ -32,11 +37,12 @@ enum BUTTONTAG
 class mapTool : public gameNode
 {
 private:
-	tile* _worldMapTiles;
+	tile* _mapTiles;
 	tile* _worldMapTerrainTileSet;
 	tile* _worldMapObjectTileSet;
 
 	POINT _mapSize;
+	POINT _mapMove;
 	POINT _worldMapTerrainTileSize;
 	POINT _worldMapObjectTileSize;
 
@@ -83,8 +89,8 @@ public:
 	void mapSave(void);
 	void mapLoad(void);
 
+	
 	inline void setWParam(WPARAM wParam) { _wParam = wParam; }
 
 	friend BOOL CALLBACK newTileProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam);
 };
-

@@ -15,6 +15,8 @@ private:
 	RECT _tileRc;
 
 	BOOL _isChecked;
+	ATTRIBUTE _terrainAttribute;
+	ATTRIBUTE _objectAttribute;
 
 private:
 	TERRAIN _terrain;
@@ -34,10 +36,11 @@ public:
 	HRESULT init(POINT center);
 	void release(void);
 	void update(void);
-	void render(void);
+	void render(HDC hdc, int destX, int destY);
 
-	void terrainRender(void);
-	void objectRender(void);
+	void terrainRender(HDC hdc, int destX, int destY);
+	void objectRender(HDC hdc, int destX, int destY);
+	void attributeRender(HDC hdc, int destX, int destY);
 
 	void selectTerrain(tile sour);
 	void selectObject(tile sour);
@@ -45,6 +48,9 @@ public:
 	void setTerrain(tile sour);
 	void setObject(tile sour);
 	void eraseObject(void);
+
+	void updateTerrainAttr(void);
+	void updateObjectAttr(void);
 
 	//======================= 설정자 & 접근자 =======================
 	inline void setCenterPt(POINT center) { _centerPt = center; }
@@ -58,6 +64,12 @@ public:
 
 	inline void setIsChecked(BOOL isChecked) { _isChecked = isChecked; }
 	inline BOOL getIsChecked(void) { return _isChecked; }
+
+	inline void setTerrainAttr(ATTRIBUTE attr) { _terrainAttribute = attr; }
+	inline ATTRIBUTE getTerrainAttr(void) { return _terrainAttribute; }
+
+	inline void setObjectAttr(ATTRIBUTE attr) { _objectAttribute = attr; }
+	inline ATTRIBUTE getObjectAttr(void) { return _objectAttribute; }
 
 	inline void setTerrain(TERRAIN terrain) { _terrain = terrain; }
 	inline TERRAIN getTerrain(void) { return _terrain; }
