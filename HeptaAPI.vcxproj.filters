@@ -91,6 +91,9 @@
     <Filter Include="playGround\gameMenu\scene">
       <UniqueIdentifier>{6e70b746-f8e2-4566-ad0f-1fb008f3de66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\MapScene">
+      <UniqueIdentifier>{b3920b6a-4d32-4b31-8d0e-7d58cf3cfefb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -306,6 +309,12 @@
     <ClInclude Include="dialogueManager.h">
       <Filter>2DGameFramework\dialogue</Filter>
     </ClInclude>
+    <ClInclude Include="worldMapScene.h">
+      <Filter>playGround\MapScene</Filter>
+    </ClInclude>
+    <ClInclude Include="townScene.h">
+      <Filter>playGround\MapScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -496,6 +505,12 @@
     </ClCompile>
     <ClCompile Include="dialogueManager.cpp">
       <Filter>2DGameFramework\dialogue</Filter>
+    </ClCompile>
+    <ClCompile Include="worldMapScene.cpp">
+      <Filter>playGround\MapScene</Filter>
+    </ClCompile>
+    <ClCompile Include="townScene.cpp">
+      <Filter>playGround\MapScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

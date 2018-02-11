@@ -146,9 +146,11 @@
     <ClInclude Include="Tina.h" />
     <ClInclude Include="titleScene.h" />
     <ClInclude Include="tornadoShark.h" />
+    <ClInclude Include="townScene.h" />
     <ClInclude Include="txtData.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="VectorPup.h" />
+    <ClInclude Include="worldMapScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="abilitiesMenu.cpp" />
@@ -213,10 +215,12 @@
     <ClCompile Include="Tina.cpp" />
     <ClCompile Include="titleScene.cpp" />
     <ClCompile Include="tornadoShark.cpp" />
+    <ClCompile Include="townScene.cpp" />
     <ClCompile Include="txtData.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="VectorPup.cpp" />
     <ClCompile Include="winMain.cpp" />
+    <ClCompile Include="worldMapScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FinalFantasy1.rc" />
