@@ -138,6 +138,7 @@ void BattleScene::render()
 		}
 		IMAGEMANAGER->findImage("progressBarTop")->render(getMemDC(), WINSIZEX - 210, 160 * i + 120);
 	}
+	EFFECTMANAGER->render();
 }
 //배틀 타이머 돌리는 함수
 void BattleScene::ATBGauzeTimer()

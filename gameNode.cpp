@@ -72,6 +72,7 @@ void gameNode::release(void)
 void gameNode::update(void)	  
 {
 	SOUNDMANAGER->update();
+	EFFECTMANAGER->update();
 }
 
 void gameNode::render(void)
