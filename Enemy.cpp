@@ -17,6 +17,7 @@ HRESULT Enemy::init(int x, int y)
 	_x = x;
 	_y = y;
 
+
 	return S_OK;
 }
 

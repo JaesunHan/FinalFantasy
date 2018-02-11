@@ -40,12 +40,14 @@ protected:
 
 	unsigned int _x, _y;					//이미지 뿌리기 위한 좌표
 
-	bool _turnEnd;							//에너미들 턴이니?
+	bool _turnEnd = false;							//에너미들 턴이니?
 
 	EnemyState _state;						//에너미들 상태값
 	
 	effect* _test;							//에너미들 공격 이펙트 테스트
 	bool _effectFire = true;				//이펙트 터트리기 위한 불값
+
+	int _count = 0;
 
 	//============= 전방선언 =============
 

@@ -49,16 +49,23 @@ Bear::~Bear()
 
 void Bear::update()
 {
-	//if (KEYMANAGER->isStayKeyDown(VK_RBUTTON))
-	//{
-	//	EFFECTMANAGER->play("Æø¹ß", _ptMouse.x, _ptMouse.y);
-	//}
-
 	if (_effectFire == true)
 	{
 		EFFECTMANAGER->play("Æø¹ß", 800, 320);
 
 		_effectFire = false;
+	}
+
+	if (_turnEnd == false)
+	{
+		_count++;
+		
+		if (_count > 100)
+		{
+			_turnEnd = true;
+
+			_count = 0;
+		}
 	}
 }
 
