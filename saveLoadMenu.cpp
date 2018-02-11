@@ -58,7 +58,7 @@ void saveLoadMenu::update()
 			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 			{
 				buttonRemove();
-				SCENEMANAGER->changeScene("로딩");
+				SCENEMANAGER->changeScene("타이틀");
 			}
 		break;
 		case 1:

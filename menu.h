@@ -2,6 +2,19 @@
 #include "gameNode.h"
 #include <vector>
 
+//****************************************//
+//              wonjjang                  //
+//           ver. 2018_02_11              //
+//****************************************//
+
+
+#define COLOR_WHITE		RGB(255, 255, 255)
+#define COLOR_BLACK		RGB(0, 0, 0)
+#define COLOR_RED		RGB(255, 0, 0)
+#define COLOR_GREEN		RGB(0, 255, 0)
+#define COLOR_BLUE		RGB(0, 0, 255)
+#define COLOR_MAGENTA	RGB(255, 0, 255)
+
 enum CURSOR_TYPE
 {
 	CUSOR_LEFT,
@@ -33,6 +46,14 @@ struct tagButton
 	animation* ani;         //버튼 에니메이션
 };
 
+struct tagPlayer
+{
+	image* img;             //플레이어 이미지
+	float x, y;             //플레이어 이미지 위치
+	int level;              //플레이어 레벨
+	int hp, maxHp;          //플레이어 체력
+	int mp, maxMp;          //플레이어 마력
+};
 
 
 class menu : public gameNode
@@ -58,6 +79,10 @@ protected:
 	int       _buttonNum;
 	//======== button ========
 
+	//======== player ========
+
+	//======== player ========
+
 
 	//백그라운드 이미지
 	image*    _bgImage;
@@ -81,6 +106,16 @@ public:
 	virtual void buttonRender();
 	virtual void buttonRemove();
 	//================================ button ===============================
+
+	//================================ player ===============================
+	virtual void playerSet();
+
+	//================================ player ===============================
+
+	//================================= text ================================
+	virtual void textPrint(int fontWidth, int fontThick, char* fontName, 
+		char* textInput, int textX, int textY, COLORREF RGB = COLOR_WHITE);
+	//================================= text ================================
 
 	menu();
 	~menu();
