@@ -62,6 +62,9 @@ private:
 	typedef vector<tagButton>			    vButton;
 	typedef vector<tagButton>::iterator     viButton;
 
+	typedef vector<tagPlayer>               vPlayer;
+	typedef vector<tagPlayer>::iterator     viPlayer;
+
 protected:
 	//======== cursor ========
 	tagCursor _cursor;
@@ -73,18 +76,18 @@ protected:
 	//======= saveLoad =======
 
 	//======== button ========
-	tagButton _button;
 	vButton   _vButton;
 	viButton  _viButton;
 	int       _buttonNum;
 	//======== button ========
 
 	//======== player ========
-
+	vPlayer   _vPlayer;
+	viPlayer  _viPlayer;
 	//======== player ========
 
 
-	//백그라운드 이미지
+	//====== BG 이미지 =======
 	image*    _bgImage;
 
 public:
@@ -108,8 +111,7 @@ public:
 	//================================ button ===============================
 
 	//================================ player ===============================
-	virtual void playerSet();
-
+	//void playerInit();
 	//================================ player ===============================
 
 	//================================= text ================================

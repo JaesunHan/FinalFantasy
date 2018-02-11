@@ -300,6 +300,9 @@
     <ClInclude Include="menu.h">
       <Filter>playGround\gameMenu</Filter>
     </ClInclude>
+    <ClInclude Include="optionMenu.h">
+      <Filter>playGround\gameMenu\menu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -484,6 +487,9 @@
     </ClCompile>
     <ClCompile Include="menu.cpp">
       <Filter>playGround\gameMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="optionMenu.cpp">
+      <Filter>playGround\gameMenu\menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

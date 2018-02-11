@@ -119,6 +119,7 @@
     <ClInclude Include="mapTool.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="openingScene.h" />
+    <ClInclude Include="optionMenu.h" />
     <ClInclude Include="playerImproveInfo.h" />
     <ClInclude Include="playerManager.h" />
     <ClInclude Include="playerMother.h" />
@@ -188,6 +189,7 @@
     <ClCompile Include="mapTool.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="openingScene.cpp" />
+    <ClCompile Include="optionMenu.cpp" />
     <ClCompile Include="playerManager.cpp" />
     <ClCompile Include="playerMother.cpp" />
     <ClCompile Include="playGround.cpp" />

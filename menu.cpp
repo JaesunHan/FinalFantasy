@@ -37,6 +37,7 @@ void menu::render()
 
 
 //============================== cursor ==============================
+
 //                     커서형태(L,R)     커서위치X     커서위치Y
 void  menu::cursorInit(CURSOR_TYPE type, float startX, float startY)
 {
@@ -145,10 +146,12 @@ void  menu::cursorRender()
 {
 	_cursor.img->frameRender(getMemDC(), _cursor.x, _cursor.y);
 }
+
 //============================== cursor ==============================
 
 
 //============================== button ==============================
+
 //                   버튼이미지 키값  위치XY
 void menu::buttonInit(string keyName, float x, float y)
 {
@@ -157,12 +160,14 @@ void menu::buttonInit(string keyName, float x, float y)
 	ZeroMemory(temp, sizeof(temp));
 	sprintf(temp, "%s", keyName.c_str());
 	//--------------------------------------------
+
 	//-------------------------------------------- animationKeyName
 	char aniTemp[32];
 	ZeroMemory(aniTemp, sizeof(aniTemp));
 	sprintf(aniTemp, "%s%d", "버튼시작", _buttonNum);
 	//--------------------------------------------
 
+	tagButton _button;
 	ZeroMemory(&_button, sizeof(_button));
 	_button.img = IMAGEMANAGER->findImage(keyName);
 	_button.x = x;
@@ -216,11 +221,13 @@ void menu::buttonRemove()
 
 	_vButton.clear();
 }
+
 //============================== button ==============================
 
 
 //=============================== text ===============================
-//                   폰트SIZE        폰트굵기       폰트명          입력할텍스트     텍스트위치 XY         텍스트색상(기본흰색)  
+
+//                   폰트SIZE        폰트굵기       폰트명          입력할텍스트     텍스트위치 XY        텍스트색상(기본흰색)  
 void menu::textPrint(int fontWidth, int fontThick, char* fontName, char* textInput, int textX, int textY, COLORREF RGB)
 {
 	//----------------------------------- 폰트셋팅
@@ -236,6 +243,20 @@ void menu::textPrint(int fontWidth, int fontThick, char* fontName, char* textInp
 	//----------------------------------- 이전 설정으로 복구
 	SelectObject(getMemDC(), oldFont);
 	DeleteObject(font);
-	SetTextColor(getMemDC(), RGB(0, 0, 0));
+	SetTextColor(getMemDC(), COLOR_BLACK);
 }
+
 //=============================== text ===============================
+
+//============================== player ==============================
+
+//void menu::playerInit()
+//{
+//	
+//	tagPlayer player;
+//	ZeroMemory(&player, sizeof(player));
+//	player.hp = 0;
+//
+//}
+
+//============================== player ==============================
