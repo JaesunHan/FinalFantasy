@@ -63,6 +63,7 @@ void Bear::update()
 		if (_count > 100)
 		{
 			_turnEnd = true;
+			_effectFire = true;
 
 			_count = 0;
 		}
