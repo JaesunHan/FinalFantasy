@@ -14,7 +14,7 @@ optionMenu::~optionMenu()
 
 HRESULT optionMenu::init()
 {
-
+	_bgImage = IMAGEMANAGER->findImage("옵션메뉴");
 
 	return S_OK;
 }

@@ -247,12 +247,22 @@ void menu::textPrint(int fontWidth, int fontThick, char* fontName, char* textInp
 	SetTextColor(getMemDC(), COLOR_BLACK);
 }
 
-char* menu::c2s(string str)
+//string_to_char
+char* menu::s2c(string str)
 {
 	char tempName[256];
 	sprintf(tempName, "%s", str);
 
 	return tempName;
+}
+
+//int_to_char
+char* menu::i2c(int i)
+{
+	char tempNum[256];
+	sprintf(tempNum, "%s", i);
+
+	return tempNum;
 }
 
 //=============================== text ===============================
@@ -302,10 +312,10 @@ void menu::playerSlotRender()
 	{
 		_vPlayer[i].img->render(getMemDC(), _vPlayer[i].x, _vPlayer[i].y);
 
-		textPrint(20, 20, "HY°ß°íµñ", c2s(_vPlayer[i].name), _vPlayer[i].x + 100, _vPlayer[i].y - 50, COLOR_WHITE);			 //ÀÌ¸§
-		//textPrint(20, 20, "HY°ß°íµñ", _vPlayer[i].job.c_str, _vPlayer[i].x + 200, _vPlayer[i].y - 50, COLOR_WHITE);				 //Á÷¾÷
-		//textPrint(20, 20, "HY°ß°íµñ", "LV", _vPlayer[i].x + 100, _vPlayer[i].y - 40, COLOR_BLUE);							     //"LV"
-		//textPrint(20, 20, "HY°ß°íµñ", to_string(_vPlayer[i].level).c_str, _vPlayer[i].x + 100, _vPlayer[i].y - 40, COLOR_BLUE);  //·¹º§
+		textPrint(20, 20, "HY°ß°íµñ", s2c(_vPlayer[i].name), _vPlayer[i].x + 100, _vPlayer[i].y - 50, COLOR_WHITE);				//ÀÌ¸§
+		textPrint(20, 20, "HY°ß°íµñ", s2c(_vPlayer[i].job), _vPlayer[i].x + 200, _vPlayer[i].y - 50, COLOR_WHITE);				//Á÷¾÷
+		textPrint(20, 20, "HY°ß°íµñ", "LV", _vPlayer[i].x + 100, _vPlayer[i].y - 40, COLOR_BLUE);								//"LV"
+		textPrint(20, 20, "HY°ß°íµñ", i2c(_vPlayer[i].level), _vPlayer[i].x + 100, _vPlayer[i].y - 40, COLOR_BLUE);				//·¹º§
 	}
 }
 

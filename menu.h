@@ -122,7 +122,8 @@ public:
 
 	//================================= text ================================
 	virtual void textPrint(int fontWidth, int fontThick, char* fontName, char* textInput, int textX, int textY, COLORREF RGB = COLOR_WHITE);
-	virtual char* menu::c2s(string str);
+	virtual char* s2c(string str);
+	virtual char* i2c(int i);
 	//================================= text ================================
 
 	menu();

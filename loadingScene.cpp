@@ -15,7 +15,7 @@ loadingScene::~loadingScene()
 HRESULT loadingScene::init()
 {
 	_loading = new loading;
-	_loading->init(3);
+	_loading->init(0);
 
 	//메뉴 이미지
 	_loading->loadImage("능력메뉴", ".//prevProjectResource//SceneImage//abilitiesMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
@@ -27,7 +27,7 @@ HRESULT loadingScene::init()
 	_loading->loadImage("상태메뉴", ".//prevProjectResource//SceneImage//statusMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	_loading->loadImage("타이틀메뉴", ".//prevProjectResource//SceneImage//tilteMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	_loading->loadImage("뉴게임", ".//prevProjectResource//SceneImage//menu_newGame.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
-
+	_loading->loadImage("옵션메뉴", ".//prevProjectResource//SceneImage//menu_option.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 
 	//버튼 이미지
 	_loading->loadImage("옵션버튼", ".//prevProjectResource//SceneImage//button.bmp", 0, 0, 273, 59, true, RGB(255, 0, 255));
