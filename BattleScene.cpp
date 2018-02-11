@@ -120,6 +120,7 @@ void BattleScene::render()
 		{
 			if (_battleCharacters[i].enemy->getCurHP() < 0) continue;
 			_battleCharacters[i].enemy->render();
+			_battleCharacters[i].turnStart = false;
 		}
 	}
 	//UI ·£´õ

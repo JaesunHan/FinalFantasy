@@ -472,6 +472,32 @@ void image::render(HDC hdc, int destX, int destY, int sourX, int sourY, int sour
 
 }
 
+void image::enlargeRender(HDC hdc, int destX, int destY, int destWidth, int destHeight)
+{
+	if (_trans)
+	{
+		GdiTransparentBlt(
+			hdc,					//복사될 영역DC
+			destX,					//복사될 좌표 X
+			destY,					//복사될 좌표 Y
+			destWidth,				//확대될 크기(가로)
+			destHeight,				//확대될 크기(세로)
+			_imageInfo->hMemDC,		//복사해올 DC
+			0, 0,					//복사해올 좌표
+			_imageInfo->width,		//복사해올 크기
+			_imageInfo->height,		//복사해올 크기
+			_transColor);			//복사해올때 어떤 컬러를 빼고 가져올꺼냐
+	}
+	else
+	{
+		BitBlt(hdc, destX, destY,
+			_imageInfo->width,
+			_imageInfo->height,
+			_imageInfo->hMemDC,
+			0, 0, SRCCOPY);
+	}
+}
+
 void image::loopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY)
 {
 	if (offSetX < 0) offSetX = _imageInfo->width + (offSetX % _imageInfo->width);

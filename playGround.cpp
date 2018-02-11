@@ -21,8 +21,7 @@ HRESULT playGround::init()
 	_bts = new BattleScene;
 	SCENEMANAGER->addScene("mapToolScene", new mapTool);
 	SCENEMANAGER->addScene("¹èÆ²¾À", _bts);
-	//¹èÆ²¾ÀÀ¸·Î ÀüÈ¯ÇÒ °Å¸é _isBattle ÀÌ¶ó´Â bool º¯¼öÀÇ °ªµµ true·Î ÀúÀåÇØÁÖ¼¼¿ä
-	SCENEMANAGER->changeScene("¹èÆ²¾À");			_isBattle = true;
+	
 	//SCENEMANAGER->changeScene("mapToolScene");
 	
 	((mapTool*)SCENEMANAGER->findScene("mapToolScene"))->createDefaultMap(PointMake(20, 20));
@@ -32,6 +31,8 @@ HRESULT playGround::init()
 	SCENEMANAGER->addScene("Å¸ÀÌÆ²", new titleScene);
 	SCENEMANAGER->addScene("¼¼ÀÌºê·Îµå", new saveLoadMenu);
 	//=========================== ¸Ş´º¾À ===========================
+	
+	SCENEMANAGER->changeScene("·Îµù");
 
 	return S_OK;
 }
@@ -55,16 +56,33 @@ void playGround::update(void)
 	}
 
 	//================================ ¸Ş´º¾À ================================
-	if (KEYMANAGER->isOnceKeyDown('W')) SCENEMANAGER->changeScene("·Îµù");
+	if (KEYMANAGER->isOnceKeyDown('W'))
+	{
+		SOUNDMANAGER->stop(CH_BGM);
+		SCENEMANAGER->changeScene("·Îµù");
+	}
 	//================================ ¸Ş´º¾À ================================
 
 	//================================ ¸ÊÅø¾À ================================
-	if (KEYMANAGER->isOnceKeyDown('M')) SCENEMANAGER->changeScene("mapToolScene");
+	if (KEYMANAGER->isOnceKeyDown('M'))
+	{
+		SOUNDMANAGER->stop(CH_BGM);
+		SCENEMANAGER->changeScene("mapToolScene");
+	}
 	//================================ ¸ÊÅø¾À ================================
 
-	//================================ ¸ÊÅø¾À ================================
+	//================================ ¹èÆ²¾À ================================
+	if (KEYMANAGER->isOnceKeyDown('B'))
+	{
+		SOUNDMANAGER->stop(CH_BGM);
+		//¹èÆ²¾ÀÀ¸·Î ÀüÈ¯ÇÒ °Å¸é _isBattle ÀÌ¶ó´Â bool º¯¼öÀÇ °ªµµ true·Î ÀúÀåÇØÁÖ¼¼¿ä
+		SCENEMANAGER->changeScene("¹èÆ²¾À");			_isBattle = true;
+	}
+	//================================ ¹èÆ²¾À ================================
+
+	//================================ µğ¹ö±× ================================
 	if (KEYMANAGER->isOnceKeyDown(VK_F1)) _isDebug = !_isDebug;
-	//================================ ¸ÊÅø¾À ================================
+	//================================ µğ¹ö±× ================================
 
 	SCENEMANAGER->update();
 }
