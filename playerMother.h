@@ -17,8 +17,9 @@ protected:
 	unsigned int _m_evasion;		//마법 회피
 	unsigned int _stamina;			//스태미나가 뭔지는 모르겠는데 자료에 있당...
 
-
 	image* _faceImg;				//얼굴이미지
+
+	int _partyIdx;					//파티에 종속되어 있다면 몇번째 파티원인가?!
 
 public:
 	playerMother();
@@ -46,6 +47,8 @@ public:
 	int getMEvasion() { return _m_evasion; }
 	int getStamina() { return _stamina; }
 	image* getFaceImg() { return _faceImg; }
+
+	inline int getPartyIdx() { return _partyIdx; }	inline void setPartyIdx(int idx) { _partyIdx = idx; }
 	//============================== End 접근자 설정자 ======================================
 
 

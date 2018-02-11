@@ -303,6 +303,9 @@
     <ClInclude Include="optionMenu.h">
       <Filter>playGround\gameMenu\menu</Filter>
     </ClInclude>
+    <ClInclude Include="dialogueManager.h">
+      <Filter>2DGameFramework\dialogue</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -490,6 +493,9 @@
     </ClCompile>
     <ClCompile Include="optionMenu.cpp">
       <Filter>playGround\gameMenu\menu</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogueManager.cpp">
+      <Filter>2DGameFramework\dialogue</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

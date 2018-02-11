@@ -1,11 +1,20 @@
 #pragma once
 #include "gameNode.h"
-
-
+//배틀 플레이어의 상태를 나타낼 enum
+enum baattlePlayerStatus
+{
+	BATTLE_PLAYER_IDLE,
+	BATTLE_PLAYER_ATTACK,
+	BATTLE_PLAYER_MAGIC_ATTACK, 
+	BATTLE_PLAYER_DEAD, 
+	BATTLE_PLAYER_WIN, 
+	BATTLE_PLAYER_JUMP, 
+	BATTLE_PLAYER_MOVE
+};
 
 class battlePlayerMother : public gameNode
 {
-private:
+protected:
 	unsigned int _Lv;
 	unsigned int _curEXP, _maxEXP;
 	unsigned int _curHP, _maxHP;
@@ -27,21 +36,24 @@ private:
 	animation* _idleAnim;
 	image* _atkImg;				//공격
 	animation* _atkAnim;
-	image* _stanbyImg;			//공격하기 직전에 기모으기!!!
-	animation* _stanbyAnim;		
+		
 	image* _magicAtkImg;		//마법 공격
 	animation* _magicAtkAnim;
-	image* _magicStanbyImg;		//마법 공격 직전에 기모으기!
-	animation* _magicStanbyAnim;
+	
 	image* _winImg;				//이겼을때
 	animation* _winAnim;
-	image* _winBeforeImg;		//이겼을때 모션 나오기 직전에 나올 이미지
-	animation* _winBeforeAnim;
+	
 	image* _deadImg;				//죽은 모습 
 	animation* _deadAnim;
-	image* _jump;				//점프 모습 : 1프레임
+	image* _jumpImg;				//점프 모습 : 1프레임
+	image* _moveImg;				//움직일 때 모습: 1프레임
 
+	baattlePlayerStatus _status;	//배틀플레이어의 상태
 
+	bool _turnEnd;					//배틀 플레이어의 턴이 끝났을 때 반환할 불값
+
+	int _partyIdx;					//파티에 종속되어 있다면 몇변째 파티원인가?!
+	float _posX, _posY;				//출력될 위치좌표(중점)
 
 public:
 	battlePlayerMother();
@@ -73,6 +85,9 @@ public:
 	inline int getAttack() { return _attack; }
 	inline int getEvasion() { return _evasion; }
 	inline image* getFaceImg() { return _faceImg; }
+	
+	inline bool getTurnEnd() { return _turnEnd; }	inline void setTurnEnd(bool turnEnd) { _turnEnd = turnEnd; }
+	inline int getPartyIdx() { return _partyIdx; }	inline void setPartyIdx(int idx) { _partyIdx = idx; }
 	//====================================== End 접근자 설정자 ======================================
 
 	//배틀시작할 때 한꺼번에 모든 배틀플레이어를 세팅하자

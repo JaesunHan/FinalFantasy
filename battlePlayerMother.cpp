@@ -21,6 +21,32 @@ HRESULT battlePlayerMother::init()
 }
 void battlePlayerMother::update() 
 {
+	if (KEYMANAGER->isOnceKeyDown('S'))
+	{
+		_status = (baattlePlayerStatus)((int)_status + 1);
+	}
+	//================= Start 현재 상태에 따라서 각각 다른 애니메이션의 프레임 업뎃을 해준다.==========
+	if (_status == BATTLE_PLAYER_IDLE)
+	{
+		_idleAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+	}
+	if (_status == BATTLE_PLAYER_ATTACK)
+	{
+		_atkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+	}
+	if (_status == BATTLE_PLAYER_MAGIC_ATTACK)
+	{
+		_magicAtkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+	}
+	if (_status == BATTLE_PLAYER_DEAD)
+	{
+		_deadAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+	}
+	if (_status == BATTLE_PLAYER_WIN)
+	{
+		_winAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+	}
+	//================= End 현재 상태에 따라서 각각 다른 애니메이션의 프레임 업뎃을 해준다.==========
 
 }
 void battlePlayerMother::render() 
@@ -29,7 +55,28 @@ void battlePlayerMother::render()
 }
 void battlePlayerMother::draw()	  
 {
-
+	//================== Start 상태에 따라 다른 애니메이션을 출력한다. =======================
+	if (_status == BATTLE_PLAYER_IDLE)
+	{
+		_idleImg->aniRender(getMemDC(), 800, 150 + _partyIdx * 100, _idleAnim);
+	}
+	if (_status == BATTLE_PLAYER_ATTACK)
+	{
+		_atkImg->aniRender(getMemDC(), 800, 150 + _partyIdx * 100, _atkAnim);
+	}
+	if (_status == BATTLE_PLAYER_MAGIC_ATTACK)
+	{
+		_magicAtkImg->aniRender(getMemDC(), 800, 150 + _partyIdx * 100, _magicAtkAnim);
+	}
+	if (_status == BATTLE_PLAYER_DEAD)
+	{
+		_deadImg->aniRender(getMemDC(), 800, 150 + _partyIdx * 100, _deadAnim);
+	}
+	if (_status == BATTLE_PLAYER_WIN)
+	{
+		_winImg->aniRender(getMemDC(), 800, 150 + _partyIdx * 100, _winAnim);
+	}
+	//================== End 상태에 따라 다른 애니메이션을 출력한다. =======================
 }
 void battlePlayerMother::release()
 {

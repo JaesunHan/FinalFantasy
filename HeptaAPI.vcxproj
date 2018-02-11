@@ -98,6 +98,7 @@
     <ClInclude Include="covert.h" />
     <ClInclude Include="DarkWind.h" />
     <ClInclude Include="database.h" />
+    <ClInclude Include="dialogueManager.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="Enemy.h" />
@@ -168,6 +169,7 @@
     <ClCompile Include="covert.cpp" />
     <ClCompile Include="DarkWind.cpp" />
     <ClCompile Include="database.cpp" />
+    <ClCompile Include="dialogueManager.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
