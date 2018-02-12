@@ -57,7 +57,8 @@ public:
 	void resume(string keyName);
 
 	void releaseSound(int num);
-	void releaseSound(string keyName);
+	void releaseSingleSound(string keyName);
+	void releaseAllSound();
 
 	bool isPlaySound(string keyName);
 	bool isPauseSound(string keyName);

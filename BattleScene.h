@@ -25,7 +25,6 @@ struct tagBattleCharacters
 	Enemy* enemy;				//에너미 주소
 	battlePlayerMother* player;	//플레이어 주소
 	bool turnStart = false;		//카운터가 꽉 찼을때 큐에 푸시하는걸 방지하는 변수
-	bool turnEnd = false;		//왠 만든건지 모르겠는 변수
 };
 
 class BattleScene : public gameNode
@@ -37,6 +36,7 @@ private:
 	int _currentTurn;								//현재 턴이 누구턴인가 저장... 하려고 했으나 아직 안씀
 	int _menuNum;									//메뉴 선택 번호(1번 공격, 2번 스킬, 3번 아이템, 4번 방어)
 	bool _counterRoll = true;						//참일때만 카운터 증가
+	bool _playerTurn = false;
 public:
 	BattleScene();
 	~BattleScene();
@@ -47,6 +47,10 @@ public:
 	void render();
 
 	void ATBGauzeTimer();
+	void updateWhenCharacterTurn();
+	void playerMenuSelect();
+	void characterDraw();
+	void drawUI();
 
 	inline battlePlayerMother* getTinaAddress() { return _battleCharacters[0].player; }
 	inline battlePlayerMother* getLockeAddress() { return _battleCharacters[1].player; }

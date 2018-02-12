@@ -281,7 +281,7 @@ void soundManager::releaseSound(int num)
 	_sound[_mTotalSounds.size()]->release();
 }
 
-void soundManager::releaseSound(string keyName)
+void soundManager::releaseSingleSound(string keyName)
 {
 	arrSoundsIter iter = _mTotalSounds.begin();
 	int soundNum;
@@ -315,4 +315,26 @@ void soundManager::releaseSound(string keyName)
 	}
 
 	_sound[_mTotalSounds.size()]->release();
+}
+
+void soundManager::releaseAllSound()
+{
+	for (int i = 0; i < MAX_CHANNEL; ++i)
+	{
+		_channel[i]->stop();
+	}
+
+	for (int i = _mTotalSounds.size() - 1; i > 0; --i)
+	{
+		arrSoundsIter iter = _mTotalSounds.begin();
+
+		for (iter; iter != _mTotalSounds.end(); ++iter)
+		{
+			if (&_sound[i] == iter->second)
+			{
+				_mTotalSounds.erase(iter);
+			}
+		}
+		_sound[i]->release();
+	}
 }
