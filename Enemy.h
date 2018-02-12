@@ -47,10 +47,10 @@ protected:
 
 	unsigned int _glitterCount;				//glitter함수에서 쓸 카운트변수
 
-	bool _turnEnd = false;					//에너미들 턴이니?
-
 	unsigned int _state;					//에너미들 상태값
 	
+	bool _turnEnd;							//에너미들 턴이니?
+
 	effect* _atkEffect;						//에너미 기본공격 이펙트
 	effect* _spellEffect;					//에너미 스킬공격 이펙트
 	effect* _spellEffect2;					//보스 두번째 스킬 이펙트
@@ -125,6 +125,9 @@ public:
 
 	inline bool getEffectFire() { return _effectFire; }
 	inline void setEffectFire(bool effectFire) { _effectFire = effectFire; }
+
+	inline int getX() { return _x; }
+	inline int getY() { return _y; }
 
 	//========================================================================
 };

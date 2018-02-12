@@ -23,6 +23,7 @@ HRESULT Enemy::init(int x, int y)
 
 	_state = ENEMY_NULL;
 
+	_turnEnd = false;
 	_effectFire = true;
 
 	return S_OK;
