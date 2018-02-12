@@ -17,7 +17,6 @@ enum BATTLECHARACTER
 	NONE
 };
 
-
 struct tagBattleCharacters
 {
 	int characterType;			//배틀 캐릭터
@@ -30,14 +29,16 @@ struct tagBattleCharacters
 class BattleScene : public gameNode
 {
 private:
-	queue<int> _battleTurn;							//턴이 돌아올 캐릭터들을 담아둘 큐
+	queue<tagBattleCharacters> _battleTurn;							//턴이 돌아올 캐릭터들을 담아둘 큐
 	vector<tagBattleCharacters> _battleCharacters;	//캐릭터들을 생성할 구조체 벡터
 	int _maxMonster;								//최대 몬스터 수
 	int _currentTurn;								//현재 턴이 누구턴인가 저장... 하려고 했으나 아직 안씀
 	int _menuNum = 0;								//메뉴 선택 번호(1번 공격, 2번 마법, 3번 스킬, 4번 아이템, 5번 도망)
+	int _enemyNum = 4;
 	unsigned int _position;
 	bool _counterRoll = true;						//참일때만 카운터 증가
 	bool _playerTurn = false;
+	bool _enemySelect = false;
 	bool _sfx01 = false;
 	bool _sfx02 = false;
 	HFONT newFont, oldFont;

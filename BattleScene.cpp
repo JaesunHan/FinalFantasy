@@ -27,6 +27,7 @@ HRESULT BattleScene::init()
 	IMAGEMANAGER->addImage("progressBarTop", ".\\image\\userInterface\\progressBarTop.bmp", 170, 23, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("progressBarComplete", ".\\image\\userInterface\\progressBarComplete.bmp", 150, 17, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("fingerArrowRt", ".\\image\\userInterface\\fingerArrowRt.bmp", 25, 25, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("fingerArrowLt", ".\\image\\userInterface\\fingerArrowLt.bmp", 25, 25, true, RGB(255, 0, 255));
 	//플레이어 얼굴 이미지 추가
 	IMAGEMANAGER->addImage("tinaFace00", ".\\image\\playerImg\\tina\\tina_face.bmp", 56, 38, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("lockeFace00", ".\\image\\playerImg\\locke\\locke_face.bmp", 56, 38, true, RGB(255, 0, 255));
@@ -152,7 +153,7 @@ void BattleScene::ATBGauzeTimer()
 		{
 			if (_battleCharacters[i].ATBcounter > 65535 && _battleCharacters[i].turnStart == false)
 			{
-				_battleTurn.push(_battleCharacters[i].characterType);
+				_battleTurn.push(_battleCharacters[i]);
 				_battleCharacters[i].turnStart = true;
 				_battleCharacters[i].enemy->setTurnEnd(false);
 			}
@@ -165,23 +166,23 @@ void BattleScene::updateWhenCharacterTurn()
 	//큐에서 플레이어나 에너미의 턴이 돌아오면 업데이트 실행
 	if (_battleTurn.size() > 0)
 	{
-		if (_battleTurn.front() <= 3)
+		if (_battleTurn.front().characterType <= 3)
 		{
-			_battleCharacters[_battleTurn.front()].player->update();
-			if (_battleCharacters[_battleTurn.front()].player->getTurnEnd() == true)
+			_battleTurn.front().player->update();
+			if (_battleTurn.front().player->getTurnEnd() == true)
 			{
-				_battleCharacters[_battleTurn.front()].ATBcounter = 0;
-				_battleCharacters[_battleTurn.front()].turnStart = false;
+				_battleCharacters[_battleTurn.front().characterType].ATBcounter = 0;
+				_battleCharacters[_battleTurn.front().characterType].turnStart = false;
 				_battleTurn.pop();
 			}
 		}
 		else
 		{
-			_battleCharacters[_battleTurn.front()].enemy->update();
-			if (_battleCharacters[_battleTurn.front()].enemy->getTurnEnd() == true)
+			_battleTurn.front().enemy->update();
+			if (_battleTurn.front().enemy->getTurnEnd() == true)
 			{
-				_battleCharacters[_battleTurn.front()].ATBcounter = 0;
-				_battleCharacters[_battleTurn.front()].turnStart = false;
+				_battleCharacters[_battleTurn.front().characterType].ATBcounter = 0;
+				_battleCharacters[_battleTurn.front().characterType].turnStart = false;
 				_battleTurn.pop();
 			}
 		}
@@ -203,7 +204,13 @@ void BattleScene::playerMenuSelect()
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_UP))
 	{
-		if (_playerTurn == true)
+		if (_enemySelect == true)
+		{
+			_enemyNum--;
+			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
+			if (_enemyNum < 4) _enemyNum = _maxMonster + 3;
+		}
+		else if (_playerTurn == true)
 		{
 			_menuNum--;
 			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
@@ -212,7 +219,13 @@ void BattleScene::playerMenuSelect()
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 	{
-		if (_playerTurn == true)
+		if (_enemySelect == true)
+		{
+			_enemyNum++;
+			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
+			if (_enemyNum > _maxMonster + 3) _enemyNum = 4;
+		}
+		else if (_playerTurn == true)
 		{
 			_menuNum++;
 			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
@@ -221,7 +234,45 @@ void BattleScene::playerMenuSelect()
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{
-
+		SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
+		if (_playerTurn == true)
+		{
+			switch (_menuNum)
+			{
+			case(0):
+				_enemySelect = true;
+				break;
+			case(1):
+				break;
+			case(2):
+				break;
+			case(3):
+				break;
+			case(4):
+				break;
+			}
+		}
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_BACK))
+	{
+		if (_enemySelect == true)
+		{
+			_enemyNum = 4;
+			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
+			_enemySelect = false;
+		}
+		else if (_playerTurn == true)
+		{
+			_menuNum = 0;
+			_sfx01 = false;
+			while (1)
+			{
+				_currentTurn++;
+				if (_currentTurn > 3) _currentTurn = 0;
+				if (_battleCharacters[_currentTurn].ATBcounter < 65535) continue;
+				else break;
+			}
+		}
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_TAB))
 	{
@@ -307,13 +358,6 @@ void BattleScene::drawUI()
 			newFont = CreateFont(30, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
 			oldFont = (HFONT)SelectObject(getMemDC(), newFont);
 			DrawText(getMemDC(), "티나", -1, &nameRC, DT_CENTER | DT_WORDBREAK);
-
-
-			SOUNDMANAGER->getChannel(CH_BGM)->getPosition(&_position, FMOD_TIMEUNIT_MS);
-			char test[300];
-			wsprintf(test, "%d", _position);
-			TextOut(getMemDC(), 100, 100, test, strlen(test));
-
 			SelectObject(getMemDC(), oldFont);
 			DeleteObject(oldFont);
 			DeleteObject(newFont);
@@ -393,6 +437,10 @@ void BattleScene::drawUI()
 		char lockeMenu[] = "훔치기";
 		char celesMenu[] = "마법흡수";
 		char shadowMenu[] = "던지기";
+		if (_enemySelect == true)
+		{
+			IMAGEMANAGER->findImage("fingerArrowLt")->render(getMemDC(), _battleCharacters[_enemyNum].enemy->getX(), _battleCharacters[_enemyNum].enemy->getY());
+		}
 		if (_playerTurn == true && i == _currentTurn)
 		{
 			switch (_battleCharacters[_currentTurn].characterType)
