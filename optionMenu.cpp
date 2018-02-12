@@ -148,7 +148,7 @@ void optionMenu::update()
 	{
 		_button->buttonRemove();
 		delete _button;
-		SCENEMANAGER->changeScene("¿ùµå¸Ê¾À");
+		SCENEMANAGER->changeScene("¿ùµå¸Ê¾À", false);
 	}
 }
 
