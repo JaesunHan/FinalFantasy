@@ -116,17 +116,21 @@ void tile::selectObject(tile sour)
 
 void tile::setTerrain(tile sour)
 {
+	string imageKey = sour.getTerrainImageKey();
+
 	_terrainAttribute = sour.getTerrainAttr();
 	_terrain = sour.getTerrain();
-	_terrainImageKey = sour.getTerrainImageKey();
+	_terrainImageKey = imageKey;
 	_terrainFramePos = sour.getTerrainFramePos();
 }
 
 void tile::setObject(tile sour)
 {
+	string imageKey = sour.getObjectImageKey();
+
 	_objectAttribute = sour.getObjectAttr();
 	_object = sour.getObject();
-	_objectImageKey = sour.getObjectImageKey();
+	_objectImageKey = imageKey;
 	_objectFramePos = sour.getObjectFramePos();
 }
 

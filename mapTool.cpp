@@ -160,7 +160,7 @@ void mapTool::worldMapTerrainTileSetInit(void)
 
 void mapTool::worldMapObjectTileSetInie(void)
 {
-	_worldMapObjectTileImage = IMAGEMANAGER->addFrameImage("worldMapObjectTileSet", ".//tileSet//worldMapObjectTileSet.bmp", 256, 128, 8, 4, true, RGB(255, 0, 255));
+	_worldMapObjectTileImage = IMAGEMANAGER->addFrameImage("worldObject", ".//tileSet//worldMapObjectTileSet.bmp", 256, 128, 8, 4, true, RGB(255, 0, 255));
 	_worldMapObjectTileSize = PointMake(_worldMapObjectTileImage->getMaxFrameX() + 1, _worldMapObjectTileImage->getMaxFrameY() + 1);
 	_worldMapObjectTileSet = new tile[_worldMapObjectTileSize.x * _worldMapObjectTileSize.y];
 
@@ -168,7 +168,7 @@ void mapTool::worldMapObjectTileSetInie(void)
 	{
 		_worldMapObjectTileSet[i].init(PointMake(WINSIZEX - _worldMapObjectTileImage->getWidth()
 			+ TILE_SIZEX / 2 + (i % _worldMapObjectTileSize.x) * TILE_SIZEX, TILE_SIZEY / 2 + (i / _worldMapObjectTileSize.x) * TILE_SIZEY));
-		_worldMapObjectTileSet[i].setObjectImageKey("worldMapObjectTileSet");
+		_worldMapObjectTileSet[i].setObjectImageKey("worldObject");
 		_worldMapObjectTileSet[i].setObjectFramePos(PointMake(i % _worldMapObjectTileSize.x, i / _worldMapObjectTileSize.x));
 		_worldMapObjectTileSet[i].setIndex(PointMake(i % _worldMapObjectTileSize.x, i / _worldMapObjectTileSize.x));
 		
@@ -200,8 +200,16 @@ void mapTool::clickButton(void)
 		mapLoad();
 		return;
 	}
-	else if (PtInRect(&_terrainBtn, _ptMouse)) _currentSelectMode = MODE_WORLDMAP_TERRAIN_SELECT;
-	else if (PtInRect(&_objectBtn, _ptMouse)) _currentSelectMode = MODE_WORLDMAP_OBJECT_SELECT;
+	else if (PtInRect(&_terrainBtn, _ptMouse))
+	{
+		_currentSelectMode = MODE_WORLDMAP_TERRAIN_SELECT;
+		_selectedTerrainTile.selectTerrain(_worldMapTerrainTileSet[0]);
+	}
+	else if (PtInRect(&_objectBtn, _ptMouse))
+	{
+		_currentSelectMode = MODE_WORLDMAP_OBJECT_SELECT;
+		_selectedObjectTile.selectObject(_worldMapObjectTileSet[0]);
+	}
 	else if (PtInRect(&_eraserBtn, _ptMouse)) _currentSelectMode = MODE_ERASER;
 	//else if (PtInRect(&_changeGameModeBtn, _ptMouse)) _currentSelectMode = EDIT_BUTTON_CHANGE_GAME_MODE;
 	//else if (PtInRect(&_changeMapEditModeBtn, _ptMouse)) _currentSelectMode = EDIT_BUTTON_CHANGE_MAP_EDIT_MODE;
@@ -218,12 +226,15 @@ void mapTool::clickButton(void)
 			}
 		}
 
-		for (int i = 0; i < _mapSize.x * _mapSize.y; i++)
+		if (PtInRect(&RectMake(0, 0, MAP_AREA - TILE_SIZEX * 2, MAP_AREA - TILE_SIZEY * 2), _ptMouse))
 		{
-			if (PtInRect(&_mapTiles[i].getTileRect(), _ptMouse + _mapMove + PointMake(TILE_SIZEX, TILE_SIZEY)))
+			for (int i = 0; i < _mapSize.x * _mapSize.y; i++)
 			{
-				_mapTiles[i].setTerrain(_selectedTerrainTile);
-				break;
+				if (PtInRect(&_mapTiles[i].getTileRect(), _ptMouse + _mapMove + PointMake(TILE_SIZEX, TILE_SIZEY)))
+				{
+					_mapTiles[i].setTerrain(_selectedTerrainTile);
+					break;
+				}
 			}
 		}
 	}
@@ -238,12 +249,15 @@ void mapTool::clickButton(void)
 			}
 		}
 
-		for (int i = 0; i < _mapSize.x * _mapSize.y; i++)
+		if (PtInRect(&RectMake(0, 0, MAP_AREA - TILE_SIZEX * 2, MAP_AREA - TILE_SIZEY * 2), _ptMouse))
 		{
-			if (PtInRect(&_mapTiles[i].getTileRect(), _ptMouse + _mapMove + PointMake(TILE_SIZEX, TILE_SIZEY)))
+			for (int i = 0; i < _mapSize.x * _mapSize.y; i++)
 			{
-				_mapTiles[i].setObject(_selectedObjectTile);
-				break;
+				if (PtInRect(&_mapTiles[i].getTileRect(), _ptMouse + _mapMove + PointMake(TILE_SIZEX, TILE_SIZEY)))
+				{
+					_mapTiles[i].setObject(_selectedObjectTile);
+					break;
+				}
 			}
 		}
 	}
