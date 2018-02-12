@@ -16,8 +16,8 @@ static image* tileMapDC = IMAGEMANAGER->addImage("tileMapArea", MAP_AREA, MAP_AR
 
 enum SELECTMODE
 {
-	MODE_WORLDMAP_TERRAIN_SELECT,
-	MODE_WORLDMAP_OBJECT_SELECT,
+	MODE_TERRAIN_SELECT,
+	MODE_OBJECT_SELECT,
 	MODE_ERASER,
 	MODE_END
 };
@@ -38,17 +38,17 @@ class mapTool : public gameNode
 {
 private:
 	tile* _mapTiles;
-	tile* _worldMapTerrainTileSet;
-	tile* _worldMapObjectTileSet;
+	tile* _terrainTileSet;
+	tile* _objectTileSet;
 
 	POINT _mapSize;
 	POINT _mapMove;
-	POINT _worldMapTerrainTileSize;
-	POINT _worldMapObjectTileSize;
+	POINT _terrainTileSize;
+	POINT _objectTileSize;
 
 private:
-	image* _worldMapTerrainTileImage;
-	image* _worldMapObjectTileImage;
+	image* _terrainTileImage;
+	image* _objectTileImage;
 
 private:
 	SELECTMODE _currentSelectMode;
@@ -64,6 +64,8 @@ private:
 private:
 	WPARAM _wParam;
 	HWND _hDlgNewTile;
+	HWND _hSelectTerrain;
+	HWND _hSelectObject;
 
 private:
 	string _curMapFileName;
@@ -78,8 +80,8 @@ public:
 	void update(void);
 	void render(void);
 
-	void worldMapTerrainTileSetInit(void);
-	void worldMapObjectTileSetInie(void);
+	void terrainTileSetInit(string imageKey);
+	void objectTileSetInit(string imageKey);
 
 	void clickButton(void);
 	void buttonDraw(void);						//버튼 그리는 함수
@@ -96,4 +98,6 @@ public:
 	inline void setWParam(WPARAM wParam) { _wParam = wParam; }
 
 	friend BOOL CALLBACK newTileProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam);
+	friend BOOL CALLBACK selectTerrainTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam);
+	friend BOOL CALLBACK selectObjectTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam);
 };
