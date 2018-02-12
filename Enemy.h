@@ -39,8 +39,12 @@ protected:
 	unsigned int _block;					//방어율
 
 	unsigned int _x, _y;					//이미지 뿌리기 위한 좌표
+	unsigned int _frameX;					//이미지 프레임
+	unsigned int _alpha;					//에너미 알파 값
 
-	bool _turnEnd = false;							//에너미들 턴이니?
+	unsigned int _glitterCount = 0;			//glitter함수에서 쓸 카운트변수
+
+	bool _turnEnd = false;					//에너미들 턴이니?
 
 	EnemyState _state;						//에너미들 상태값
 	
@@ -67,7 +71,9 @@ public:
 	virtual void update();
 	virtual void render();
 
-	virtual void enemyTurn(int damage);				//데미지 공식 함수
+	void enemyTurn(int damage);				//데미지 공식 함수
+
+	void glitter();
 
 	//======================================= 전방선언 ========================================================
 

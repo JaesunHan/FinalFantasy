@@ -16,7 +16,7 @@ HRESULT Enemy::init(int x, int y)
 {
 	_x = x;
 	_y = y;
-
+	_alpha = 255;
 
 	return S_OK;
 }
@@ -55,5 +55,20 @@ void Enemy::enemyTurn(int damage)
 		if (_state == ENEMY_SPELL && _curMP > 0)
 		{
 		}
+	}
+}
+
+void Enemy::glitter()
+{
+	_glitterCount++;
+
+	if (_glitterCount % 3 == 2)
+	{
+		_frameX = 1;
+		_glitterCount = 0;
+	}
+	else
+	{
+		_frameX = 0;
 	}
 }

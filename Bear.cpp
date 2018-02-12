@@ -49,18 +49,19 @@ Bear::~Bear()
 
 void Bear::update()
 {
-	if (_effectFire == true)
-	{
-		EFFECTMANAGER->play("Æø¹ß", 800, 320);
-
-		_effectFire = false;
-	}
-
 	if (_turnEnd == false)
 	{
 		_count++;
-		
-		if (_count > 100)
+		if (_count < 50) glitter();
+
+		if (_effectFire == true)
+		{
+			EFFECTMANAGER->play("Æø¹ß", 800, 320);
+
+			_effectFire = false;
+		}
+
+		if (_count > 150)
 		{
 			_turnEnd = true;
 			_effectFire = true;
@@ -72,7 +73,7 @@ void Bear::update()
 
 void Bear::render()
 {
-	IMAGEMANAGER->findImage("bear")->frameRender(getMemDC(), _x, _y);
+	IMAGEMANAGER->findImage("bear")->alphaFrameRender(getMemDC(), _x, _y, _frameX, 0, _alpha);
 }
 
 void Bear::bearSkill()
