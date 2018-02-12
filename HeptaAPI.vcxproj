@@ -116,11 +116,13 @@
     <ClInclude Include="itemMother.h" />
     <ClInclude Include="keyAniManager.h" />
     <ClInclude Include="keyManager.h" />
+    <ClInclude Include="loadGame.h" />
     <ClInclude Include="loading.h" />
     <ClInclude Include="loadingScene.h" />
     <ClInclude Include="Locke.h" />
     <ClInclude Include="mapTool.h" />
     <ClInclude Include="menu.h" />
+    <ClInclude Include="newGame.h" />
     <ClInclude Include="npc.h" />
     <ClInclude Include="openingScene.h" />
     <ClInclude Include="optionMenu.h" />
@@ -195,11 +197,13 @@
     <ClCompile Include="itemMother.cpp" />
     <ClCompile Include="keyAniManager.cpp" />
     <ClCompile Include="keyManager.cpp" />
+    <ClCompile Include="loadGame.cpp" />
     <ClCompile Include="loading.cpp" />
     <ClCompile Include="loadingScene.cpp" />
     <ClCompile Include="Locke.cpp" />
     <ClCompile Include="mapTool.cpp" />
     <ClCompile Include="menu.cpp" />
+    <ClCompile Include="newGame.cpp" />
     <ClCompile Include="npc.cpp" />
     <ClCompile Include="openingScene.cpp" />
     <ClCompile Include="optionMenu.cpp" />

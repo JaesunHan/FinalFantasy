@@ -3,7 +3,7 @@
 #include "fButton.h"
 #include <vector>
 
-#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+//#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
 
 
 //****************************************//
@@ -106,12 +106,6 @@ public:
 	virtual void playerSlotRender();
 	virtual void playerSlotRemove();
 	//================================ player ===============================
-
-	//================================= text ================================
-	virtual void textPrint(int fontWidth, int fontThick, char* fontName, char* textInput, int textX, int textY, COLORREF RGB = COLOR_WHITE, BOOL textCenter = TRUE);
-	virtual char* s2c(string str);
-	virtual char* i2c(int i);
-	//================================= text ================================
 
 
 

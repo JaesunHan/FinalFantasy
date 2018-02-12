@@ -342,6 +342,12 @@
     <ClInclude Include="npc.h">
       <Filter>playGround\MapScene</Filter>
     </ClInclude>
+    <ClInclude Include="newGame.h">
+      <Filter>playGround\gameMenu\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="loadGame.h">
+      <Filter>playGround\gameMenu\scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -556,6 +562,12 @@
     </ClCompile>
     <ClCompile Include="npc.cpp">
       <Filter>playGround\MapScene</Filter>
+    </ClCompile>
+    <ClCompile Include="newGame.cpp">
+      <Filter>playGround\gameMenu\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="loadGame.cpp">
+      <Filter>playGround\gameMenu\scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

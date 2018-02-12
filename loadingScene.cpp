@@ -25,7 +25,7 @@ HRESULT loadingScene::init()
 	_loading->loadImage("세이브로드메뉴", ".//prevProjectResource//SceneImage//saveLoadMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	_loading->loadImage("상태메뉴", ".//prevProjectResource//SceneImage//statusMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	_loading->loadImage("타이틀메뉴", ".//prevProjectResource//SceneImage//tilteMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
-	_loading->loadImage("뉴게임", ".//prevProjectResource//SceneImage//menu_newGame.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	_loading->loadImage("뉴게임메뉴", ".//prevProjectResource//SceneImage//menu_newGame.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	_loading->loadImage("옵션메뉴", ".//prevProjectResource//SceneImage//menu_option.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	_loading->loadImage("로드게임메뉴", ".//prevProjectResource//SceneImage//menu_continueGame.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 

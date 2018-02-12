@@ -149,51 +149,6 @@ void  menu::cursorRender()
 
 
 
-//=============================== text ===============================
-
-//                   폰트SIZE       폰트굵기       폰트명          입력할텍스트     텍스트위치 XY		  텍스트색상(기본흰색)  텍스트 중앙정렬 
-void menu::textPrint(int fontWidth, int fontThick, char* fontName, char* textInput, int textX, int textY, COLORREF RGB, BOOL textCenter)
-{
-	//----------------------------------- 폰트셋팅
-	HFONT font, oldFont;
-	SetBkMode(getMemDC(), TRANSPARENT);                  //문자 투명배경
-	if (textCenter) SetTextAlign(getMemDC(), TA_CENTER); //문자 중앙정렬
-	SetTextColor(getMemDC(), RGB);                       //문자 색상변경
-	font = CreateFont(fontWidth, 0, 0, 0, fontThick, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, TEXT(fontName));
-	oldFont = (HFONT)SelectObject(getMemDC(), font);
-	//----------------------------------- 문자출력
-	char str[256];
-	ZeroMemory(&str, sizeof(str));
-	sprintf(str, "%s", textInput);
-	TextOut(getMemDC(), textX, textY, str, strlen(str));
-	//----------------------------------- 이전 설정으로 복구
-	SelectObject(getMemDC(), oldFont);
-	DeleteObject(font);
-	SetTextColor(getMemDC(), COLOR_BLACK);
-	SetTextAlign(getMemDC(), TA_LEFT);
-}
-
-//string_to_char
-char* menu::s2c(string str)
-{
-	char tempName[256];
-	ZeroMemory(tempName, sizeof(tempName));
-	sprintf(tempName, "%s", str);
-
-	return tempName;
-}
-
-//int_to_char
-char* menu::i2c(int i)
-{
-	char tempNum[256];
-	ZeroMemory(tempNum, sizeof(tempNum));
-	sprintf(tempNum, "%d", i);
-
-	return tempNum;
-}
-
-//=============================== text ===============================
 
 //============================== player ==============================
 
@@ -240,10 +195,10 @@ void menu::playerSlotRender()
 	{
 		_vPlayer[i].img->render(getMemDC(), _vPlayer[i].x, _vPlayer[i].y);
 
-		textPrint(20, 20, "HY견고딕", s2c(_vPlayer[i].name), _vPlayer[i].x + 100, _vPlayer[i].y - 50, COLOR_WHITE);				//이름
-		textPrint(20, 20, "HY견고딕", s2c(_vPlayer[i].job), _vPlayer[i].x + 200, _vPlayer[i].y - 50, COLOR_WHITE);				//직업
-		textPrint(20, 20, "HY견고딕", "LV", _vPlayer[i].x + 100, _vPlayer[i].y - 40, COLOR_BLUE);								//"LV"
-		textPrint(20, 20, "HY견고딕", i2c(_vPlayer[i].level), _vPlayer[i].x + 100, _vPlayer[i].y - 40, COLOR_BLUE);				//레벨
+		textPrint(getMemDC(), s2c(_vPlayer[i].name), _vPlayer[i].x + 100, _vPlayer[i].y - 50);				//이름
+		textPrint(getMemDC(), s2c(_vPlayer[i].job), _vPlayer[i].x + 200, _vPlayer[i].y - 50);				//직업
+		textPrint(getMemDC(), "LV", _vPlayer[i].x + 100, _vPlayer[i].y - 40, COLOR_BLUE);					//"LV"
+		textPrint(getMemDC(), i2c(_vPlayer[i].level), _vPlayer[i].x + 100, _vPlayer[i].y - 40, COLOR_BLUE);	//레벨
 	}
 }
 

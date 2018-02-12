@@ -34,6 +34,8 @@ HRESULT playGround::init()
 	SCENEMANAGER->addScene("타이틀", new titleScene);
 	SCENEMANAGER->addScene("세이브로드", new saveLoadMenu);
 	SCENEMANAGER->addScene("옵션", new optionMenu);
+	SCENEMANAGER->addScene("뉴게임", new newGame);
+	SCENEMANAGER->addScene("로드게임", new loadGame);
 	//=========================== 메뉴씬 ===========================
 	
 	SCENEMANAGER->changeScene("로딩");

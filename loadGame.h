@@ -2,21 +2,22 @@
 #include "menu.h"
 
 
-class titleScene : public menu
+class loadGame : public menu
 {
 private:
-	int _saveType;
+
+
 
 public:
 	HRESULT init();
 	void release();
 	void update();
+	void render();
 
 
 
 
-	titleScene();
-	~titleScene();
-
+	loadGame();
+	~loadGame();
 };
 

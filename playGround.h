@@ -8,6 +8,9 @@
 #include "saveLoadMenu.h"
 #include "optionMenu.h"
 #include "worldMapScene.h"
+#include "newGame.h"
+#include "loadGame.h"
+
 
 class playGround : public gameNode
 {
