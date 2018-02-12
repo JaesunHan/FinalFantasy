@@ -29,4 +29,46 @@ namespace HEPTA_UTIL
 
 		return angle;
 	}
+
+	//                      입력할텍스트     텍스트위치 XY		   폰트SIZE       폰트굵기       폰트명          텍스트색상(기본흰색)  텍스트 중앙정렬 
+	void textPrint(HDC hdc, char* textInput, int textX, int textY, int fontWidth, int fontThick, char* fontName, COLORREF RGB, BOOL textCenter)
+	{
+		//----------------------------------- 폰트셋팅
+		HFONT font, oldFont;
+		SetBkMode(hdc, TRANSPARENT);                  //문자 투명배경
+		if (textCenter) SetTextAlign(hdc, TA_CENTER); //문자 중앙정렬
+		SetTextColor(hdc, RGB);                       //문자 색상변경
+		font = CreateFont(fontWidth, 0, 0, 0, fontThick, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, TEXT(fontName));
+		oldFont = (HFONT)SelectObject(hdc, font);
+		//----------------------------------- 문자출력
+		char str[256];
+		ZeroMemory(&str, sizeof(str));
+		sprintf(str, "%s", textInput);
+		TextOut(hdc, textX, textY, str, strlen(str));
+		//----------------------------------- 이전 설정으로 복구
+		SelectObject(hdc, oldFont);
+		DeleteObject(font);
+		SetTextColor(hdc, RGB(0, 0, 0));
+		SetTextAlign(hdc, TA_LEFT);
+	}
+
+	//string_to_char
+	char* s2c(string str)
+	{
+		char tempName[256];
+		ZeroMemory(tempName, sizeof(tempName));
+		sprintf(tempName, "%s", str);
+
+		return tempName;
+	}
+
+	//int_to_char
+	char* i2c(int i)
+	{
+		char tempNum[256];
+		ZeroMemory(tempNum, sizeof(tempNum));
+		sprintf(tempNum, "%s", i);
+
+		return tempNum;
+	}
 }

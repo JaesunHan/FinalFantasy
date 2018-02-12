@@ -7,8 +7,12 @@ struct tagButton
 {
 	image* img;             //버튼 이미지
 	float x, y;             //버튼 위치
+	float centerX, centerY; //버튼 중심점
 	bool aniStart;          //버튼 에니시작
 	animation* ani;         //버튼 에니메이션
+	char* text;             //버튼 제목
+	float textSize;           //버튼 제목 크기
+	bool textOn;            //버튼 제목 출력여부
 };
 
 
@@ -23,6 +27,8 @@ protected:
 	vButton   _vButton;
 	viButton  _viButton;
 	int      _buttonNum;
+
+	tagButton _button;
 	//======== button ========
 
 
@@ -30,6 +36,7 @@ public:
 	//================================ button ===============================
 	HRESULT init();
 	void buttonSet(string keyName, float x, float y);
+	void buttonSet(string keyName, float x, float y, char* buttonText, float textSize = 10);
 	void release();
 	void update();
 	void render();

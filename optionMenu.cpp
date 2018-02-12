@@ -19,7 +19,7 @@ HRESULT optionMenu::init()
 
 	_button = new fButton;
 
-	_button->buttonSet("버튼판타지", 1000, 50);
+	_button->buttonSet("버튼판타지", 1000, 50, "Abilities", 12);
 	_button->buttonSet("버튼판타지", 1000, 100);
 	_button->buttonSet("버튼판타지", 1000, 150);
 	_button->buttonSet("버튼판타지", 1000, 200);

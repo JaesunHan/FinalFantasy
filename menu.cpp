@@ -155,7 +155,6 @@ void  menu::cursorRender()
 void menu::textPrint(int fontWidth, int fontThick, char* fontName, char* textInput, int textX, int textY, COLORREF RGB, BOOL textCenter)
 {
 	//----------------------------------- 폰트셋팅
-	char str[256];
 	HFONT font, oldFont;
 	SetBkMode(getMemDC(), TRANSPARENT);                  //문자 투명배경
 	if (textCenter) SetTextAlign(getMemDC(), TA_CENTER); //문자 중앙정렬
@@ -163,7 +162,9 @@ void menu::textPrint(int fontWidth, int fontThick, char* fontName, char* textInp
 	font = CreateFont(fontWidth, 0, 0, 0, fontThick, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, TEXT(fontName));
 	oldFont = (HFONT)SelectObject(getMemDC(), font);
 	//----------------------------------- 문자출력
-	sprintf(str, textInput);
+	char str[256];
+	ZeroMemory(&str, sizeof(str));
+	sprintf(str, "%s", textInput);
 	TextOut(getMemDC(), textX, textY, str, strlen(str));
 	//----------------------------------- 이전 설정으로 복구
 	SelectObject(getMemDC(), oldFont);
@@ -187,7 +188,7 @@ char* menu::i2c(int i)
 {
 	char tempNum[256];
 	ZeroMemory(tempNum, sizeof(tempNum));
-	sprintf(tempNum, "%s", i);
+	sprintf(tempNum, "%d", i);
 
 	return tempNum;
 }
