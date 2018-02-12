@@ -73,6 +73,7 @@ void fButton::buttonSet(string keyName, float x, float y, char* buttonText, floa
 	tagButton _button;
 	ZeroMemory(&_button, sizeof(_button));
 
+
 	_button.img = IMAGEMANAGER->findImage(keyName);
 	_button.x = x;
 	_button.y = y;
@@ -116,7 +117,7 @@ void fButton::render()
 	{
 		_vButton[i].img->aniRender(getMemDC(), _vButton[i].x, _vButton[i].y, _vButton[i].ani);
 		if (_vButton[i].textOn) 
-			textPrint(getMemDC(), _vButton[i].text, _vButton[i].centerX, _vButton[i].centerY, _vButton[i].textSize);
+			textPrint(getMemDC(), _vButton[i].text, _vButton[i].centerX, _vButton[i].centerY, _vButton[i].textSize, 20, "Viner Hand ITC");
 	}
 }
 

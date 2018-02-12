@@ -19,12 +19,12 @@ HRESULT optionMenu::init()
 
 	_button = new fButton;
 
-	_button->buttonSet("버튼판타지", 1000, 50, "Items", 12);
-	_button->buttonSet("버튼판타지", 1000, 100, "Abilities", 12);
-	_button->buttonSet("버튼판타지", 1000, 150, "Equips", 12);
-	_button->buttonSet("버튼판타지", 1000, 200, "Status", 12);
-	_button->buttonSet("버튼판타지", 1000, 250, "Save", 12);
-	_button->buttonSet("버튼판타지", 1000, 300, "Config", 12);
+	_button->buttonSet("버튼판타지", 1000, 50, "Items", 30);
+	_button->buttonSet("버튼판타지", 1000, 100, "Abilities", 30);
+	_button->buttonSet("버튼판타지", 1000, 150, "Equips", 30);
+	_button->buttonSet("버튼판타지", 1000, 200, "Status", 30);
+	_button->buttonSet("버튼판타지", 1000, 250, "Save", 30);
+	_button->buttonSet("버튼판타지", 1000, 300, "Config", 30);
 
 
 	return S_OK;
@@ -148,7 +148,7 @@ void optionMenu::update()
 	{
 		_button->buttonRemove();
 		delete _button;
-		SCENEMANAGER->changeScene("월드맵씬", false);
+		SCENEMANAGER->changeScene("월드맵씬");
 	}
 }
 

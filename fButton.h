@@ -11,7 +11,7 @@ struct tagButton
 	bool aniStart;          //버튼 에니시작
 	animation* ani;         //버튼 에니메이션
 	char* text;             //버튼 제목
-	float textSize;           //버튼 제목 크기
+	float textSize;         //버튼 제목 크기
 	bool textOn;            //버튼 제목 출력여부
 };
 
@@ -26,7 +26,8 @@ protected:
 	//======== button ========
 	vButton   _vButton;
 	viButton  _viButton;
-	int      _buttonNum;
+	int       _buttonNum;
+	
 
 	tagButton _button;
 	//======== button ========
