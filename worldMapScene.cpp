@@ -17,7 +17,7 @@ HRESULT worldMapScene::init()
 	_worldMap->init();
 
 	_worldMapPlayer = new worldMapPlayer;
-	_worldMapPlayer->init(5,5);
+	_worldMapPlayer->init(25,25);
 
 	return S_OK;
 }
