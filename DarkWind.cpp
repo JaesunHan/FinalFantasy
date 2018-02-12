@@ -4,12 +4,13 @@
 
 DarkWind::DarkWind()
 {
-	//에너미 이미지
+	//=================================================== 에너미 이미지 ==========================================================
 	IMAGEMANAGER->addFrameImage("darkWind", ".\\image\\enemyImg\\DarkWind.bmp", 132, 81, 2, 1, true, RGB(255, 0, 255), true);
-	
-	//에너미 이펙트 이미지
-	IMAGEMANAGER->addImage("darkWind기본공격이미지", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, true, RGB(255, 0, 255), true);
-	IMAGEMANAGER->addImage("darkWind스킬공격이미지", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, true, RGB(255, 0, 255), true);
+	//===========================================================================================================================
+
+	//================================================= 에너미 이펙트 이미지 =====================================================
+	IMAGEMANAGER->addImage("darkWind기본공격이미지", ".\\image\\enemyEffect\\effect12.bmp", 310, 62, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addImage("darkWind스킬공격이미지", ".\\image\\enemyEffect\\effect10.bmp", 679, 109, true, RGB(255, 0, 255), true);
 
 	_atkEffect = new effect;
 	_atkEffect->init(IMAGEMANAGER->findImage("darkWind기본공격이미지"), 117, 85, 1.0f, 0.5f);
@@ -17,8 +18,9 @@ DarkWind::DarkWind()
 	_spellEffect = new effect;
 	_spellEffect->init(IMAGEMANAGER->findImage("darkWind스킬공격이미지"), 117, 85, 1.0f, 0.5f);
 
-	EFFECTMANAGER->addEffect("darkWind기본공격이펙트", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, 117, 85, 1.0f, 1.0f, 1000);
-	EFFECTMANAGER->addEffect("darkWind스킬공격이펙트", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, 117, 85, 1.0f, 1.0f, 1000);
+	EFFECTMANAGER->addEffect("darkWind기본공격이펙트", ".\\image\\enemyEffect\\effect12.bmp", 310, 62, 62, 62, 1.0f, 1.0f, 1000);
+	EFFECTMANAGER->addEffect("darkWind스킬공격이펙트", ".\\image\\enemyEffect\\effect10.bmp", 679, 109, 97, 109, 1.0f, 1.0f, 1000);
+	//===========================================================================================================================
 
 	_Lv = 5;										//레벨
 	_maxEXP = RND->getFromIntTo(25, 30);			//현재 경험치, 최대 경험치
@@ -85,7 +87,8 @@ void DarkWind::update()
 
 void DarkWind::render()
 {
-	IMAGEMANAGER->findImage("darkWind")->frameRender(getMemDC(), _x, _y);
+	IMAGEMANAGER->findImage("darkWind")->alphaFrameRender(getMemDC(), _x, _y, _frameX, 0, _alpha);
+	//IMAGEMANAGER->findImage("darkWind")->frameRender(getMemDC(), _x, _y);
 }
 
 void DarkWind::darkWindSkill()

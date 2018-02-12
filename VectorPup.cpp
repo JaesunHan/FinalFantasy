@@ -4,12 +4,13 @@
 
 VectorPup::VectorPup()
 {
-	//에너미 이미지
+	//=================================================== 에너미 이미지 ==========================================================
 	IMAGEMANAGER->addFrameImage("vectorPup", ".\\image\\enemyImg\\VectorPup.bmp", 184, 46, 2, 1, true, RGB(255, 0, 255), true);
-	
-	//에너미 이펙트 이미지
-	IMAGEMANAGER->addImage("vectorPup기본공격이미지", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, true, RGB(255, 0, 255), true);
-	IMAGEMANAGER->addImage("vectorPup스킬공격이미지", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, true, RGB(255, 0, 255), true);
+	//===========================================================================================================================
+
+	//================================================= 에너미 이펙트 이미지 =====================================================
+	IMAGEMANAGER->addImage("vectorPup기본공격이미지", ".\\image\\enemyEffect\\effect13.bmp", 376, 92, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addImage("vectorPup스킬공격이미지", ".\\image\\enemyEffect\\effect16.bmp", 411, 134, true, RGB(255, 0, 255), true);
 
 	_atkEffect = new effect;
 	_atkEffect->init(IMAGEMANAGER->findImage("vectorPup기본공격이미지"), 117, 85, 1.0f, 0.5f);
@@ -17,8 +18,9 @@ VectorPup::VectorPup()
 	_spellEffect = new effect;
 	_spellEffect->init(IMAGEMANAGER->findImage("vectorPup스킬공격이미지"), 117, 85, 1.0f, 0.5f);
 
-	EFFECTMANAGER->addEffect("vectorPup기본공격이펙트", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, 117, 85, 1.0f, 1.0f, 1000);
-	EFFECTMANAGER->addEffect("vectorPup스킬공격이펙트", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, 117, 85, 1.0f, 1.0f, 1000);
+	EFFECTMANAGER->addEffect("vectorPup기본공격이펙트", ".\\image\\enemyEffect\\effect13.bmp", 376, 92, 94, 92, 1.0f, 1.0f, 1000);
+	EFFECTMANAGER->addEffect("vectorPup스킬공격이펙트", ".\\image\\enemyEffect\\effect16.bmp", 411, 134, 137, 134, 1.0f, 1.0f, 1000);
+	//===========================================================================================================================
 
 	_Lv = 11;										//레벨
 	_maxEXP = RND->getFromIntTo(125, 135);	 		//현재 경험치, 최대 경험치
@@ -84,7 +86,8 @@ void VectorPup::update()
 
 void VectorPup::render() 
 {
-	IMAGEMANAGER->findImage("vectorPup")->frameRender(getMemDC(), _x, _y);
+	IMAGEMANAGER->findImage("vectorPup")->alphaFrameRender(getMemDC(), _x, _y, _frameX, 0, _alpha);
+	//IMAGEMANAGER->findImage("vectorPup")->frameRender(getMemDC(), _x, _y);
 }
 
 void VectorPup::vectorPupAttack()

@@ -7,7 +7,8 @@ enum EnemyState
 {
 	ENEMY_HIT,
 	ENEMY_SPELL,
-	ENEMY_DIE
+	ENEMY_DIE,
+	ENEMY_NULL
 };
 
 //배틀플레이어 부모클래스 전방선언
@@ -42,15 +43,16 @@ protected:
 	unsigned int _frameX;					//이미지 프레임
 	unsigned int _alpha;					//에너미 알파 값
 
-	unsigned int _glitterCount = 0;			//glitter함수에서 쓸 카운트변수
+	unsigned int _glitterCount;				//glitter함수에서 쓸 카운트변수
 
 	bool _turnEnd = false;					//에너미들 턴이니?
 
-	EnemyState _state;						//에너미들 상태값
+	unsigned int _state;					//에너미들 상태값
 	
 	effect* _atkEffect;						//에너미 기본공격 이펙트
 	effect* _spellEffect;					//에너미 스킬공격 이펙트
-	bool _effectFire = true;				//이펙트 터트리기 위한 불값
+	effect* _spellEffect2;					//보스 두번째 스킬 이펙트
+	bool _effectFire;						//이펙트 터트리기 위한 불값
 
 	int _count = 0;
 
@@ -74,7 +76,7 @@ public:
 
 	void enemyTurn(int damage);				//데미지 공식 함수
 
-	void glitter();
+	void glitter();							//에너미 턴일때 어떤 에너미의 턴인지 알기위한 함수 (반짝거림)
 
 	//======================================= 전방선언 ========================================================
 

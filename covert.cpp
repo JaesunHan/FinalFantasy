@@ -4,12 +4,13 @@
 
 covert::covert()
 {
-	//에너미 이미지
+	//=================================================== 에너미 이미지 ==========================================================
 	IMAGEMANAGER->addFrameImage("covert", ".\\image\\enemyImg\\covert.bmp", 260, 91, 2, 1, true, RGB(255, 0, 255), true);
+	//===========================================================================================================================
 
-	//에너미 이펙트 이미지
-	IMAGEMANAGER->addImage("covert기본공격이미지", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, true, RGB(255, 0, 255), true);
-	IMAGEMANAGER->addImage("covert스킬공격이미지", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, true, RGB(255, 0, 255), true);
+	//================================================= 에너미 이펙트 이미지 =====================================================
+	IMAGEMANAGER->addImage("covert기본공격이미지", ".\\image\\enemyEffect\\effect2.bmp", 1536, 192, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addImage("covert스킬공격이미지", ".\\image\\enemyEffect\\effect8.bmp", 378, 107, true, RGB(255, 0, 255), true);
 
 	_atkEffect = new effect;
 	_atkEffect->init(IMAGEMANAGER->findImage("covert기본공격이미지"), 117, 85, 1.0f, 0.5f);
@@ -17,8 +18,9 @@ covert::covert()
 	_spellEffect = new effect;
 	_spellEffect->init(IMAGEMANAGER->findImage("covert스킬공격이미지"), 117, 85, 1.0f, 0.5f);
 
-	EFFECTMANAGER->addEffect("covert기본공격이펙트", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, 117, 85, 1.0f, 1.0f, 1000);
-	EFFECTMANAGER->addEffect("covert스킬공격이펙트", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, 117, 85, 1.0f, 1.0f, 1000);
+	EFFECTMANAGER->addEffect("covert기본공격이펙트", ".\\image\\enemyEffect\\effect2.bmp", 1536, 192, 192, 192, 1.0f, 1.0f, 1000);
+	EFFECTMANAGER->addEffect("covert스킬공격이펙트", ".\\image\\enemyEffect\\effect8.bmp", 378, 107, 54, 107, 1.0f, 1.0f, 1000);
+	//===========================================================================================================================
 
 	_Lv = 44;										//레벨
 	_maxEXP = RND->getFromIntTo(1600, 1900);		//현재 경험치, 최대 경험치
@@ -78,7 +80,8 @@ void covert::update()
 
 void covert::render()
 {
-	IMAGEMANAGER->findImage("covert")->frameRender(getMemDC(), _x, _y);
+	IMAGEMANAGER->findImage("covert")->alphaFrameRender(getMemDC(), _x, _y, _frameX, 0, _alpha);
+	//IMAGEMANAGER->findImage("covert")->frameRender(getMemDC(), _x, _y);
 }
 
 
