@@ -68,6 +68,7 @@ void tile::objectRender(HDC hdc, int destX, int destY)
 	}
 }
 
+//디버그 모드시 타일의 대략적인 정보를 그려줌
 void tile::attributeRender(HDC hdc, int destX, int destY)
 {
 	HBRUSH hBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
@@ -98,22 +99,29 @@ void tile::attributeRender(HDC hdc, int destX, int destY)
 	DeleteObject(oBrush);
 }
 
+//지형 타일셋에서 타일을 선택
 void tile::selectTerrain(tile sour)
 {
+	string imageKey = sour.getTerrainImageKey();
+
 	_terrainAttribute = sour.getTerrainAttr();
 	_terrain = sour.getTerrain();
-	_terrainImageKey = sour.getTerrainImageKey();
+	_terrainImageKey = imageKey;
 	_terrainFramePos = sour.getIndex();
 }
 
+//오브젝트 타일셋에서 타일을 선택
 void tile::selectObject(tile sour)
 {
+	string imageKey = sour.getObjectImageKey();
+
 	_objectAttribute = sour.getObjectAttr();
 	_object = sour.getObject();
-	_objectImageKey = sour.getObjectImageKey();
+	_objectImageKey = imageKey;
 	_objectFramePos = sour.getIndex();
 }
 
+//선택된 지형타일을 선택한 맵 타일에 적용
 void tile::setTerrain(tile sour)
 {
 	string imageKey = sour.getTerrainImageKey();
@@ -124,6 +132,7 @@ void tile::setTerrain(tile sour)
 	_terrainFramePos = sour.getTerrainFramePos();
 }
 
+//선택된 오브젝트타일을 선택한 맵 타일에 적용
 void tile::setObject(tile sour)
 {
 	string imageKey = sour.getObjectImageKey();
@@ -134,6 +143,7 @@ void tile::setObject(tile sour)
 	_objectFramePos = sour.getObjectFramePos();
 }
 
+//선택한 맵 타일의 오브젝트 삭제
 void tile::eraseObject(void)
 {
 	_object = OBJ_NONE;
@@ -142,15 +152,17 @@ void tile::eraseObject(void)
 	_objectAttribute = ATTR_MOVE;
 }
 
+//지형의 종류에 따라 타일 속성 적용
 void tile::updateTerrainAttr(void)
 {
 	if (_terrain == TR_GRASS) _terrainAttribute = ATTR_MOVE;
 	else if (_terrain == TR_WATER) _terrainAttribute = ATTR_UNMOVE;
 	else if (_terrain == TR_DESERT) _terrainAttribute = ATTR_SLOW;
-}// 지형 타입에 따른 속성 업데이트
+}
 
+//오브젝트의 종류에 따라 타일 속성 적용
 void tile::updateObjectAttr(void)
 {
 	if (_object == OBJ_CAVE || _object == OBJ_CASTLE || _object == OBJ_TOWN) _objectAttribute = ATTR_MOVE;
 	else if (_object == OBJ_MOUNTAIN) _objectAttribute = ATTR_UNMOVE;
-}// 오브젝트 타입에 따른 속성 업데이트
+}

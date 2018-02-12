@@ -42,6 +42,9 @@ HRESULT mapTool::init(void)
 
 	_selectedTerrainTile.selectTerrain(_worldMapTerrainTileSet[0]);
 
+	_curMapFileName = "none";
+	_autoSaveTimer = TIMEMANAGER->getWorldTime();
+
 	return S_OK;
 }
 
@@ -72,6 +75,14 @@ void mapTool::update(void)
 			_mapMove.y = (_mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().bottom - MAP_AREA + TILE_SIZEY);
 	}
 	
+	//autoSave ±â´É
+	if (TIMEMANAGER->getWorldTime() - _autoSaveTimer >= 80)
+	{
+		_autoSaveTimer = TIMEMANAGER->getWorldTime();
+		//MessageBox(_hWnd, "test", "test", MB_OK);
+		if (_curMapFileName != "none") mapAutoSave();
+	}
+	
 }
 
 void mapTool::render(void)
@@ -86,11 +97,13 @@ void mapTool::render(void)
 		int indexX = 0;
 		int indexY = 0;
 		
-		if (renderX > 23) renderX = 22;
+		if (renderX > 23)
+			renderX = 22;
 		else if (renderX == 22);
 		else ++renderX;
 
-		if (renderY > 23) renderY = 22;
+		if (renderY > 23)
+			renderY = 22;
 		else if (renderY == 22);
 		else ++renderY;
 
@@ -106,7 +119,7 @@ void mapTool::render(void)
 			}
 		}
 	}
-
+	
 	if (_currentSelectMode == MODE_WORLDMAP_TERRAIN_SELECT)
 	{
 		for (int i = 0; i < _worldMapTerrainTileSize.x * _worldMapTerrainTileSize.y; i++)
@@ -369,7 +382,8 @@ void mapTool::mapSave(void)
 
 	if (GetSaveFileName(&ofn) == false) return;
 
-	file = CreateFile(ofn.lpstrFile, GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	_curMapFileName = ofn.lpstrFile;
+	file = CreateFile(_curMapFileName.c_str(), GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	WriteFile(file, &_mapSize, sizeof(POINT), &write, NULL);
 	WriteFile(file, _mapTiles, sizeof(tile) * _mapSize.x * _mapSize.y, &write, NULL);
@@ -402,11 +416,25 @@ void mapTool::mapLoad(void)
 
 	this->init();
 
-	file = CreateFile(ofn.lpstrFile, GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	_curMapFileName = ofn.lpstrFile;
+	file = CreateFile(_curMapFileName.c_str(), GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	ReadFile(file, &_mapSize, sizeof(POINT), &read, NULL);
 	_mapTiles = new tile[_mapSize.x * _mapSize.y];
 	ReadFile(file, _mapTiles, sizeof(tile) * _mapSize.x * _mapSize.y, &read, NULL);
+
+	CloseHandle(file);
+}
+
+void mapTool::mapAutoSave(void)
+{
+	HANDLE file;
+	DWORD write;
+
+	file = CreateFile(_curMapFileName.c_str(), GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	WriteFile(file, &_mapSize, sizeof(POINT), &write, NULL);
+	WriteFile(file, _mapTiles, sizeof(tile) * _mapSize.x * _mapSize.y, &write, NULL);
 
 	CloseHandle(file);
 }

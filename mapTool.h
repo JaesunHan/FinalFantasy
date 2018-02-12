@@ -63,8 +63,11 @@ private:
 
 private:
 	WPARAM _wParam;
-
 	HWND _hDlgNewTile;
+
+private:
+	string _curMapFileName;
+	float _autoSaveTimer;
 
 public:
 	mapTool();
@@ -88,7 +91,7 @@ public:
 
 	void mapSave(void);
 	void mapLoad(void);
-
+	void mapAutoSave(void);
 	
 	inline void setWParam(WPARAM wParam) { _wParam = wParam; }
 
