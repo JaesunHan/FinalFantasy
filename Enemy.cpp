@@ -19,6 +19,7 @@ HRESULT Enemy::init(int x, int y)
 	_alpha = 255;
 	_frameX = 0;
 	_glitterCount = 0;
+	_rndNum = 0;
 
 	_state = ENEMY_NULL;
 
@@ -52,15 +53,6 @@ void Enemy::enemyTurn(int damage)
 		
 		//스킬 데미지 공식
 		_spellDamage = _damage * RND->getFromFloatTo(1.2f, 2.5f);
-
-		if (_state == ENEMY_HIT)
-		{
-			
-		}
-		
-		if (_state == ENEMY_SPELL && _curMP > 0)
-		{
-		}
 	}
 }
 

@@ -29,6 +29,8 @@ protected:
 
 	unsigned int _damage;					//최종 데미지
 	unsigned int _spellDamage;				//스킬 데미지
+
+	unsigned int _rndNum;					//랜덤수를 담기 위한 변수
 	
 	unsigned int _m_Def;					//마법 방어력
 	unsigned int _a_Def;					//물리 방어력
