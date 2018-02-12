@@ -65,3 +65,5 @@ Debug/HeptaAPI.log
 *.ipch
 HeptaAPI.vcxproj
 HeptaAPI.vcxproj.filters
+Debug/FinalFantasy.Build.CppClean.log
+*.log

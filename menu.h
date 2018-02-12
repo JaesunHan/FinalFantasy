@@ -3,6 +3,8 @@
 #include "fButton.h"
 #include <vector>
 
+#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+
 
 //****************************************//
 //              wonjjang                  //
@@ -68,7 +70,7 @@ protected:
 	//======== cursor ========
 
 	//======= saveLoad =======
-	int _saveType;
+
 	//======= saveLoad =======
 
 	//======== button ========
@@ -111,9 +113,6 @@ public:
 	virtual char* i2c(int i);
 	//================================= text ================================
 
-	//================================ button ===============================
-
-	//================================ button ===============================
 
 
 

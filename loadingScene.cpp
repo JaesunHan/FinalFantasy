@@ -15,7 +15,7 @@ loadingScene::~loadingScene()
 HRESULT loadingScene::init()
 {
 	_loading = new loading;
-	_loading->init(0);
+	_loading->init(RND->getInt(4));
 
 	//메뉴 이미지
 	_loading->loadImage("능력메뉴", ".//prevProjectResource//SceneImage//abilitiesMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));

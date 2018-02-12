@@ -3,6 +3,7 @@
 
 
 titleScene::titleScene()
+	: _saveType(0)
 {
 }
 titleScene::~titleScene()
@@ -34,12 +35,14 @@ void titleScene::update()
 		case 0:
 			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 			{
+				_saveType = SAVE_NEWGAME;
 				SCENEMANAGER->changeScene("세이브로드");
 			}
 		break;
 		case 1:
 			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 			{
+				_saveType  = SAVE_LOADGAME;
 				SCENEMANAGER->changeScene("세이브로드");
 			}
 		break;
@@ -50,6 +53,8 @@ void titleScene::update()
 			}
 		break;
 	}
+
+	cout << _saveType << endl;
 }
 
 

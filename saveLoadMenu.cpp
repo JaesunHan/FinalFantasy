@@ -12,10 +12,7 @@ saveLoadMenu::~saveLoadMenu()
 
 HRESULT saveLoadMenu::init()
 {
-	_saveType = SAVE_NEWGAME;
-
-
-	switch (_saveType)
+	switch (_title->getSaveType())
 	{
 		case SAVE_NEWGAME:
 			_bgImage = IMAGEMANAGER->findImage("뉴게임");
@@ -27,7 +24,12 @@ HRESULT saveLoadMenu::init()
 
 		break;
 		case SAVE_LOADGAME:
+			_bgImage = IMAGEMANAGER->findImage("로드게임메뉴");
+			cursorInit(CUSOR_RIGHT, 950, 190);
 
+			_button = new fButton;
+			_button->buttonSet("버튼예스", 1000, 187);
+			_button->buttonSet("버튼노", 1000, 238);
 		break;
 	}
 
