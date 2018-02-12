@@ -4,12 +4,13 @@
 
 guard::guard()
 {
-	//에너미 이미지
+	//=================================================== 에너미 이미지 ==========================================================
 	IMAGEMANAGER->addFrameImage("guard", ".\\image\\enemyImg\\guard.bmp", 132, 62, 2, 1, true, RGB(255, 0, 255), true);
+	//===========================================================================================================================
 
-	//에너미 이펙트 이미지
-	IMAGEMANAGER->addImage("guard기본공격이미지", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, true, RGB(255, 0, 255), true);
-	IMAGEMANAGER->addImage("guard스킬공격이미지", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, true, RGB(255, 0, 255), true);
+	//================================================= 에너미 이펙트 이미지 =====================================================
+	IMAGEMANAGER->addImage("guard기본공격이미지", ".\\image\\enemyEffect\\effect1.bmp", 1800, 130, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addImage("guard스킬공격이미지", ".\\image\\enemyEffect\\effect2.bmp", 1536, 192, true, RGB(255, 0, 255), true);
 
 	_atkEffect = new effect;
 	_atkEffect->init(IMAGEMANAGER->findImage("guard기본공격이미지"), 117, 85, 1.0f, 0.5f);
@@ -17,8 +18,9 @@ guard::guard()
 	_spellEffect = new effect;
 	_spellEffect->init(IMAGEMANAGER->findImage("guard스킬공격이미지"), 117, 85, 1.0f, 0.5f);
 
-	EFFECTMANAGER->addEffect("guard기본공격이펙트", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, 117, 85, 1.0f, 1.0f, 1000);
-	EFFECTMANAGER->addEffect("guard스킬공격이펙트", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, 117, 85, 1.0f, 1.0f, 1000);
+	EFFECTMANAGER->addEffect("guard기본공격이펙트", ".\\image\\enemyEffect\\effect1.bmp", 1800, 130, 150, 130, 1.0f, 1.0f, 1000);
+	EFFECTMANAGER->addEffect("guard스킬공격이펙트", ".\\image\\enemyEffect\\effect2.bmp", 1536, 192, 192, 192, 1.0f, 1.0f, 1000);
+	//===========================================================================================================================
 
 	_Lv = 5;										//레벨
 	_maxEXP = RND->getFromIntTo(45, 50);	 		//현재 경험치, 최대 경험치
@@ -78,7 +80,8 @@ void guard::update()
 
 void guard::render()
 {
-	IMAGEMANAGER->findImage("guard")->frameRender(getMemDC(), _x, _y);
+	IMAGEMANAGER->findImage("guard")->alphaFrameRender(getMemDC(), _x, _y, _frameX, 0, _alpha);
+	//IMAGEMANAGER->findImage("guard")->frameRender(getMemDC(), _x, _y);
 }
 
 

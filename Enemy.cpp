@@ -17,6 +17,12 @@ HRESULT Enemy::init(int x, int y)
 	_x = x;
 	_y = y;
 	_alpha = 255;
+	_frameX = 0;
+	_glitterCount = 0;
+
+	_state = ENEMY_NULL;
+
+	_effectFire = true;
 
 	return S_OK;
 }
@@ -58,11 +64,12 @@ void Enemy::enemyTurn(int damage)
 	}
 }
 
+//에너미 턴일때 어떤 에너미의 턴인지 알기위한 함수 (반짝거림)
 void Enemy::glitter()
 {
 	_glitterCount++;
 
-	if (_glitterCount % 3 == 2)
+	if (_glitterCount % 3 == 0)
 	{
 		_frameX = 1;
 		_glitterCount = 0;

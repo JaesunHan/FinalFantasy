@@ -4,12 +4,13 @@
 
 siren::siren()
 {
-	//에너미 이미지
+	//=================================================== 에너미 이미지 ==========================================================
 	IMAGEMANAGER->addFrameImage("siren", ".\\image\\enemyImg\\siren.bmp", 368, 148, 2, 1, true, RGB(255, 0, 255), true);
+	//===========================================================================================================================
 
-	//에너미 이펙트 이미지
-	IMAGEMANAGER->addImage("siren기본공격이미지", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, true, RGB(255, 0, 255), true);
-	IMAGEMANAGER->addImage("siren스킬공격이미지", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, true, RGB(255, 0, 255), true);
+	//================================================= 에너미 이펙트 이미지 =====================================================
+	IMAGEMANAGER->addImage("siren기본공격이미지", ".\\image\\enemyEffect\\effect14.bmp", 608, 76, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addImage("siren스킬공격이미지", ".\\image\\enemyEffect\\effect9.bmp", 480, 59, true, RGB(255, 0, 255), true);
 
 	_atkEffect = new effect;
 	_atkEffect->init(IMAGEMANAGER->findImage("siren기본공격이미지"), 117, 85, 1.0f, 0.5f);
@@ -17,8 +18,9 @@ siren::siren()
 	_spellEffect = new effect;
 	_spellEffect->init(IMAGEMANAGER->findImage("siren스킬공격이미지"), 117, 85, 1.0f, 0.5f);
 
-	EFFECTMANAGER->addEffect("siren기본공격이펙트", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, 117, 85, 1.0f, 1.0f, 1000);
-	EFFECTMANAGER->addEffect("siren스킬공격이펙트", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, 117, 85, 1.0f, 1.0f, 1000);
+	EFFECTMANAGER->addEffect("siren기본공격이펙트", ".\\image\\enemyEffect\\effect14.bmp", 480, 59, 80, 59, 1.0f, 1.0f, 1000);
+	EFFECTMANAGER->addEffect("siren스킬공격이펙트", ".\\image\\enemyEffect\\effect9.bmp", 585, 85, 117, 85, 1.0f, 1.0f, 1000);
+	//===========================================================================================================================
 
 	_Lv = 50;										//레벨
 	_maxEXP = RND->getFromIntTo(2800, 3200);		//현재 경험치, 최대 경험치
@@ -78,7 +80,8 @@ void siren::update()
 
 void siren::render()
 {
-	IMAGEMANAGER->findImage("siren")->frameRender(getMemDC(), _x, _y);
+	IMAGEMANAGER->findImage("siren")->alphaFrameRender(getMemDC(), _x, _y, _frameX, 0, _alpha);
+	//IMAGEMANAGER->findImage("siren")->frameRender(getMemDC(), _x, _y);
 }
 
 
