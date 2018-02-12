@@ -1,5 +1,12 @@
 #pragma once
 #include "gameNode.h"
+#include "tile.h"
+#include "worldMap.h"
+
+//======월드맵 플레이어=======//
+//		제작자 : 한재환		//
+//		2월 12일				//
+//==========================//
 
 enum WORLDPLAYERDIRECTION
 {
@@ -16,6 +23,12 @@ class worldMapPlayer : public gameNode
 public:
 
 	WORLDPLAYERDIRECTION _worldPlayerDirection;
+	
+	//타일맵 클래스
+	tile* _tile;
+
+	//월드맵클래스
+	worldMap* _worldMap;
 
 	//플레이어 좌표
 	POINT _player;
@@ -26,6 +39,7 @@ public:
 	int _currentFrameX;
 	int	_currentFrameY;
 	int _count;
+	bool _checkRc;
 
 	//충돌검출용
 	float _moveSpeed;
@@ -34,6 +48,7 @@ public:
 	worldMapPlayer();
 	~worldMapPlayer();
 
+	//init에서 좌표값을 받는 이유는 씬이 바뀔때 해당씬에서 위치를 지정할수 있기 위함이다.
 	HRESULT init(int playerX, int PlayerY);
 	void release();
 	void update();
@@ -47,6 +62,9 @@ public:
 
 	//월드플에이어 키 컨트롤
 	void worldPlayerKeyControl();
+
+	//타일 인덱스 계산하는 함수
+	int tileNum(float x, float y);
 
 	//========겟셋 모음==================================/
 	RECT getWorldMapPlayerRect() { return _rc; }
