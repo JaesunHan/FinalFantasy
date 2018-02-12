@@ -1,15 +1,19 @@
 #pragma once
 #include "gameNode.h"
+#define MAXANIMATIONNUM 5
 //배틀 플레이어의 상태를 나타낼 enum
 enum baattlePlayerStatus
 {
 	BATTLE_PLAYER_IDLE,
 	BATTLE_PLAYER_ATTACK,
-	BATTLE_PLAYER_MAGIC_ATTACK, 
-	BATTLE_PLAYER_DEAD, 
-	BATTLE_PLAYER_WIN, 
-	BATTLE_PLAYER_JUMP, 
-	BATTLE_PLAYER_MOVE
+	BATTLE_PLAYER_ATTACK_STANDBY,
+	BATTLE_PLAYER_MAGIC_ATTACK,
+	BATTLE_PLAYER_MAGIC_ATTACK_STANDBY,
+	BATTLE_PLAYER_DEAD,
+	BATTLE_PLAYER_WIN,
+	BATTLE_PLAYER_JUMP,
+	BATTLE_PLAYER_MOVE,
+	BATTLE_PLAYER_NONE
 };
 
 class battlePlayerMother : public gameNode
@@ -36,13 +40,19 @@ protected:
 	animation* _idleAnim;
 	image* _atkImg;				//공격
 	animation* _atkAnim;
+	image* _atkStandbyImg;		//공격 대기
+	animation* _atkStandbyAnim;	
 		
 	image* _magicAtkImg;		//마법 공격
 	animation* _magicAtkAnim;
+	image* _magicAtkStandbyImg;		//마법 공격 대기
+	animation* _magicAtkStandbyAnim;	
 	
 	image* _winImg;				//이겼을때
 	animation* _winAnim;
-	
+	image* _winBeforeImg;		//이기기 직전에
+	animation* _winBeforeAnim;	
+
 	image* _deadImg;				//죽은 모습 
 	animation* _deadAnim;
 	image* _jumpImg;				//점프 모습 : 1프레임
@@ -54,6 +64,9 @@ protected:
 
 	int _partyIdx;					//파티에 종속되어 있다면 몇변째 파티원인가?!
 	float _posX, _posY;				//출력될 위치좌표(중점)
+	//애니메이션을 재생할지 말지에 대한 불값
+	bool _playAnimList[MAXANIMATIONNUM];
+	//bool _playIdle, _playAtk, _playMagicAtk, _playWin, _playDead;
 
 public:
 	battlePlayerMother();
@@ -90,11 +103,15 @@ public:
 	
 	inline bool getTurnEnd() { return _turnEnd; }	inline void setTurnEnd(bool turnEnd) { _turnEnd = turnEnd; }
 	inline int getPartyIdx() { return _partyIdx; }	inline void setPartyIdx(int idx) { _partyIdx = idx; }
+	inline baattlePlayerStatus getStatus() { return _status; }	inline void setStatus(baattlePlayerStatus status) { _status = status; }
 	//====================================== End 접근자 설정자 ======================================
 
 	//배틀시작할 때 한꺼번에 모든 배틀플레이어를 세팅하자
 	void setAllBattlePlayerInfo(int lv, int curExp, int maxExp, int curHp, int maxHp, int curMp,
 		int maxMp, int speed, int strength, int magic, int m_def, int a_def, int attack, int evasion, int m_evasion, int stamina);
 	
+	//플레이어의 상태를 IDLE 로 전환하는 함수이다.
+	void setPlayerStatusToIdle(animation* anim);
+	int attackAlgorithm();
 };
 
