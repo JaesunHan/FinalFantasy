@@ -1,6 +1,8 @@
 #pragma once
 #include "gameNode.h"
+#include "fButton.h"
 #include <vector>
+
 
 //****************************************//
 //              wonjjang                  //
@@ -38,13 +40,7 @@ enum SAVE_TYPE
 	SAVE_LOADGAME
 };
 
-struct tagButton
-{
-	image* img;             //버튼 이미지
-	float x, y;             //버튼 위치
-	bool aniStart;          //버튼 에니시작
-	animation* ani;         //버튼 에니메이션
-};
+
 
 struct tagPlayer
 {
@@ -58,12 +54,10 @@ struct tagPlayer
 };
 
 
+
 class menu : public gameNode
 {
 private:
-	typedef vector<tagButton>			    vButton;
-	typedef vector<tagButton>::iterator     viButton;
-
 	typedef vector<tagPlayer>               vPlayer;
 	typedef vector<tagPlayer>::iterator     viPlayer;
 
@@ -78,9 +72,7 @@ protected:
 	//======= saveLoad =======
 
 	//======== button ========
-	vButton   _vButton;
-	viButton  _viButton;
-	int       _buttonNum;
+	fButton*  _button;
 	//======== button ========
 
 	//======== player ========
@@ -105,13 +97,6 @@ public:
 	virtual void cursorKeyControl(float downValueY, int downNumber);
 	//================================ cusor ================================
 
-	//================================ button ===============================
-	virtual void buttonInit(string keyName, float x, float y);
-	virtual void buttonUpdate();
-	virtual void buttonRender();
-	virtual void buttonRemove();
-	//================================ button ===============================
-
 	//================================ player ===============================
 	virtual void playerSlotInit(string keyName, float x, float y, int level, string job, int hp, int maxHp, int mp, int maxMp);
 	virtual void playerSlotUpdate();
@@ -126,9 +111,16 @@ public:
 	virtual char* i2c(int i);
 	//================================= text ================================
 
+	//================================ button ===============================
+
+	//================================ button ===============================
+
+
+
 	menu();
 	~menu();
 
-
 };
+
+
 

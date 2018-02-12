@@ -5,7 +5,7 @@
 class optionMenu : public menu
 {
 private:
-
+	fButton * _button;
 
 public:
 	HRESULT init();

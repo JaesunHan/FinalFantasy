@@ -21,8 +21,10 @@ HRESULT saveLoadMenu::init()
 			_bgImage = IMAGEMANAGER->findImage("뉴게임");
 			cursorInit(CUSOR_RIGHT, 950, 190);
 
-			buttonInit("버튼예스", 1000, 187);
-			buttonInit("버튼노", 1000, 238);
+			_button = new fButton;
+			_button->buttonSet("버튼예스", 1000, 187);
+			_button->buttonSet("버튼노", 1000, 238);
+
 		break;
 		case SAVE_LOADGAME:
 
@@ -43,7 +45,7 @@ void saveLoadMenu::release()
 void saveLoadMenu::update()	
 {
 	cursorUpdate();
-	buttonUpdate();
+	_button->update();
 
 	cursorKeyControl(51, 2);
 
@@ -52,27 +54,41 @@ void saveLoadMenu::update()
 	{
 		case 0:
 			//버튼 에니메이션 활성화
-			_vButton[0].aniStart = true;
-			_vButton[1].aniStart = false;
+			_button->setVButtonAniStart(0, true);
+			_button->setVButtonAniStart(1, false);
 
 			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 			{
-				buttonRemove();
+				_button->buttonRemove();
+				delete _button;
 				SCENEMANAGER->changeScene("타이틀");
 			}
 		break;
 		case 1:
 			//버튼 에니메이션 활성화
-			_vButton[1].aniStart = true;
-			_vButton[0].aniStart = false;
+			_button->setVButtonAniStart(1, true);
+			_button->setVButtonAniStart(0, false);
 
 			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 			{
-				buttonRemove();
+				_button->buttonRemove();
+				delete _button;
 				SCENEMANAGER->changeScene("로딩");
 			}
 		break;
 	}
+}
+
+void saveLoadMenu::render()
+{
+	_bgImage->render(getMemDC());
+	_button->render();
+	cursorRender();
+
+	char str[32];
+	sprintf(str, "%d", _cursor.currentNum);
+	TextOut(getMemDC(), 10, 100, str, strlen(str));
+
 }
 
 
