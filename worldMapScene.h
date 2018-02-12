@@ -1,10 +1,13 @@
 #pragma once
 #include "gameNode.h"
+#include "worldMap.h"
 
-
-class worldMapScene
+class worldMapScene : public gameNode
 {
 public:
+
+	worldMap* _worldMap;
+
 	worldMapScene();
 	~worldMapScene();
 

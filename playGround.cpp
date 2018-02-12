@@ -19,8 +19,11 @@ HRESULT playGround::init()
 	_pm = new playerManager;
 	_pm->init();
 	_bts = new BattleScene;
+
+
 	SCENEMANAGER->addScene("mapToolScene", new mapTool);
 	SCENEMANAGER->addScene("¹èÆ²¾À", _bts);
+	SCENEMANAGER->addScene("¿ùµå¸Ê¾À", new worldMapScene);
 	
 	//SCENEMANAGER->changeScene("mapToolScene");
 	
@@ -89,6 +92,14 @@ void playGround::update(void)
 	//================================ µğ¹ö±× ================================
 	if (KEYMANAGER->isOnceKeyDown(VK_F1)) _isDebug = !_isDebug;
 	//================================ µğ¹ö±× ================================
+
+	//==============================¿ùµå¸Ê¾À===================================
+	if (KEYMANAGER->isOnceKeyDown('P'))
+	{
+		SCENEMANAGER->changeScene("¿ùµå¸Ê¾À");
+	}
+	//========================================================================
+
 
 	SCENEMANAGER->update();
 }

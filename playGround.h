@@ -7,12 +7,16 @@
 #include "titleScene.h"
 #include "saveLoadMenu.h"
 #include "optionMenu.h"
+#include "worldMapScene.h"
 
 class playGround : public gameNode
 {
 private:
 	playerManager * _pm;
 	BattleScene * _bts;
+	
+
+
 	bool _isBattle;
 public:
 	virtual HRESULT init(void);		//초기화 함수
