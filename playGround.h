@@ -10,6 +10,11 @@
 #include "worldMapScene.h"
 #include "newGame.h"
 #include "loadGame.h"
+#include "abilitiesMenu.h"
+#include "configMenu.h"
+#include "equipMenu.h"
+#include "itemMenu.h"
+#include "statusMenu.h"
 
 
 class playGround : public gameNode

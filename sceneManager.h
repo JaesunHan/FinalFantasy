@@ -36,7 +36,7 @@ public:
 	gameNode* addLoadingScene(string loadingSceneName, gameNode* scene);
 
 	//¾À º¯°æ
-	HRESULT changeScene(string sceneName);
+	HRESULT changeScene(string sceneName, bool initCall = true);
 	HRESULT changeScene(string sceneName, string loadingSceneName);
 
 	gameNode* findScene(string sceneName);

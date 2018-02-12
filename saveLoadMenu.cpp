@@ -21,10 +21,6 @@ HRESULT saveLoadMenu::init()
 	_button->buttonSet("버튼노", 1000, 238);
 
 
-
-
-
-
 	return S_OK;
 }
 
@@ -67,6 +63,14 @@ void saveLoadMenu::update()
 				SCENEMANAGER->changeScene("로딩");
 			}
 		break;
+	}
+
+	//옵션 메뉴가기
+	if (KEYMANAGER->isOnceKeyDown(VK_BACK))
+	{
+		_button->buttonRemove();
+		delete _button;
+		SCENEMANAGER->changeScene("옵션");
 	}
 }
 

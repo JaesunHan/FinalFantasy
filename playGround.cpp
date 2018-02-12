@@ -36,6 +36,11 @@ HRESULT playGround::init()
 	SCENEMANAGER->addScene("옵션", new optionMenu);
 	SCENEMANAGER->addScene("뉴게임", new newGame);
 	SCENEMANAGER->addScene("로드게임", new loadGame);
+	SCENEMANAGER->addScene("능력치", new abilitiesMenu);
+	SCENEMANAGER->addScene("사운드", new configMenu);
+	SCENEMANAGER->addScene("장비", new equipMenu);
+	SCENEMANAGER->addScene("아이템", new itemMenu);
+	SCENEMANAGER->addScene("상태", new statusMenu);
 	//=========================== 메뉴씬 ===========================
 	
 	SCENEMANAGER->changeScene("로딩");
