@@ -110,6 +110,7 @@ void playGround::render(void)
 	PatBlt(getMemDC(), 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
 	//================== 이 위는 손대지 마시오 =========================
 
+	SetBkMode(getMemDC(), TRANSPARENT);
 	SCENEMANAGER->render();
 
 	//================== 이 아래는 손대지 마시오 ========================
