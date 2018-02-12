@@ -55,18 +55,9 @@ void soundManager::release()
 		_channel[i]->stop();
 	}
 
-	for (int i = _mTotalSounds.size() - 1; i > 0; --i)
+	for (int i = 0; i < _mTotalSounds.size(); ++i)
 	{
-		arrSoundsIter iter = _mTotalSounds.begin();
-	
-		for (iter; iter != _mTotalSounds.end(); ++iter)
-		{
-			if (&_sound[i] == iter->second)
-			{
-				_mTotalSounds.erase(iter);
-			}
-		}
-		_sound[i]->release();
+		releaseSound(0);
 	}
 
 	//메모리 지워준다
@@ -88,6 +79,7 @@ void soundManager::update()
 	//볼륨이 바뀌거나, 재생이 끝난 사운드를 채널에서 빼는 등
 	//다양한 작업을 자동으로 해준다.
 	_system->update();
+
 }
 
 

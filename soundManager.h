@@ -63,5 +63,6 @@ public:
 	bool isPlaySound(string keyName);
 	bool isPauseSound(string keyName);
 
+	inline Channel* getChannel(CHANNELTYPE channel) { return _channel[channel]; }
 };
 

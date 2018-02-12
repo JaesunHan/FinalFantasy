@@ -35,8 +35,12 @@ private:
 	int _maxMonster;								//최대 몬스터 수
 	int _currentTurn;								//현재 턴이 누구턴인가 저장... 하려고 했으나 아직 안씀
 	int _menuNum = 0;								//메뉴 선택 번호(1번 공격, 2번 마법, 3번 스킬, 4번 아이템, 5번 도망)
+	unsigned int _position;
 	bool _counterRoll = true;						//참일때만 카운터 증가
 	bool _playerTurn = false;
+	bool _sfx01 = false;
+	bool _sfx02 = false;
+	HFONT newFont, oldFont;
 public:
 	BattleScene();
 	~BattleScene();
@@ -51,6 +55,8 @@ public:
 	void playerMenuSelect();
 	void characterDraw();
 	void drawUI();
+	void playerFrameUpdate();
+	void soundControl();
 
 	inline battlePlayerMother* getTinaAddress() { return _battleCharacters[0].player; }
 	inline battlePlayerMother* getLockeAddress() { return _battleCharacters[1].player; }

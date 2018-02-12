@@ -33,7 +33,9 @@ HRESULT BattleScene::init()
 	IMAGEMANAGER->addImage("celesFace00", ".\\image\\playerImg\\celes\\celes_face.bmp", 56, 38, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("shadowFace00", ".\\image\\playerImg\\shadow\\shadow_face.bmp", 56, 38, true, RGB(255, 0, 255));
 	//음악 추가
-	SOUNDMANAGER->addSound("battleBGM", ".\\sound\\battleSound\\05 - Battle Theme.mp3", false, false);
+	SOUNDMANAGER->addSound("battleBGM", ".\\sound\\battleSound\\05 - Battle Theme.mp3", false, true);
+	SOUNDMANAGER->addSound("battleMenuOpen", ".\\sound\\sfx\\battleMenuOpen.wav", false, false);
+	SOUNDMANAGER->addSound("menuSelectLow", ".\\sound\\sfx\\menuSelectLow.wav", false, false);
 	SOUNDMANAGER->play("battleBGM", CH_BGM, 1.0f);
 
 	tagBattleCharacters temp;
@@ -112,12 +114,8 @@ void BattleScene::update()
 	ATBGauzeTimer();
 	playerMenuSelect();
 	updateWhenCharacterTurn();
-
-	//플레이어 애니메이션 프레임 업데이트
-	for (int i = 0; i < 4; ++i)
-	{
-		_battleCharacters[i].player->animationFrameUpdate();
-	}
+	playerFrameUpdate();
+	soundControl();
 }
 
 void BattleScene::render() 
@@ -205,13 +203,21 @@ void BattleScene::playerMenuSelect()
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_UP))
 	{
-		_menuNum--;
-		if (_menuNum < 0) _menuNum = 4;
+		if (_playerTurn == true)
+		{
+			_menuNum--;
+			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
+			if (_menuNum < 0) _menuNum = 4;
+		}
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 	{
-		_menuNum++;
-		if (_menuNum > 4) _menuNum = 0;
+		if (_playerTurn == true)
+		{
+			_menuNum++;
+			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
+			if (_menuNum > 4) _menuNum = 0;
+		}
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{
@@ -220,6 +226,7 @@ void BattleScene::playerMenuSelect()
 	if (KEYMANAGER->isOnceKeyDown(VK_TAB))
 	{
 		_menuNum = 0;
+		_sfx01 = false;
 		while (1)
 		{
 			_currentTurn++;
@@ -246,6 +253,14 @@ void BattleScene::playerMenuSelect()
 			break;
 		}
 	}
+	//if (KEYMANAGER->isOnceKeyDown('R'))
+	//{
+	//	SOUNDMANAGER->releaseSingleSound("menuSelectLow");
+	//}
+	//if (KEYMANAGER->isOnceKeyDown('T'))
+	//{
+	//	SOUNDMANAGER->addSound("menuSelectLow", ".\\sound\\sfx\\menuSelectLow.wav", false, false);
+	//}
 }
 
 void BattleScene::characterDraw()
@@ -268,7 +283,6 @@ void BattleScene::characterDraw()
 
 void BattleScene::drawUI()
 {
-	HFONT newFont, oldFont;
 	SetTextColor(getMemDC(), RGB(255, 255, 255));
 	//UI 랜더
 	for (int i = 0; i < 4; ++i)
@@ -293,6 +307,13 @@ void BattleScene::drawUI()
 			newFont = CreateFont(30, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
 			oldFont = (HFONT)SelectObject(getMemDC(), newFont);
 			DrawText(getMemDC(), "티나", -1, &nameRC, DT_CENTER | DT_WORDBREAK);
+
+
+			SOUNDMANAGER->getChannel(CH_BGM)->getPosition(&_position, FMOD_TIMEUNIT_MS);
+			char test[300];
+			wsprintf(test, "%d", _position);
+			TextOut(getMemDC(), 100, 100, test, strlen(test));
+
 			SelectObject(getMemDC(), oldFont);
 			DeleteObject(oldFont);
 			DeleteObject(newFont);
@@ -300,6 +321,9 @@ void BattleScene::drawUI()
 			oldFont = (HFONT)SelectObject(getMemDC(), newFont);
 			DrawText(getMemDC(), hpStr, -1, &hpRC, DT_LEFT | DT_WORDBREAK);
 			DrawText(getMemDC(), mpStr, -1, &mpRC, DT_LEFT | DT_WORDBREAK);
+			SelectObject(getMemDC(), oldFont);
+			DeleteObject(oldFont);
+			DeleteObject(newFont);
 			break;
 		case(LOCKE):
 			IMAGEMANAGER->findImage("lockeFace00")->enlargeRender(getMemDC(), WINSIZEX - 100, 160 * i + 20, 84, 57);
@@ -313,6 +337,9 @@ void BattleScene::drawUI()
 			oldFont = (HFONT)SelectObject(getMemDC(), newFont);
 			DrawText(getMemDC(), hpStr, -1, &hpRC, DT_LEFT | DT_WORDBREAK);
 			DrawText(getMemDC(), mpStr, -1, &mpRC, DT_LEFT | DT_WORDBREAK);
+			SelectObject(getMemDC(), oldFont);
+			DeleteObject(oldFont);
+			DeleteObject(newFont);
 			break;
 		case(CELES):
 			IMAGEMANAGER->findImage("celesFace00")->enlargeRender(getMemDC(), WINSIZEX - 100, 160 * i + 20, 84, 57);
@@ -326,6 +353,9 @@ void BattleScene::drawUI()
 			oldFont = (HFONT)SelectObject(getMemDC(), newFont);
 			DrawText(getMemDC(), hpStr, -1, &hpRC, DT_LEFT | DT_WORDBREAK);
 			DrawText(getMemDC(), mpStr, -1, &mpRC, DT_LEFT | DT_WORDBREAK);
+			SelectObject(getMemDC(), oldFont);
+			DeleteObject(oldFont);
+			DeleteObject(newFont);
 			break;
 		case(SHADOW):
 			IMAGEMANAGER->findImage("shadowFace00")->enlargeRender(getMemDC(), WINSIZEX - 100, 160 * i + 20, 84, 57);
@@ -339,6 +369,9 @@ void BattleScene::drawUI()
 			oldFont = (HFONT)SelectObject(getMemDC(), newFont);
 			DrawText(getMemDC(), hpStr, -1, &hpRC, DT_LEFT | DT_WORDBREAK);
 			DrawText(getMemDC(), mpStr, -1, &mpRC, DT_LEFT | DT_WORDBREAK);
+			SelectObject(getMemDC(), oldFont);
+			DeleteObject(oldFont);
+			DeleteObject(newFont);
 			break;
 		}
 		if (_battleCharacters[i].ATBcounter > 65535)
@@ -397,10 +430,33 @@ void BattleScene::drawUI()
 				DrawText(getMemDC(), escapeMenu, -1, &escapeMenuRC, DT_LEFT | DT_WORDBREAK);
 				break;
 			}
+			SelectObject(getMemDC(), oldFont);
+			DeleteObject(oldFont);
+			DeleteObject(newFont);
 			IMAGEMANAGER->findImage("fingerArrowRt")->render(getMemDC(), WINSIZEX - 240, 160 * i + 5 + (_menuNum * 30));
+			if (_sfx01 == false)
+			{
+				SOUNDMANAGER->play("battleMenuOpen", CH_EFFECT01, 1.0f);
+				_sfx01 = true;
+			}
 		}
 	}
-	SelectObject(getMemDC(), oldFont);
-	DeleteObject(oldFont);
-	DeleteObject(newFont);
+}
+
+void BattleScene::playerFrameUpdate()
+{
+	//플레이어 애니메이션 프레임 업데이트
+	for (int i = 0; i < 4; ++i)
+	{
+		_battleCharacters[i].player->animationFrameUpdate();
+	}
+}
+
+void BattleScene::soundControl()
+{
+	SOUNDMANAGER->getChannel(CH_BGM)->getPosition(&_position, FMOD_TIMEUNIT_MS);
+	if (_position >= 56800)
+	{
+		SOUNDMANAGER->getChannel(CH_BGM)->setPosition(4000, FMOD_TIMEUNIT_MS);
+	}
 }
