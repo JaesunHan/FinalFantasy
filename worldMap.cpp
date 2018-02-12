@@ -32,7 +32,6 @@ void worldMap::render()
 	for (int i = 0; i < _worldMap.x * _worldMap.y; ++i)
 	{	//아일랜드.map 크기만큼 그려준다.
 		_worldMapTiles[i].render(getMemDC(), 0, 0);
-
 	}
 }
 
