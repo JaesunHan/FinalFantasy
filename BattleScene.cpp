@@ -194,7 +194,7 @@ void BattleScene::playerMenuSelect()
 	//플레이어 ATB 카운터가 차면 플레이어 메뉴 선택
 	for (int i = 0; i < 4; ++i)
 	{
-		if (_battleCharacters[i].ATBcounter > 65535) _battleCharacters[i].ATBcounter = 65536;
+		if (_battleCharacters[i].selectAction == false && _battleCharacters[i].ATBcounter > 65535) _battleCharacters[i].ATBcounter = 65536;
 		if (_battleCharacters[i].ATBcounter > 65535 && _playerTurn == false)
 		{
 			_playerTurn = true;
@@ -235,7 +235,11 @@ void BattleScene::playerMenuSelect()
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{
 		SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
-		if (_playerTurn == true)
+		if (_enemySelect == true)
+		{
+
+		}
+		else if (_playerTurn == true)
 		{
 			switch (_menuNum)
 			{
@@ -441,7 +445,7 @@ void BattleScene::drawUI()
 		{
 			IMAGEMANAGER->findImage("fingerArrowLt")->render(getMemDC(), _battleCharacters[_enemyNum].enemy->getX(), _battleCharacters[_enemyNum].enemy->getY());
 		}
-		if (_playerTurn == true && i == _currentTurn)
+		else if (_playerTurn == true && i == _currentTurn)
 		{
 			switch (_battleCharacters[_currentTurn].characterType)
 			{
