@@ -5,7 +5,7 @@
 guard::guard()
 {
 	//=================================================== 에너미 이미지 ==========================================================
-	IMAGEMANAGER->addFrameImage("guard", ".\\image\\enemyImg\\guard.bmp", 132, 62, 2, 1, true, RGB(255, 0, 255), true);
+	_img = IMAGEMANAGER->addFrameImage("guard", ".\\image\\enemyImg\\guard.bmp", 132, 62, 2, 1, true, RGB(255, 0, 255), true);
 	//===========================================================================================================================
 
 	//================================================= 에너미 이펙트 이미지 =====================================================
@@ -80,7 +80,7 @@ void guard::update()
 
 void guard::render()
 {
-	IMAGEMANAGER->findImage("guard")->alphaFrameRender(getMemDC(), _x, _y, _frameX, 0, _alpha);
+	IMAGEMANAGER->findImage("guard")->alphaFrameRender(getMemDC(), _x - _img->getWidth() / 2, _y - _img->getHeight() / 2, _frameX, 0, _alpha);
 	//IMAGEMANAGER->findImage("guard")->frameRender(getMemDC(), _x, _y);
 }
 

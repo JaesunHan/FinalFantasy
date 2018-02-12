@@ -5,7 +5,7 @@
 tornadoShark::tornadoShark()
 {
 	//=================================================== 에너미 이미지 ==========================================================
-	IMAGEMANAGER->addFrameImage("tornadoShack", ".\\image\\enemyImg\\tornadoShack.bmp", 262, 118, 2, 1, true, RGB(255, 0, 255), true);
+	_img = IMAGEMANAGER->addFrameImage("tornadoShack", ".\\image\\enemyImg\\tornadoShack.bmp", 262, 118, 2, 1, true, RGB(255, 0, 255), true);
 	//===========================================================================================================================
 
 	//================================================= 에너미 이펙트 이미지 =====================================================
@@ -80,7 +80,7 @@ void tornadoShark::update()
 
 void tornadoShark::render()
 {
-	IMAGEMANAGER->findImage("tornadoShack")->alphaFrameRender(getMemDC(), _x, _y, _frameX, 0, _alpha);
+	IMAGEMANAGER->findImage("tornadoShack")->alphaFrameRender(getMemDC(), _x - _img->getWidth() / 2, _y - _img->getHeight() / 2, _frameX, 0, _alpha);
 	//IMAGEMANAGER->findImage("tornadoShack")->frameRender(getMemDC(), _x, _y);
 }
 

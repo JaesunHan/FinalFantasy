@@ -5,7 +5,7 @@
 samurai::samurai()
 {
 	//=================================================== 에너미 이미지 ==========================================================
-	IMAGEMANAGER->addFrameImage("samurai", ".\\image\\enemyImg\\samurai.bmp", 108, 103, 2, 1, true, RGB(255, 0, 255), true);
+	_img = IMAGEMANAGER->addFrameImage("samurai", ".\\image\\enemyImg\\samurai.bmp", 108, 103, 2, 1, true, RGB(255, 0, 255), true);
 	//===========================================================================================================================
 
 	//================================================= 에너미 이펙트 이미지 =====================================================
@@ -80,7 +80,7 @@ void samurai::update()
 
 void samurai::render()
 {
-	IMAGEMANAGER->findImage("samurai")->alphaFrameRender(getMemDC(), _x, _y, _frameX, 0, _alpha);
+	IMAGEMANAGER->findImage("samurai")->alphaFrameRender(getMemDC(), _x - _img->getWidth() / 2, _y - _img->getHeight() / 2, _frameX, 0, _alpha);
 	//IMAGEMANAGER->findImage("samurai")->frameRender(getMemDC(), _x, _y);
 }
 

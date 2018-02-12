@@ -5,7 +5,7 @@
 Bear::Bear()
 {
 	//=================================================== 에너미 이미지 ==========================================================
-	IMAGEMANAGER->addFrameImage("bear", ".\\image\\enemyImg\\bear.bmp", 180, 106, 2, 1, true, RGB(255, 0, 255), true);
+	_img = IMAGEMANAGER->addFrameImage("bear", ".\\image\\enemyImg\\bear.bmp", 180, 106, 2, 1, true, RGB(255, 0, 255), true);
 	//===========================================================================================================================
 	
 	//================================================= 에너미 이펙트 이미지 =====================================================
@@ -61,7 +61,7 @@ void Bear::update()
 		//카운트 쁠쁠
 		_count++;
 		
-		//_count가 15보다 작으면 반짝반짝
+		//_count가 21보다 작으면 반짝반짝
 		if (_count < 21) glitter();
 
 		//에너미의 상태가 공격 또는 스킬쓰는 상태를 랜덤으로 받음 
@@ -75,7 +75,7 @@ void Bear::update()
 		//에너미 공격 상태면
 		if ((_state == ENEMY_HIT && _rndNum <= 7) || (_state == ENEMY_SPELL && _rndNum <= 7))
 		{
-			//_count가 200보다 커지면 공격 이펙트가 그려짐
+			//_count가 80보다 커지면 공격 이펙트가 그려짐
 			if (_count > 80 && _effectFire == true)
 			{
 				EFFECTMANAGER->play("bear기본공격이펙트", 800, 320);
@@ -85,7 +85,7 @@ void Bear::update()
 		}
 		if ((_state == ENEMY_HIT && _rndNum > 7) || (_state == ENEMY_SPELL && _rndNum > 7))
 		{
-			//_count가 200보다 커지면 공격 이펙트가 그려짐
+			//_count가 80보다 커지면 공격 이펙트가 그려짐
 			if (_count > 80 && _effectFire == true)
 			{
 				EFFECTMANAGER->play("bear스킬공격이펙트", 800, 320);
@@ -95,7 +95,7 @@ void Bear::update()
 			}
 		}
 
-		//_count가 500보다 크면 턴을 플레이어에게 넘긴다
+		//_count가 150보다 크면 턴을 플레이어에게 넘긴다
 		if (_count > 150)
 		{
 			_turnEnd = true;
@@ -109,7 +109,7 @@ void Bear::update()
 
 void Bear::render()
 {
-	IMAGEMANAGER->findImage("bear")->alphaFrameRender(getMemDC(), _x, _y, _frameX, 0, _alpha);
+	IMAGEMANAGER->findImage("bear")->alphaFrameRender(getMemDC(), _x - _img->getWidth() / 2, _y - _img->getHeight() / 2, _frameX, 0, _alpha);
 	//IMAGEMANAGER->findImage("bear")->frameRender(getMemDC(), _x, _y);
 }
 

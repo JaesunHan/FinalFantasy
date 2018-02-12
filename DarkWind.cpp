@@ -5,7 +5,7 @@
 DarkWind::DarkWind()
 {
 	//=================================================== 에너미 이미지 ==========================================================
-	IMAGEMANAGER->addFrameImage("darkWind", ".\\image\\enemyImg\\DarkWind.bmp", 132, 81, 2, 1, true, RGB(255, 0, 255), true);
+	_img = IMAGEMANAGER->addFrameImage("darkWind", ".\\image\\enemyImg\\DarkWind.bmp", 132, 81, 2, 1, true, RGB(255, 0, 255), true);
 	//===========================================================================================================================
 
 	//================================================= 에너미 이펙트 이미지 =====================================================
@@ -87,7 +87,7 @@ void DarkWind::update()
 
 void DarkWind::render()
 {
-	IMAGEMANAGER->findImage("darkWind")->alphaFrameRender(getMemDC(), _x, _y, _frameX, 0, _alpha);
+	IMAGEMANAGER->findImage("darkWind")->alphaFrameRender(getMemDC(), _x - _img->getWidth() / 2, _y - _img->getHeight() / 2, _frameX, 0, _alpha);
 	//IMAGEMANAGER->findImage("darkWind")->frameRender(getMemDC(), _x, _y);
 }
 

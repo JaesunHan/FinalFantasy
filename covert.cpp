@@ -5,7 +5,7 @@
 covert::covert()
 {
 	//=================================================== 에너미 이미지 ==========================================================
-	IMAGEMANAGER->addFrameImage("covert", ".\\image\\enemyImg\\covert.bmp", 260, 91, 2, 1, true, RGB(255, 0, 255), true);
+	_img = IMAGEMANAGER->addFrameImage("covert", ".\\image\\enemyImg\\covert.bmp", 260, 91, 2, 1, true, RGB(255, 0, 255), true);
 	//===========================================================================================================================
 
 	//================================================= 에너미 이펙트 이미지 =====================================================
@@ -80,7 +80,7 @@ void covert::update()
 
 void covert::render()
 {
-	IMAGEMANAGER->findImage("covert")->alphaFrameRender(getMemDC(), _x, _y, _frameX, 0, _alpha);
+	IMAGEMANAGER->findImage("covert")->alphaFrameRender(getMemDC(), _x - _img->getWidth() / 2, _y - _img->getHeight() / 2, _frameX, 0, _alpha);
 	//IMAGEMANAGER->findImage("covert")->frameRender(getMemDC(), _x, _y);
 }
 

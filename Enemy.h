@@ -17,6 +17,8 @@ class battlePlayerMother;
 class Enemy : public gameNode
 {
 protected:
+	image* _img;
+
 	unsigned int _Lv;						//레벨
 	unsigned int _maxEXP;					//경험치
 	unsigned int _gold;						//돈
