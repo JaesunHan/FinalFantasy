@@ -48,7 +48,8 @@ protected:
 
 	EnemyState _state;						//에너미들 상태값
 	
-	effect* _test;							//에너미들 공격 이펙트 테스트
+	effect* _atkEffect;						//에너미 기본공격 이펙트
+	effect* _spellEffect;					//에너미 스킬공격 이펙트
 	bool _effectFire = true;				//이펙트 터트리기 위한 불값
 
 	int _count = 0;

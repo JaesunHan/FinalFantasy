@@ -8,12 +8,17 @@ Bear::Bear()
 	IMAGEMANAGER->addFrameImage("bear", ".\\image\\enemyImg\\bear.bmp", 180, 106, 2, 1, true, RGB(255, 0, 255), true);
 
 	//에너미 이펙트 이미지
-	IMAGEMANAGER->addImage("이펙트", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addImage("bear기본공격이미지", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addImage("bear스킬공격이미지", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, true, RGB(255, 0, 255), true);
 	
-	_test = new effect;
-	_test->init(IMAGEMANAGER->findImage("이펙트"), 117, 85, 1.0f, 0.5f);
+	_atkEffect = new effect;
+	_atkEffect->init(IMAGEMANAGER->findImage("bear기본공격이미지"), 117, 85, 1.0f, 0.5f);
+
+	_spellEffect = new effect;
+	_spellEffect->init(IMAGEMANAGER->findImage("bear스킬공격이미지"), 117, 85, 1.0f, 0.5f);
 	
-	EFFECTMANAGER->addEffect("폭발", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, 117, 85, 1.0f, 1.0f, 1000); 
+	EFFECTMANAGER->addEffect("bear기본공격이펙트", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, 117, 85, 1.0f, 1.0f, 1000); 
+	EFFECTMANAGER->addEffect("bear스킬공격이펙트", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, 117, 85, 1.0f, 1.0f, 1000);
 
 	_Lv = 5;										//레벨
 	_maxEXP = RND->getFromIntTo(150, 170);	 		//현재 경험치, 최대 경험치
@@ -56,10 +61,16 @@ void Bear::update()
 
 		if (_effectFire == true)
 		{
-			EFFECTMANAGER->play("폭발", 800, 320);
+			EFFECTMANAGER->play("bear기본공격이펙트", 800, 320);
 
 			_effectFire = false;
 		}
+		//if (_effectFire == true)
+		//{
+		//	EFFECTMANAGER->play("bear스킬공격이펙트", 800, 320);
+		//
+		//	_effectFire = false;
+		//}
 
 		if (_count > 150)
 		{
@@ -73,7 +84,8 @@ void Bear::update()
 
 void Bear::render()
 {
-	IMAGEMANAGER->findImage("bear")->alphaFrameRender(getMemDC(), _x, _y, _frameX, 0, _alpha);
+	//IMAGEMANAGER->findImage("bear")->alphaFrameRender(getMemDC(), _x, _y, _frameX, 0, _alpha);
+	IMAGEMANAGER->findImage("bear")->frameRender(getMemDC(), _x, _y);
 }
 
 void Bear::bearSkill()

@@ -7,6 +7,19 @@ VectorPup::VectorPup()
 	//에너미 이미지
 	IMAGEMANAGER->addFrameImage("vectorPup", ".\\image\\enemyImg\\VectorPup.bmp", 184, 46, 2, 1, true, RGB(255, 0, 255), true);
 	
+	//에너미 이펙트 이미지
+	IMAGEMANAGER->addImage("vectorPup기본공격이미지", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addImage("vectorPup스킬공격이미지", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, true, RGB(255, 0, 255), true);
+
+	_atkEffect = new effect;
+	_atkEffect->init(IMAGEMANAGER->findImage("vectorPup기본공격이미지"), 117, 85, 1.0f, 0.5f);
+
+	_spellEffect = new effect;
+	_spellEffect->init(IMAGEMANAGER->findImage("vectorPup스킬공격이미지"), 117, 85, 1.0f, 0.5f);
+
+	EFFECTMANAGER->addEffect("vectorPup기본공격이펙트", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, 117, 85, 1.0f, 1.0f, 1000);
+	EFFECTMANAGER->addEffect("vectorPup스킬공격이펙트", ".\\image\\enemyEffect\\effect4.bmp", 585, 85, 117, 85, 1.0f, 1.0f, 1000);
+
 	_Lv = 11;										//레벨
 	_maxEXP = RND->getFromIntTo(125, 135);	 		//현재 경험치, 최대 경험치
 	_gold = RND->getFromIntTo(75, 90);				//돈
@@ -41,7 +54,32 @@ VectorPup::~VectorPup()
 
 void VectorPup::update()
 {
-	//enemyAttack();
+	if (_turnEnd == false)
+	{
+		_count++;
+		if (_count < 50) glitter();
+
+		if (_effectFire == true)
+		{
+			EFFECTMANAGER->play("vectorPup기본공격이펙트", 800, 320);
+
+			_effectFire = false;
+		}
+		//if (_effectFire == true)
+		//{
+		//	EFFECTMANAGER->play("vectorPup스킬공격이펙트", 800, 320);
+		//
+		//	_effectFire = false;
+		//}
+
+		if (_count > 150)
+		{
+			_turnEnd = true;
+			_effectFire = true;
+
+			_count = 0;
+		}
+	}
 }
 
 void VectorPup::render() 
