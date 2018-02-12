@@ -14,24 +14,25 @@ BattleScene::~BattleScene()
 
 HRESULT BattleScene::init()
 {
+	//폰트 추가
 	AddFontResourceEx(
 		"SDMiSaeng.ttf", 	// font file name
 		FR_PRIVATE,         // font characteristics
 		NULL            	// reserved
 	);
-
+	//UI이미지 추가
 	IMAGEMANAGER->addImage("battleBG", ".\\image\\battlebackground\\Plains.bmp", 1200, 640, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("battleUI", ".\\image\\userInterface\\menuBackground.bmp", 64, 64, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("progressBarBottom", ".\\image\\userInterface\\progressBarBottom.bmp", 150, 17, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("progressBarTop", ".\\image\\userInterface\\progressBarTop.bmp", 170, 23, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("progressBarComplete", ".\\image\\userInterface\\progressBarComplete.bmp", 150, 17, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("fingerArrow", ".\\image\\userInterface\\fingerArrow.bmp", 25, 25, true, RGB(255, 0, 255));
-
+	IMAGEMANAGER->addImage("fingerArrowRt", ".\\image\\userInterface\\fingerArrowRt.bmp", 25, 25, true, RGB(255, 0, 255));
+	//플레이어 얼굴 이미지 추가
 	IMAGEMANAGER->addImage("tinaFace00", ".\\image\\playerImg\\tina\\tina_face.bmp", 56, 38, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("lockeFace00", ".\\image\\playerImg\\locke\\locke_face.bmp", 56, 38, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("celesFace00", ".\\image\\playerImg\\celes\\celes_face.bmp", 56, 38, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("shadowFace00", ".\\image\\playerImg\\shadow\\shadow_face.bmp", 56, 38, true, RGB(255, 0, 255));
-
+	//음악 추가
 	SOUNDMANAGER->addSound("battleBGM", ".\\sound\\battleSound\\05 - Battle Theme.mp3", false, false);
 	SOUNDMANAGER->play("battleBGM", CH_BGM, 1.0f);
 
@@ -53,7 +54,7 @@ HRESULT BattleScene::init()
 	temp.ATBcounter = 25000 + RND->getInt(10000);
 	temp.player = new battleCeles;
 	_battleCharacters.push_back(temp);
-
+	//플레이어 인덱스 순서에 맞게 조정
 	for (int j = 1; j < 4; ++j)
 	{
 		for (int i = j; i < 4; ++i)
@@ -65,8 +66,8 @@ HRESULT BattleScene::init()
 			}
 		}
 	}
-
-	_maxMonster = RND->getInt(3) + 1;		//최대 몬스터 랜덤 지정
+	//최대 몬스터 랜덤 지정
+	_maxMonster = RND->getInt(3) + 1;		
 	//에너미 동적할당 후 벡터에 담기
 	for (int i = 0; i < _maxMonster; ++i)
 	{
@@ -191,6 +192,7 @@ void BattleScene::updateWhenCharacterTurn()
 
 void BattleScene::playerMenuSelect()
 {
+	//플레이어 ATB 카운터가 차면 플레이어 메뉴 선택
 	for (int i = 0; i < 4; ++i)
 	{
 		if (_battleCharacters[i].ATBcounter > 65535) _battleCharacters[i].ATBcounter = 65536;
@@ -203,11 +205,28 @@ void BattleScene::playerMenuSelect()
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_UP))
 	{
-
+		_menuNum--;
+		if (_menuNum < 0) _menuNum = 4;
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 	{
+		_menuNum++;
+		if (_menuNum > 4) _menuNum = 0;
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+	{
 
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_TAB))
+	{
+		_menuNum = 0;
+		while (1)
+		{
+			_currentTurn++;
+			if (_currentTurn > 3) _currentTurn = 0;
+			if (_battleCharacters[_currentTurn].ATBcounter < 65535) continue;
+			else break;
+		}
 	}
 	if (_playerTurn == true)
 	{
@@ -378,6 +397,7 @@ void BattleScene::drawUI()
 				DrawText(getMemDC(), escapeMenu, -1, &escapeMenuRC, DT_LEFT | DT_WORDBREAK);
 				break;
 			}
+			IMAGEMANAGER->findImage("fingerArrowRt")->render(getMemDC(), WINSIZEX - 240, 160 * i + 5 + (_menuNum * 30));
 		}
 	}
 	SelectObject(getMemDC(), oldFont);
