@@ -36,13 +36,13 @@ HRESULT mapTool::init(void)
 
 	//버튼 초기화
 	_newBtn = RectMake(850, 480, 100, 30);
-	_saveBtn = RectMake(850, 520, 100, 30);
-	_loadBtn = RectMake(960, 520, 100, 30);
+	_saveBtn = RectMake(960, 480, 100, 30);
+	_loadBtn = RectMake(1070, 480, 100, 30);
 	//_terrainBtn = RectMake(850, 560, 100, 30);
 	//_objectBtn = RectMake(960, 560, 100, 30);
-	_eraserBtn = RectMake(1070, 560, 100, 30);
-	_changeGameModeBtn = RectMake(850, 600, 100, 30);
-	_changeMapEditModeBtn = RectMake(960, 600, 100, 30);
+	_eraserBtn = RectMake(850, 520, 100, 30);
+	//_changeGameModeBtn = RectMake(850, 600, 100, 30);
+	//_changeMapEditModeBtn = RectMake(960, 600, 100, 30);
 
 	//타일셋 초기화
 	terrainTileSetInit("worldTerrain");
@@ -336,10 +336,10 @@ void mapTool::buttonDraw(void)
 	Rectangle(getMemDC(), _eraserBtn.left, _eraserBtn.top, _eraserBtn.right, _eraserBtn.bottom);
 	TextOut(getMemDC(), _eraserBtn.left + 50, _eraserBtn.top + 7, "eraser", strlen("eraser"));
 	//맵툴 모드, 게임 모드 변경버튼
-	Rectangle(getMemDC(), _changeGameModeBtn.left, _changeGameModeBtn.top, _changeGameModeBtn.right, _changeGameModeBtn.bottom);
-	TextOut(getMemDC(), _changeGameModeBtn.left + 50, _changeGameModeBtn.top + 7, "gameMode", strlen("gameMode"));
-	Rectangle(getMemDC(), _changeMapEditModeBtn.left, _changeMapEditModeBtn.top, _changeMapEditModeBtn.right, _changeMapEditModeBtn.bottom);
-	TextOut(getMemDC(), _changeMapEditModeBtn.left + 50, _changeMapEditModeBtn.top + 7, "mapEdit", strlen("mapEdit"));
+	//Rectangle(getMemDC(), _changeGameModeBtn.left, _changeGameModeBtn.top, _changeGameModeBtn.right, _changeGameModeBtn.bottom);
+	//TextOut(getMemDC(), _changeGameModeBtn.left + 50, _changeGameModeBtn.top + 7, "gameMode", strlen("gameMode"));
+	//Rectangle(getMemDC(), _changeMapEditModeBtn.left, _changeMapEditModeBtn.top, _changeMapEditModeBtn.right, _changeMapEditModeBtn.bottom);
+	//TextOut(getMemDC(), _changeMapEditModeBtn.left + 50, _changeMapEditModeBtn.top + 7, "mapEdit", strlen("mapEdit"));
 
 	HBRUSH hBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
 	HBRUSH oBrush = (HBRUSH)SelectObject(getMemDC(), hBrush);
@@ -538,10 +538,8 @@ BOOL CALLBACK selectTerrainTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, 
 			SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_GETTEXT, (WPARAM)selectPos, (LPARAM)selectImageKey);
 			pThis->terrainTileSetInit(selectImageKey);
 			pThis->_currentSelectMode = MODE_TERRAIN_SELECT;
+			pThis->_selectedTerrainTile.selectTerrain(pThis->_terrainTileSet[0]);
 			break;
-		case IDCANCEL:
-			EndDialog(pThis->_hSelectTerrain, 0);
-			return TRUE;
 		}
 
 		return FALSE;
@@ -562,7 +560,7 @@ BOOL CALLBACK selectObjectTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, L
 	{
 	case WM_INITDIALOG:
 
-		SetWindowPos(hDlg, HWND_TOP, WINSIZEX + 3, 200, 0, 0, SWP_NOSIZE);
+		SetWindowPos(hDlg, HWND_TOP, WINSIZEX + 3, 160, 0, 0, SWP_NOSIZE);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 		pThis = (mapTool*)lParam;
 		pThis->_hSelectObject = hDlg;
@@ -587,12 +585,9 @@ BOOL CALLBACK selectObjectTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, L
 			SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_GETTEXT, (WPARAM)selectPos, (LPARAM)selectImageKey);
 			pThis->objectTileSetInit(selectImageKey);
 			pThis->_currentSelectMode = MODE_OBJECT_SELECT;
+			pThis->_selectedObjectTile.selectObject(pThis->_objectTileSet[0]);
 			break;
-		case IDCANCEL:
-			EndDialog(pThis->_hSelectObject, 0);
-			return TRUE;
 		}
-
 		return FALSE;
 	case WM_CLOSE:
 		PostQuitMessage(0);
