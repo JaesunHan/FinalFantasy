@@ -14,11 +14,18 @@ BattleScene::~BattleScene()
 
 HRESULT BattleScene::init()
 {
+	AddFontResourceEx(
+		"SDMiSaeng.ttf", 	// font file name
+		FR_PRIVATE,         // font characteristics
+		NULL            	// reserved
+	);
+
 	IMAGEMANAGER->addImage("battleBG", ".\\image\\battlebackground\\Plains.bmp", 1200, 640, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("battleUI", ".\\image\\userInterface\\menuBackground.bmp", 64, 64, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("progressBarBottom", ".\\image\\userInterface\\progressBarBottom.bmp", 150, 17, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("progressBarTop", ".\\image\\userInterface\\progressBarTop.bmp", 170, 23, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("progressBarComplete", ".\\image\\userInterface\\progressBarComplete.bmp", 150, 17, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("fingerArrow", ".\\image\\userInterface\\fingerArrow.bmp", 25, 25, true, RGB(255, 0, 255));
 
 	IMAGEMANAGER->addImage("tinaFace00", ".\\image\\playerImg\\tina\\tina_face.bmp", 56, 38, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("lockeFace00", ".\\image\\playerImg\\locke\\locke_face.bmp", 56, 38, true, RGB(255, 0, 255));
@@ -102,7 +109,7 @@ void BattleScene::release()
 void BattleScene::update() 
 {
 	ATBGauzeTimer();
-	
+	playerMenuSelect();
 	updateWhenCharacterTurn();
 
 	//플레이어 애니메이션 프레임 업데이트
@@ -121,6 +128,7 @@ void BattleScene::render()
 	drawUI();
 
 	EFFECTMANAGER->render();
+
 }
 //배틀 타이머 돌리는 함수
 void BattleScene::ATBGauzeTimer()
@@ -185,12 +193,21 @@ void BattleScene::playerMenuSelect()
 {
 	for (int i = 0; i < 4; ++i)
 	{
+		if (_battleCharacters[i].ATBcounter > 65535) _battleCharacters[i].ATBcounter = 65536;
 		if (_battleCharacters[i].ATBcounter > 65535 && _playerTurn == false)
 		{
 			_playerTurn = true;
 			_currentTurn = i;
 			_battleCharacters[i].player->setTurnEnd(false);
 		}
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_UP))
+	{
+
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+	{
+
 	}
 	if (_playerTurn == true)
 	{
@@ -232,26 +249,77 @@ void BattleScene::characterDraw()
 
 void BattleScene::drawUI()
 {
+	HFONT newFont, oldFont;
+	SetTextColor(getMemDC(), RGB(255, 255, 255));
 	//UI 랜더
 	for (int i = 0; i < 4; ++i)
 	{
 		IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 250, 160 * i, 250, 160);
-		RECT nameRC = { WINSIZEX - 150, 160 * i + 20, WINSIZEX - 15, 160 * i + 40 };
-		//_battleCharacters[i].player->getFaceImg()->render(getMemDC(), WINSIZEX - 240, 160 * i + 10);
+		RECT nameRC = { WINSIZEX - 235, 160 * i + 35, WINSIZEX - 100, 160 * i + 65 };
+		RECT hpRC = { WINSIZEX - 200, 160 * i + 80, WINSIZEX - 15, 160 * i + 100 };
+		RECT mpRC = { WINSIZEX - 200, 160 * i + 100, WINSIZEX - 15, 160 * i + 120 };
+		RECT attackMenuRC = { WINSIZEX - 200, 160 * i + 5, WINSIZEX - 115, 160 * i + 35 };
+		RECT magicMenuRC = { WINSIZEX - 200, 160 * i + 35, WINSIZEX - 115, 160 * i + 65 };
+		RECT skillMenuRC = { WINSIZEX - 200, 160 * i + 65, WINSIZEX - 115, 160 * i + 95 };
+		RECT itemMenuRC = { WINSIZEX - 200, 160 * i + 95, WINSIZEX - 115, 160 * i + 125 };
+		RECT escapeMenuRC = { WINSIZEX - 200, 160 * i + 125, WINSIZEX - 115, 160 * i + 155 };
+		char hpStr[128];
+		char mpStr[128];
+		wsprintf(hpStr, "체력 : %d / %d", _battleCharacters[i].player->getCurHP(), _battleCharacters[i].player->getMaxHP());
+		wsprintf(mpStr, "마력 : %d / %d", _battleCharacters[i].player->getCurMP(), _battleCharacters[i].player->getMaxMP());
 		switch (_battleCharacters[i].characterType)
 		{
 		case(TINA):
-			IMAGEMANAGER->findImage("tinaFace00")->enlargeRender(getMemDC(), WINSIZEX - 235, 160 * i + 20, 84, 57);
-			DrawText(getMemDC(), "Tina", -1, &nameRC, DT_LEFT | DT_WORDBREAK);
+			IMAGEMANAGER->findImage("tinaFace00")->enlargeRender(getMemDC(), WINSIZEX - 100, 160 * i + 20, 84, 57);
+			newFont = CreateFont(30, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+			oldFont = (HFONT)SelectObject(getMemDC(), newFont);
+			DrawText(getMemDC(), "티나", -1, &nameRC, DT_CENTER | DT_WORDBREAK);
+			SelectObject(getMemDC(), oldFont);
+			DeleteObject(oldFont);
+			DeleteObject(newFont);
+			newFont = CreateFont(20, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+			oldFont = (HFONT)SelectObject(getMemDC(), newFont);
+			DrawText(getMemDC(), hpStr, -1, &hpRC, DT_LEFT | DT_WORDBREAK);
+			DrawText(getMemDC(), mpStr, -1, &mpRC, DT_LEFT | DT_WORDBREAK);
 			break;
 		case(LOCKE):
-			IMAGEMANAGER->findImage("lockeFace00")->enlargeRender(getMemDC(), WINSIZEX - 235, 160 * i + 20, 84, 57);
+			IMAGEMANAGER->findImage("lockeFace00")->enlargeRender(getMemDC(), WINSIZEX - 100, 160 * i + 20, 84, 57);
+			newFont = CreateFont(30, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+			oldFont = (HFONT)SelectObject(getMemDC(), newFont);
+			DrawText(getMemDC(), "로크", -1, &nameRC, DT_CENTER | DT_WORDBREAK);
+			SelectObject(getMemDC(), oldFont);
+			DeleteObject(oldFont);
+			DeleteObject(newFont);
+			newFont = CreateFont(20, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+			oldFont = (HFONT)SelectObject(getMemDC(), newFont);
+			DrawText(getMemDC(), hpStr, -1, &hpRC, DT_LEFT | DT_WORDBREAK);
+			DrawText(getMemDC(), mpStr, -1, &mpRC, DT_LEFT | DT_WORDBREAK);
 			break;
 		case(CELES):
-			IMAGEMANAGER->findImage("celesFace00")->enlargeRender(getMemDC(), WINSIZEX - 235, 160 * i + 20, 84, 57);
+			IMAGEMANAGER->findImage("celesFace00")->enlargeRender(getMemDC(), WINSIZEX - 100, 160 * i + 20, 84, 57);
+			newFont = CreateFont(30, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+			oldFont = (HFONT)SelectObject(getMemDC(), newFont);
+			DrawText(getMemDC(), "세리스", -1, &nameRC, DT_CENTER | DT_WORDBREAK);
+			SelectObject(getMemDC(), oldFont);
+			DeleteObject(oldFont);
+			DeleteObject(newFont);
+			newFont = CreateFont(20, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+			oldFont = (HFONT)SelectObject(getMemDC(), newFont);
+			DrawText(getMemDC(), hpStr, -1, &hpRC, DT_LEFT | DT_WORDBREAK);
+			DrawText(getMemDC(), mpStr, -1, &mpRC, DT_LEFT | DT_WORDBREAK);
 			break;
 		case(SHADOW):
-			IMAGEMANAGER->findImage("shadowFace00")->enlargeRender(getMemDC(), WINSIZEX - 235, 160 * i + 20, 84, 57);
+			IMAGEMANAGER->findImage("shadowFace00")->enlargeRender(getMemDC(), WINSIZEX - 100, 160 * i + 20, 84, 57);
+			newFont = CreateFont(30, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+			oldFont = (HFONT)SelectObject(getMemDC(), newFont);
+			DrawText(getMemDC(), "쉐도우", -1, &nameRC, DT_CENTER | DT_WORDBREAK);
+			SelectObject(getMemDC(), oldFont);
+			DeleteObject(oldFont);
+			DeleteObject(newFont);
+			newFont = CreateFont(20, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+			oldFont = (HFONT)SelectObject(getMemDC(), newFont);
+			DrawText(getMemDC(), hpStr, -1, &hpRC, DT_LEFT | DT_WORDBREAK);
+			DrawText(getMemDC(), mpStr, -1, &mpRC, DT_LEFT | DT_WORDBREAK);
 			break;
 		}
 		if (_battleCharacters[i].ATBcounter > 65535)
@@ -263,23 +331,56 @@ void BattleScene::drawUI()
 			IMAGEMANAGER->findImage("progressBarBottom")->enlargeRender(getMemDC(), WINSIZEX - 197, 160 * i + 121, 144 * _battleCharacters[i].ATBcounter / 65536, 17);
 		}
 		IMAGEMANAGER->findImage("progressBarTop")->render(getMemDC(), WINSIZEX - 210, 160 * i + 120);
+		newFont = CreateFont(30, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+		oldFont = (HFONT)SelectObject(getMemDC(), newFont);
+		char attackMenu[] = "공격";
+		char magicMenu[] = "마법";
+		char itemMenu[] = "아이템";
+		char escapeMenu[] = "도망";
+		char tinaMenu[] = "변신";
+		char lockeMenu[] = "훔치기";
+		char celesMenu[] = "마법흡수";
+		char shadowMenu[] = "던지기";
 		if (_playerTurn == true && i == _currentTurn)
 		{
 			switch (_battleCharacters[_currentTurn].characterType)
 			{
 			case(TINA):
-
+				IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 250, 160 * i, 150, 160);
+				DrawText(getMemDC(), attackMenu, -1, &attackMenuRC, DT_LEFT | DT_WORDBREAK);
+				DrawText(getMemDC(), magicMenu, -1, &magicMenuRC, DT_LEFT | DT_WORDBREAK);
+				DrawText(getMemDC(), tinaMenu, -1, &skillMenuRC, DT_LEFT | DT_WORDBREAK);
+				DrawText(getMemDC(), itemMenu, -1, &itemMenuRC, DT_LEFT | DT_WORDBREAK);
+				DrawText(getMemDC(), escapeMenu, -1, &escapeMenuRC, DT_LEFT | DT_WORDBREAK);
 				break;
 			case(LOCKE):
-
+				IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 250, 160 * i, 150, 160);
+				DrawText(getMemDC(), attackMenu, -1, &attackMenuRC, DT_LEFT | DT_WORDBREAK);
+				DrawText(getMemDC(), magicMenu, -1, &magicMenuRC, DT_LEFT | DT_WORDBREAK);
+				DrawText(getMemDC(), lockeMenu, -1, &skillMenuRC, DT_LEFT | DT_WORDBREAK);
+				DrawText(getMemDC(), itemMenu, -1, &itemMenuRC, DT_LEFT | DT_WORDBREAK);
+				DrawText(getMemDC(), escapeMenu, -1, &escapeMenuRC, DT_LEFT | DT_WORDBREAK);
 				break;
 			case(CELES):
-
+				IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 250, 160 * i, 150, 160);
+				DrawText(getMemDC(), attackMenu, -1, &attackMenuRC, DT_LEFT | DT_WORDBREAK);
+				DrawText(getMemDC(), magicMenu, -1, &magicMenuRC, DT_LEFT | DT_WORDBREAK);
+				DrawText(getMemDC(), celesMenu, -1, &skillMenuRC, DT_LEFT | DT_WORDBREAK);
+				DrawText(getMemDC(), itemMenu, -1, &itemMenuRC, DT_LEFT | DT_WORDBREAK);
+				DrawText(getMemDC(), escapeMenu, -1, &escapeMenuRC, DT_LEFT | DT_WORDBREAK);
 				break;
 			case(SHADOW):
-
+				IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 250, 160 * i, 150, 160);
+				DrawText(getMemDC(), attackMenu, -1, &attackMenuRC, DT_LEFT | DT_WORDBREAK);
+				DrawText(getMemDC(), magicMenu, -1, &magicMenuRC, DT_LEFT | DT_WORDBREAK);
+				DrawText(getMemDC(), shadowMenu, -1, &skillMenuRC, DT_LEFT | DT_WORDBREAK);
+				DrawText(getMemDC(), itemMenu, -1, &itemMenuRC, DT_LEFT | DT_WORDBREAK);
+				DrawText(getMemDC(), escapeMenu, -1, &escapeMenuRC, DT_LEFT | DT_WORDBREAK);
 				break;
 			}
 		}
 	}
+	SelectObject(getMemDC(), oldFont);
+	DeleteObject(oldFont);
+	DeleteObject(newFont);
 }
