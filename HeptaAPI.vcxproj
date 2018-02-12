@@ -121,6 +121,7 @@
     <ClInclude Include="Locke.h" />
     <ClInclude Include="mapTool.h" />
     <ClInclude Include="menu.h" />
+    <ClInclude Include="npc.h" />
     <ClInclude Include="openingScene.h" />
     <ClInclude Include="optionMenu.h" />
     <ClInclude Include="playerImproveInfo.h" />
@@ -154,6 +155,7 @@
     <ClInclude Include="utils.h" />
     <ClInclude Include="VectorPup.h" />
     <ClInclude Include="worldMap.h" />
+    <ClInclude Include="worldMapPlayer.h" />
     <ClInclude Include="worldMapScene.h" />
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +200,7 @@
     <ClCompile Include="Locke.cpp" />
     <ClCompile Include="mapTool.cpp" />
     <ClCompile Include="menu.cpp" />
+    <ClCompile Include="npc.cpp" />
     <ClCompile Include="openingScene.cpp" />
     <ClCompile Include="optionMenu.cpp" />
     <ClCompile Include="playerManager.cpp" />
@@ -228,6 +231,7 @@
     <ClCompile Include="VectorPup.cpp" />
     <ClCompile Include="winMain.cpp" />
     <ClCompile Include="worldMap.cpp" />
+    <ClCompile Include="worldMapPlayer.cpp" />
     <ClCompile Include="worldMapScene.cpp" />
   </ItemGroup>
   <ItemGroup>

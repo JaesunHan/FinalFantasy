@@ -336,6 +336,12 @@
     <ClInclude Include="fButton.h">
       <Filter>playGround\gameMenu\etc</Filter>
     </ClInclude>
+    <ClInclude Include="worldMapPlayer.h">
+      <Filter>playGround\MapScene</Filter>
+    </ClInclude>
+    <ClInclude Include="npc.h">
+      <Filter>playGround\MapScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -544,6 +550,12 @@
     </ClCompile>
     <ClCompile Include="fButton.cpp">
       <Filter>playGround\gameMenu\etc</Filter>
+    </ClCompile>
+    <ClCompile Include="worldMapPlayer.cpp">
+      <Filter>playGround\MapScene</Filter>
+    </ClCompile>
+    <ClCompile Include="npc.cpp">
+      <Filter>playGround\MapScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

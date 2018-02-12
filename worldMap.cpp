@@ -14,6 +14,7 @@ worldMap::~worldMap()
 HRESULT worldMap::init()
 {
 	IMAGEMANAGER->addFrameImage("worldTerrain", ".//tileSet//worldMapTerrainTileSet.bmp", 384, 192, 12, 6, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("worldObject", ".//tileSet//worldMapObjectTileSet.bmp", 256, 128, 8, 4, true, RGB(255, 0, 255));
 	mapLoad();
 	return S_OK;
 }
