@@ -100,6 +100,9 @@
     <Filter Include="playGround\MapScene\map">
       <UniqueIdentifier>{f4d88816-4013-4158-bf7a-ee9380dfaab6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\gameMenu\etc">
+      <UniqueIdentifier>{b307a776-7af2-4f28-b2e5-89a796b2fc4a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -330,6 +333,9 @@
     <ClInclude Include="aStar.h">
       <Filter>playGround\A%2a</Filter>
     </ClInclude>
+    <ClInclude Include="fButton.h">
+      <Filter>playGround\gameMenu\etc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -535,6 +541,9 @@
     </ClCompile>
     <ClCompile Include="aStar.cpp">
       <Filter>playGround\A%2a</Filter>
+    </ClCompile>
+    <ClCompile Include="fButton.cpp">
+      <Filter>playGround\gameMenu\etc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

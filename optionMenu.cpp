@@ -16,10 +16,13 @@ HRESULT optionMenu::init()
 {
 	_bgImage = IMAGEMANAGER->findImage("옵션메뉴");
 	cursorInit(CUSOR_RIGHT, 950, 60);
-	buttonInit("버튼판타지", 1000, 50);
-	buttonInit("버튼판타지", 1000, 100);
-	buttonInit("버튼판타지", 1000, 150);
-	buttonInit("버튼판타지", 1000, 200);
+
+	_button = new fButton;
+
+	_button->buttonSet("버튼판타지", 1000, 50);
+	_button->buttonSet("버튼판타지", 1000, 100);
+	_button->buttonSet("버튼판타지", 1000, 150);
+	_button->buttonSet("버튼판타지", 1000, 200);
 
 
 	return S_OK;
@@ -40,5 +43,5 @@ void optionMenu::render()
 {
 	_bgImage->render(getMemDC());
 	cursorRender();
-	buttonRender();
+	_button->render();
 }

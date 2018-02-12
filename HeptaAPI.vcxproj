@@ -108,6 +108,7 @@
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="gobbler.h" />
     <ClInclude Include="guard.h" />
+    <ClInclude Include="fButton.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
     <ClInclude Include="iniDataManager.h" />
@@ -184,6 +185,7 @@
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="gobbler.cpp" />
     <ClCompile Include="guard.cpp" />
+    <ClCompile Include="fButton.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
     <ClCompile Include="iniDataManager.cpp" />
