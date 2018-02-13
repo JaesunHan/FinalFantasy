@@ -94,10 +94,29 @@ public:
 	void mapSave(void);
 	void mapLoad(void);
 	void mapAutoSave(void);
+
+	//======================= 접근자 & 설정자 =======================
+	inline void setSelTerrainTile(tile selTile) { _selectedTerrainTile = selTile; }
+	inline tile getSelTerrainTile(void) { return _selectedTerrainTile; }
+
+	inline void setSelObjectTile(tile selTile) { _selectedObjectTile = selTile; }
+	inline tile getSelObjectTile(void) { return _selectedObjectTile; }
+
+	inline void setSelectMode(SELECTMODE mode) { _currentSelectMode = mode; }
+	inline SELECTMODE getSelectMode(void) { return _currentSelectMode; }
+
+	inline tile getFirstTerrainTile(void) { return _terrainTileSet[0]; }
+	inline tile getFirstObjectTile(void) { return _objectTileSet[0]; }
+
+	inline void setHandleNewTile(HWND handle) { _hDlgNewTile = handle; }
+	inline HWND getHandleNewTile(void) { return _hDlgNewTile; }
+
+	inline void setHandleSelTerrain(HWND handle) { _hSelectTerrain = handle; }
+	inline HWND getHandleSelTerrain(void) { return _hSelectTerrain; }
+
+	inline void setHandleSelObject(HWND handle) { _hSelectObject = handle; }
+	inline HWND getHandleSelObject(void) { return _hSelectObject; }
 	
 	inline void setWParam(WPARAM wParam) { _wParam = wParam; }
 
-	friend BOOL CALLBACK newTileProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam);
-	friend BOOL CALLBACK selectTerrainTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam);
-	friend BOOL CALLBACK selectObjectTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam);
 };

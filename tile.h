@@ -12,7 +12,7 @@ class tile : public gameNode
 private:
 	POINT _centerPt;
 	POINT _index;
-	RECT _tileRc;
+	//RECT _tileRc;
 
 	BOOL _isChecked;
 	ATTRIBUTE _terrainAttribute;
@@ -72,8 +72,8 @@ public:
 	inline void setIndex(POINT id) { _index = id; }
 	inline POINT getIndex(void) { return _index; }
 
-	inline void setTileRect(RECT rc) { _tileRc = rc; }
-	inline RECT getTileRect(void) { return _tileRc; }
+	//inline void setTileRect(RECT rc) { _tileRc = rc; }
+	//inline RECT getTileRect(void) { return _tileRc; }
 
 	inline void setIsChecked(BOOL isChecked) { _isChecked = isChecked; }
 	inline BOOL getIsChecked(void) { return _isChecked; }

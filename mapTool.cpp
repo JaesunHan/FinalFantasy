@@ -1,6 +1,10 @@
 #include "stdafx.h"
 #include "mapTool.h"
 
+BOOL CALLBACK newTileProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam);
+BOOL CALLBACK selectTerrainTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam);
+BOOL CALLBACK selectObjectTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam);
+
 POINT operator+(POINT operand1, POINT operand2);
 POINT operator-(POINT operand1, POINT operand2);
 
@@ -90,20 +94,20 @@ void mapTool::update(void)
 	{
 		clickButton();
 	}
-
-	if (KEYMANAGER->isStayKeyDown(VK_UP) && _mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().bottom > 640) _mapMove.y -= MAP_MOVE_SPEED;
-	if (KEYMANAGER->isStayKeyDown(VK_DOWN) && _mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().bottom > 640) _mapMove.y += MAP_MOVE_SPEED;
-	if (KEYMANAGER->isStayKeyDown(VK_LEFT) && _mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().right > 640) _mapMove.x -= MAP_MOVE_SPEED;
-	if (KEYMANAGER->isStayKeyDown(VK_RIGHT) && _mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().right > 640) _mapMove.x += MAP_MOVE_SPEED;
-
-	if (_mapMove.x < -TILE_SIZEX) _mapMove.x = -TILE_SIZEX;
-	if (_mapMove.y < -TILE_SIZEY) _mapMove.y = -TILE_SIZEY;
 	if (_mapSize.x != 0 && _mapSize.y != 0)
 	{
-		if (_mapMove.x > (_mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().right - MAP_AREA + TILE_SIZEX) && _mapSize.x > 20)
-			_mapMove.x = (_mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().right - MAP_AREA + TILE_SIZEX);
-		if (_mapMove.y > (_mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().bottom - MAP_AREA + TILE_SIZEY) && _mapSize.y > 20)
-			_mapMove.y = (_mapTiles[_mapSize.x * _mapSize.y - 1].getTileRect().bottom - MAP_AREA + TILE_SIZEY);
+		if (KEYMANAGER->isStayKeyDown(VK_UP) && _mapTiles[_mapSize.x * _mapSize.y - 1].getCenterPt().y + TILE_SIZEY / 2 > 640) _mapMove.y -= MAP_MOVE_SPEED;
+		if (KEYMANAGER->isStayKeyDown(VK_DOWN) && _mapTiles[_mapSize.x * _mapSize.y - 1].getCenterPt().y + TILE_SIZEY / 2 > 640) _mapMove.y += MAP_MOVE_SPEED;
+		if (KEYMANAGER->isStayKeyDown(VK_LEFT) && _mapTiles[_mapSize.x * _mapSize.y - 1].getCenterPt().x - TILE_SIZEX / 2 > 640) _mapMove.x -= MAP_MOVE_SPEED;
+		if (KEYMANAGER->isStayKeyDown(VK_RIGHT) && _mapTiles[_mapSize.x * _mapSize.y - 1].getCenterPt().x - TILE_SIZEX / 2 > 640) _mapMove.x += MAP_MOVE_SPEED;
+
+		if (_mapMove.x < -TILE_SIZEX) _mapMove.x = -TILE_SIZEX;
+		if (_mapMove.y < -TILE_SIZEY) _mapMove.y = -TILE_SIZEY;
+	
+		if (_mapMove.x > (_mapTiles[_mapSize.x * _mapSize.y - 1].getCenterPt().x - TILE_SIZEX / 2 - MAP_AREA + TILE_SIZEX) && _mapSize.x > 20)
+			_mapMove.x = (_mapTiles[_mapSize.x * _mapSize.y - 1].getCenterPt().x - TILE_SIZEX / 2 - MAP_AREA + TILE_SIZEX);
+		if (_mapMove.y > (_mapTiles[_mapSize.x * _mapSize.y - 1].getCenterPt().y + TILE_SIZEY / 2 - MAP_AREA + TILE_SIZEY) && _mapSize.y > 20)
+			_mapMove.y = (_mapTiles[_mapSize.x * _mapSize.y - 1].getCenterPt().y + TILE_SIZEY / 2 - MAP_AREA + TILE_SIZEY);
 	}
 	
 	//autoSave 기능
@@ -185,18 +189,75 @@ void mapTool::terrainTileSetInit(string imageKey)
 		_terrainTileSet[i].setTerrainFramePos(PointMake(i % _terrainTileSize.x, i / _terrainTileSize.x));
 		_terrainTileSet[i].setIndex(PointMake(i % _terrainTileSize.x, i / _terrainTileSize.x));
 		
-		// 지형 타입 부여
-		_terrainTileSet[i].setTerrain(TR_GRASS);		// 대부분이 초원 타입이기 때문에 우선 초원 타입으로 초기화
-
-		if ((i >= 0 && i <= 2) || i == 12 || i == 14 || (i >= 24 && i <= 26) || i == 40 || i == 41 || i == 52 || i == 53 || i == 63)
+		if (imageKey == "worldTerrain")
 		{
-			_terrainTileSet[i].setTerrain(TR_WATER);
-		}
-		if ((i >= 6 && i <= 8) || (i >= 18 && i <= 20) || (i >= 32 && i <= 34) || i == 36 || i == 37 || i == 48 || i == 49)
-		{
-			_terrainTileSet[i].setTerrain(TR_DESERT);
-		}
+			// 지형 타입 부여
+			_terrainTileSet[i].setTerrain(TR_GRASS);		// 대부분이 초원 타입이기 때문에 우선 초원 타입으로 초기화
 
+			if ((i >= 0 && i <= 2) || i == 12 || i == 14 || (i >= 24 && i <= 26) || i == 40 || i == 41 || i == 52 || i == 53 || i == 63)
+			{
+				_terrainTileSet[i].setTerrain(TR_WATER);
+			}
+			if ((i >= 6 && i <= 8) || (i >= 18 && i <= 20) || (i >= 32 && i <= 34) || i == 36 || i == 37 || i == 48 || i == 49)
+			{
+				_terrainTileSet[i].setTerrain(TR_DESERT);
+			}
+		}
+		else if (imageKey == "townTerrain1")
+		{
+			// 지형 타입 부여
+			_terrainTileSet[i].setTerrain(TR_ROAD);		// 대부분이 길 타입이기 때문에 우선 길 타입으로 초기화
+
+			if (i == 0 || i == 1 || (i >= 3 && i <= 6) || i == 20 || i == 22 || i == 23 || (i >= 28 && i <= 31))
+			{
+				_terrainTileSet[i].setTerrain(TR_GRASS);
+			}
+			if ((i >= 32 && i <= 34) || (i >= 40 && i <= 42) || (i >= 48 && i <= 50))
+			{
+				_terrainTileSet[i].setTerrain(TR_DIRT);
+			}
+			if (i == 35)
+			{
+				_terrainTileSet[i].setTerrain(TR_STUMP);
+			}
+		}
+		else if (imageKey == "townTerrain2")
+		{
+			// 지형 타입 부여
+			_terrainTileSet[i].setTerrain(TR_ROAD);		// 대부분이 길 타입이기 때문에 우선 길 타입으로 초기화
+
+			if (i == 0 || i == 1 || (i >= 3 && i <= 6) || i == 20 || i == 22 || i == 23 || (i >= 28 && i <= 31))
+			{
+				_terrainTileSet[i].setTerrain(TR_GRASS);
+			}
+			if ((i >= 32 && i <= 34) || (i >= 40 && i <= 42) || (i >= 48 && i <= 50))
+			{
+				_terrainTileSet[i].setTerrain(TR_DIRT);
+			}
+			if (i == 35)
+			{
+				_terrainTileSet[i].setTerrain(TR_STUMP);
+			}
+		}
+		else if (imageKey == "townTerrain3")
+		{
+			// 지형 타입 부여
+			_terrainTileSet[i].setTerrain(TR_ROAD);		// 대부분이 길 타입이기 때문에 우선 길 타입으로 초기화
+
+			if (i == 0 || i == 1 || (i >= 3 && i <= 6) || i == 20 || i == 22 || i == 23 || (i >= 28 && i <= 31))
+			{
+				_terrainTileSet[i].setTerrain(TR_GRASS);
+			}
+			if ((i >= 32 && i <= 34) || (i >= 40 && i <= 42) || (i >= 48 && i <= 50))
+			{
+				_terrainTileSet[i].setTerrain(TR_DIRT);
+			}
+			if (i == 35)
+			{
+				_terrainTileSet[i].setTerrain(TR_STUMP);
+			}
+		}
+		
 		// 지형 타입에 따른 속성 부여
 		_terrainTileSet[i].updateTerrainAttr();
 	}
@@ -264,7 +325,7 @@ void mapTool::clickButton(void)
 	{
 		for (int i = 0; i < _terrainTileSize.x * _terrainTileSize.y; i++)
 		{
-			if (PtInRect(&_terrainTileSet[i].getTileRect(), _ptMouse))
+			if (PtInRect(&RectMakeCenter(_terrainTileSet[i].getCenterPt().x, _terrainTileSet[i].getCenterPt().y, TILE_SIZEX, TILE_SIZEY), _ptMouse))
 			{
 				_selectedTerrainTile.selectTerrain(_terrainTileSet[i]);
 				break;
@@ -275,7 +336,7 @@ void mapTool::clickButton(void)
 		{
 			for (int i = 0; i < _mapSize.x * _mapSize.y; i++)
 			{
-				if (PtInRect(&_mapTiles[i].getTileRect(), _ptMouse + _mapMove + PointMake(TILE_SIZEX, TILE_SIZEY)))
+				if (PtInRect(&RectMakeCenter(_mapTiles[i].getCenterPt().x, _mapTiles[i].getCenterPt().y, TILE_SIZEX, TILE_SIZEY), _ptMouse + _mapMove + PointMake(TILE_SIZEX, TILE_SIZEY)))
 				{
 					_mapTiles[i].setTerrain(_selectedTerrainTile);
 					break;
@@ -287,7 +348,7 @@ void mapTool::clickButton(void)
 	{
 		for (int i = 0; i < _objectTileSize.x * _objectTileSize.y; i++)
 		{
-			if (PtInRect(&_objectTileSet[i].getTileRect(), _ptMouse))
+			if (PtInRect(&RectMakeCenter(_objectTileSet[i].getCenterPt().x, _objectTileSet[i].getCenterPt().y, TILE_SIZEX, TILE_SIZEY), _ptMouse))
 			{
 				_selectedObjectTile.selectObject(_objectTileSet[i]);
 				break;
@@ -298,7 +359,7 @@ void mapTool::clickButton(void)
 		{
 			for (int i = 0; i < _mapSize.x * _mapSize.y; i++)
 			{
-				if (PtInRect(&_mapTiles[i].getTileRect(), _ptMouse + _mapMove + PointMake(TILE_SIZEX, TILE_SIZEY)))
+				if (PtInRect(&RectMakeCenter(_mapTiles[i].getCenterPt().x, _mapTiles[i].getCenterPt().y, TILE_SIZEX, TILE_SIZEY), _ptMouse + _mapMove + PointMake(TILE_SIZEX, TILE_SIZEY)))
 				{
 					_mapTiles[i].setObject(_selectedObjectTile);
 					break;
@@ -310,7 +371,7 @@ void mapTool::clickButton(void)
 	{
 		for (int i = 0; i < _mapSize.x * _mapSize.y; i++)
 		{
-			if (PtInRect(&_mapTiles[i].getTileRect(), _ptMouse))
+			if (PtInRect(&RectMakeCenter(_mapTiles[i].getCenterPt().x, _mapTiles[i].getCenterPt().y, TILE_SIZEX, TILE_SIZEY), _ptMouse))
 			{
 				_mapTiles[i].eraseObject();
 				break;
@@ -349,14 +410,14 @@ void mapTool::buttonDraw(void)
 	if (_currentSelectMode == MODE_TERRAIN_SELECT)
 	{
 		int selectIndex = _selectedTerrainTile.getTerrainFramePos().x + _selectedTerrainTile.getTerrainFramePos().y * _terrainTileSize.x;
-		RECT selectTileRc = _terrainTileSet[selectIndex].getTileRect();
+		RECT selectTileRc = RectMakeCenter(_terrainTileSet[selectIndex].getCenterPt().x, _terrainTileSet[selectIndex].getCenterPt().y, TILE_SIZEX, TILE_SIZEY);
 		
 		Rectangle(getMemDC(), selectTileRc.left + 2, selectTileRc.top + 2, selectTileRc.right - 2, selectTileRc.bottom - 2);
 	}
 	else if (_currentSelectMode == MODE_OBJECT_SELECT)
 	{
 		int selectIndex = _selectedObjectTile.getObjectFramePos().x + _selectedObjectTile.getObjectFramePos().y * _objectTileSize.x;
-		RECT selectTileRc = _objectTileSet[selectIndex].getTileRect();
+		RECT selectTileRc = RectMakeCenter(_objectTileSet[selectIndex].getCenterPt().x, _objectTileSet[selectIndex].getCenterPt().y, TILE_SIZEX, TILE_SIZEY);
 
 		Rectangle(getMemDC(), selectTileRc.left + 2, selectTileRc.top + 2, selectTileRc.right - 2, selectTileRc.bottom - 2);
 	}
@@ -474,8 +535,7 @@ BOOL CALLBACK newTileProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam
 {
 	int mapSizeX = 0;
 	int mapSizeY = 0;
-
-	auto pThis = (mapTool*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+	mapTool* pThis = (mapTool*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 
 	switch (iMessage)
 	{
@@ -484,7 +544,7 @@ BOOL CALLBACK newTileProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam
 		SetWindowPos(hDlg, HWND_TOP, 100, 100, 0,0,SWP_NOSIZE);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 		pThis = (mapTool*)lParam;
-		pThis->_hDlgNewTile = hDlg;
+		pThis->setHandleNewTile(hDlg);
 		break;
 
 	case WM_COMMAND:
@@ -496,7 +556,7 @@ BOOL CALLBACK newTileProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam
 			mapSizeY = GetDlgItemInt(hDlg, IDC_EDIT2, NULL, FALSE);
 			pThis->createDefaultMap(PointMake(mapSizeX, mapSizeY));
 		case IDCANCEL:
-			EndDialog(pThis->_hDlgNewTile, 0);
+			EndDialog(pThis->getHandleNewTile(), 0);
 			return TRUE;
 		}
 
@@ -513,7 +573,7 @@ BOOL CALLBACK selectTerrainTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, 
 {
 	int selectPos = 0;
 	char selectImageKey[1024] = "";
-	auto pThis = (mapTool*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+	mapTool* pThis = (mapTool*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 
 	switch (iMessage)
 	{
@@ -522,7 +582,7 @@ BOOL CALLBACK selectTerrainTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, 
 		SetWindowPos(hDlg, HWND_TOP, WINSIZEX + 3, 0, 0, 0, SWP_NOSIZE);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 		pThis = (mapTool*)lParam;
-		pThis->_hSelectTerrain = hDlg;
+		pThis->setHandleSelTerrain(hDlg);
 		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"worldTerrain");
 		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"townTerrain1");
 		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"townTerrain2");
@@ -537,8 +597,8 @@ BOOL CALLBACK selectTerrainTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, 
 			selectPos = SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_GETCURSEL, 0, 0);
 			SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_GETTEXT, (WPARAM)selectPos, (LPARAM)selectImageKey);
 			pThis->terrainTileSetInit(selectImageKey);
-			pThis->_currentSelectMode = MODE_TERRAIN_SELECT;
-			pThis->_selectedTerrainTile.selectTerrain(pThis->_terrainTileSet[0]);
+			pThis->setSelectMode(MODE_TERRAIN_SELECT);
+			pThis->getSelTerrainTile().selectTerrain(pThis->getFirstTerrainTile());
 			break;
 		}
 
@@ -554,7 +614,7 @@ BOOL CALLBACK selectObjectTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, L
 {
 	int selectPos = 0;
 	char selectImageKey[1024] = "";
-	auto pThis = (mapTool*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+	mapTool* pThis = (mapTool*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 
 	switch (iMessage)
 	{
@@ -563,7 +623,7 @@ BOOL CALLBACK selectObjectTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, L
 		SetWindowPos(hDlg, HWND_TOP, WINSIZEX + 3, 160, 0, 0, SWP_NOSIZE);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 		pThis = (mapTool*)lParam;
-		pThis->_hSelectObject = hDlg;
+		pThis->setHandleSelObject(hDlg);
 		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"townHouse1");
 		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"townHouse2");
 		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"townHouse3");
@@ -574,6 +634,7 @@ BOOL CALLBACK selectObjectTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, L
 		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"townObject2");
 		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"townObject3");
 		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"worldObject");
+		//IMAGEMANAGER->render("townHouse1", getMemDC());
 		break;
 
 	case WM_COMMAND:
@@ -584,8 +645,8 @@ BOOL CALLBACK selectObjectTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, L
 			selectPos = SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_GETCURSEL, 0, 0);
 			SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_GETTEXT, (WPARAM)selectPos, (LPARAM)selectImageKey);
 			pThis->objectTileSetInit(selectImageKey);
-			pThis->_currentSelectMode = MODE_OBJECT_SELECT;
-			pThis->_selectedObjectTile.selectObject(pThis->_objectTileSet[0]);
+			pThis->setSelectMode(MODE_OBJECT_SELECT);
+			pThis->getSelObjectTile().selectObject(pThis->getFirstObjectTile());
 			break;
 		}
 		return FALSE;
