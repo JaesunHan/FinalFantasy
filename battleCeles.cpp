@@ -102,11 +102,11 @@ HRESULT battleCeles::init()
 }
 void battleCeles::update() 
 {
-
+	battlePlayerMother::update();
 }
 void battleCeles::draw()   
 {
-
+	battlePlayerMother::draw();
 }
 void battleCeles::release()
 {
