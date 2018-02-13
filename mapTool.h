@@ -37,14 +37,14 @@ enum BUTTONTAG
 class mapTool : public gameNode
 {
 private:
-	tile* _mapTiles;
-	tile* _terrainTileSet;
-	tile* _objectTileSet;
+	tile* _mapTiles;				// 그려주는 타일의 정보
+	tile* _terrainTileSet;			// 현재 지형 타일셋의 정보
+	tile* _objectTileSet;			// 현재 오브젝트 타일셋의 정보
 
-	POINT _mapSize;
-	POINT _mapMove;
-	POINT _terrainTileSize;
-	POINT _objectTileSize;
+	POINT _mapSize;					// 작업중인 맴의 크기
+	POINT _mapMove;					// 맵의 카메라 이동을 위한 변수
+	POINT _terrainTileSize;			// 현재 지형 타일셋의 크기
+	POINT _objectTileSize;			// 현재 오브젝트 타일셋의 크기
 
 private:
 	image* _terrainTileImage;
@@ -107,6 +107,9 @@ public:
 
 	inline tile getFirstTerrainTile(void) { return _terrainTileSet[0]; }
 	inline tile getFirstObjectTile(void) { return _objectTileSet[0]; }
+
+	inline image* getTrTileImage(void) { return _terrainTileImage; }
+	inline image* getObjTileImage(void) { return _objectTileImage; }
 
 	inline void setHandleNewTile(HWND handle) { _hDlgNewTile = handle; }
 	inline HWND getHandleNewTile(void) { return _hDlgNewTile; }

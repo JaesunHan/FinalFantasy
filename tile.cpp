@@ -85,10 +85,18 @@ void tile::attributeRender(HDC hdc, int destX, int destY)
 		MoveToEx(hdc, _centerPt.x + TILE_SIZEX / 2 - destX, _centerPt.y - TILE_SIZEY / 2 - destY, NULL);
 		LineTo(hdc, _centerPt.x - TILE_SIZEX / 2 - destX, _centerPt.y + TILE_SIZEY / 2 - destY);
 	}
+	else if (_objectAttribute == ATTR_AFTER_RENDER)
+	{
+		hPen = (HPEN)CreatePen(PS_SOLID, 2, RGB(50, 255, 50));
+		oPen = (HPEN)SelectObject(hdc, hPen);
+
+		Ellipse(hdc, _centerPt.x - TILE_SIZEX / 2, _centerPt.y - TILE_SIZEY / 2 - destY, 
+			_centerPt.x + TILE_SIZEX / 2 - destX, _centerPt.y + TILE_SIZEY / 2 - destY);
+	}
 
 	Rectangle(hdc, _centerPt.x - TILE_SIZEX / 2 - destX, _centerPt.y - TILE_SIZEY / 2 - destY, _centerPt.x + TILE_SIZEX / 2 - destX, _centerPt.y + TILE_SIZEY / 2 - destY);
 
-	if (_terrainAttribute == ATTR_UNMOVE || _objectAttribute == ATTR_UNMOVE)
+	if (_terrainAttribute == ATTR_UNMOVE || _objectAttribute == ATTR_UNMOVE || _objectAttribute == ATTR_AFTER_RENDER)
 	{
 		SelectObject(hdc, oPen);
 		DeleteObject(hPen);
@@ -156,7 +164,7 @@ void tile::eraseObject(void)
 void tile::updateTerrainAttr(void)
 {
 	if (_terrain == TR_GRASS || _terrain == TR_DIRT) _terrainAttribute = ATTR_MOVE;
-	else if (_terrain == TR_WATER || _terrain == TR_STUMP) _terrainAttribute = ATTR_UNMOVE;
+	else if (_terrain == TR_WATER || _terrain == TR_STUMP || _terrain == TR_WALL) _terrainAttribute = ATTR_UNMOVE;
 	else if (_terrain == TR_DESERT) _terrainAttribute = ATTR_SLOW;
 	else if (_terrain == TR_ROAD) _terrainAttribute = ATTR_FAST;
 }
@@ -164,6 +172,8 @@ void tile::updateTerrainAttr(void)
 //오브젝트의 종류에 따라 타일 속성 적용
 void tile::updateObjectAttr(void)
 {
-	if (_object == OBJ_CAVE || _object == OBJ_CASTLE || _object == OBJ_TOWN) _objectAttribute = ATTR_MOVE;
-	else if (_object == OBJ_MOUNTAIN) _objectAttribute = ATTR_UNMOVE;
+	if (_object == OBJ_NONE || _object == OBJ_CAVE || _object == OBJ_CASTLE ||
+		_object == OBJ_TOWN || _object == OBJ_HOUSE_BOT_PASS) _objectAttribute = ATTR_MOVE;
+	else if (_object == OBJ_MOUNTAIN || _object == OBJ_HOUSE_BOTTOM) _objectAttribute = ATTR_UNMOVE;
+	else if (_object == OBJ_HOUSE_TOP) _objectAttribute = ATTR_AFTER_RENDER;
 }

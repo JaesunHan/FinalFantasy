@@ -224,19 +224,15 @@ void mapTool::terrainTileSetInit(string imageKey)
 		else if (imageKey == "townTerrain2")
 		{
 			// 지형 타입 부여
-			_terrainTileSet[i].setTerrain(TR_ROAD);		// 대부분이 길 타입이기 때문에 우선 길 타입으로 초기화
+			_terrainTileSet[i].setTerrain(TR_GRASS);		// 대부분이 초원 타입이기 때문에 우선 초원 타입으로 초기화
 
-			if (i == 0 || i == 1 || (i >= 3 && i <= 6) || i == 20 || i == 22 || i == 23 || (i >= 28 && i <= 31))
+			if ((i >= 2 && i <= 4 ) || (i >= 9 && i <= 12) || (i >= 16 && i <= 21) || (i >= 24 && i <= 28) || (i >= 33 && i <= 36))
 			{
-				_terrainTileSet[i].setTerrain(TR_GRASS);
+				_terrainTileSet[i].setTerrain(TR_ROAD);
 			}
-			if ((i >= 32 && i <= 34) || (i >= 40 && i <= 42) || (i >= 48 && i <= 50))
+			if ((i >= 6 && i <= 8) || i == 14 || i == 15 || (i >= 40 && i <= 42) || (i >= 48 && i <= 50) || (i >= 56 && i <= 58))
 			{
 				_terrainTileSet[i].setTerrain(TR_DIRT);
-			}
-			if (i == 35)
-			{
-				_terrainTileSet[i].setTerrain(TR_STUMP);
 			}
 		}
 		else if (imageKey == "townTerrain3")
@@ -244,17 +240,17 @@ void mapTool::terrainTileSetInit(string imageKey)
 			// 지형 타입 부여
 			_terrainTileSet[i].setTerrain(TR_ROAD);		// 대부분이 길 타입이기 때문에 우선 길 타입으로 초기화
 
-			if (i == 0 || i == 1 || (i >= 3 && i <= 6) || i == 20 || i == 22 || i == 23 || (i >= 28 && i <= 31))
+			if ((i >= 0 && i <= 3) || (i >= 8 && i <= 11) || i == 30 || i == 31)
+			{
+				_terrainTileSet[i].setTerrain(TR_WATER);
+			}
+			if (i == 7 || i == 15 || i == 23 || (i >= 35 && i <= 37))
+			{
+				_terrainTileSet[i].setTerrain(TR_WALL);
+			}
+			if (i == 13)
 			{
 				_terrainTileSet[i].setTerrain(TR_GRASS);
-			}
-			if ((i >= 32 && i <= 34) || (i >= 40 && i <= 42) || (i >= 48 && i <= 50))
-			{
-				_terrainTileSet[i].setTerrain(TR_DIRT);
-			}
-			if (i == 35)
-			{
-				_terrainTileSet[i].setTerrain(TR_STUMP);
 			}
 		}
 		
@@ -278,11 +274,79 @@ void mapTool::objectTileSetInit(string imageKey)
 		_objectTileSet[i].setIndex(PointMake(i % _objectTileSize.x, i / _objectTileSize.x));
 		
 		//오브젝트 타입 부여
-		_objectTileSet[i].setObject(OBJ_MOUNTAIN);		//대부분 산 타입이기 때문에 산 타입으로 초기화
+		if (imageKey == "worldObject")
+		{
+			_objectTileSet[i].setObject(OBJ_MOUNTAIN);		//대부분 산 타입이기 때문에 산 타입으로 초기화
 
-		if (i == 16 || i == 17 || i == 24 || i == 25) _objectTileSet[i].setObject(OBJ_CASTLE);
-		else if (i == 18 || i == 19 || i == 26 || i == 27) _objectTileSet[i].setObject(OBJ_TOWN);
-		else if (i == 29) _objectTileSet[i].setObject(OBJ_CAVE);
+			if (i == 16 || i == 17 || i == 24 || i == 25) _objectTileSet[i].setObject(OBJ_CASTLE);
+			else if (i == 18 || i == 19 || i == 26 || i == 27) _objectTileSet[i].setObject(OBJ_TOWN);
+			else if (i == 29) _objectTileSet[i].setObject(OBJ_CAVE);
+		}
+		else if (imageKey == "townHouse1")
+		{
+			_objectTileSet[i].setObject(OBJ_HOUSE_BOTTOM);
+
+			if (i >= 0 && i <= 14) _objectTileSet[i].setObject(OBJ_HOUSE_TOP);
+			else if (i >= 28 && i <= 33) _objectTileSet[i].setObject(OBJ_HOUSE_BOT_PASS);
+			else if (i == 34) _objectTileSet[i].setObject(OBJ_NONE);
+		}
+		else if (imageKey == "townHouse2")
+		{
+			_objectTileSet[i].setObject(OBJ_NONE);
+
+			if ((i >= 17 && i <= 23) || (i >= 25 && i <= 31) || (i >= 33 && i <= 39) || (i >= 43 && i<= 46))
+				_objectTileSet[i].setObject(OBJ_HOUSE_BOTTOM);
+			else if (i >= 51 && i <= 53) _objectTileSet[i].setObject(OBJ_HOUSE_BOT_PASS);
+			else if ((i >= 1 && i <= 7) || (i >= 9 && i <= 15)) _objectTileSet[i].setObject(OBJ_HOUSE_TOP);
+		}
+		else if (imageKey == "townHouse3")
+		{
+			_objectTileSet[i].setObject(OBJ_HOUSE_BOTTOM);
+
+			if (i == 47 || (i >= 56 && i <= 59) || i == 63) _objectTileSet[i].setObject(OBJ_HOUSE_BOT_PASS);
+			else if ((i >= 4 && i <= 6) || (i >= 8 && i <= 14) || (i >= 16 && i <= 22)) _objectTileSet[i].setObject(OBJ_HOUSE_TOP);
+			else if ((i >= 0 && i <= 3) || i == 7 || i == 15 || i == 23) _objectTileSet[i].setObject(OBJ_NONE);
+		}
+		else if (imageKey == "townHouse4")
+		{
+			_objectTileSet[i].setObject(OBJ_HOUSE_BOTTOM);
+
+			if (i == 2 || i == 7 || (i >= 11 && i <= 18) || (i >= 20 && i <= 39)) _objectTileSet[i].setObject(OBJ_HOUSE_TOP);
+			else if (i == 0 || i == 1 || (i >= 3 && i <= 6) || i == 8 || i == 9 || i == 10 || i == 19
+				|| (i >= 105 && i <= 109 ) || (i >= 115 && i <= 119)) _objectTileSet[i].setObject(OBJ_NONE);
+		}
+		else if (imageKey == "townHouse5")
+		{
+			_objectTileSet[i].setObject(OBJ_HOUSE_BOTTOM);
+
+			if (i == 0 || (i >= 4 && i <= 7) || (i >= 12 && i <= 15) || (i >= 20 && i <= 23) || (i >= 28 && i <= 31)
+				|| i == 80 || i == 81 || i == 88 || i == 89 || (i >= 93 && i <= 95)) _objectTileSet[i].setObject(OBJ_NONE);
+			else if ((i >= 72 && i <= 74) || (i >= 85 && i <= 87) || (i >= 90 && i <= 92)) _objectTileSet[i].setObject(OBJ_HOUSE_BOT_PASS);
+			else if ((i >= 1 && i <= 3) || (i >= 8 && i <= 12) || (i >= 16 && i <= 20) 
+				|| (i >= 37 && i <= 39) || (i >= 45 && i <= 47)) _objectTileSet[i].setObject(OBJ_HOUSE_TOP);
+		}
+		else if (imageKey == "townHouse6")
+		{
+			_objectTileSet[i].setObject(OBJ_HOUSE_BOTTOM);
+
+			if (i == 0 || i == 1 || (i >= 3 && i <= 7) || (i >= 11 && i <= 13) || i == 75 || i == 76 || i == 82 || i == 83)
+				_objectTileSet[i].setObject(OBJ_NONE);
+			else if (i == 80) _objectTileSet[i].setObject(OBJ_HOUSE_BOT_PASS);
+			else if (i == 2 || (i >= 8 && i <= 10) || (i >= 14 && i <= 34)) _objectTileSet[i].setObject(OBJ_HOUSE_TOP);
+		}
+		else if (imageKey == "townObject1")
+		{
+
+		}
+		else if (imageKey == "townObject2")
+		{
+
+		}
+		else if (imageKey == "townObject3")
+		{
+
+		}
+		
 
 		_objectTileSet[i].updateObjectAttr();
 	}
@@ -562,7 +626,7 @@ BOOL CALLBACK newTileProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam
 
 		return FALSE;
 	case WM_CLOSE:
-		PostQuitMessage(0);
+		EndDialog(hDlg, IDOK);
 		return TRUE;
 	}
 	return FALSE;
@@ -604,7 +668,7 @@ BOOL CALLBACK selectTerrainTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, 
 
 		return FALSE;
 	case WM_CLOSE:
-		PostQuitMessage(0);
+		//PostQuitMessage(0);
 		return TRUE;
 	}
 	return FALSE;
@@ -613,45 +677,78 @@ BOOL CALLBACK selectTerrainTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, 
 BOOL CALLBACK selectObjectTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
 	int selectPos = 0;
-	char selectImageKey[1024] = "";
+	char selectImageKey[256] = "";
 	mapTool* pThis = (mapTool*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+
+	HDC hdc;
+	PAINTSTRUCT ps;
+	RECT rc;
+	POINT ptMouse;
 
 	switch (iMessage)
 	{
-	case WM_INITDIALOG:
-
-		SetWindowPos(hDlg, HWND_TOP, WINSIZEX + 3, 160, 0, 0, SWP_NOSIZE);
+	case WM_INITDIALOG:		// 다이얼로그 박스 처음 생성시 호출
+		SetWindowPos(hDlg, HWND_TOP, WINSIZEX + 3, 160, 0, 0, SWP_NOSIZE);		// 윈도웈의 크기와 위치를 설정
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)lParam);
-		pThis = (mapTool*)lParam;
+		pThis = (mapTool*)lParam;												//CreateDialogParam, DialogBoxParam함수를 통해 전달받은 변수를 저장
 		pThis->setHandleSelObject(hDlg);
-		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"townHouse1");
-		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"townHouse2");
-		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"townHouse3");
-		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"townHouse4");
-		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"townHouse5");
-		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"townHouse6");
-		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"townObject1");
-		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"townObject2");
-		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"townObject3");
-		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"worldObject");
-		//IMAGEMANAGER->render("townHouse1", getMemDC());
+		// 콤보 박스에 오브젝트 이미지 키 값을 삽입
+		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"townHouse1");
+		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"townHouse2");
+		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"townHouse3");
+		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"townHouse4");
+		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"townHouse5");
+		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"townHouse6");
+		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"townObject1");
+		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"townObject2");
+		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"townObject3");
+		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"worldObject");
+		SetDlgItemInt(hDlg, IDC_COMBO1, 0, FALSE);
+		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_SETLOCALE, 1, 1);
+		break;
+
+	case WM_PAINT:		// 다이얼로그 박스에 이미지를 그릴때 호출, invalidateRect함수를 통해 호출 가능
+		hdc = BeginPaint(hDlg, &ps);
+
+		pThis->getObjTileImage()->render(hdc, 11, 38);
+
+		EndPaint(hDlg, &ps);
 		break;
 
 	case WM_COMMAND:
-
 		switch (LOWORD(wParam))
 		{
-		case IDOK:
-			selectPos = SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_GETCURSEL, 0, 0);
-			SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_GETTEXT, (WPARAM)selectPos, (LPARAM)selectImageKey);
-			pThis->objectTileSetInit(selectImageKey);
-			pThis->setSelectMode(MODE_OBJECT_SELECT);
-			pThis->getSelObjectTile().selectObject(pThis->getFirstObjectTile());
+		case IDC_COMBO1:					// 콤보박스 제어 부분
+			switch (HIWORD(wParam))
+			{
+			case CBN_SELCHANGE:				// 콤보박스에서 선택할 때
+				GetDlgItemText(hDlg, IDC_COMBO1, selectImageKey, 256);
+				pThis->objectTileSetInit(selectImageKey);
+				pThis->setSelectMode(MODE_OBJECT_SELECT);
+				pThis->getSelObjectTile().selectObject(pThis->getFirstObjectTile());
+				SetWindowPos(hDlg, HWND_TOP, WINSIZEX + 3, 160, pThis->getObjTileImage()->getWidth() + 10, pThis->getObjTileImage()->getHeight() + 50, NULL);
+				GetClientRect(hDlg, &rc);
+				InvalidateRect(hDlg, &rc, TRUE);
+				break;
+			}
 			break;
 		}
 		return FALSE;
-	case WM_CLOSE:
-		PostQuitMessage(0);
+	case WM_KEYDOWN:		// 키 입력이 발생할 경우
+		switch (wParam)
+		{
+		case VK_LBUTTON:
+		
+			break;
+		
+		}
+		break;
+	case WM_MOUSEMOVE:
+		ptMouse.x = static_cast<float>LOWORD(lParam);
+		ptMouse.y = static_cast<float>HIWORD(lParam);
+		break;
+	case WM_CLOSE:		// 종료 버튼 클릭시
+		//PostQuitMessage(0);
 		return TRUE;
 	}
 	return FALSE;
