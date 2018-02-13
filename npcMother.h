@@ -2,9 +2,21 @@
 #include "gameNode.h"
 #include "worldMap.h"
 
+enum NPCTYPE
+{
+	NPC_POTION,
+	NPC_WEAPON,
+	NPC_DEFENCE,
+	NPC_INN,
+	NPC_MAGIC,
+	NPC_END
+};
+
 class npcMother : public gameNode
 {
 public:
+
+	NPCTYPE _npctype;
 
 	//월드맵 클래스
 	worldMap* _worldMap;
@@ -28,7 +40,7 @@ public:
 	npcMother();
 	~npcMother();
 
-	HRESULT init(int npcX, int npcY);
+	virtual HRESULT init(int npcX, int npcY);
 	void release();
 	void update();
 	void render();
@@ -44,5 +56,10 @@ public:
 
 	//타일 인덱스 계산하는 함수
 	int tileNum(float x, float y);
+
+
+	//zorder를 위한 y위치 게터
+	POINT getNpcPoint() { return _npc; }
+
 };
 

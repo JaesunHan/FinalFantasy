@@ -24,6 +24,8 @@ HRESULT npc1::init(int npcX, int npcY)
 	_npcCurrentFrameX = 0;
 	_npcCurrentFrameY = 0;
 
+	_npctype = NPC_POTION;
+
 	return S_OK;
 }
 
@@ -34,12 +36,11 @@ void npc1::release()
 void npc1::update()
 {
 	worldNpcImageFrameControl();
-	
 }
 
 void npc1::render()
 {
-	IMAGEMANAGER->findImage("1¹ønpc")->frameRender(getMemDC(), _npc.x, _npc.y, _npcCurrentFrameX, 0);
+	_image->frameRender(getMemDC(), _npc.x, _npc.y, _npcCurrentFrameX, 0);
 	if (_isDebug)
 	{
 		Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);

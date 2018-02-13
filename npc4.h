@@ -7,11 +7,13 @@ public:
 	npc4();
 	~npc4();
 
-	HRESULT init(int npcX, int npcY);
+	virtual HRESULT init(int npcX, int npcY);
 	void release();
 	void update();
 	void render();
 
 	void worldNpcImageFrameControl();
+
+	POINT getNpcPoint() { return _npc; }
 };
 

@@ -24,7 +24,7 @@ HRESULT npc5::init(int npcX, int npcY)
 	_npcCurrentFrameX = 0;
 	_npcCurrentFrameY = 0;
 
-
+	_npctype = NPC_INN;
 	return S_OK;
 }
 

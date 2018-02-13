@@ -24,7 +24,7 @@ HRESULT npc3::init(int npcX, int npcY)
 	_npcCurrentFrameX = 0;
 	_npcCurrentFrameY = 0;
 
-
+	_npctype = NPC_MAGIC;
 	return S_OK;
 }
 

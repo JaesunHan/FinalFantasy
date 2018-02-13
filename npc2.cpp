@@ -24,6 +24,7 @@ HRESULT npc2::init(int npcX, int npcY)
 	_npcCurrentFrameX = 0;
 	_npcCurrentFrameY = 0;
 
+	_npctype = NPC_WEAPON;
 
 	return S_OK;
 }

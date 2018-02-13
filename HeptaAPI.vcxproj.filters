@@ -366,6 +366,9 @@
     <ClInclude Include="npc5.h">
       <Filter>playGround\MapScene\NPC</Filter>
     </ClInclude>
+    <ClInclude Include="npcManager.h">
+      <Filter>playGround\MapScene\NPC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -600,6 +603,9 @@
       <Filter>playGround\MapScene\NPC</Filter>
     </ClCompile>
     <ClCompile Include="npc5.cpp">
+      <Filter>playGround\MapScene\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="npcManager.cpp">
       <Filter>playGround\MapScene\NPC</Filter>
     </ClCompile>
   </ItemGroup>
