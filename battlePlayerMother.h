@@ -104,14 +104,19 @@ public:
 	inline bool getTurnEnd() { return _turnEnd; }	inline void setTurnEnd(bool turnEnd) { _turnEnd = turnEnd; }
 	inline int getPartyIdx() { return _partyIdx; }	inline void setPartyIdx(int idx) { _partyIdx = idx; }
 	inline baattlePlayerStatus getStatus() { return _status; }	inline void setStatus(baattlePlayerStatus status) { _status = status; }
+	inline float getPosX() { return _posX; }	
+	inline float getPosY() { return _posY; }
 	//====================================== End 접근자 설정자 ======================================
 
 	//배틀시작할 때 한꺼번에 모든 배틀플레이어를 세팅하자
 	void setAllBattlePlayerInfo(int lv, int curExp, int maxExp, int curHp, int maxHp, int curMp,
 		int maxMp, int speed, int strength, int magic, int m_def, int a_def, int attack, int evasion, int m_evasion, int stamina);
-	
+
 	//플레이어의 상태를 IDLE 로 전환하는 함수이다.
 	void setPlayerStatusToIdle(animation* anim);
+	//공격 공식 알고리즘
 	int attackAlgorithm();
+
+	
 };
 

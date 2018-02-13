@@ -22,8 +22,6 @@ HRESULT battlePlayerMother::init()
 void battlePlayerMother::update() 
 {
 	
-	
-
 }
 void battlePlayerMother::render() 
 {
@@ -35,27 +33,27 @@ void battlePlayerMother::draw()
 	if (_status == BATTLE_PLAYER_IDLE)
 	{
 		
-		_idleImg->aniRender(getMemDC(), 800 - _idleImg->getFrameWidth() / 2, 150 + _partyIdx * 100, _idleAnim);
+		_idleImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _idleAnim);
 	}
 	if (_status == BATTLE_PLAYER_ATTACK)
 	{
 		
-		_atkImg->aniRender(getMemDC(), 800 - _atkImg->getFrameWidth(), 150 + _partyIdx * 100, _atkAnim);
+		_atkImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _atkAnim);
 	}
 	if (_status == BATTLE_PLAYER_MAGIC_ATTACK)
 	{
 		
-		_magicAtkImg->aniRender(getMemDC(), 800 - _magicAtkImg->getFrameWidth() / 2, 150 + _partyIdx * 100, _magicAtkAnim);
+		_magicAtkImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _magicAtkAnim);
 	}
 	if (_status == BATTLE_PLAYER_DEAD)
 	{
 		
-		_deadImg->aniRender(getMemDC(), 800 - _deadImg->getFrameWidth() / 2, 150 + _partyIdx * 100, _deadAnim);
+		_deadImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _deadAnim);
 	}
 	if (_status == BATTLE_PLAYER_WIN)
 	{
 		
-		_winImg->aniRender(getMemDC(), 800 - _winImg->getFrameWidth() / 2, 150 + _partyIdx * 100, _winAnim);
+		_winImg->aniRender(getMemDC(), _posX, _posY, _winAnim);
 	}
 	//================== End 상태에 따라 다른 애니메이션을 출력한다. =======================
 }
@@ -70,6 +68,7 @@ void battlePlayerMother::setAllBattlePlayerInfo(int lv, int curExp, int maxExp, 
 	_Lv = lv, curExp = curExp, _maxEXP = maxExp, _curHP = curHp, _maxHP = maxHp;
 	_curMP = curMp, _maxMP = maxMp, _speed = speed, _strength = strength, _magic = magic;
 	_m_Def = m_def, _a_Def = a_def, _attack = attack, _evasion = evasion;
+
 }
 
 void battlePlayerMother::animationFrameUpdate()
@@ -149,3 +148,4 @@ int battlePlayerMother::attackAlgorithm()
 	int dmg = (float)_attack + (((float)_Lv*(float)_Lv*(float)atk) / 256.0)*3.0 / 2.0;
 	return dmg;
 }
+
