@@ -46,16 +46,29 @@ void battlePlayerMother::draw()
 		
 		_idleImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _idleAnim);
 	}
+	// 스탠바이를 재생하고 그 다음에 공격모션을 한다
+	if (_status == BATTLE_PLAYER_ATTACK_STANDBY)
+	{
+		_atkStandbyImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _atkStandbyAnim);
+	}
 	if (_status == BATTLE_PLAYER_ATTACK)
 	{
-		
+		//TextOut(getMemDC(), 800 - (_partyIdx % 2) * 70+60, 150 + _partyIdx * 100 - 10, "공격", strlen("공격"));
 		_atkImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _atkAnim);
 	}
+	//마법 공격 스탠바이를 재생하고 그 다음에 마법 공격 모션을 한다.
+	if (_status == BATTLE_PLAYER_MAGIC_ATTACK_STANDBY)
+	{
+
+		_magicAtkStandbyImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _magicAtkStandbyAnim);
+	}
+	//마법 공격
 	if (_status == BATTLE_PLAYER_MAGIC_ATTACK)
 	{
 		
 		_magicAtkImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _magicAtkAnim);
 	}
+
 	if (_status == BATTLE_PLAYER_DEAD)
 	{
 		
@@ -91,7 +104,7 @@ void battlePlayerMother::animationFrameUpdate()
 	if (KEYMANAGER->isOnceKeyDown('S'))
 	{
 		_status = (baattlePlayerStatus)((int)_status + 1);
-		if (_status > BATTLE_PLAYER_NONE)	 _status = BATTLE_PLAYER_IDLE;
+		if (_status >= BATTLE_PLAYER_NONE-1)	 _status = BATTLE_PLAYER_IDLE;
 		_playAnimList[_status] = false;
 	}
 	//IDLE일때
@@ -106,6 +119,16 @@ void battlePlayerMother::animationFrameUpdate()
 		_idleAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 		
 	}
+	//attack 스탠바이
+	if (_status == BATTLE_PLAYER_ATTACK_STANDBY)
+	{
+		if (!_playAnimList[BATTLE_PLAYER_ATTACK_STANDBY])
+		{
+			_atkStandbyAnim->start();
+			_playAnimList[BATTLE_PLAYER_ATTACK_STANDBY] = true;
+		}
+		_atkStandbyAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+	}
 	//attack 일때
 	if (_status == BATTLE_PLAYER_ATTACK)
 	{
@@ -117,6 +140,18 @@ void battlePlayerMother::animationFrameUpdate()
 		_atkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 		setPlayerStatusToIdle(_atkAnim);		//공격이 끝나고 나면 다시 IDLE 상태로 전환한다.
 	}
+	//마법 공격 스탠바이
+	if (_status == BATTLE_PLAYER_MAGIC_ATTACK_STANDBY)
+	{
+		if (!_playAnimList[BATTLE_PLAYER_MAGIC_ATTACK_STANDBY])
+		{
+			_magicAtkStandbyAnim->start();
+			_playAnimList[BATTLE_PLAYER_MAGIC_ATTACK_STANDBY] = true;
+		}
+		_magicAtkStandbyAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+	}
+
+	//마법 공격
 	if (_status == BATTLE_PLAYER_MAGIC_ATTACK)
 	{
 		if (!_playAnimList[BATTLE_PLAYER_MAGIC_ATTACK])
@@ -127,6 +162,7 @@ void battlePlayerMother::animationFrameUpdate()
 		_magicAtkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 		setPlayerStatusToIdle(_magicAtkAnim);	//공격이 끝나고 나면 다시 IDLE 상태로 전환한다.
 	}
+	//죽을 때 
 	if (_status == BATTLE_PLAYER_DEAD)
 	{
 		if (!_playAnimList[BATTLE_PLAYER_DEAD])
