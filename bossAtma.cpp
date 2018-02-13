@@ -78,6 +78,7 @@ void bossAtma::update()
 			if (_count > 80 && _effectFire == true)
 			{
 				EFFECTMANAGER->play("bossAtma기본공격이펙트", 800, 320);
+				SOUNDMANAGER->play("bossAtma기본공격sound", CH_EFFECT03, 1.0f);
 
 				_effectFire = false;
 			}
@@ -88,6 +89,7 @@ void bossAtma::update()
 			if (_count > 80 && _effectFire == true)
 			{
 				EFFECTMANAGER->play("bossAtma스킬공격이펙트", 800, 320);
+				SOUNDMANAGER->play("bossAtma스킬공격1sound", CH_EFFECT03, 1.0f);
 
 				_effectFire = false;
 

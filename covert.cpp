@@ -73,6 +73,7 @@ void covert::update()
 			if (_count > 80 && _effectFire == true)
 			{
 				EFFECTMANAGER->play("covert기본공격이펙트", 800, 320);
+				SOUNDMANAGER->play("covert기본공격sound", CH_EFFECT03, 1.0f);
 
 				_effectFire = false;
 			}
@@ -83,6 +84,7 @@ void covert::update()
 			if (_count > 80 && _effectFire == true)
 			{
 				EFFECTMANAGER->play("covert스킬공격이펙트", 800, 320);
+				SOUNDMANAGER->play("covert스킬공격sound", CH_EFFECT03, 1.0f);
 
 				_effectFire = false;
 

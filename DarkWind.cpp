@@ -80,6 +80,7 @@ void DarkWind::update()
 			if (_count > 80 && _effectFire == true)
 			{
 				EFFECTMANAGER->play("darkWind기본공격이펙트", 800, 320);
+				SOUNDMANAGER->play("darkWind기본공격sound", CH_EFFECT03, 1.0f);
 
 				_effectFire = false;
 			}
@@ -90,6 +91,7 @@ void DarkWind::update()
 			if (_count > 80 && _effectFire == true)
 			{
 				EFFECTMANAGER->play("darkWind스킬공격이펙트", 800, 320);
+				SOUNDMANAGER->play("darkWind스킬공격sound", CH_EFFECT03, 1.0f);
 
 				_effectFire = false;
 

@@ -16,36 +16,41 @@ HRESULT Enemy::init(int x, int y)
 {
 	//============================================== 기타등등 사운드 ==============================================
 	
-	//SOUNDMANAGER->addSound("monsterDie", ".\\sound\\FF6SfxPart1\\2DMonsterDeath.wav", true, false);
-	//SOUNDMANAGER->addSound("attackMissSound", ".\\sound\\FF6SfxPart1\\0DMiss.wav", true, false);
+	SOUNDMANAGER->addSound("monsterDie", ".\\sound\\sfx\\2DMonsterDeath.wav", true, false);
+	SOUNDMANAGER->addSound("attackMissSound", ".\\sound\\sfx\\0DMiss.wav", true, false);
 
 	//============================================================================================================
 
 	//============================================== 기본공격 사운드 ==============================================
-	
-	SOUNDMANAGER->addSound("bear기본공격sound", ".\\sound\\FF6SfxPart1\\8BClawSlash.wav", true, false);
-	//SOUNDMANAGER->addSound("samurai기본공격sound", ".\\sound\\FF6SfxPart1\\2ESwordSlashLong.wav", true, false);
-	//SOUNDMANAGER->addSound("bossAtma기본공격sound", ".\\sound\\FF6SfxPart1\\16Fire1.wav", true, false);
-	//SOUNDMANAGER->addSound("gobbler기본공격sound", ".\\sound\\FF6SfxPart2\\91Idk.wav", true, false);
-	//SOUNDMANAGER->addSound("darkWind기본공격sound", ".\\sound\\FF6SfxPart2\\C0Bird.wav", true, false);
+
+	SOUNDMANAGER->addSound("bear기본공격sound", ".\\sound\\sfx\\8BClawSlash.wav", true, false);
+	SOUNDMANAGER->addSound("tornadoShark기본공격sound", ".\\sound\\sfx\\8BClawSlash.wav", true, false);
+	SOUNDMANAGER->addSound("vectorPup기본공격sound", ".\\sound\\sfx\\8BClawSlash.wav", true, false);
+	SOUNDMANAGER->addSound("samurai기본공격sound", ".\\sound\\sfx\\2ESwordSlashLong.wav", true, false);
+	SOUNDMANAGER->addSound("covert기본공격sound", ".\\sound\\sfx\\2ESwordSlashLong.wav", true, false);
+	SOUNDMANAGER->addSound("guard기본공격sound", ".\\sound\\sfx\\2ESwordSlashLong.wav", true, false);
+	SOUNDMANAGER->addSound("bossAtma기본공격sound", ".\\sound\\sfx\\16Fire1.wav", true, false);
+	SOUNDMANAGER->addSound("gobbler기본공격sound", ".\\sound\\sfx\\91Idk.wav", true, false);
+	SOUNDMANAGER->addSound("darkWind기본공격sound", ".\\sound\\sfx\\C0Bird.wav", true, false);
+	SOUNDMANAGER->addSound("siren기본공격sound", ".\\sound\\sfx\\BFBuyingSelling.wav", true, false);
 
 	//============================================================================================================
 
 	//============================================== 스킬공격 사운드 ==============================================
-	
-	//SOUNDMANAGER->addSound("gobbler스킬공격sound", ".\\sound\\FF6SfxPart1\\6EWind.wav", true, false);
-	//SOUNDMANAGER->addSound("samurai스킬공격sound", ".\\sound\\FF6SfxPart1\\7FMechDispatch.wav", true, false);
-	//SOUNDMANAGER->addSound("bossAtma스킬공격1sound", ".\\sound\\FF6SfxPart1\\13Explosion.wav", true, false);
-	//SOUNDMANAGER->addSound("bossAtma스킬공격2sound", ".\\sound\\FF6SfxPart1\\15Bolt3.wav", true, false);
-	//SOUNDMANAGER->addSound("siren스킬공격sound", ".\\sound\\FF6SfxPart2\\BBBigClose.wav", true, false);
+
+	SOUNDMANAGER->addSound("gobbler스킬공격sound", ".\\sound\\sfx\\73NarsheWind.wav", true, false);
+	SOUNDMANAGER->addSound("tornadoShark스킬공격sound", ".\\sound\\sfx\\73NarsheWind.wav", true, false);
+	SOUNDMANAGER->addSound("samurai스킬공격sound", ".\\sound\\sfx\\7FMechDispatch.wav", true, false);
+	SOUNDMANAGER->addSound("bossAtma스킬공격1sound", ".\\sound\\sfx\\13Explosion.wav", true, false);
+	SOUNDMANAGER->addSound("bossAtma스킬공격2sound", ".\\sound\\sfx\\15Bolt3.wav", true, false);
+	SOUNDMANAGER->addSound("siren스킬공격sound", ".\\sound\\sfx\\BBBigClose.wav", true, false);
+	SOUNDMANAGER->addSound("darkWind스킬공격sound", ".\\sound\\sfx\\40CyanSwdtechActivation.wav", true, false);
+	SOUNDMANAGER->addSound("bear스킬공격sound", ".\\sound\\sfx\\37Ice2Part2.wav", true, false);
+	SOUNDMANAGER->addSound("guard스킬공격sound", ".\\sound\\sfx\\BEDeathToll.wav", true, false);
+	SOUNDMANAGER->addSound("covert스킬공격sound", ".\\sound\\sfx\\4BDrill.wav", true, false);
 
 	//============================================================================================================
-
-	//SOUNDMANAGER->addSound("samurai기본공격sound", ".\\sound\\FF6SfxPart1\\2ESwordSlashLong.wav", true, false);
-	//SOUNDMANAGER->addSound("samurai기본공격sound", ".\\sound\\FF6SfxPart1\\2ESwordSlashLong.wav", true, false);
-	//SOUNDMANAGER->addSound("samurai기본공격sound", ".\\sound\\FF6SfxPart1\\2ESwordSlashLong.wav", true, false);
-	//SOUNDMANAGER->addSound("samurai기본공격sound", ".\\sound\\FF6SfxPart1\\2ESwordSlashLong.wav", true, false);
-
+	
 	_x = x;
 	_y = y;
 	_alpha = 255;
