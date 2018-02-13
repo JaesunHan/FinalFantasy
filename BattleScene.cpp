@@ -195,6 +195,7 @@ void BattleScene::playerMenuSelect()
 	//플레이어 ATB 카운터가 차면 플레이어 메뉴 선택
 	for (int i = 0; i < 4; ++i)
 	{
+		if (_battleCharacters[i].selectAction == true) continue;
 		if (_battleCharacters[i].selectAction == false && _battleCharacters[i].ATBcounter > 65535) _battleCharacters[i].ATBcounter = 65536;
 		if (_battleCharacters[i].ATBcounter > 65535 && _playerTurn == false)
 		{
@@ -292,6 +293,7 @@ void BattleScene::playerMenuSelect()
 			{
 				_currentTurn++;
 				if (_currentTurn > 3) _currentTurn = 0;
+				if (_battleCharacters[_currentTurn].selectAction == true) continue;
 				if (_battleCharacters[_currentTurn].ATBcounter < 65535) continue;
 				else break;
 			}
@@ -307,6 +309,7 @@ void BattleScene::playerMenuSelect()
 			{
 				_currentTurn++;
 				if (_currentTurn > 3) _currentTurn = 0;
+				if (_battleCharacters[_currentTurn].selectAction == true) continue;
 				if (_battleCharacters[_currentTurn].ATBcounter < 65535) continue;
 				else break;
 			}
