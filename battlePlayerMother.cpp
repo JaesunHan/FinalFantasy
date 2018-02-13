@@ -21,8 +21,18 @@ HRESULT battlePlayerMother::init()
 }
 void battlePlayerMother::update() 
 {
-	_status = BATTLE_PLAYER_IDLE;
-	_turnEnd = true;
+	
+
+	_counter++;
+	if (_counter % 100 == 0)
+	{
+
+		_turnEnd = true;
+		_status = BATTLE_PLAYER_IDLE;
+		_counter = 0;
+	}
+
+	
 }
 void battlePlayerMother::render() 
 {
@@ -56,10 +66,10 @@ void battlePlayerMother::draw()
 		_winBeforeImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _winBeforeAnim);
 		
 	}
-	if (_status == BATTLE_PLAYER_WIN)
-	{
-		_winImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _winAnim);
-	}
+	//if (_status == BATTLE_PLAYER_WIN)
+	//{
+	//	_winImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _winAnim);
+	//}
 	//================== End 상태에 따라 다른 애니메이션을 출력한다. =======================
 }
 void battlePlayerMother::release()

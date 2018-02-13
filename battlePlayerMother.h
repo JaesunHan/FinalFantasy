@@ -65,6 +65,9 @@ protected:
 
 	int _partyIdx;					//파티에 종속되어 있다면 몇변째 파티원인가?!
 	float _posX, _posY;				//출력될 위치좌표(중점)
+
+	int _counter;					//_turnEnd 를 true 로 바꾸기 위한 카운터
+
 	//애니메이션을 재생할지 말지에 대한 불값
 	bool _playAnimList[MAXANIMATIONNUM];
 	

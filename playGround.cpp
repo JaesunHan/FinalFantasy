@@ -119,6 +119,7 @@ void playGround::render(void)
 
 	SetBkMode(getMemDC(), TRANSPARENT);
 	SCENEMANAGER->render();
+	//TIMEMANAGER->render(getMemDC());
 	
 	//================== 이 아래는 손대지 마시오 ========================
 	this->getBackBuffer()->render(getHDC(), 0, 0);//hdc영역에 그려준다 
