@@ -135,6 +135,7 @@ void BattleScene::ATBGauzeTimer()
 {
 	if (_counterRoll == true)
 	{
+		//ATB 카운터에 캐릭터 스피드에 따라 계산된 값을 더해준다.
 		for (int i = 0; i < _battleCharacters.size(); ++i)
 		{
 			if (_battleCharacters[i].characterType <= 3)
@@ -168,6 +169,26 @@ void BattleScene::updateWhenCharacterTurn()
 	{
 		if (_battleTurn.front()->characterType <= 3)
 		{
+			//플레이어에 선택한 에너미 주소 할당
+			//해당 에너미가 죽었을 경우엔 살아있는애로 할당
+			if (_battleTurn.front()->enemy != NULL)
+			{
+				if (_battleTurn.front()->enemy->getCurHP() > 0)
+				{
+					_battleTurn.front()->player->setTargetEnemy(_battleTurn.front()->enemy);
+				}
+				else
+				{
+					for (int i = 0; i < _maxMonster; ++i)
+					{
+						if (_battleCharacters[i + 4].enemy->getCurHP() > 0)
+						{
+							_battleTurn.front()->player->setTargetEnemy(_battleCharacters[i + 4].enemy);
+							break;
+						}
+					}
+				}
+			}
 			_battleTurn.front()->player->update();
 			if (_battleTurn.front()->player->getTurnEnd() == true)
 			{
@@ -199,6 +220,7 @@ void BattleScene::playerMenuSelect()
 		if (_battleCharacters[i].selectAction == false && _battleCharacters[i].ATBcounter > 65535) _battleCharacters[i].ATBcounter = 65536;
 		if (_battleCharacters[i].ATBcounter > 65535 && _playerTurn == false)
 		{
+			_sfx01 = false;
 			_playerTurn = true;
 			_currentTurn = i;
 			_battleCharacters[i].player->setTurnEnd(false);
@@ -236,9 +258,9 @@ void BattleScene::playerMenuSelect()
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{
-		SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
 		if (_enemySelect == true)
 		{
+			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
 			_battleCharacters[_currentTurn].enemy = _battleCharacters[_enemyNum].enemy;
 			switch (_menuNum)
 			{
@@ -261,6 +283,7 @@ void BattleScene::playerMenuSelect()
 		}
 		else if (_playerTurn == true)
 		{
+			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
 			switch (_menuNum)
 			{
 			case(BATTLE_ATTACK):
@@ -315,24 +338,6 @@ void BattleScene::playerMenuSelect()
 			}
 		}
 	}
-	if (_playerTurn == true)
-	{
-		switch (_battleCharacters[_currentTurn].characterType)
-		{
-		case(TINA):
-			
-			break;
-		case(LOCKE):
-
-			break;
-		case(CELES):
-
-			break;
-		case(SHADOW):
-
-			break;
-		}
-	}
 	//if (KEYMANAGER->isOnceKeyDown('R'))
 	//{
 	//	SOUNDMANAGER->releaseSingleSound("menuSelectLow");
@@ -357,6 +362,9 @@ void BattleScene::characterDraw()
 		{
 			if (_battleCharacters[i].enemy->getCurHP() < 0) continue;
 			_battleCharacters[i].enemy->render();
+			char enemyHp[128];
+			wsprintf(enemyHp, "%d", _battleCharacters[i].enemy->getCurHP());
+			TextOut(getMemDC(), _battleCharacters[i].enemy->getX(), _battleCharacters[i].enemy->getY() + 35, enemyHp, strlen(enemyHp));
 		}
 	}
 }
@@ -447,6 +455,7 @@ void BattleScene::drawUI()
 			DeleteObject(newFont);
 			break;
 		}
+		//프로그레스 바 랜더
 		if (_battleCharacters[i].ATBcounter > 65535)
 		{
 			IMAGEMANAGER->findImage("progressBarComplete")->enlargeRender(getMemDC(), WINSIZEX - 197, 160 * i + 121, 144, 17);
@@ -456,6 +465,7 @@ void BattleScene::drawUI()
 			IMAGEMANAGER->findImage("progressBarBottom")->enlargeRender(getMemDC(), WINSIZEX - 197, 160 * i + 121, 144 * _battleCharacters[i].ATBcounter / 65536, 17);
 		}
 		IMAGEMANAGER->findImage("progressBarTop")->render(getMemDC(), WINSIZEX - 210, 160 * i + 120);
+		//배틀 메뉴 랜더
 		newFont = CreateFont(30, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
 		oldFont = (HFONT)SelectObject(getMemDC(), newFont);
 		char attackMenu[] = "공격";
@@ -511,11 +521,6 @@ void BattleScene::drawUI()
 			DeleteObject(oldFont);
 			DeleteObject(newFont);
 			IMAGEMANAGER->findImage("fingerArrowRt")->render(getMemDC(), WINSIZEX - 240, 160 * i + 5 + (_menuNum * 30));
-			if (_sfx01 == false)
-			{
-				SOUNDMANAGER->play("battleMenuOpen", CH_EFFECT01, 1.0f);
-				_sfx01 = true;
-			}
 		}
 	}
 }
@@ -535,5 +540,10 @@ void BattleScene::soundControl()
 	if (_position >= 56800)
 	{
 		SOUNDMANAGER->getChannel(CH_BGM)->setPosition(4000, FMOD_TIMEUNIT_MS);
+	}
+	if (_sfx01 == false)
+	{
+		SOUNDMANAGER->play("battleMenuOpen", CH_EFFECT01, 1.0f);
+		_sfx01 = true;
 	}
 }
