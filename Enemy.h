@@ -82,6 +82,7 @@ public:
 
 	void glitter();							//에너미 턴일때 어떤 에너미의 턴인지 알기위한 함수 (반짝거림)
 
+
 	//======================================= 전방선언 ========================================================
 
 	void setBattleTinaMemoryAddressLink(battlePlayerMother* tina) { _tina = tina; }
@@ -92,6 +93,9 @@ public:
 	//========================================================================================================
 
 	//=========================== 접근자 / 설정자 =============================
+
+	inline int getImageWidth() { return _img->getFrameWidth(); }
+	inline int getImageHeight() { return _img->getFrameHeight(); }
 
 	inline int getLv() { return _Lv; }
 
