@@ -5,10 +5,13 @@
 bossAtma::bossAtma()
 {
 	//=================================================== 에너미 이미지 ==========================================================
+	
 	_img = IMAGEMANAGER->addFrameImage("bossAtma", ".\\image\\enemyImg\\bossAtma.bmp", 1000, 500, 2, 1, true, RGB(255, 0, 255), true);
+	
 	//===========================================================================================================================
 
 	//================================================= 에너미 이펙트 이미지 =====================================================
+	
 	IMAGEMANAGER->addImage("bossAtma기본공격이미지", ".\\image\\enemyEffect\\effect4.bmp", 304, 64, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addImage("bossAtma스킬공격이미지", ".\\image\\enemyEffect\\effect6.bmp", 2100, 100, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addImage("bossAtma스킬공격이미지2", ".\\image\\enemyEffect\\effect11.bmp", 583, 102, true, RGB(255, 0, 255), true);
@@ -25,7 +28,21 @@ bossAtma::bossAtma()
 	EFFECTMANAGER->addEffect("bossAtma기본공격이펙트", ".\\image\\enemyEffect\\effect4.bmp", 304, 64, 76, 64, 1.0f, 1.0f, 1000);
 	EFFECTMANAGER->addEffect("bossAtma스킬공격이펙트", ".\\image\\enemyEffect\\effect6.bmp", 583, 102, 53, 102, 1.0f, 1.0f, 1000);
 	EFFECTMANAGER->addEffect("bossAtma스킬공격이펙트2", ".\\image\\enemyEffect\\effect11.bmp", 2100, 100, 100, 100, 1.0f, 1.0f, 1000);
+	
 	//===========================================================================================================================
+	
+	//============================================== 기본공격 사운드 ==============================================
+
+	SOUNDMANAGER->addSound("bossAtma기본공격sound", ".\\sound\\sfx\\16Fire1.wav", true, false);
+
+	//============================================================================================================
+
+	//============================================== 스킬공격 사운드 ==============================================
+
+	SOUNDMANAGER->addSound("bossAtma스킬공격1sound", ".\\sound\\sfx\\13Explosion.wav", true, false);
+	SOUNDMANAGER->addSound("bossAtma스킬공격2sound", ".\\sound\\sfx\\15Bolt3.wav", true, false);
+
+	//============================================================================================================
 
 	_Lv = 67;										//레벨
 	_maxEXP = 0;	 								//현재 경험치, 최대 경험치

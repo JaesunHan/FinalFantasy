@@ -5,10 +5,13 @@
 VectorPup::VectorPup()
 {
 	//=================================================== 에너미 이미지 ==========================================================
+	
 	_img = IMAGEMANAGER->addFrameImage("vectorPup", ".\\image\\enemyImg\\VectorPup.bmp", 184, 46, 2, 1, true, RGB(255, 0, 255), true);
+	
 	//===========================================================================================================================
 
 	//================================================= 에너미 이펙트 이미지 =====================================================
+	
 	IMAGEMANAGER->addImage("vectorPup기본공격이미지", ".\\image\\enemyEffect\\effect13.bmp", 376, 92, true, RGB(255, 0, 255), true);
 	IMAGEMANAGER->addImage("vectorPup스킬공격이미지", ".\\image\\enemyEffect\\effect16.bmp", 411, 134, true, RGB(255, 0, 255), true);
 
@@ -20,7 +23,20 @@ VectorPup::VectorPup()
 
 	EFFECTMANAGER->addEffect("vectorPup기본공격이펙트", ".\\image\\enemyEffect\\effect13.bmp", 376, 92, 94, 92, 1.0f, 1.0f, 1000);
 	EFFECTMANAGER->addEffect("vectorPup스킬공격이펙트", ".\\image\\enemyEffect\\effect16.bmp", 411, 134, 137, 134, 1.0f, 1.0f, 1000);
+	
 	//===========================================================================================================================
+	
+	//============================================== 기본공격 사운드 ==============================================
+
+	SOUNDMANAGER->addSound("vectorPup기본공격sound", ".\\sound\\sfx\\8BClawSlash.wav", true, false);
+
+	//============================================================================================================
+
+	//============================================== 스킬공격 사운드 ==============================================
+
+	//SOUNDMANAGER->addSound("vectorPup스킬공격sound", ".\\sound\\sfx\\4BDrill.wav", true, false);
+
+	//============================================================================================================
 
 	_Lv = 11;										//레벨
 	_maxEXP = RND->getFromIntTo(125, 135);	 		//현재 경험치, 최대 경험치
@@ -79,7 +95,7 @@ void VectorPup::update()
 			if (_count > 80 && _effectFire == true)
 			{
 				EFFECTMANAGER->play("vectorPup기본공격이펙트", 800, 320);
-				SOUNDMANAGER->play("vectorPup스킬공격sound", CH_EFFECT03, 1.0f);
+				SOUNDMANAGER->play("vectorPup기본공격sound", CH_EFFECT03, 1.0f);
 
 				_effectFire = false;
 			}
