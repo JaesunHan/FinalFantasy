@@ -84,6 +84,9 @@ battleShadow::battleShadow()
 	//{
 	//	_playAnimList[i] = false;
 	//}
+	//
+	////섀도우는 공격할 때 에너미 한테 가서 공격한다.
+	//_atkDistance = true;
 }
 
 

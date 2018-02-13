@@ -21,7 +21,8 @@ HRESULT battlePlayerMother::init()
 }
 void battlePlayerMother::update() 
 {
-	
+	_status = BATTLE_PLAYER_IDLE;
+	_turnEnd = true;
 }
 void battlePlayerMother::render() 
 {
@@ -50,10 +51,14 @@ void battlePlayerMother::draw()
 		
 		_deadImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _deadAnim);
 	}
+	if (_status == BATTLE_PLAYER_WIN_BEFORE)
+	{
+		_winBeforeImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _winBeforeAnim);
+		
+	}
 	if (_status == BATTLE_PLAYER_WIN)
 	{
-		
-		_winImg->aniRender(getMemDC(), _posX, _posY, _winAnim);
+		_winImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _winAnim);
 	}
 	//================== End 상태에 따라 다른 애니메이션을 출력한다. =======================
 }
@@ -79,16 +84,19 @@ void battlePlayerMother::animationFrameUpdate()
 		if (_status > BATTLE_PLAYER_NONE)	 _status = BATTLE_PLAYER_IDLE;
 		_playAnimList[_status] = false;
 	}
+	//IDLE일때
 	if (_status == BATTLE_PLAYER_IDLE)
 	{
+		//애니메이션 재생중이 아닐 때 
 		if (!_playAnimList[BATTLE_PLAYER_IDLE])
 		{
-			_idleAnim->start();
-			_playAnimList[BATTLE_PLAYER_IDLE] = true;
+			_idleAnim->start();		//애니메이션 저장
+			_playAnimList[BATTLE_PLAYER_IDLE] = true;		//재생중이니까 true 바꾸기
 		}
 		_idleAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 		
 	}
+	//attack 일때
 	if (_status == BATTLE_PLAYER_ATTACK)
 	{
 		if (!_playAnimList[BATTLE_PLAYER_ATTACK])
@@ -97,7 +105,7 @@ void battlePlayerMother::animationFrameUpdate()
 			_playAnimList[BATTLE_PLAYER_ATTACK] = true;
 		}
 		_atkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
-		setPlayerStatusToIdle(_atkAnim);
+		setPlayerStatusToIdle(_atkAnim);		//공격이 끝나고 나면 다시 IDLE 상태로 전환한다.
 	}
 	if (_status == BATTLE_PLAYER_MAGIC_ATTACK)
 	{
@@ -107,7 +115,7 @@ void battlePlayerMother::animationFrameUpdate()
 			_playAnimList[BATTLE_PLAYER_MAGIC_ATTACK] = true;
 		}
 		_magicAtkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
-		setPlayerStatusToIdle(_magicAtkAnim);
+		setPlayerStatusToIdle(_magicAtkAnim);	//공격이 끝나고 나면 다시 IDLE 상태로 전환한다.
 	}
 	if (_status == BATTLE_PLAYER_DEAD)
 	{
@@ -118,6 +126,16 @@ void battlePlayerMother::animationFrameUpdate()
 		}
 		_deadAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 5);
 		
+	}
+	//이기기 전에 한번만 재생되어야 하는 애니메이션 이다.
+	if (_status == BATTLE_PLAYER_WIN_BEFORE)
+	{
+		if (!_playAnimList[BATTLE_PLAYER_WIN_BEFORE])
+		{
+			_winBeforeAnim->start();
+			_playAnimList[BATTLE_PLAYER_WIN_BEFORE] = true;
+		}
+		_winBeforeAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 7);
 	}
 	if (_status == BATTLE_PLAYER_WIN)
 	{

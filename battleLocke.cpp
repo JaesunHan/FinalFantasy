@@ -84,6 +84,9 @@ battleLocke::battleLocke()
 		_playAnimList[i] = false;
 	}
 
+	//로키는 공격할 때 에너미한테 가서 공격한다.
+	_atkDistance = true;
+
 }
 
 

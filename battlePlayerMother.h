@@ -1,15 +1,16 @@
 #pragma once
 #include "gameNode.h"
-#define MAXANIMATIONNUM 5
+#define MAXANIMATIONNUM 8
 //배틀 플레이어의 상태를 나타낼 enum
 enum baattlePlayerStatus
 {
 	BATTLE_PLAYER_IDLE,
-	BATTLE_PLAYER_ATTACK,
 	BATTLE_PLAYER_ATTACK_STANDBY,
-	BATTLE_PLAYER_MAGIC_ATTACK,
+	BATTLE_PLAYER_ATTACK,
 	BATTLE_PLAYER_MAGIC_ATTACK_STANDBY,
+	BATTLE_PLAYER_MAGIC_ATTACK,
 	BATTLE_PLAYER_DEAD,
+	BATTLE_PLAYER_WIN_BEFORE,
 	BATTLE_PLAYER_WIN,
 	BATTLE_PLAYER_JUMP,
 	BATTLE_PLAYER_MOVE,
@@ -66,7 +67,9 @@ protected:
 	float _posX, _posY;				//출력될 위치좌표(중점)
 	//애니메이션을 재생할지 말지에 대한 불값
 	bool _playAnimList[MAXANIMATIONNUM];
-	//bool _playIdle, _playAtk, _playMagicAtk, _playWin, _playDead;
+	
+	//공경할 때 근거리 애들( true )은 에너미한테 가서 공격하고, 원거리 애들( false )은 제자리에서 공격해야 한다.
+	bool _atkDistance;
 
 public:
 	battlePlayerMother();

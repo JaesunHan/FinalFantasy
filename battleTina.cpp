@@ -83,6 +83,8 @@ battleTina::battleTina()
 		_playAnimList[i] = false;
 	}
 	
+	//티나 공격할 때 에너미 한테 가서 공격한다.
+	_atkDistance = false;
 }
 
 
