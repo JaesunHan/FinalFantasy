@@ -12,18 +12,18 @@ VectorPup::VectorPup()
 
 	//================================================= 에너미 이펙트 이미지 =====================================================
 	
-	IMAGEMANAGER->addImage("vectorPup기본공격이미지", ".\\image\\enemyEffect\\effect13.bmp", 376, 92, true, RGB(255, 0, 255), true);
-	IMAGEMANAGER->addImage("vectorPup스킬공격이미지", ".\\image\\enemyEffect\\effect16.bmp", 411, 134, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addImage("vectorPup기본공격이미지", ".\\image\\enemyEffect\\effect16.bmp", 411, 134, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addImage("vectorPup스킬공격이미지", ".\\image\\enemyEffect\\effect15.bmp", 660, 123, true, RGB(255, 0, 255), true);
 
 	_atkEffect = new effect;
-	_atkEffect->init(IMAGEMANAGER->findImage("vectorPup기본공격이미지"), 94, 92, 1.0f, 0.5f);
+	_atkEffect->init(IMAGEMANAGER->findImage("vectorPup기본공격이미지"), 137, 134, 1.0f, 0.5f);
 
 	_spellEffect = new effect;
-	_spellEffect->init(IMAGEMANAGER->findImage("vectorPup스킬공격이미지"), 137, 134, 1.0f, 0.5f);
+	_spellEffect->init(IMAGEMANAGER->findImage("vectorPup스킬공격이미지"), 132, 123, 1.0f, 0.5f);
 
-	EFFECTMANAGER->addEffect("vectorPup기본공격이펙트", ".\\image\\enemyEffect\\effect13.bmp", 376, 92, 94, 92, 1.0f, 1.0f, 1000);
-	EFFECTMANAGER->addEffect("vectorPup스킬공격이펙트", ".\\image\\enemyEffect\\effect16.bmp", 411, 134, 137, 134, 1.0f, 1.0f, 1000);
-	
+	EFFECTMANAGER->addEffect("vectorPup기본공격이펙트", ".\\image\\enemyEffect\\effect16.bmp", 411, 134, 137, 134, 1.0f, 1.0f, 1000);
+	EFFECTMANAGER->addEffect("vectorPup스킬공격이펙트", ".\\image\\enemyEffect\\effect15.bmp", 660, 123, 132, 123, 1.0f, 1.0f, 1000);
+
 	//===========================================================================================================================
 	
 	//============================================== 기본공격 사운드 ==============================================
@@ -34,7 +34,7 @@ VectorPup::VectorPup()
 
 	//============================================== 스킬공격 사운드 ==============================================
 
-	//SOUNDMANAGER->addSound("vectorPup스킬공격sound", ".\\sound\\sfx\\4BDrill.wav", true, false);
+	SOUNDMANAGER->addSound("vectorPup스킬공격sound", ".\\sound\\sfx\\37Ice2Part2.wav", true, false);
 
 	//============================================================================================================
 
@@ -127,7 +127,7 @@ void VectorPup::update()
 
 void VectorPup::render() 
 {
-	IMAGEMANAGER->findImage("vectorPup")->alphaFrameRender(getMemDC(), _x - _img->getWidth() / 2, _y - _img->getHeight() / 2, _frameX, 0, _alpha);
+	IMAGEMANAGER->findImage("vectorPup")->alphaFrameRender(getMemDC(), _x - _img->getFrameWidth(), _y - _img->getFrameHeight(), _frameX, 0, _alpha);
 	//IMAGEMANAGER->findImage("vectorPup")->frameRender(getMemDC(), _x, _y);
 }
 

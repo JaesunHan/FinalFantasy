@@ -13,21 +13,21 @@ bossAtma::bossAtma()
 	//================================================= 에너미 이펙트 이미지 =====================================================
 	
 	IMAGEMANAGER->addImage("bossAtma기본공격이미지", ".\\image\\enemyEffect\\effect4.bmp", 304, 64, true, RGB(255, 0, 255), true);
-	IMAGEMANAGER->addImage("bossAtma스킬공격이미지", ".\\image\\enemyEffect\\effect6.bmp", 2100, 100, true, RGB(255, 0, 255), true);
-	IMAGEMANAGER->addImage("bossAtma스킬공격이미지2", ".\\image\\enemyEffect\\effect11.bmp", 583, 102, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addImage("bossAtma스킬공격이미지1", ".\\image\\enemyEffect\\effect11.bmp", 583, 102, true, RGB(255, 0, 255), true);
+	IMAGEMANAGER->addImage("bossAtma스킬공격이미지2", ".\\image\\enemyEffect\\effect6.bmp", 2100, 100, true, RGB(255, 0, 255), true);
 
 	_atkEffect = new effect;
 	_atkEffect->init(IMAGEMANAGER->findImage("bossAtma기본공격이미지"), 76, 64, 1.0f, 0.5f);
 
 	_spellEffect = new effect;
-	_spellEffect->init(IMAGEMANAGER->findImage("bossAtma스킬공격이미지"), 53, 102, 1.0f, 0.5f);
+	_spellEffect->init(IMAGEMANAGER->findImage("bossAtma스킬공격이미지1"), 53, 102, 1.0f, 0.5f);
 
 	_spellEffect2 = new effect;
 	_spellEffect2->init(IMAGEMANAGER->findImage("bossAtma스킬공격이미지2"), 100, 100, 1.0f, 0.5f);
 
 	EFFECTMANAGER->addEffect("bossAtma기본공격이펙트", ".\\image\\enemyEffect\\effect4.bmp", 304, 64, 76, 64, 1.0f, 1.0f, 1000);
-	EFFECTMANAGER->addEffect("bossAtma스킬공격이펙트", ".\\image\\enemyEffect\\effect6.bmp", 583, 102, 53, 102, 1.0f, 1.0f, 1000);
-	EFFECTMANAGER->addEffect("bossAtma스킬공격이펙트2", ".\\image\\enemyEffect\\effect11.bmp", 2100, 100, 100, 100, 1.0f, 1.0f, 1000);
+	EFFECTMANAGER->addEffect("bossAtma스킬공격이펙트", ".\\image\\enemyEffect\\effect11.bmp", 583, 102, 53, 102, 1.0f, 1.0f, 1000);
+	EFFECTMANAGER->addEffect("bossAtma스킬공격이펙트2", ".\\image\\enemyEffect\\effect6.bmp", 2100, 100, 100, 100, 1.0f, 1.0f, 1000);
 	
 	//===========================================================================================================================
 	
@@ -94,8 +94,11 @@ void bossAtma::update()
 			//_count가 80보다 커지면 공격 이펙트가 그려짐
 			if (_count > 80 && _effectFire == true)
 			{
-				EFFECTMANAGER->play("bossAtma기본공격이펙트", 800, 320);
-				SOUNDMANAGER->play("bossAtma기본공격sound", CH_EFFECT03, 1.0f);
+				//EFFECTMANAGER->play("bossAtma기본공격이펙트", 800, 320);
+				//SOUNDMANAGER->play("bossAtma기본공격sound", CH_EFFECT03, 1.0f);
+
+				EFFECTMANAGER->play("bossAtma스킬공격이펙트", 800, 320);
+				SOUNDMANAGER->play("bossAtma스킬공격1sound", CH_EFFECT03, 1.0f);
 
 				_effectFire = false;
 			}
@@ -105,8 +108,8 @@ void bossAtma::update()
 			//_count가 80보다 커지면 공격 이펙트가 그려짐
 			if (_count > 80 && _effectFire == true)
 			{
-				EFFECTMANAGER->play("bossAtma스킬공격이펙트", 800, 320);
-				SOUNDMANAGER->play("bossAtma스킬공격1sound", CH_EFFECT03, 1.0f);
+				EFFECTMANAGER->play("bossAtma스킬공격이펙트2", 800, 320);
+				SOUNDMANAGER->play("bossAtma스킬공격2sound", CH_EFFECT03, 1.0f);
 
 				_effectFire = false;
 
@@ -127,7 +130,7 @@ void bossAtma::update()
 
 void bossAtma::render()
 {
-	IMAGEMANAGER->findImage("bossAtma")->alphaFrameRender(getMemDC(), _x - _img->getWidth() / 2, _y - _img->getHeight() / 2, _frameX, 0, _alpha);
+	IMAGEMANAGER->findImage("bossAtma")->alphaFrameRender(getMemDC(), _x - _img->getFrameWidth(), _y - _img->getFrameHeight(), _frameX, 0, _alpha);
 	//IMAGEMANAGER->findImage("bossAtma")->frameRender(getMemDC(), _x, _y);
 }
 
