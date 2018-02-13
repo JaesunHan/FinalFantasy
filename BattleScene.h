@@ -34,6 +34,7 @@ struct tagBattleCharacters
 	battlePlayerMother* player;	//플레이어 주소
 	bool turnStart = false;		//카운터가 꽉 찼을때 큐에 푸시하는걸 방지하는 변수
 	bool selectAction = false;	//카운터가 찼을때 메뉴를 선택했는지 여부를 알려주는 변수
+	bool attackReady = false;	//공격 큐가 들어왔을때 사전준비
 };
 
 class BattleScene : public gameNode

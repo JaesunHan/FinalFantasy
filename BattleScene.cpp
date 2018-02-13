@@ -169,25 +169,33 @@ void BattleScene::updateWhenCharacterTurn()
 	{
 		if (_battleTurn.front()->characterType <= 3)
 		{
-			//플레이어에 선택한 에너미 주소 할당
-			//해당 에너미가 죽었을 경우엔 살아있는애로 할당
-			if (_battleTurn.front()->enemy != NULL)
-			{
-				if (_battleTurn.front()->enemy->getCurHP() > 0)
+			if (_battleTurn.front()->attackReady == false)
+			{ 
+				//플레이어에 선택한 에너미 주소 할당
+				//해당 에너미가 죽었을 경우엔 살아있는애로 할당
+				if (_battleTurn.front()->enemy != NULL)
 				{
-					_battleTurn.front()->player->setTargetEnemy(_battleTurn.front()->enemy);
-				}
-				else
-				{
-					for (int i = 0; i < _maxMonster; ++i)
+					if (_battleTurn.front()->enemy->getCurHP() > 0)
 					{
-						if (_battleCharacters[i + 4].enemy->getCurHP() > 0)
+						_battleTurn.front()->player->setTargetEnemy(_battleTurn.front()->enemy);
+					}
+					else
+					{
+						for (int i = 0; i < _maxMonster; ++i)
 						{
-							_battleTurn.front()->player->setTargetEnemy(_battleCharacters[i + 4].enemy);
-							break;
+							if (_battleCharacters[i + 4].enemy->getCurHP() > 0)
+							{
+								_battleTurn.front()->player->setTargetEnemy(_battleCharacters[i + 4].enemy);
+								break;
+							}
 						}
 					}
 				}
+				//플레이어 상태를 어택으로
+				if (_battleTurn.front()->player->getStatus() == BATTLE_PLAYER_ATTACK_STANDBY) _battleTurn.front()->player->setStatus(BATTLE_PLAYER_ATTACK);
+				if (_battleTurn.front()->player->getStatus() == BATTLE_PLAYER_MAGIC_ATTACK_STANDBY) _battleTurn.front()->player->setStatus(BATTLE_PLAYER_MAGIC_ATTACK);
+				//플레이어 공격 준비 완료
+				_battleTurn.front()->attackReady = true;
 			}
 			_battleTurn.front()->player->update();
 			if (_battleTurn.front()->player->getTurnEnd() == true)
@@ -195,6 +203,7 @@ void BattleScene::updateWhenCharacterTurn()
 				_battleTurn.front()->ATBcounter = 0;
 				_battleTurn.front()->turnStart = false;
 				_battleTurn.front()->selectAction = false;
+				_battleTurn.front()->attackReady = false;
 				_battleTurn.pop();
 			}
 		}
