@@ -13,7 +13,7 @@ worldMapPlayer::~worldMapPlayer()
 
 HRESULT worldMapPlayer::init(int playerX, int playerY)
 {
-	_image = IMAGEMANAGER->addFrameImage("월드맵플레이어", ".//image//playerImg//player1Move.bmp", 84, 184, 3, 4, true, RGB(255, 0, 255));
+	_image = IMAGEMANAGER->addFrameImage("월드맵플레이어", ".//image//playerImg//player1Move.bmp", 112, 184, 4, 4, true, RGB(255, 0, 255));
 	
 	_player.x = playerX;
 	_player.y = playerY;
@@ -52,6 +52,11 @@ void worldMapPlayer::update()
 void worldMapPlayer::render()
 {
 	worldPlayerImageControl();
+	//렉트 체크용
+	if (_isDebug)
+	{
+		Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
+	}
 	//IMAGEMANAGER->findImage("월드맵플레이어")->frameRender(getMemDC(),_player.x, _player.y, _currentFrameX, _currentFrameY);
 }
 
@@ -62,7 +67,7 @@ void worldMapPlayer::worldPlayerImageFrameControl()
 
 	if (_count % 10 == 0)
 	{
-		_currentFrameX += 1;
+		_currentFrameX ++;
 		
 		if (_currentFrameX == _image->getMaxFrameX())
 		{
@@ -92,10 +97,6 @@ void worldMapPlayer::worldPlayerImageControl()
 		break;
 	}
 
-	if (_checkRc)
-	{
-		Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
-	}
 
 }
 
@@ -153,11 +154,7 @@ void worldMapPlayer::worldPlayerKeyControl()
 		}
 	}
 	
-	//렉트 체크용
-	if (KEYMANAGER->isOnceKeyDown(VK_F2))
-	{
-		_checkRc = true;
-	}
+	
 
 
 	switch (_worldPlayerDirection)

@@ -123,7 +123,12 @@
     <ClInclude Include="mapTool.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="newGame.h" />
-    <ClInclude Include="npc.h" />
+    <ClInclude Include="npc1.h" />
+    <ClInclude Include="npc2.h" />
+    <ClInclude Include="npc3.h" />
+    <ClInclude Include="npc4.h" />
+    <ClInclude Include="npc5.h" />
+    <ClInclude Include="npcMother.h" />
     <ClInclude Include="openingScene.h" />
     <ClInclude Include="optionMenu.h" />
     <ClInclude Include="playerImproveInfo.h" />
@@ -204,7 +209,12 @@
     <ClCompile Include="mapTool.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="newGame.cpp" />
-    <ClCompile Include="npc.cpp" />
+    <ClCompile Include="npc1.cpp" />
+    <ClCompile Include="npc2.cpp" />
+    <ClCompile Include="npc3.cpp" />
+    <ClCompile Include="npc4.cpp" />
+    <ClCompile Include="npc5.cpp" />
+    <ClCompile Include="npcMother.cpp" />
     <ClCompile Include="openingScene.cpp" />
     <ClCompile Include="optionMenu.cpp" />
     <ClCompile Include="playerManager.cpp" />

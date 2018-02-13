@@ -59,7 +59,7 @@ void worldMap::mapLoad(void)
 	DWORD read;
 
 
-	file = CreateFile(".//SQG2.map", GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	file = CreateFile(".//38X20.map", GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 					//포인트 변수로 xy선언되어있기에 포인트 변수로 받음
 	ReadFile(file, &_worldMap, sizeof(POINT), &read, NULL);
 	_worldMapTiles = new tile[_worldMap.x * _worldMap.y];

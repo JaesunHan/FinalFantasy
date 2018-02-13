@@ -103,6 +103,9 @@
     <Filter Include="playGround\gameMenu\etc">
       <UniqueIdentifier>{b307a776-7af2-4f28-b2e5-89a796b2fc4a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\MapScene\NPC">
+      <UniqueIdentifier>{b857bb52-533a-4884-ad55-8d5ded15e77f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -339,14 +342,29 @@
     <ClInclude Include="worldMapPlayer.h">
       <Filter>playGround\MapScene</Filter>
     </ClInclude>
-    <ClInclude Include="npc.h">
-      <Filter>playGround\MapScene</Filter>
-    </ClInclude>
     <ClInclude Include="newGame.h">
       <Filter>playGround\gameMenu\scene</Filter>
     </ClInclude>
     <ClInclude Include="loadGame.h">
       <Filter>playGround\gameMenu\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="npcMother.h">
+      <Filter>playGround\MapScene\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="npc1.h">
+      <Filter>playGround\MapScene\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="npc2.h">
+      <Filter>playGround\MapScene\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="npc3.h">
+      <Filter>playGround\MapScene\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="npc4.h">
+      <Filter>playGround\MapScene\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="npc5.h">
+      <Filter>playGround\MapScene\NPC</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -560,14 +578,29 @@
     <ClCompile Include="worldMapPlayer.cpp">
       <Filter>playGround\MapScene</Filter>
     </ClCompile>
-    <ClCompile Include="npc.cpp">
-      <Filter>playGround\MapScene</Filter>
-    </ClCompile>
     <ClCompile Include="newGame.cpp">
       <Filter>playGround\gameMenu\scene</Filter>
     </ClCompile>
     <ClCompile Include="loadGame.cpp">
       <Filter>playGround\gameMenu\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="npcMother.cpp">
+      <Filter>playGround\MapScene\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="npc1.cpp">
+      <Filter>playGround\MapScene\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="npc2.cpp">
+      <Filter>playGround\MapScene\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="npc3.cpp">
+      <Filter>playGround\MapScene\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="npc4.cpp">
+      <Filter>playGround\MapScene\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="npc5.cpp">
+      <Filter>playGround\MapScene\NPC</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
