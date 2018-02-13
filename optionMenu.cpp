@@ -16,6 +16,7 @@ HRESULT optionMenu::init()
 {
 	_bgImage = IMAGEMANAGER->findImage("옵션메뉴");
 	cursorInit(CUSOR_RIGHT, 950, 60);
+	_cursorYNum = 6;
 
 	_button = new fButton;
 
@@ -40,17 +41,17 @@ void optionMenu::update()
 	cursorUpdate();
 	_button->update();
 
-	cursorKeyControl(50, 6);
+	cursorKeyControlY(50, _cursorYNum);
 
 	//선택
-	switch (_cursor.currentNum)
+	switch (_cursor.currentYNum)
 	{
 		case 0:
 			//버튼 에니메이션 활성화
-			_button->setVButtonAniStart(_cursor.currentNum, true);
-			for (int i = 0; i < 6; ++i)
+			_button->setVButtonAniStart(_cursor.currentYNum, true);
+			for (int i = 0; i < _cursorYNum; ++i)
 			{
-				if (i == _cursor.currentNum) continue;
+				if (i == _cursor.currentYNum) continue;
 				_button->setVButtonAniStart(i, false);
 			}
 
@@ -63,10 +64,10 @@ void optionMenu::update()
 		break;
 		case 1:
 			//버튼 에니메이션 활성화
-			_button->setVButtonAniStart(_cursor.currentNum, true);
-			for (int i = 0; i < 6; ++i)
+			_button->setVButtonAniStart(_cursor.currentYNum, true);
+			for (int i = 0; i < _cursorYNum; ++i)
 			{
-				if (i == _cursor.currentNum) continue;
+				if (i == _cursor.currentYNum) continue;
 				_button->setVButtonAniStart(i, false);
 			}
 
@@ -79,10 +80,10 @@ void optionMenu::update()
 		break;
 		case 2:
 			//버튼 에니메이션 활성화
-			_button->setVButtonAniStart(_cursor.currentNum, true);
-			for (int i = 0; i < 6; ++i)
+			_button->setVButtonAniStart(_cursor.currentYNum, true);
+			for (int i = 0; i < _cursorYNum; ++i)
 			{
-				if (i == _cursor.currentNum) continue;
+				if (i == _cursor.currentYNum) continue;
 				_button->setVButtonAniStart(i, false);
 			}
 
@@ -95,10 +96,10 @@ void optionMenu::update()
 		break;
 		case 3:
 			//버튼 에니메이션 활성화
-			_button->setVButtonAniStart(_cursor.currentNum, true);
-			for (int i = 0; i < 6; ++i)
+			_button->setVButtonAniStart(_cursor.currentYNum, true);
+			for (int i = 0; i < _cursorYNum; ++i)
 			{
-				if (i == _cursor.currentNum) continue;
+				if (i == _cursor.currentYNum) continue;
 				_button->setVButtonAniStart(i, false);
 			}
 
@@ -111,10 +112,10 @@ void optionMenu::update()
 		break;
 		case 4:
 			//버튼 에니메이션 활성화
-			_button->setVButtonAniStart(_cursor.currentNum, true);
-			for (int i = 0; i < 6; ++i)
+			_button->setVButtonAniStart(_cursor.currentYNum, true);
+			for (int i = 0; i < _cursorYNum; ++i)
 			{
-				if (i == _cursor.currentNum) continue;
+				if (i == _cursor.currentYNum) continue;
 				_button->setVButtonAniStart(i, false);
 			}
 
@@ -127,10 +128,10 @@ void optionMenu::update()
 		break;
 		case 5:
 			//버튼 에니메이션 활성화
-			_button->setVButtonAniStart(_cursor.currentNum, true);
-			for (int i = 0; i < 6; ++i)
+			_button->setVButtonAniStart(_cursor.currentYNum, true);
+			for (int i = 0; i < _cursorYNum; ++i)
 			{
-				if (i == _cursor.currentNum) continue;
+				if (i == _cursor.currentYNum) continue;
 				_button->setVButtonAniStart(i, false);
 			}
 
@@ -143,7 +144,7 @@ void optionMenu::update()
 		break;
 	}
 
-	//옵션 메뉴가기
+	//옵션메뉴 나가기
 	if (KEYMANAGER->isOnceKeyDown(VK_BACK))
 	{
 		_button->buttonRemove();

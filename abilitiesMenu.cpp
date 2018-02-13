@@ -33,8 +33,6 @@ void abilitiesMenu::update()
 {
 
 
-
-
 	//옵션 메뉴가기
 	if (KEYMANAGER->isOnceKeyDown(VK_BACK))
 	{
@@ -47,6 +45,7 @@ void abilitiesMenu::update()
 void abilitiesMenu::render()
 {
 	_bgImage->render(getMemDC());
+
 }
 
 

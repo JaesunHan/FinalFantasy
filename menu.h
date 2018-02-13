@@ -30,10 +30,13 @@ struct tagCursor
 	image* img;             //커서 이미지
 	float x, y;             //커서 위치
 	float startX, startY;   //커서 초기위치
+	float minX, maxX;       //커서 x축이동 변수
 	float speed;            //커서 스피드
 	float fForce;           //커서 마찰력
-	int currentNum;         //커서 현위치
+	int currentXNum;        //커서X 현위치
+	int currentYNum;        //커서Y 현위치
 	bool cursorOn;          //커서 선택위치 판별을 위한 불값
+	bool cursorReset;       //커서 위치리셋 판별을 위한 불값
 };
 
 enum SAVE_TYPE
@@ -67,10 +70,12 @@ protected:
 	//======== cursor ========
 	tagCursor _cursor;
 	int		  _cursorType;
+	int       _cursorXNum;
+	int       _cursorYNum;
 	//======== cursor ========
 
 	//======= saveLoad =======
-
+	bool _saveFileSelect;
 	//======= saveLoad =======
 
 	//======== button ========
@@ -96,7 +101,9 @@ public:
 	virtual void cursorInit(CURSOR_TYPE type, float startX, float startY);
 	virtual void cursorUpdate();
 	virtual void cursorRender();
-	virtual void cursorKeyControl(float downValueY, int downNumber);
+	virtual void cursorKeyControlX(float moveValueX, int downNumber);
+	virtual void cursorKeyControlY(float moveValueY, int downNumber);
+	virtual void cursorResetXY(float cursorX, float cursorY);
 	//================================ cusor ================================
 
 	//================================ player ===============================

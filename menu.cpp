@@ -47,8 +47,12 @@ void  menu::cursorInit(CURSOR_TYPE type, float startX, float startY)
 	_cursor.fForce = 0.01f;
 	_cursor.startX = _cursor.x;
 	_cursor.startY = _cursor.y;
-	_cursor.currentNum = 0;
+	_cursor.minX = 0;
+	_cursor.maxX = 0;
+	_cursor.currentXNum = 0;
+	_cursor.currentYNum = 0;
 	_cursor.cursorOn = false;
+	_cursor.cursorReset = false;
 
 	switch (_cursorType)
 	{
@@ -96,47 +100,97 @@ void  menu::cursorUpdate()
 	}
 }
 
-//                          커서Y축 이동값    이동횟수
-void menu::cursorKeyControl(float downValueY, int downNumber)
+//                           커서X축 이동값    이동횟수
+void menu::cursorKeyControlX(float moveValueX, int moveNumber)
 {
 	if (!_cursor.cursorOn)
 	{
-		_cursor.currentNum = 0;
+		_cursor.minX = _cursor.x;
+		_cursor.maxX = _cursor.x + (moveValueX * (moveNumber));
+
+		_cursor.currentXNum = 0;
+		_cursor.cursorOn = true;
+	}
+
+
+	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
+	{
+		_cursor.x += moveValueX;
+		_cursor.startX += moveValueX;
+		_cursor.currentXNum++;
+
+		//예외처리: 커서가 선택항목을 벗어나면 다시 처음 선택지로~~
+		if (_cursor.x > _cursor.maxX)
+		{
+			_cursor.x = _cursor.minX;
+			_cursor.startX = _cursor.minX;
+			_cursor.currentXNum = 0;
+		}
+
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
+	{
+		_cursor.x -= moveValueX;
+		_cursor.startX -= moveValueX;
+		_cursor.currentXNum--;
+
+		//예외처리: 커서가 선택항목을 벗어나면 마지막 선택지로~~
+		if (_cursor.x < _cursor.minX)
+		{
+			_cursor.x = _cursor.maxX;
+			_cursor.startX = _cursor.maxX;
+			_cursor.currentXNum = moveNumber;
+		}
+	}
+
+
+	//예외처리: 커서 선택위치 반환을 위한...
+	if (_cursor.currentXNum <= 0)					_cursor.currentXNum = 0;
+	if (_cursor.currentXNum >= (moveNumber))		_cursor.currentXNum = (moveNumber);
+}
+
+//                          커서Y축 이동값    이동횟수
+void menu::cursorKeyControlY(float moveValueY, int downNumber)
+{
+	if (!_cursor.cursorOn)
+	{
+		_cursor.currentYNum = 0;
 		_cursor.cursorOn = true;
 	}
 
 
 	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 	{
-		_cursor.y += downValueY;
-		_cursor.currentNum++;
+		_cursor.y += moveValueY;
+		_cursor.currentYNum++;
 
 		//예외처리: 커서가 선택항목을 벗어나면 다시 처음 선택지로~~
-		if (_cursor.y > _cursor.startY + (downValueY * (downNumber - 1)))
+		if (_cursor.y > _cursor.startY + (moveValueY * (downNumber - 1)))
 		{
 			_cursor.y = _cursor.startY;
-			_cursor.currentNum = 0;
+			_cursor.currentYNum = 0;
 		}
 
 	}
 
 	if (KEYMANAGER->isOnceKeyDown(VK_UP))
 	{
-		_cursor.y -= downValueY;
-		_cursor.currentNum--;
+		_cursor.y -= moveValueY;
+		_cursor.currentYNum--;
 
 		//예외처리: 커서가 선택항목을 벗어나면 마지막 선택지로~~
 		if (_cursor.y < _cursor.startY)
 		{
-			_cursor.y = _cursor.startY + (downValueY * (downNumber - 1));
-			_cursor.currentNum = downNumber - 1;
+			_cursor.y = _cursor.startY + (moveValueY * (downNumber - 1));
+			_cursor.currentYNum = downNumber - 1;
 		}
 	}
 
 
 	//예외처리: 커서 선택위치 반환을 위한...
-	if (_cursor.currentNum <= 0)				_cursor.currentNum = 0;
-	if (_cursor.currentNum >= (downNumber - 1)) _cursor.currentNum = (downNumber - 1);
+	if (_cursor.currentYNum <= 0)				 _cursor.currentYNum = 0;
+	if (_cursor.currentYNum >= (downNumber - 1)) _cursor.currentYNum = (downNumber - 1);
 }
 
 void  menu::cursorRender()
@@ -144,6 +198,13 @@ void  menu::cursorRender()
 	_cursor.img->frameRender(getMemDC(), _cursor.x, _cursor.y);
 }
 
+void menu::cursorResetXY(float cursorX, float cursorY)
+{
+	_cursor.cursorReset = true;
+
+	_cursor.x = _cursor.startX = cursorX;
+	_cursor.y = _cursor.startY = cursorY;
+}
 //============================== cursor ==============================
 
 
@@ -182,10 +243,12 @@ void menu::playerSlotUpdate()
 
 void menu::playerSlotKeyControl(float slotValueY, int slotNum)
 {
-
-	for (int i = 0; i < _vPlayer.size(); ++i)
+	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 	{
-		_vPlayer[i].y += slotValueY * slotNum;
+		for (int i = 0; i < _vPlayer.size(); ++i)
+		{
+			_vPlayer[i].y += slotValueY * slotNum;
+		}
 	}
 }
 

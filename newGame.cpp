@@ -39,10 +39,10 @@ void newGame::update()
 	cursorUpdate();
 	_button->update();
 
-	cursorKeyControl(51, 2);
+	cursorKeyControlY(51, 2);
 
 	//선택
-	switch (_cursor.currentNum)
+	switch (_cursor.currentYNum)
 	{
 	case 0:
 		//버튼 에니메이션 활성화

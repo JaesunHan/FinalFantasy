@@ -13,8 +13,9 @@ saveLoadMenu::~saveLoadMenu()
 
 HRESULT saveLoadMenu::init()
 {
-	_bgImage = IMAGEMANAGER->findImage("로드게임메뉴");
+	_bgImage = IMAGEMANAGER->findImage("세이브메뉴");
 	cursorInit(CUSOR_RIGHT, 950, 190);
+	_cursorYNum = 2;
 
 	_button = new fButton;
 	_button->buttonSet("버튼예스", 1000, 187);
@@ -34,15 +35,19 @@ void saveLoadMenu::update()
 	cursorUpdate();
 	_button->update();
 
-	cursorKeyControl(51, 2);
+	cursorKeyControlY(51, _cursorYNum);
 
 	//선택
-	switch (_cursor.currentNum)
+	switch (_cursor.currentYNum)
 	{
 		case 0:
 			//버튼 에니메이션 활성화
-			_button->setVButtonAniStart(0, true);
-			_button->setVButtonAniStart(1, false);
+			_button->setVButtonAniStart(_cursor.currentYNum, true);
+			for (int i = 0; i < _cursorYNum; ++i)
+			{
+				if (i == _cursor.currentYNum) continue;
+				_button->setVButtonAniStart(i, false);
+			}
 
 			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 			{
@@ -53,8 +58,12 @@ void saveLoadMenu::update()
 		break;
 		case 1:
 			//버튼 에니메이션 활성화
-			_button->setVButtonAniStart(1, true);
-			_button->setVButtonAniStart(0, false);
+			_button->setVButtonAniStart(_cursor.currentYNum, true);
+			for (int i = 0; i < _cursorYNum; ++i)
+			{
+				if (i == _cursor.currentYNum) continue;
+				_button->setVButtonAniStart(i, false);
+			}
 
 			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 			{

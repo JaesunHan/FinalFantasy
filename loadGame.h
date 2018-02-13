@@ -5,7 +5,7 @@
 class loadGame : public menu
 {
 private:
-
+	fButton* _button1;
 
 
 public:

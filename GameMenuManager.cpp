@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "GameMenuManager.h"
-#include "titleScene.h"
-#include "saveLoadMenu.h"
+
 
 
 GameMenuManager::GameMenuManager()

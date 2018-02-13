@@ -135,3 +135,10 @@ void fButton::buttonRemove()
 	KEYANIMANAGER->deleteAll();
 	_vButton.clear();
 }
+
+void fButton::buttonRemoveOne(int buttonNum)
+{
+	_vButton[buttonNum].img = NULL;
+	SAFE_DELETE(_vButton[buttonNum].ani);
+	_vButton.erase(_vButton.begin() + buttonNum);
+}

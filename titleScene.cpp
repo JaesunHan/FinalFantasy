@@ -27,10 +27,10 @@ void titleScene::release()
 void titleScene::update() 
 {
 	cursorUpdate();
-	cursorKeyControl(47, 3);
+	cursorKeyControlY(47, 3);
 
 	//¼±ÅÃ
-	switch (_cursor.currentNum)
+	switch (_cursor.currentYNum)
 	{
 		case 0:
 			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))

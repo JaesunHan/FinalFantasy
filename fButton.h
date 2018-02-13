@@ -42,6 +42,7 @@ public:
 	void update();
 	void render();
 	void buttonRemove();
+	void buttonRemoveOne(int buttonNum);
 	//================================ button ===============================
 
 	//=========================== getter & setter ===========================
