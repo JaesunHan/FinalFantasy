@@ -153,7 +153,7 @@ void BattleScene::ATBGauzeTimer()
 		{
 			if (_battleCharacters[i].ATBcounter > 65535 && _battleCharacters[i].turnStart == false)
 			{
-				_battleTurn.push(_battleCharacters[i]);
+				_battleTurn.push(&_battleCharacters[i]);
 				_battleCharacters[i].turnStart = true;
 				_battleCharacters[i].enemy->setTurnEnd(false);
 			}
@@ -166,23 +166,24 @@ void BattleScene::updateWhenCharacterTurn()
 	//큐에서 플레이어나 에너미의 턴이 돌아오면 업데이트 실행
 	if (_battleTurn.size() > 0)
 	{
-		if (_battleTurn.front().characterType <= 3)
+		if (_battleTurn.front()->characterType <= 3)
 		{
-			_battleTurn.front().player->update();
-			if (_battleTurn.front().player->getTurnEnd() == true)
+			_battleTurn.front()->player->update();
+			if (_battleTurn.front()->player->getTurnEnd() == true)
 			{
-				_battleCharacters[_battleTurn.front().characterType].ATBcounter = 0;
-				_battleCharacters[_battleTurn.front().characterType].turnStart = false;
+				_battleTurn.front()->ATBcounter = 0;
+				_battleTurn.front()->turnStart = false;
+				_battleTurn.front()->selectAction = false;
 				_battleTurn.pop();
 			}
 		}
 		else
 		{
-			_battleTurn.front().enemy->update();
-			if (_battleTurn.front().enemy->getTurnEnd() == true)
+			_battleTurn.front()->enemy->update();
+			if (_battleTurn.front()->enemy->getTurnEnd() == true)
 			{
-				_battleCharacters[_battleTurn.front().characterType].ATBcounter = 0;
-				_battleCharacters[_battleTurn.front().characterType].turnStart = false;
+				_battleTurn.front()->ATBcounter = 0;
+				_battleTurn.front()->turnStart = false;
 				_battleTurn.pop();
 			}
 		}
@@ -237,22 +238,40 @@ void BattleScene::playerMenuSelect()
 		SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
 		if (_enemySelect == true)
 		{
-
+			_battleCharacters[_currentTurn].enemy = _battleCharacters[_enemyNum].enemy;
+			switch (_menuNum)
+			{
+			case(BATTLE_ATTACK):
+				_battleCharacters[_currentTurn].player->setStatus(BATTLE_PLAYER_ATTACK_STANDBY);
+				_battleCharacters[_currentTurn].selectAction = true;
+				_battleTurn.push(&_battleCharacters[_currentTurn]);
+				_enemySelect = false;
+				_playerTurn = false;
+				break;
+			case(BATTLE_MAGIC):
+				break;
+			case(BATTLE_SKILL):
+				break;
+			case(BATTLE_ITEM):
+				break;
+			case(BATTLE_ESCAPE):
+				break;
+			}
 		}
 		else if (_playerTurn == true)
 		{
 			switch (_menuNum)
 			{
-			case(0):
+			case(BATTLE_ATTACK):
 				_enemySelect = true;
 				break;
-			case(1):
+			case(BATTLE_MAGIC):
 				break;
-			case(2):
+			case(BATTLE_SKILL):
 				break;
-			case(3):
+			case(BATTLE_ITEM):
 				break;
-			case(4):
+			case(BATTLE_ESCAPE):
 				break;
 			}
 		}
@@ -280,14 +299,17 @@ void BattleScene::playerMenuSelect()
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_TAB))
 	{
-		_menuNum = 0;
-		_sfx01 = false;
-		while (1)
+		if (_playerTurn == true)
 		{
-			_currentTurn++;
-			if (_currentTurn > 3) _currentTurn = 0;
-			if (_battleCharacters[_currentTurn].ATBcounter < 65535) continue;
-			else break;
+			_menuNum = 0;
+			_sfx01 = false;
+			while (1)
+			{
+				_currentTurn++;
+				if (_currentTurn > 3) _currentTurn = 0;
+				if (_battleCharacters[_currentTurn].ATBcounter < 65535) continue;
+				else break;
+			}
 		}
 	}
 	if (_playerTurn == true)

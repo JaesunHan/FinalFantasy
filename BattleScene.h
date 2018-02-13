@@ -17,6 +17,15 @@ enum BATTLECHARACTER
 	NONE
 };
 
+enum BATTLEMENU
+{
+	BATTLE_ATTACK,
+	BATTLE_MAGIC,
+	BATTLE_SKILL,
+	BATTLE_ITEM,
+	BATTLE_ESCAPE
+};
+
 struct tagBattleCharacters
 {
 	int characterType;			//배틀 캐릭터
@@ -30,10 +39,10 @@ struct tagBattleCharacters
 class BattleScene : public gameNode
 {
 private:
-	queue<tagBattleCharacters> _battleTurn;							//턴이 돌아올 캐릭터들을 담아둘 큐
+	queue<tagBattleCharacters*> _battleTurn;		//턴이 돌아올 캐릭터들을 담아둘 큐
 	vector<tagBattleCharacters> _battleCharacters;	//캐릭터들을 생성할 구조체 벡터
 	int _maxMonster;								//최대 몬스터 수
-	int _currentTurn;								//현재 턴이 누구턴인가 저장... 하려고 했으나 아직 안씀
+	int _currentTurn;								//현재 턴이 누구턴인가 저장
 	int _menuNum = 0;								//메뉴 선택 번호(1번 공격, 2번 마법, 3번 스킬, 4번 아이템, 5번 도망)
 	int _enemyNum = 4;
 	unsigned int _position;

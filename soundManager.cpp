@@ -55,7 +55,18 @@ void soundManager::release()
 		_channel[i]->stop();
 	}
 
-	for (int i = 0; i < _mTotalSounds.size(); ++i)
+	//arrSoundsIter iter = _mTotalSounds.begin();
+	//for (iter; iter != _mTotalSounds.end();)
+	//{
+	//	_mTotalSounds.erase(iter);
+	//}
+	//for (int i = 0; i < _mTotalSounds.size(); ++i)
+	//{
+	//	_sound[i]->release();
+	//}
+	
+	int tempSize = _mTotalSounds.size();
+	for (int i = 0; i < tempSize; ++i)
 	{
 		releaseSound(0);
 	}
