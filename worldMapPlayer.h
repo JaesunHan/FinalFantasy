@@ -66,6 +66,9 @@ public:
 	//타일 인덱스 계산하는 함수
 	int tileNum(float x, float y);
 
+	//속성체크용 변수
+	void checkAttribute();
+
 	//========겟셋 모음==================================/
 	RECT getWorldMapPlayerRect() { return _rc; }
 	void setWorldMapPlayerRect(RECT rc) { _rc = rc; }

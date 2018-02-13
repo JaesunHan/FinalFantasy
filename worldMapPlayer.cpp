@@ -202,3 +202,7 @@ int worldMapPlayer::tileNum(float x, float y)
 
 	return tileNum;
 }
+
+void worldMapPlayer::checkAttribute()
+{
+}
