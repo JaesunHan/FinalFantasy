@@ -18,7 +18,7 @@ Bear::Bear()
 	_spellEffect = new effect;
 	_spellEffect->init(IMAGEMANAGER->findImage("bear스킬공격이미지"), 132, 123, 1.0f, 0.5f);
 	
-	EFFECTMANAGER->addEffect("bear기본공격이펙트", ".\\image\\enemyEffect\\effect16.bmp", 411, 134, 137, 134, 1.0f, 1.0f, 1000); 
+	EFFECTMANAGER->addEffect("bear기본공격이펙트", ".\\image\\enemyEffect\\effect16.bmp", 411, 134, 137, 134, 1.0f, 1.0f, 1000);
 	EFFECTMANAGER->addEffect("bear스킬공격이펙트", ".\\image\\enemyEffect\\effect15.bmp", 660, 123, 132, 123, 1.0f, 1.0f, 1000);
 	//===========================================================================================================================
 
@@ -79,6 +79,7 @@ void Bear::update()
 			if (_count > 80 && _effectFire == true)
 			{
 				EFFECTMANAGER->play("bear기본공격이펙트", 800, 320);
+				SOUNDMANAGER->play("bear기본공격sound", CH_EFFECT03, 1.0f);
 
 				_effectFire = false;
 			}

@@ -17,6 +17,7 @@ enum baattlePlayerStatus
 	BATTLE_PLAYER_NONE
 };
 
+class Enemy;
 class battlePlayerMother : public gameNode
 {
 protected:
@@ -74,6 +75,8 @@ protected:
 	//공경할 때 근거리 애들( true )은 에너미한테 가서 공격하고, 원거리 애들( false )은 제자리에서 공격해야 한다.
 	bool _atkDistance;
 
+	Enemy* _target;
+
 public:
 	battlePlayerMother();
 	~battlePlayerMother();
@@ -122,6 +125,10 @@ public:
 	void setPlayerStatusToIdle(animation* anim);
 	//공격 공식 알고리즘
 	int attackAlgorithm();
+
+	//공격할 대상 에너미의 주소를 받아온다
+	void setTargetEnemy(Enemy* target) { _target = target; }
+
 
 	
 };

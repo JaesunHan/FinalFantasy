@@ -14,13 +14,13 @@ bossAtma::bossAtma()
 	IMAGEMANAGER->addImage("bossAtma스킬공격이미지2", ".\\image\\enemyEffect\\effect11.bmp", 583, 102, true, RGB(255, 0, 255), true);
 
 	_atkEffect = new effect;
-	_atkEffect->init(IMAGEMANAGER->findImage("bossAtma기본공격이미지"), 117, 85, 1.0f, 0.5f);
+	_atkEffect->init(IMAGEMANAGER->findImage("bossAtma기본공격이미지"), 76, 64, 1.0f, 0.5f);
 
 	_spellEffect = new effect;
-	_spellEffect->init(IMAGEMANAGER->findImage("bossAtma스킬공격이미지"), 117, 85, 1.0f, 0.5f);
+	_spellEffect->init(IMAGEMANAGER->findImage("bossAtma스킬공격이미지"), 53, 102, 1.0f, 0.5f);
 
 	_spellEffect2 = new effect;
-	_spellEffect2->init(IMAGEMANAGER->findImage("bossAtma스킬공격이미지2"), 117, 85, 1.0f, 0.5f);
+	_spellEffect2->init(IMAGEMANAGER->findImage("bossAtma스킬공격이미지2"), 100, 100, 1.0f, 0.5f);
 
 	EFFECTMANAGER->addEffect("bossAtma기본공격이펙트", ".\\image\\enemyEffect\\effect4.bmp", 304, 64, 76, 64, 1.0f, 1.0f, 1000);
 	EFFECTMANAGER->addEffect("bossAtma스킬공격이펙트", ".\\image\\enemyEffect\\effect6.bmp", 583, 102, 53, 102, 1.0f, 1.0f, 1000);
@@ -57,27 +57,50 @@ void bossAtma::update()
 {
 	if (_turnEnd == false)
 	{
+		//카운트 쁠쁠
 		_count++;
-		if (_count < 50) glitter();
 
-		if (_effectFire == true)
+		//_count가 21보다 작으면 반짝반짝
+		if (_count < 21) glitter();
+
+		//에너미의 상태가 공격 또는 스킬쓰는 상태를 랜덤으로 받음 
+		if (_state == ENEMY_NULL)
 		{
-			EFFECTMANAGER->play("bossAtma기본공격이펙트", 800, 320);
-
-			_effectFire = false;
+			//_state = ENEMY_HIT;
+			_state = RND->getFromIntTo(ENEMY_HIT, ENEMY_SPELL);				//공격 or 스펠 상태
+			_rndNum = RND->getFromIntTo(0, 10);								//스킬확률을 조절하기 위한 랜덤값
 		}
-		//if (_effectFire == true)
-		//{
-		//	EFFECTMANAGER->play("bossAtma스킬공격이펙트", 800, 320);
-		//
-		//	_effectFire = false;
-		//}
 
+		//에너미 공격 상태면
+		if ((_state == ENEMY_HIT && _rndNum <= 7) || (_state == ENEMY_SPELL && _rndNum <= 7))
+		{
+			//_count가 80보다 커지면 공격 이펙트가 그려짐
+			if (_count > 80 && _effectFire == true)
+			{
+				EFFECTMANAGER->play("bossAtma기본공격이펙트", 800, 320);
+
+				_effectFire = false;
+			}
+		}
+		if ((_state == ENEMY_HIT && _rndNum > 7) || (_state == ENEMY_SPELL && _rndNum > 7))
+		{
+			//_count가 80보다 커지면 공격 이펙트가 그려짐
+			if (_count > 80 && _effectFire == true)
+			{
+				EFFECTMANAGER->play("bossAtma스킬공격이펙트", 800, 320);
+
+				_effectFire = false;
+
+			}
+		}
+
+		//_count가 150보다 크면 턴을 플레이어에게 넘긴다
 		if (_count > 150)
 		{
 			_turnEnd = true;
 			_effectFire = true;
-
+			_state = ENEMY_NULL;
+			_glitterCount = 0;
 			_count = 0;
 		}
 	}

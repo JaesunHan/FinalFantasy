@@ -44,12 +44,12 @@ private:
 	int _maxMonster;								//최대 몬스터 수
 	int _currentTurn;								//현재 턴이 누구턴인가 저장
 	int _menuNum = 0;								//메뉴 선택 번호(1번 공격, 2번 마법, 3번 스킬, 4번 아이템, 5번 도망)
-	int _enemyNum = 4;
-	unsigned int _position;
+	int _enemyNum = 4;								//적 선택 번호 (4번이 첫번째 적)
+	unsigned int _position;							//사운드 포지션			
 	bool _counterRoll = true;						//참일때만 카운터 증가
-	bool _playerTurn = false;
-	bool _enemySelect = false;
-	bool _sfx01 = false;
+	bool _playerTurn = false;						//플레이어 턴일때 참
+	bool _enemySelect = false;						//에너미 선택할때 참
+	bool _sfx01 = true;								//이펙트 사운드 1번
 	bool _sfx02 = false;
 	HFONT newFont, oldFont;
 public:
