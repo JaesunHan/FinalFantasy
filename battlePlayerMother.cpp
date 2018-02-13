@@ -21,8 +21,6 @@ HRESULT battlePlayerMother::init()
 }
 void battlePlayerMother::update() 
 {
-	
-
 	_counter++;
 	if (_counter % 100 == 0)
 	{
@@ -32,7 +30,6 @@ void battlePlayerMother::update()
 		_counter = 0;
 	}
 
-	
 }
 void battlePlayerMother::render() 
 {
