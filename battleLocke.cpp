@@ -86,6 +86,12 @@ battleLocke::battleLocke()
 
 	//로키는 공격할 때 에너미한테 가서 공격한다.
 	_atkDistance = true;
+	for (int i = 0; i < MAXATKMOTION; ++i)
+	{
+		_atkMotionList[i] = false;
+	}
+	_angle = 0.0f, _speed = 0.0f;
+	
 
 }
 

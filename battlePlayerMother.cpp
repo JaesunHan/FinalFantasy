@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "battlePlayerMother.h"
+#include "Enemy.h"
 
 
 battlePlayerMother::battlePlayerMother()
@@ -21,19 +22,65 @@ HRESULT battlePlayerMother::init()
 }
 void battlePlayerMother::update() 
 {
-	_counter++;
-	if (_counter % 100 == 0)
-	{
+	
+	////공격 또는 마법 공격 대기 상태일때 카운트를 증가시킨다.
+	//if (_status == BATTLE_PLAYER_ATTACK_STANDBY || _status == BATTLE_PLAYER_MAGIC_ATTACK_STANDBY)
+	//{
+	//	_count++;
+	//}
+	//
+	////근거리 공격인 애는 앞으로 가서 공격
+	//if (_atkDistance)
+	//{
+	//	//무빙모션
+	//	if (_count >= 0 && _count < 10)
+	//	{
+	//		_moveMotion = true;
+	//		_atkMotion = false;
+	//		_angle = PI;
+	//		_speed = 10.0f;
+	//	}
+	//	//공격하는 모션
+	//	if (_count >= 10 && _count < 50)
+	//	{
+	//		_moveMotion = false;
+	//		_atkMotion = true;
+	//		_speed = 0.0f;
+	//	}
+	//	//다시 무빙 모션
+	//	if (_count >= 50 && _count < 60)
+	//	{
+	//		_moveMotion = true;
+	//		_atkMotion = false;
+	//		_angle = PI2;
+	//		_speed = 10.0f;
+	//	}	
+	//
+	//}
+	////원거리 공격인 애는 그 자리에서 공격
+	//else {
+	//	_moveMotion = false;
+	//	_atkMotion = true;
+	//	_speed = 0.0f;
+	//	
+	//}
+	
 
-		_turnEnd = true;
-		_status = BATTLE_PLAYER_IDLE;
-		_counter = 0;
-	}
+
+	//_count++;
+	//if (_count % 100 == 0)
+	//{
+	//
+	//	_turnEnd = true;
+	//	_status = BATTLE_PLAYER_IDLE;
+	//	_count = 0;
+	//}
 
 }
 void battlePlayerMother::render() 
 {
 	draw();
+	TIMEMANAGER->render(getMemDC());
 }
 void battlePlayerMother::draw()	  
 {
@@ -41,45 +88,52 @@ void battlePlayerMother::draw()
 	if (_status == BATTLE_PLAYER_IDLE)
 	{
 		
-		_idleImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _idleAnim);
+		//_idleImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _idleAnim);
+		_idleImg->aniRender(getMemDC(), _posX, _posY, _idleAnim);
 	}
 	// 스탠바이를 재생하고 그 다음에 공격모션을 한다
 	if (_status == BATTLE_PLAYER_ATTACK_STANDBY)
 	{
-		_atkStandbyImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _atkStandbyAnim);
+		//_atkStandbyImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _atkStandbyAnim);
+		_atkStandbyImg->aniRender(getMemDC(),_posX, _posY, _atkStandbyAnim);
 	}
 	if (_status == BATTLE_PLAYER_ATTACK)
 	{
-		//TextOut(getMemDC(), 800 - (_partyIdx % 2) * 70+60, 150 + _partyIdx * 100 - 10, "공격", strlen("공격"));
-		_atkImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _atkAnim);
+		TextOut(getMemDC(), 800 - (_partyIdx % 2) * 70+60, 150 + _partyIdx * 100 - 10, "공격", strlen("공격"));
+		//_atkImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _atkAnim);
+		_atkImg->aniRender(getMemDC(), _posX, _posY, _atkAnim);
 	}
 	//마법 공격 스탠바이를 재생하고 그 다음에 마법 공격 모션을 한다.
 	if (_status == BATTLE_PLAYER_MAGIC_ATTACK_STANDBY)
 	{
 
-		_magicAtkStandbyImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _magicAtkStandbyAnim);
+		//_magicAtkStandbyImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _magicAtkStandbyAnim);
+		_magicAtkStandbyImg->aniRender(getMemDC(),_posX, _posY, _magicAtkStandbyAnim);
 	}
 	//마법 공격
 	if (_status == BATTLE_PLAYER_MAGIC_ATTACK)
 	{
 		
-		_magicAtkImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _magicAtkAnim);
+		//_magicAtkImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _magicAtkAnim);
+		_magicAtkImg->aniRender(getMemDC(), _posX, _posY, _magicAtkAnim);
 	}
 
 	if (_status == BATTLE_PLAYER_DEAD)
 	{
 		
-		_deadImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _deadAnim);
+		//_deadImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _deadAnim);
+		_deadImg->aniRender(getMemDC(), _posX, _posY, _deadAnim);
 	}
 	if (_status == BATTLE_PLAYER_WIN_BEFORE)
 	{
-		_winBeforeImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _winBeforeAnim);
-		
+		//_winBeforeImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _winBeforeAnim);
+		_winBeforeImg->aniRender(getMemDC(), _posX, _posY, _winBeforeAnim);
 	}
-	//if (_status == BATTLE_PLAYER_WIN)
-	//{
-	//	_winImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _winAnim);
-	//}
+	if (_status == BATTLE_PLAYER_WIN)
+	{
+		//_winImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _winAnim);
+		_winImg->aniRender(getMemDC(), _posX, _posY, _winAnim);
+	}
 	//================== End 상태에 따라 다른 애니메이션을 출력한다. =======================
 }
 void battlePlayerMother::release()
@@ -129,13 +183,51 @@ void battlePlayerMother::animationFrameUpdate()
 	//attack 일때
 	if (_status == BATTLE_PLAYER_ATTACK)
 	{
-		if (!_playAnimList[BATTLE_PLAYER_ATTACK])
+		//공격이 시작됐으면
+		if (_isStartAtk)
 		{
-			_atkAnim->start();
-			_playAnimList[BATTLE_PLAYER_ATTACK] = true;
+			_isStartAtk = false;
+			_atkMotionList[0] = true;
 		}
-		_atkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
-		setPlayerStatusToIdle(_atkAnim);		//공격이 끝나고 나면 다시 IDLE 상태로 전환한다.
+		//근거리 공격자 인경우에만
+		if (_atkDistance)
+		{
+			//에너미한테 공격하러 간다.
+			if(_atkMotionList[0])
+			{ 
+				//어디까지 움직여야 하는지 세팅하기
+				_targetX = _target->getX() - _target->getImageWidth();
+				_targetY = _target->getY() - _target->getImageHeight() / 2;
+				moveToTarget(_targetX, _targetY, 0);
+			}
+			//제자리로 돌아온다
+			if (_atkMotionList[2])
+			{
+				_targetX = 800 - (_partyIdx % 2) * 70;
+				_targetY = 150 + _partyIdx * 100;
+				moveToTarget(_targetX, _targetY, 2);
+			}
+		}
+		//이제 공격한다.
+		if(_atkMotionList[1])
+		{
+			if (!_playAnimList[BATTLE_PLAYER_ATTACK])
+			{ 
+				_atkAnim->start();
+				_playAnimList[BATTLE_PLAYER_ATTACK] = true;
+			}
+			_atkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 5);
+			if (!_atkAnim->isPlay())
+			{
+				_atkMotionList[2] = true;
+			}
+		}
+		//모든 공격에 관한 모션이 ㅣ끝나면 Idle 상태로 전환
+		else{
+			//setPlayerStatusToIdle(_atkAnim);		//공격이 끝나고 나면 다시 IDLE 상태로 전환한다.
+			//_turnEnd = true;
+		}
+		
 	}
 	//마법 공격 스탠바이
 	if (_status == BATTLE_PLAYER_MAGIC_ATTACK_STANDBY)
@@ -210,3 +302,38 @@ int battlePlayerMother::attackAlgorithm()
 	return dmg;
 }
 
+void battlePlayerMother::setPlayerDefaultPosition()
+{
+	_posX = 800 - (_partyIdx % 2) * 70;
+	_posY = 150 + _partyIdx * 100;
+}
+
+void battlePlayerMother::moveToTarget(int targetX, int targetY, int motionListIdx)
+{
+	RECT rcTarget = RectMake(targetX, targetY, _target->getImageWidth(), _target->getImageHeight());
+	RECT rcInter;
+	RECT rcChar = RectMake(_posX, _posY, 100,100);
+	//타겟까지 도달ㅎ면
+	if (IntersectRect(&rcInter, &rcTarget, &rcChar))
+	{
+		
+		//아직 공격 중
+		if(motionListIdx < sizeof(_atkMotionList))
+		{
+			_atkMotionList[motionListIdx] = false;
+			_atkMotionList[motionListIdx + 1] = true;
+		}
+		//공격 끝남
+		else {
+			_isStartAtk = true;
+		}
+	}
+	//도달 안했으면
+	else 
+	{
+		_angle = getAngle(_posX, _posY, _targetX, _targetY);
+		_moveSpd = 12.0f;
+		_posX += cosf(_angle) * _moveSpd;
+		_posY += -sinf(_angle) * _moveSpd;
+	}
+}

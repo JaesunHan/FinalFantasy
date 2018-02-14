@@ -87,6 +87,13 @@ battleCeles::battleCeles()
 
 	//셀레스 공격할 때 에너미 한테 가서 공격한다.
 	_atkDistance = true;
+
+	for (int i = 0; i < MAXATKMOTION; ++i)
+	{
+		_atkMotionList[i] = false;
+	}
+	_atkMotion = false;	_angle = 0.0f, _speed = 0.0f;
+	
 }
 
 
@@ -103,6 +110,8 @@ HRESULT battleCeles::init()
 void battleCeles::update() 
 {
 	battlePlayerMother::update();
+	//공격 시작하면 처음에 무빙모션을 true 로 바꾼다.
+	
 }
 void battleCeles::draw()   
 {

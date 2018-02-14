@@ -1,6 +1,8 @@
 #pragma once
 #include "gameNode.h"
+#include "action.h"
 #define MAXANIMATIONNUM 8
+#define MAXATKMOTION	3
 //배틀 플레이어의 상태를 나타낼 enum
 enum baattlePlayerStatus
 {
@@ -59,6 +61,7 @@ protected:
 	animation* _deadAnim;
 	image* _jumpImg;				//점프 모습 : 1프레임
 	image* _moveImg;				//움직일 때 모습: 1프레임
+	
 
 	baattlePlayerStatus _status;	//배틀플레이어의 상태
 
@@ -67,15 +70,23 @@ protected:
 	int _partyIdx;					//파티에 종속되어 있다면 몇변째 파티원인가?!
 	float _posX, _posY;				//출력될 위치좌표(중점)
 
-	int _counter;					//_turnEnd 를 true 로 바꾸기 위한 카운터
+	int _count;					//_turnEnd 를 true 로 바꾸기 위한 카운터
 
 	//애니메이션을 재생할지 말지에 대한 불값
 	bool _playAnimList[MAXANIMATIONNUM];
 	
 	//공경할 때 근거리 애들( true )은 에너미한테 가서 공격하고, 원거리 애들( false )은 제자리에서 공격해야 한다.
 	bool _atkDistance;
+	//공격할 때 일정 시간동안에는 무빙을 ㅏ고
+	bool _atkMotionList[3];
+	bool _isStartAtk;
+	float _angle;	/*움직일 방향*/	float _moveSpd;	/*움직일 때 속도*/
+	//공격할 때 일정 시간동안애는 공격을 한다.
+	bool _atkMotion;
 
 	Enemy* _target;
+	float _targetX, _targetY;
+	int _targetWidth, _targetHeight;
 
 public:
 	battlePlayerMother();
@@ -128,8 +139,8 @@ public:
 
 	//공격할 대상 에너미의 주소를 받아온다
 	void setTargetEnemy(Enemy* target) { _target = target; }
-
-
-	
+	void setPlayerDefaultPosition();
+	//지정한 포지션까지 움직이는 함수
+	void moveToTarget(int targetX, int targetY, int motionListIdx);
 };
 
