@@ -94,7 +94,7 @@ battleShadow::battleShadow()
 		_atkMotionList[i] = false;
 	}
 	_angle = 0.0f, _speed = 0.0f;
-	
+	_hitRate = 200;
 }
 
 

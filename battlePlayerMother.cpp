@@ -82,12 +82,6 @@ void battlePlayerMother::update()
 				_playAnimList[BATTLE_PLAYER_ATTACK] = false;
 			}
 		}
-		////모든 공격에 관한 모션이 ㅣ끝나면 Idle 상태로 전환
-		//else{
-		//	//setPlayerStatusToIdle(_atkAnim);		//공격이 끝나고 나면 다시 IDLE 상태로 전환한다.
-		//	_turnEnd = true;
-		//}
-
 	}
 	//마법 공격
 	if (_status == BATTLE_PLAYER_MAGIC_ATTACK)
@@ -98,7 +92,13 @@ void battlePlayerMother::update()
 			_playAnimList[BATTLE_PLAYER_MAGIC_ATTACK] = true;
 		}
 		_magicAtkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
-		setPlayerStatusToIdle(_magicAtkAnim);	//공격이 끝나고 나면 다시 IDLE 상태로 전환한다.
+		if (!_magicAtkAnim->isPlay())
+		{
+			setPlayerStatusToIdle(_magicAtkAnim);	//공격이 끝나고 나면 다시 IDLE 상태로 전환한다.
+			_turnEnd = true;
+			_playAnimList[BATTLE_PLAYER_MAGIC_ATTACK] = false;
+		}
+		
 	}
 }
 void battlePlayerMother::render() 

@@ -88,6 +88,8 @@ protected:
 	float _targetX, _targetY;
 	int _targetWidth, _targetHeight;
 
+	float _hitRate;		//
+
 public:
 	battlePlayerMother();
 	~battlePlayerMother();
@@ -126,6 +128,7 @@ public:
 	inline baattlePlayerStatus getStatus() { return _status; }	inline void setStatus(baattlePlayerStatus status) { _status = status; }
 	inline float getPosX() { return _posX; }	
 	inline float getPosY() { return _posY; }
+	inline float getHitRate() { return _hitRate; }
 	//====================================== End 접근자 설정자 ======================================
 
 	//배틀시작할 때 한꺼번에 모든 배틀플레이어를 세팅하자
