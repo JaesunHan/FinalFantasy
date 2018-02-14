@@ -22,60 +22,84 @@ HRESULT battlePlayerMother::init()
 }
 void battlePlayerMother::update() 
 {
-	
-	////공격 또는 마법 공격 대기 상태일때 카운트를 증가시킨다.
-	//if (_status == BATTLE_PLAYER_ATTACK_STANDBY || _status == BATTLE_PLAYER_MAGIC_ATTACK_STANDBY)
-	//{
-	//	_count++;
-	//}
-	//
-	////근거리 공격인 애는 앞으로 가서 공격
-	//if (_atkDistance)
-	//{
-	//	//무빙모션
-	//	if (_count >= 0 && _count < 10)
-	//	{
-	//		_moveMotion = true;
-	//		_atkMotion = false;
-	//		_angle = PI;
-	//		_speed = 10.0f;
-	//	}
-	//	//공격하는 모션
-	//	if (_count >= 10 && _count < 50)
-	//	{
-	//		_moveMotion = false;
-	//		_atkMotion = true;
-	//		_speed = 0.0f;
-	//	}
-	//	//다시 무빙 모션
-	//	if (_count >= 50 && _count < 60)
-	//	{
-	//		_moveMotion = true;
-	//		_atkMotion = false;
-	//		_angle = PI2;
-	//		_speed = 10.0f;
-	//	}	
-	//
-	//}
-	////원거리 공격인 애는 그 자리에서 공격
-	//else {
-	//	_moveMotion = false;
-	//	_atkMotion = true;
-	//	_speed = 0.0f;
-	//	
-	//}
-	
+	//attack 일때
+	if (_status == BATTLE_PLAYER_ATTACK)
+	{
+		//공격이 시작됐으면
+		if (_isStartAtk)
+		{
+			_isStartAtk = false;
+			_atkMotionList[0] = true;
+			_atkMotionList[1] = false;
+			_atkMotionList[2] = false;
+		}
+		//근거리 공격자 인경우에만
+		if (_atkDistance)
+		{
+			//에너미한테 공격하러 간다.
+			if (_atkMotionList[0])
+			{
+				//어디까지 움직여야 하는지 세팅하기
+				_targetX = _target->getX() - _target->getImageWidth();
+				_targetY = _target->getY() - _target->getImageHeight() / 2;
+				moveToTarget(_targetX, _targetY, 0);
+			}
+			//제자리로 돌아온다
+			if (_atkMotionList[2])
+			{
+				_targetX = 800 - (_partyIdx % 2) * 70;
+				_targetY = 150 + _partyIdx * 100;
+				moveToTarget(_targetX, _targetY, 2);
+			}
+		}
+		//원거리 공격자일 때는 
+		else
+		{
+			_atkMotionList[1] = true;
+		}
+		//이제 공격한다.
+		if (_atkMotionList[1])
+		{
+			if (!_playAnimList[BATTLE_PLAYER_ATTACK])
+			{
+				_atkAnim->start();
+				_playAnimList[BATTLE_PLAYER_ATTACK] = true;
+			}
+			_atkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 5);
+			//애니메이션 저장이 끝났을 때는 
+			if (!_atkAnim->isPlay())
+			{
+				_atkMotionList[0] = false;
+				_atkMotionList[1] = false;
+				_atkMotionList[2] = true;
+				//만약 원거리 공격자라면
+				if (!_atkDistance)
+				{
+					_isStartAtk = true;
+					_turnEnd = true;
+					_atkMotionList[1] = true;
+				}
+				_playAnimList[BATTLE_PLAYER_ATTACK] = false;
+			}
+		}
+		////모든 공격에 관한 모션이 ㅣ끝나면 Idle 상태로 전환
+		//else{
+		//	//setPlayerStatusToIdle(_atkAnim);		//공격이 끝나고 나면 다시 IDLE 상태로 전환한다.
+		//	_turnEnd = true;
+		//}
 
-
-	//_count++;
-	//if (_count % 100 == 0)
-	//{
-	//
-	//	_turnEnd = true;
-	//	_status = BATTLE_PLAYER_IDLE;
-	//	_count = 0;
-	//}
-
+	}
+	//마법 공격
+	if (_status == BATTLE_PLAYER_MAGIC_ATTACK)
+	{
+		if (!_playAnimList[BATTLE_PLAYER_MAGIC_ATTACK])
+		{
+			_magicAtkAnim->start();
+			_playAnimList[BATTLE_PLAYER_MAGIC_ATTACK] = true;
+		}
+		_magicAtkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+		setPlayerStatusToIdle(_magicAtkAnim);	//공격이 끝나고 나면 다시 IDLE 상태로 전환한다.
+	}
 }
 void battlePlayerMother::render() 
 {
@@ -180,60 +204,7 @@ void battlePlayerMother::animationFrameUpdate()
 		}
 		_atkStandbyAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 	}
-	//attack 일때
-	if (_status == BATTLE_PLAYER_ATTACK)
-	{
-		//공격이 시작됐으면
-		if (_isStartAtk)
-		{
-			_isStartAtk = false;
-			_atkMotionList[0] = true;
-		}
-		//근거리 공격자 인경우에만
-		if (_atkDistance)
-		{
-			//에너미한테 공격하러 간다.
-			if(_atkMotionList[0])
-			{ 
-				//어디까지 움직여야 하는지 세팅하기
-				_targetX = _target->getX() - _target->getImageWidth();
-				_targetY = _target->getY() - _target->getImageHeight() / 2;
-				moveToTarget(_targetX, _targetY, 0);
-			}
-			//제자리로 돌아온다
-			if (_atkMotionList[2])
-			{
-				_targetX = 800 - (_partyIdx % 2) * 70;
-				_targetY = 150 + _partyIdx * 100;
-				moveToTarget(_targetX, _targetY, 2);
-				_turnEnd = true;
-			}
-		}
-		else 
-		{
-			_atkMotionList[1] = true;
-		}
-		//이제 공격한다.
-		if(_atkMotionList[1])
-		{
-			if (!_playAnimList[BATTLE_PLAYER_ATTACK])
-			{ 
-				_atkAnim->start();
-				_playAnimList[BATTLE_PLAYER_ATTACK] = true;
-			}
-			_atkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 5);
-			if (!_atkAnim->isPlay())
-			{
-				_atkMotionList[2] = true;
-			}
-		}
-		////모든 공격에 관한 모션이 ㅣ끝나면 Idle 상태로 전환
-		//else{
-		//	//setPlayerStatusToIdle(_atkAnim);		//공격이 끝나고 나면 다시 IDLE 상태로 전환한다.
-		//	_turnEnd = true;
-		//}
-		
-	}
+	
 	//마법 공격 스탠바이
 	if (_status == BATTLE_PLAYER_MAGIC_ATTACK_STANDBY)
 	{
@@ -245,17 +216,7 @@ void battlePlayerMother::animationFrameUpdate()
 		_magicAtkStandbyAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
 	}
 
-	//마법 공격
-	if (_status == BATTLE_PLAYER_MAGIC_ATTACK)
-	{
-		if (!_playAnimList[BATTLE_PLAYER_MAGIC_ATTACK])
-		{
-			_magicAtkAnim->start();
-			_playAnimList[BATTLE_PLAYER_MAGIC_ATTACK] = true;
-		}
-		_magicAtkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
-		setPlayerStatusToIdle(_magicAtkAnim);	//공격이 끝나고 나면 다시 IDLE 상태로 전환한다.
-	}
+	
 	//죽을 때 
 	if (_status == BATTLE_PLAYER_DEAD)
 	{
@@ -323,7 +284,7 @@ void battlePlayerMother::moveToTarget(int targetX, int targetY, int motionListId
 	{
 		
 		//아직 공격 중
-		if(motionListIdx < sizeof(_atkMotionList))
+		if(motionListIdx < sizeof(_atkMotionList)-1)
 		{
 			_atkMotionList[motionListIdx] = false;
 			_atkMotionList[motionListIdx + 1] = true;
@@ -331,6 +292,8 @@ void battlePlayerMother::moveToTarget(int targetX, int targetY, int motionListId
 		//공격 끝남
 		else {
 			_isStartAtk = true;
+			setPlayerStatusToIdle(_atkAnim);
+			_turnEnd = true;
 		}
 	}
 	//도달 안했으면
