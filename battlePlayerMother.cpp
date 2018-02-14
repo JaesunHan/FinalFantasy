@@ -206,7 +206,12 @@ void battlePlayerMother::animationFrameUpdate()
 				_targetX = 800 - (_partyIdx % 2) * 70;
 				_targetY = 150 + _partyIdx * 100;
 				moveToTarget(_targetX, _targetY, 2);
+				_turnEnd = true;
 			}
+		}
+		else 
+		{
+			_atkMotionList[1] = true;
 		}
 		//이제 공격한다.
 		if(_atkMotionList[1])
@@ -222,11 +227,11 @@ void battlePlayerMother::animationFrameUpdate()
 				_atkMotionList[2] = true;
 			}
 		}
-		//모든 공격에 관한 모션이 ㅣ끝나면 Idle 상태로 전환
-		else{
-			//setPlayerStatusToIdle(_atkAnim);		//공격이 끝나고 나면 다시 IDLE 상태로 전환한다.
-			//_turnEnd = true;
-		}
+		////모든 공격에 관한 모션이 ㅣ끝나면 Idle 상태로 전환
+		//else{
+		//	//setPlayerStatusToIdle(_atkAnim);		//공격이 끝나고 나면 다시 IDLE 상태로 전환한다.
+		//	_turnEnd = true;
+		//}
 		
 	}
 	//마법 공격 스탠바이
