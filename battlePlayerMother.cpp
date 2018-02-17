@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "battlePlayerMother.h"
+#include "BattleScene.h"
 #include "Enemy.h"
 
 
@@ -66,7 +67,7 @@ void battlePlayerMother::update()
 				_playAnimList[BATTLE_PLAYER_ATTACK] = true;
 			}
 			_atkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 5);
-			//애니메이션 저장이 끝났을 때는 
+			//애니메이션 재생이 끝났을 때는 
 			if (!_atkAnim->isPlay())
 			{
 				_atkMotionList[0] = false;
@@ -83,9 +84,10 @@ void battlePlayerMother::update()
 			}
 		}
 	}
-	//마법 공격
+	//마법 공격 일 때는 근거리,원거리 상관없이 바로 공격한다.
 	if (_status == BATTLE_PLAYER_MAGIC_ATTACK)
 	{
+		//만약 매직 공격이 재생중이 아니면 이때 마법 공격을 한다.
 		if (!_playAnimList[BATTLE_PLAYER_MAGIC_ATTACK])
 		{
 			_magicAtkAnim->start();

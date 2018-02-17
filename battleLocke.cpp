@@ -98,6 +98,7 @@ battleLocke::battleLocke()
 
 battleLocke::~battleLocke()
 {
+	
 
 }
 

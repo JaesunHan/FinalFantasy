@@ -19,6 +19,7 @@ enum baattlePlayerStatus
 	BATTLE_PLAYER_NONE
 };
 
+class BattleScene;
 class Enemy;
 class battlePlayerMother : public gameNode
 {
@@ -90,6 +91,8 @@ protected:
 
 	float _hitRate;		//
 
+	BattleScene* _BS;
+
 public:
 	battlePlayerMother();
 	~battlePlayerMother();
@@ -145,5 +148,7 @@ public:
 	void setPlayerDefaultPosition();
 	//지정한 포지션까지 움직이는 함수
 	void moveToTarget(int targetX, int targetY, int motionListIdx);
+
+	void setBattleScene(BattleScene* bs) { _BS = bs; }
 };
 

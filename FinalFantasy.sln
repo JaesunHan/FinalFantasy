@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FinalFantasy", "HeptaAPI.vcxproj", "{76E0A8FC-8B8B-4E7F-9DA3-6398D34A8AD4}"
 EndProject
@@ -15,12 +15,10 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{76E0A8FC-8B8B-4E7F-9DA3-6398D34A8AD4}.Debug|Win32.ActiveCfg = Debug|Win32
 		{76E0A8FC-8B8B-4E7F-9DA3-6398D34A8AD4}.Debug|Win32.Build.0 = Debug|Win32
-		{76E0A8FC-8B8B-4E7F-9DA3-6398D34A8AD4}.Debug|x64.ActiveCfg = Debug|x64
-		{76E0A8FC-8B8B-4E7F-9DA3-6398D34A8AD4}.Debug|x64.Build.0 = Debug|x64
+		{76E0A8FC-8B8B-4E7F-9DA3-6398D34A8AD4}.Debug|x64.ActiveCfg = Debug|Win32
 		{76E0A8FC-8B8B-4E7F-9DA3-6398D34A8AD4}.Release|Win32.ActiveCfg = Release|Win32
 		{76E0A8FC-8B8B-4E7F-9DA3-6398D34A8AD4}.Release|Win32.Build.0 = Release|Win32
-		{76E0A8FC-8B8B-4E7F-9DA3-6398D34A8AD4}.Release|x64.ActiveCfg = Release|x64
-		{76E0A8FC-8B8B-4E7F-9DA3-6398D34A8AD4}.Release|x64.Build.0 = Release|x64
+		{76E0A8FC-8B8B-4E7F-9DA3-6398D34A8AD4}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
