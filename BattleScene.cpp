@@ -125,7 +125,8 @@ void BattleScene::render()
 	IMAGEMANAGER->findImage("battleBG")->render(getMemDC());
 
 	characterDraw();
-	drawUI();
+	drawUI(); 
+	temporaryMessage(60);
 
 	EFFECTMANAGER->render();
 
@@ -185,6 +186,7 @@ void BattleScene::updateWhenCharacterTurn()
 						{
 							if (_battleCharacters[i + 4].enemy->getCurHP() > 0)
 							{
+								_battleTurn.front()->enemy = _battleCharacters[i + 4].enemy;
 								_battleTurn.front()->player->setTargetEnemy(_battleCharacters[i + 4].enemy);
 								break;
 							}
@@ -401,67 +403,27 @@ void BattleScene::drawUI()
 		{
 		case(TINA):
 			IMAGEMANAGER->findImage("tinaFace00")->enlargeRender(getMemDC(), WINSIZEX - 100, 160 * i + 20, 84, 57);
-			newFont = CreateFont(30, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
-			oldFont = (HFONT)SelectObject(getMemDC(), newFont);
-			DrawText(getMemDC(), "티나", -1, &nameRC, DT_CENTER | DT_WORDBREAK);
-			SelectObject(getMemDC(), oldFont);
-			DeleteObject(oldFont);
-			DeleteObject(newFont);
-			newFont = CreateFont(20, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
-			oldFont = (HFONT)SelectObject(getMemDC(), newFont);
-			DrawText(getMemDC(), hpStr, -1, &hpRC, DT_LEFT | DT_WORDBREAK);
-			DrawText(getMemDC(), mpStr, -1, &mpRC, DT_LEFT | DT_WORDBREAK);
-			SelectObject(getMemDC(), oldFont);
-			DeleteObject(oldFont);
-			DeleteObject(newFont);
+			drawText(30, "소꽁구", nameRC, DT_CENTER);
+			drawText(20, hpStr, hpRC, DT_LEFT);
+			drawText(20, mpStr, mpRC, DT_LEFT);
 			break;
 		case(LOCKE):
 			IMAGEMANAGER->findImage("lockeFace00")->enlargeRender(getMemDC(), WINSIZEX - 100, 160 * i + 20, 84, 57);
-			newFont = CreateFont(30, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
-			oldFont = (HFONT)SelectObject(getMemDC(), newFont);
-			DrawText(getMemDC(), "로크", -1, &nameRC, DT_CENTER | DT_WORDBREAK);
-			SelectObject(getMemDC(), oldFont);
-			DeleteObject(oldFont);
-			DeleteObject(newFont);
-			newFont = CreateFont(20, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
-			oldFont = (HFONT)SelectObject(getMemDC(), newFont);
-			DrawText(getMemDC(), hpStr, -1, &hpRC, DT_LEFT | DT_WORDBREAK);
-			DrawText(getMemDC(), mpStr, -1, &mpRC, DT_LEFT | DT_WORDBREAK);
-			SelectObject(getMemDC(), oldFont);
-			DeleteObject(oldFont);
-			DeleteObject(newFont);
+			drawText(30, "로크", nameRC, DT_CENTER);
+			drawText(20, hpStr, hpRC, DT_LEFT);
+			drawText(20, mpStr, mpRC, DT_LEFT);
 			break;
 		case(CELES):
 			IMAGEMANAGER->findImage("celesFace00")->enlargeRender(getMemDC(), WINSIZEX - 100, 160 * i + 20, 84, 57);
-			newFont = CreateFont(30, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
-			oldFont = (HFONT)SelectObject(getMemDC(), newFont);
-			DrawText(getMemDC(), "세리스", -1, &nameRC, DT_CENTER | DT_WORDBREAK);
-			SelectObject(getMemDC(), oldFont);
-			DeleteObject(oldFont);
-			DeleteObject(newFont);
-			newFont = CreateFont(20, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
-			oldFont = (HFONT)SelectObject(getMemDC(), newFont);
-			DrawText(getMemDC(), hpStr, -1, &hpRC, DT_LEFT | DT_WORDBREAK);
-			DrawText(getMemDC(), mpStr, -1, &mpRC, DT_LEFT | DT_WORDBREAK);
-			SelectObject(getMemDC(), oldFont);
-			DeleteObject(oldFont);
-			DeleteObject(newFont);
+			drawText(30, "세리스", nameRC, DT_CENTER);
+			drawText(20, hpStr, hpRC, DT_LEFT);
+			drawText(20, mpStr, mpRC, DT_LEFT);
 			break;
 		case(SHADOW):
 			IMAGEMANAGER->findImage("shadowFace00")->enlargeRender(getMemDC(), WINSIZEX - 100, 160 * i + 20, 84, 57);
-			newFont = CreateFont(30, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
-			oldFont = (HFONT)SelectObject(getMemDC(), newFont);
-			DrawText(getMemDC(), "쉐도우", -1, &nameRC, DT_CENTER | DT_WORDBREAK);
-			SelectObject(getMemDC(), oldFont);
-			DeleteObject(oldFont);
-			DeleteObject(newFont);
-			newFont = CreateFont(20, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
-			oldFont = (HFONT)SelectObject(getMemDC(), newFont);
-			DrawText(getMemDC(), hpStr, -1, &hpRC, DT_LEFT | DT_WORDBREAK);
-			DrawText(getMemDC(), mpStr, -1, &mpRC, DT_LEFT | DT_WORDBREAK);
-			SelectObject(getMemDC(), oldFont);
-			DeleteObject(oldFont);
-			DeleteObject(newFont);
+			drawText(30, "쉐도우", nameRC, DT_CENTER);
+			drawText(20, hpStr, hpRC, DT_LEFT);
+			drawText(20, mpStr, mpRC, DT_LEFT);
 			break;
 		}
 		//프로그레스 바 랜더
@@ -554,5 +516,59 @@ void BattleScene::soundControl()
 	{
 		SOUNDMANAGER->play("battleMenuOpen", CH_EFFECT01, 1.0f);
 		_sfx01 = true;
+	}
+}
+
+void BattleScene::playerAttack()
+{
+	bool Hit;
+	float _damage;
+	float BlockValue = (255 - _battleCharacters[_currentTurn].enemy->getMDef() * 2) + 1;
+	if (BlockValue > 255) BlockValue = 255;
+	if (BlockValue < 1) BlockValue = 1;
+	if ((_battleCharacters[_currentTurn].player->getHitRate() * BlockValue / 256) > RND->getFromFloatTo(0, 0.99f))
+	{
+		Hit = true;
+	}
+	else
+	{
+		Hit = false;
+	}
+	if (Hit == true)
+	{
+		float Vigor2 = _battleCharacters[_currentTurn].player->getStrength() * 2;
+		if (Vigor2 > 255) Vigor2 = 255;
+		float Attack = _battleCharacters[_currentTurn].player->getAttack() + Vigor2;
+		_damage = (float)_battleCharacters[_currentTurn].player->getAttack() + (((float)_battleCharacters[_currentTurn].player->getLv() * (float)_battleCharacters[_currentTurn].player->getLv() * Attack) / 256) * 3 / 2;
+		_damage = (_damage * (float)RND->getFromIntTo(224, 255) / 256) + 1;
+		_damage = (_damage * (255 - (float)_battleCharacters[_currentTurn].enemy->getADef()) / 256) + 1;
+	}
+	_isDamaged = true;
+}
+
+void BattleScene::drawText(int fontSize, char* str, RECT rc, int position, bool dialogue)
+{
+	newFont = CreateFont(fontSize, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+	oldFont = (HFONT)SelectObject(getMemDC(), newFont);
+	DrawText(getMemDC(), str, -1, &rc, position | DT_WORDBREAK);
+	SelectObject(getMemDC(), oldFont);
+	DeleteObject(oldFont);
+	DeleteObject(newFont);
+}
+
+void BattleScene::temporaryMessage(int endPoint)
+{
+	if (_isDamaged == true)
+	{
+		_messageCounter++;
+		RECT DamageRC = { _battleCharacters[_currentTurn].enemy->getX() - 200,_battleCharacters[_currentTurn].enemy->getY() - 15,_battleCharacters[_currentTurn].enemy->getX() + 200,_battleCharacters[_currentTurn].enemy->getY() + 15 };
+		char tempDamage[128];
+		wsprintf(tempDamage, "%d", (int)_damage);
+		drawText(30, tempDamage, DamageRC, DT_CENTER);
+		if (_messageCounter > endPoint)
+		{
+			_messageCounter = 0;
+			_isDamaged = false;
+		}
 	}
 }
