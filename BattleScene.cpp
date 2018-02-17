@@ -77,7 +77,7 @@ HRESULT BattleScene::init()
 		int monsterType = RND->getInt(3);
 		temp.characterType = i + 4;
 		temp.ATBcounter = 0;
-		temp.enemy = new siren;
+		temp.enemy = new guard;
 		//switch (monsterType)
 		//{
 		//case(0):
@@ -411,11 +411,6 @@ void BattleScene::characterDraw()
 	//플레이어 및 에너미 랜더
 	for (int i = 0; i < _battleCharacters.size(); ++i)
 	{
-		if (_battleCharacters[i].characterType <= 3)
-		{
-			if (_battleCharacters[i].player->getCurHP() < 0) continue;
-			_battleCharacters[i].player->render();
-		}
 		if (_battleCharacters[i].characterType > 3)
 		{
 			if (_battleCharacters[i].enemy->getCurHP() < 0) continue;
@@ -423,6 +418,11 @@ void BattleScene::characterDraw()
 			char enemyHp[128];
 			wsprintf(enemyHp, "%d", _battleCharacters[i].enemy->getCurHP());
 			TextOut(getMemDC(), _battleCharacters[i].enemy->getX(), _battleCharacters[i].enemy->getY(), enemyHp, strlen(enemyHp));
+		}
+		if (_battleCharacters[i].characterType <= 3)
+		{
+			if (_battleCharacters[i].player->getCurHP() < 0) continue;
+			_battleCharacters[i].player->render();
 		}
 	}
 }
@@ -496,7 +496,7 @@ void BattleScene::drawUI()
 		char shadowMenu[] = "던지기";
 		if (_enemySelect == true)
 		{
-			IMAGEMANAGER->findImage("fingerArrowLt")->render(getMemDC(), _battleCharacters[_enemyNum].enemy->getX(), _battleCharacters[_enemyNum].enemy->getY());
+			IMAGEMANAGER->findImage("fingerArrowLt")->render(getMemDC(), _battleCharacters[_enemyNum].enemy->getX() + _battleCharacters[_enemyNum].enemy->getImageWidth() / 2, _battleCharacters[_enemyNum].enemy->getY());
 		}
 		else if (_playerTurn == true && i == _currentTurn)
 		{
