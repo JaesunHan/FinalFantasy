@@ -146,8 +146,8 @@ public:
 	//공격할 대상 에너미의 주소를 받아온다
 	void setTargetEnemy(Enemy* target) { _target = target; }
 	void setPlayerDefaultPosition();
-	//지정한 포지션까지 움직이는 함수
-	void moveToTarget(int targetX, int targetY, int motionListIdx);
+	//지정한 포지션까지 움직이는 함수(지정한 포지션까지 도달했으면 true 를 반환한다.)
+	bool moveToTarget(int targetX, int targetY, int motionListIdx);
 
 	void setBattleScene(BattleScene* bs) { _BS = bs; }
 };
