@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "BattleScene.h"
-
+#include "playerManager.h"
 
 BattleScene::BattleScene()
 {
@@ -105,6 +105,7 @@ HRESULT BattleScene::init()
 	{
 		_battleCharacters[i].player->setBattleScene(this);
 	}
+	_pm->setPlayerInfoToBattlePlayer();
 	return S_OK;
 }
 

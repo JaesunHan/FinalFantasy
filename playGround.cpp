@@ -20,9 +20,11 @@ HRESULT playGround::init()
 	_pm->init();
 	_item = new itemManager;
 	_item->init();
+	_bts = new BattleScene;
+	_bts->setPlayerManagerMemoryAddressLink(_pm);
 
 	SCENEMANAGER->addScene("mapToolScene", new mapTool);
-	SCENEMANAGER->addScene("배틀씬", new BattleScene);
+	SCENEMANAGER->addScene("배틀씬", _bts);
 	SCENEMANAGER->addScene("월드맵씬", new worldMapScene);
 	
 	//SCENEMANAGER->changeScene("mapToolScene");
@@ -60,11 +62,11 @@ void playGround::update(void)
 {
 	gameNode::update();
 
-	if (_isBattle)
-	{
-		_pm->setPlayerInfoToBattlePlayer();
-		_isBattle = false;
-	}
+	//if (_isBattle)
+	//{
+	//	_pm->setPlayerInfoToBattlePlayer();
+	//	_isBattle = false;
+	//}
 
 	//================================ 메뉴씬 ================================
 	if (KEYMANAGER->isOnceKeyDown('W'))
@@ -91,8 +93,7 @@ void playGround::update(void)
 	if (KEYMANAGER->isOnceKeyDown('B'))
 	{
 		SOUNDMANAGER->stop(CH_BGM);
-		//배틀씬으로 전환할 거면 _isBattle 이라는 bool 변수의 값도 true로 저장해주세요
-		SCENEMANAGER->changeScene("배틀씬");			_isBattle = true;
+		SCENEMANAGER->changeScene("배틀씬");			//_isBattle = true;
 	}
 	//================================ 배틀씬 ================================
 
