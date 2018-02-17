@@ -414,9 +414,6 @@
     <ClInclude Include="shield.h">
       <Filter>playGround\Item\armor</Filter>
     </ClInclude>
-    <ClInclude Include="weapon.h">
-      <Filter>playGround\Item\weapon</Filter>
-    </ClInclude>
     <ClInclude Include="shuriken.h">
       <Filter>playGround\Item\expendables</Filter>
     </ClInclude>
@@ -694,9 +691,6 @@
     </ClCompile>
     <ClCompile Include="shield.cpp">
       <Filter>playGround\Item\armor</Filter>
-    </ClCompile>
-    <ClCompile Include="weapon.cpp">
-      <Filter>playGround\Item\weapon</Filter>
     </ClCompile>
     <ClCompile Include="shuriken.cpp">
       <Filter>playGround\Item\expendables</Filter>

@@ -96,6 +96,10 @@ battleShadow::battleShadow()
 	_angle = 0.0f, _speed = 0.0f;
 	_hitRate = 200;
 
+	_strength = 39, _speed = 38.0f, _stamina = 30;
+	_attack = 23, _magic = 33, _a_Def = 47;
+	_m_Def = 25, _evasion = 28, _m_evasion = 9;
+
 	_atkAnimPlaySPD = 25;
 }
 

@@ -172,7 +172,6 @@
     <ClInclude Include="txtData.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="VectorPup.h" />
-    <ClInclude Include="weapon.h" />
     <ClInclude Include="weaponItem.h" />
     <ClInclude Include="worldEnemyBear.h" />
     <ClInclude Include="worldMap.h" />
@@ -269,7 +268,6 @@
     <ClCompile Include="txtData.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="VectorPup.cpp" />
-    <ClCompile Include="weapon.cpp" />
     <ClCompile Include="weaponItem.cpp" />
     <ClCompile Include="winMain.cpp" />
     <ClCompile Include="worldEnemyBear.cpp" />

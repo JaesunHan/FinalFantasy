@@ -96,6 +96,10 @@ battleCeles::battleCeles()
 	
 	_hitRate = 200;
 
+	_strength = 34, _speed = 34.0f, _stamina = 31;
+	_attack = 16, _magic = 36, _a_Def = 44;
+	_m_Def = 31, _evasion = 7, _m_evasion = 9;
+
 	_atkAnimPlaySPD = 20;
 
 }

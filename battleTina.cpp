@@ -95,7 +95,7 @@ battleTina::battleTina()
 
 	_angle = 0.0f;
 	_hitRate = 200;
-	//_count = 0;
+	
 	_atkAnimPlaySPD = 20;
 }
 

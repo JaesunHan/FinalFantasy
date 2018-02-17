@@ -93,8 +93,10 @@ battleLocke::battleLocke()
 	_angle = 0.0f, _speed = 0.0f;
 	
 	_hitRate = 200;
-	_evasion = 0.0f;
-	_m_evasion = 0.0f;
+
+	_strength = 37, _speed = 40.0f, _stamina = 31;
+	_attack = 14, _magic = 28, _a_Def = 46;
+	_m_Def = 23, _evasion = 15, _m_evasion = 2;
 
 	_atkAnimPlaySPD = 35;
 }

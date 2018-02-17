@@ -297,7 +297,7 @@ void battlePlayerMother::setPlayerDefaultPosition()
 
 bool battlePlayerMother::moveToTarget(int targetX, int targetY, int motionListIdx)
 {
-	RECT rcTarget = RectMake(targetX, targetY, _target->getImageWidth(), _target->getImageHeight());
+	RECT rcTarget = RectMakeCenter(targetX, targetY, _target->getImageWidth(), _target->getImageHeight());
 	RECT rcInter;
 	RECT rcChar = RectMake(_posX, _posY, 100,100);
 	//타겟까지 도달ㅎ면
