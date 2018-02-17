@@ -66,7 +66,7 @@ void battlePlayerMother::update()
 				_atkAnim->start();
 				_playAnimList[BATTLE_PLAYER_ATTACK] = true;
 			}
-			_atkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 1);
+			_atkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 60);
 			//애니메이션 재생이 끝났을 때는 
 			if (!_atkAnim->isPlay())
 			{
