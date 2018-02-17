@@ -15,7 +15,7 @@ namespace HEPTA_UTIL
 
 	float getAngle(float x1, float y1, float x2, float y2);
 
-	void textPrint(HDC hdc, char* textInput, int textX, int textY, int fontWidth = 20, int fontThick = 20, char* fontName = "HY°ß°íµñ", COLORREF RGB = RGB(255, 255, 255), BOOL textCenter = TRUE);
+	void textPrint(HDC hdc, const char* textInput, int textX, int textY, int fontWidth = 20, int fontThick = 20, char* fontName = "HY°ß°íµñ", COLORREF RGB = RGB(255, 255, 255), BOOL textCenter = TRUE);
 	char* s2c(string str);
 	char* i2c(int i);
 

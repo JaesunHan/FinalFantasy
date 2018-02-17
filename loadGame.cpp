@@ -25,10 +25,22 @@ HRESULT loadGame::init()
 	_button->buttonSet("버튼파일", 255, 25, "FILE 2", 30);
 	_button->buttonSet("버튼파일", 445, 25, "FILE 3", 30);
 	_button->buttonSet("버튼파일", 635, 25, "FILE 4", 30);
+	_button->buttonSet("버튼예스", 1000, 187);
+	_button->buttonSet("버튼노", 1000, 238);
 
-	_button1 = new fButton;
-	_button1->buttonSet("버튼예스", 500, 187);
-	_button1->buttonSet("버튼예스", 500, 238);
+	for(int i = 0; i < 4; ++i) 	_fileLoadOk[i] = false;
+	_selectFileCount = 2;
+
+	//세이브파일 로드 (file: 0)
+	fileLoad(0);
+
+
+	//playerSlotInit("TINA", 65, 102, 1, "Magician", 100, 100, 50, 50);
+	//playerSlotInit("CELES", 65, 240, 1, "Rune Knight", 100, 100, 50, 50);
+	//playerSlotInit("LOCK", 65, 375, 1, "Treasure Hunter", 100, 100, 50, 50);
+	//playerSlotInit("SHADOW", 65, 512, 1, "Assassin ", 100, 100, 50, 50);
+
+
 
 
 	_saveFileSelect = false;
@@ -46,7 +58,8 @@ void loadGame::release()
 void loadGame::update()
 {
 	cursorUpdate();
-	_button1->update();
+	_button->update();
+
 
 	if (!_saveFileSelect)
 	{
@@ -54,81 +67,143 @@ void loadGame::update()
 		if (!_cursor.cursorReset)
 		{
 			cursorResetXY(50, 38);
+			_cursor.currentXNum = 0;
 		}
 
-		_button->update();
+		//커서 컨트롤X  
 		cursorKeyControlX(190, _cursorXNum);
 
 		//선택
 		switch (_cursor.currentXNum)
 		{
-		case 0:
-			//버튼 에니메이션 활성화
-			_button->setVButtonAniStart(_cursor.currentXNum, true);
-			for (int i = 0; i < _cursorXNum; ++i)
-			{
-				if (i == _cursor.currentXNum) continue;
-				_button->setVButtonAniStart(i, false);
-			}
+			case 0:
+				//버튼 에니메이션 활성화
+				_button->setVButtonAniStart(_cursor.currentXNum, true);
+				for (int i = 0; i < _cursorXNum; ++i)
+				{
+					if (i == _cursor.currentXNum) continue;
+					_button->setVButtonAniStart(i, false);
+				}
+				//선택버튼으로 이동
+				if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+				{
+					//세이브파일 출력
+					fileLoad(0);
+					_selectFileCount--;
 
-			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
-			{
-				_button1->buttonSet("버튼예스", 1000, 187);
-				_button1->buttonSet("버튼노", 1000, 238);
-				_saveFileSelect = true;
-				_cursor.cursorReset = false;
-			}
+					//세이브파일이 없으면...
+					if (!_fileLoadOk[0])
+					{
+						_selectFileCount = 2;
+						_saveFileSelect = false;
+						playerSlotRemove();
+					}
+					else
+					{
+						if (_selectFileCount <= 0)
+						{
+							_saveFileSelect = true;
+							_cursor.cursorReset = false;
+							_selectFileCount = 2;
+						}
+					}
+				}
 			break;
-		case 1:
-			//버튼 에니메이션 활성화
-			_button->setVButtonAniStart(_cursor.currentXNum, true);
-			for (int i = 0; i < _cursorXNum; ++i)
-			{
-				if (i == _cursor.currentXNum) continue;
-				_button->setVButtonAniStart(i, false);
-			}
+			case 1:
+				//버튼 에니메이션 활성화
+				_button->setVButtonAniStart(_cursor.currentXNum, true);
+				for (int i = 0; i < _cursorXNum; ++i)
+				{
+					if (i == _cursor.currentXNum) continue;
+					_button->setVButtonAniStart(i, false);
+				}
+				//선택버튼으로 이동
+				if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+				{
+					fileLoad(1);
+					_selectFileCount--;
 
-			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
-			{
-				_button->buttonSet("버튼예스", 1000, 187);
-				_button->buttonSet("버튼노", 1000, 238);
-				_saveFileSelect = true;
-				_cursor.cursorReset = false;
-			}
+					//세이브파일이 없으면...
+					if (!_fileLoadOk[1])
+					{
+						_selectFileCount = 2;
+						_saveFileSelect = false;
+						playerSlotRemove();
+					}
+					else
+					{
+						if (_selectFileCount <= 0)
+						{
+							_saveFileSelect = true;
+							_cursor.cursorReset = false;
+							_selectFileCount = 2;
+						}
+					}
+				}
 			break;
-		case 2:
-			//버튼 에니메이션 활성화
-			_button->setVButtonAniStart(_cursor.currentXNum, true);
-			for (int i = 0; i < _cursorXNum; ++i)
-			{
-				if (i == _cursor.currentXNum) continue;
-				_button->setVButtonAniStart(i, false);
-			}
+			case 2:
+				//버튼 에니메이션 활성화
+				_button->setVButtonAniStart(_cursor.currentXNum, true);
+				for (int i = 0; i < _cursorXNum; ++i)
+				{
+					if (i == _cursor.currentXNum) continue;
+					_button->setVButtonAniStart(i, false);
+				}
+				//선택버튼으로 이동
+				if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+				{
+					fileLoad(2);
+					_selectFileCount--;
 
-			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
-			{
-				_button->buttonSet("버튼예스", 1000, 187);
-				_button->buttonSet("버튼노", 1000, 238);
-				_saveFileSelect = true;
-				_cursor.cursorReset = false;
-			}
+					//세이브파일이 없으면...
+					if (!_fileLoadOk[2])
+					{
+						_selectFileCount = 2;
+						_saveFileSelect = false;
+						playerSlotRemove();
+					}
+					else
+					{
+						if (_selectFileCount <= 0)
+						{
+							_saveFileSelect = true;
+							_cursor.cursorReset = false;
+							_selectFileCount = 2;
+						}
+					}
+				}
 			break;
-		case 3:
-			//버튼 에니메이션 활성화
-			_button->setVButtonAniStart(_cursor.currentXNum, true);
-			for (int i = 0; i < _cursorXNum; ++i)
-			{
-				if (i == _cursor.currentXNum) continue;
-				_button->setVButtonAniStart(i, false);
-			}
+			case 3:
+				//버튼 에니메이션 활성화
+				_button->setVButtonAniStart(_cursor.currentXNum, true);
+				for (int i = 0; i < _cursorXNum; ++i)
+				{
+					if (i == _cursor.currentXNum) continue;
+					_button->setVButtonAniStart(i, false);
+				}
+				//선택버튼으로 이동
+				if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+				{
+					fileLoad(3);
+					_selectFileCount--;
 
-			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
-			{
-				_button->buttonSet("버튼예스", 1000, 187);
-				_button->buttonSet("버튼노", 1000, 238);
-				_saveFileSelect = true;
-				_cursor.cursorReset = false;
-			}
+					//세이브파일이 없으면...
+					if (!_fileLoadOk[3])
+					{
+						_selectFileCount = 2;
+						_saveFileSelect = false;
+						playerSlotRemove();
+					}
+					else
+					{
+						if (_selectFileCount <= 0)
+						{
+							_saveFileSelect = true;
+							_cursor.cursorReset = false;
+							_selectFileCount = 2;
+						}
+					}
+				}
 			break;
 		}
 	}
@@ -138,9 +213,10 @@ void loadGame::update()
 		if (!_cursor.cursorReset)
 		{
 			cursorResetXY(950, 190);
+			_cursor.currentYNum = 0;
 		}
 
-		_button1->update();
+		//커서 컨트롤Y
 		cursorKeyControlY(51, _cursorYNum);
 
 		//선택
@@ -172,14 +248,26 @@ void loadGame::update()
 					if (i == _cursor.currentYNum + _cursorXNum) continue;
 					_button->setVButtonAniStart(i, false);
 				}
-
+				//파일선택 버튼으로 이동
 				if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 				{
 					_saveFileSelect = false;
 					_cursor.cursorReset = false;
+					_button->setVButtonAniStart(4, false);
+					_button->setVButtonAniStart(5, false);
 				}
 			break;
 		}
+	}
+
+
+	//옵션메뉴 나가기
+	if (KEYMANAGER->isOnceKeyDown(VK_BACK))
+	{
+		_button->buttonRemove();
+		delete _button;
+		playerSlotRemove();
+		SCENEMANAGER->changeScene("타이틀", false);
 	}
 }
 
@@ -187,8 +275,9 @@ void loadGame::render()
 {
 	_bgImage->render(getMemDC());
 	_button->render();
-	_button1->render();
 	cursorRender();
 
+	playerSlotRender();
 }
+
 

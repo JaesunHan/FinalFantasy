@@ -5,6 +5,7 @@
 class newGame : public menu
 {
 private:
+	int _saveFileNum;
 
 
 public:

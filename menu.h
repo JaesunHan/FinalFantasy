@@ -8,7 +8,7 @@
 
 //****************************************//
 //              wonjjang                  //
-//           ver. 2018_02_11              //
+//           ver. 2018_02_16              //
 //****************************************//
 
 
@@ -18,6 +18,8 @@
 #define COLOR_GREEN		RGB(0, 255, 0)
 #define COLOR_BLUE		RGB(0, 0, 255)
 #define COLOR_MAGENTA	RGB(255, 0, 255)
+
+#define SAVEFILENUM 4
 
 enum CURSOR_TYPE
 {
@@ -54,9 +56,9 @@ struct tagPlayer
 	int level;              //플레이어 레벨
 	int hp, maxHp;          //플레이어 체력
 	int mp, maxMp;          //플레이어 마력
-	string name;            //플레이어 이름
-	string job;             //플레이어 직업
-};
+	TCHAR name[128];		//플레이어 이름
+	TCHAR job[128];			//플레이어 직업
+};	
 
 
 
@@ -85,6 +87,10 @@ protected:
 	//======== player ========
 	vPlayer   _vPlayer;
 	viPlayer  _viPlayer;
+
+	tagPlayer _playerSlot;  //각 슬롯에 플레이어 정보 담을 구조체 변수
+	bool _fileLoadOk[4];    //세이브 파일 존재 유무판별
+	int _selectFileCount;   //파일 선택후 슬롯을 보여주기 위한 카운트 값 (바로 선택버튼으로 이동하지 않도록) 
 	//======== player ========
 
 
@@ -107,11 +113,13 @@ public:
 	//================================ cusor ================================
 
 	//================================ player ===============================
-	virtual void playerSlotInit(string keyName, float x, float y, int level, string job, int hp, int maxHp, int mp, int maxMp);
+	virtual void playerSlotInit(string keyName, float x, float y, int level, char* job, int hp, int maxHp, int mp, int maxMp);
 	virtual void playerSlotUpdate();
 	virtual void playerSlotKeyControl(float slotValueY, int slotNum);
 	virtual void playerSlotRender();
 	virtual void playerSlotRemove();
+
+	virtual void fileLoad(int fileNum);
 	//================================ player ===============================
 
 

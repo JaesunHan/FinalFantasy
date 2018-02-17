@@ -75,8 +75,7 @@ char* iniDataManager::loadDataString(const char* fileName, const char* subject, 
 	strncat_s(str, 256, dir, 254);
 
 	char data[66] = { NULL };
-	GetPrivateProfileString(subject, title, "", data, 64, str);
-
+	GetPrivateProfileString(subject, title, "", data, 64, str);  
 
 	return data;
 }
@@ -95,6 +94,6 @@ int iniDataManager::loadDataInterger(const char* fileName, const char* subject, 
 
 
 
-	return GetPrivateProfileInt(subject, title, 0, str);
+	return GetPrivateProfileInt(subject, title, 0, str); 
 }
 

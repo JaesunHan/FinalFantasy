@@ -1,11 +1,10 @@
 #pragma once
 #include "menu.h"
-
+#include <vector>
 
 class loadGame : public menu
 {
 private:
-	fButton* _button1;
 
 
 public:
@@ -13,8 +12,6 @@ public:
 	void release();
 	void update();
 	void render();
-
-
 
 
 	loadGame();

@@ -18,7 +18,7 @@ HRESULT loadingScene::init()
 	_loading->init(RND->getInt(5));
 
 	//메뉴 이미지
-	//_loading->loadImage("능력메뉴", ".//prevProjectResource//SceneImage//abilitiesMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	_loading->loadImage("능력메뉴", ".//prevProjectResource//SceneImage//abilitiesMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	//_loading->loadImage("장비메뉴", ".//prevProjectResource//SceneImage//equipMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	//_loading->loadImage("아이템메뉴", ".//prevProjectResource//SceneImage//itemMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	//_loading->loadImage("메인메뉴", ".//prevProjectResource//SceneImage//mainMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
@@ -42,7 +42,7 @@ HRESULT loadingScene::init()
 	//플레이어 이미지
 	_loading->loadImage("TINA", ".//prevProjectResource//SceneImage//player_tina.bmp", 112, 111, true, RGB(255, 0, 255));
 	_loading->loadImage("CELES", ".//prevProjectResource//SceneImage//player_celes.bmp", 112, 111, true, RGB(255, 0, 255));
-	_loading->loadImage("LOCK", ".//prevProjectResource//SceneImage//player_lock.bmp", 112, 111, true, RGB(255, 0, 255));
+	_loading->loadImage("LOCKE", ".//prevProjectResource//SceneImage//player_locke.bmp", 112, 111, true, RGB(255, 0, 255));
 	_loading->loadImage("SHADOW", ".//prevProjectResource//SceneImage//player_shadow.bmp", 112, 111, true, RGB(255, 0, 255));
 
 	

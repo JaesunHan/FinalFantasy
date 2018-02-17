@@ -67,3 +67,9 @@ HeptaAPI.vcxproj
 HeptaAPI.vcxproj.filters
 Debug/FinalFantasy.Build.CppClean.log
 *.log
+*.enc
+x64/Debug/vc141.idb
+x64/Debug/vc141.pdb
+x64/Debug/FinalFantasy.pch
+HeptaAPI.vcxproj
+HeptaAPI.vcxproj

@@ -31,7 +31,7 @@ namespace HEPTA_UTIL
 	}
 
 	//                      입력할텍스트     텍스트위치 XY		   폰트SIZE       폰트굵기       폰트명          텍스트색상(기본흰색)  텍스트 중앙정렬 
-	void textPrint(HDC hdc, char* textInput, int textX, int textY, int fontWidth, int fontThick, char* fontName, COLORREF RGB, BOOL textCenter)
+	void textPrint(HDC hdc, const char* textInput, int textX, int textY, int fontWidth, int fontThick, char* fontName, COLORREF RGB, BOOL textCenter)
 	{
 		//----------------------------------- 폰트셋팅
 		HFONT font, oldFont;
@@ -41,9 +41,9 @@ namespace HEPTA_UTIL
 		font = CreateFont(fontWidth, 0, 0, 0, fontThick, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, TEXT(fontName));
 		oldFont = (HFONT)SelectObject(hdc, font);
 		//----------------------------------- 문자출력
-		char str[256];
+		TCHAR str[256];
 		ZeroMemory(&str, sizeof(str));
-		sprintf(str, "%s", textInput);
+		wsprintf(str, "%s", textInput);
 		TextOut(hdc, textX, textY, str, strlen(str));
 		//----------------------------------- 이전 설정으로 복구
 		SelectObject(hdc, oldFont);
@@ -55,9 +55,9 @@ namespace HEPTA_UTIL
 	//string_to_char
 	char* s2c(string str)
 	{
-		char tempName[256];
-		ZeroMemory(tempName, sizeof(tempName));
-		sprintf(tempName, "%s", str);
+		TCHAR tempName[128];
+		ZeroMemory(&tempName, sizeof(tempName));
+		wsprintf(tempName, "%s", str.c_str());
 
 		return tempName;
 	}
@@ -65,9 +65,9 @@ namespace HEPTA_UTIL
 	//int_to_char
 	char* i2c(int i)
 	{
-		char tempNum[256];
-		ZeroMemory(tempNum, sizeof(tempNum));
-		sprintf(tempNum, "%s", i);
+		char tempNum[128];
+		ZeroMemory(&tempNum, sizeof(tempNum));
+		sprintf(tempNum, "%d", i);
 
 		return tempNum;
 	}

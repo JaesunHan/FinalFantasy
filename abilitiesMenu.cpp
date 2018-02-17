@@ -20,7 +20,6 @@ HRESULT abilitiesMenu::init()
 
 
 
-
 	return S_OK;
 }
 
@@ -31,7 +30,6 @@ void abilitiesMenu::release()
 
 void abilitiesMenu::update()
 {
-
 
 	//옵션 메뉴가기
 	if (KEYMANAGER->isOnceKeyDown(VK_BACK))
