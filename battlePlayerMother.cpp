@@ -42,8 +42,8 @@ void battlePlayerMother::update()
 			if (_atkMotionList[0])
 			{
 				//어디까지 움직여야 하는지 세팅하기
-				_targetX = _target->getX() - _target->getImageWidth();
-				_targetY = _target->getY() - _target->getImageHeight() / 2;
+				_targetX = _target->getX();
+				_targetY = _target->getY();
 				moveToTarget(_targetX, _targetY, 0);
 			}
 			//제자리로 돌아온다
@@ -125,6 +125,12 @@ void battlePlayerMother::render()
 {
 	draw();
 	TIMEMANAGER->render(getMemDC());
+	if (_status == BATTLE_PLAYER_ATTACK)
+	{
+		RECT rc = RectMakeCenter(_targetX, _targetY, _target->getImageWidth() - 20, _target->getImageHeight() - 20);
+		Rectangle(getMemDC(), rc.left, rc.top, rc.right, rc.bottom);
+	}
+	
 }
 void battlePlayerMother::draw()	  
 {
@@ -297,9 +303,10 @@ void battlePlayerMother::setPlayerDefaultPosition()
 
 bool battlePlayerMother::moveToTarget(int targetX, int targetY, int motionListIdx)
 {
-	RECT rcTarget = RectMakeCenter(targetX, targetY, _target->getImageWidth(), _target->getImageHeight());
+	RECT rcTarget = RectMakeCenter(targetX, targetY, _target->getImageWidth()-20, _target->getImageHeight()-20);
 	RECT rcInter;
 	RECT rcChar = RectMake(_posX, _posY, 100,100);
+
 	//타겟까지 도달ㅎ면
 	if (IntersectRect(&rcInter, &rcTarget, &rcChar))
 	{
@@ -321,7 +328,7 @@ bool battlePlayerMother::moveToTarget(int targetX, int targetY, int motionListId
 	//도달 안했으면
 	else 
 	{
-		_angle = getAngle(_posX, _posY, _targetX, _targetY);
+		_angle = getAngle(_posX, _posY+_atkImg->getFrameHeight()/2, _targetX, _targetY);
 		_moveSpd = 50.0f;
 		_posX += cosf(_angle) * _moveSpd;
 		_posY += -sinf(_angle) * _moveSpd;
