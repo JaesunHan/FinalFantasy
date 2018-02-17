@@ -7,6 +7,15 @@
 #define MAX_FIND_COUNTER 200
 #define ENEMY_MOVE_SPEED 3.0f
 
+enum BEAR_DIRECTION
+{
+	DIRECTION_LEFT,
+	DIRECTION_RIGHT,
+	DIRECTION_UP,
+	DIRECTION_DOWN,
+	DIRECTION_END
+};
+
 class worldEnemyBear :
 	public worldMapEnemy
 {
@@ -14,6 +23,8 @@ class worldEnemyBear :
 private:
 	aStar * _ast;
 	worldMapPlayer* _wp;
+
+	BEAR_DIRECTION _direction;
 
 	int _count;
 public:
