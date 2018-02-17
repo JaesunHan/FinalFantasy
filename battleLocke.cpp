@@ -95,6 +95,8 @@ battleLocke::battleLocke()
 	_hitRate = 200;
 	_evasion = 0.0f;
 	_m_evasion = 0.0f;
+
+	_atkAnimPlaySPD = 35;
 }
 
 
