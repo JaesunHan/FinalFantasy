@@ -15,13 +15,14 @@
 #include "equipMenu.h"
 #include "itemMenu.h"
 #include "statusMenu.h"
+#include "itemManager.h"
 
 
 class playGround : public gameNode
 {
 private:
-	playerManager * _pm;
-	BattleScene * _bts;
+	playerManager* _pm;
+	itemManager* _item;
 	
 
 

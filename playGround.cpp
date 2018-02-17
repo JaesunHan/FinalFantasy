@@ -18,11 +18,11 @@ HRESULT playGround::init()
 
 	_pm = new playerManager;
 	_pm->init();
-	_bts = new BattleScene;
-
+	_item = new itemManager;
+	_item->init();
 
 	SCENEMANAGER->addScene("mapToolScene", new mapTool);
-	SCENEMANAGER->addScene("¹èÆ²¾À", _bts);
+	SCENEMANAGER->addScene("¹èÆ²¾À", new BattleScene);
 	SCENEMANAGER->addScene("¿ùµå¸Ê¾À", new worldMapScene);
 	
 	//SCENEMANAGER->changeScene("mapToolScene");
