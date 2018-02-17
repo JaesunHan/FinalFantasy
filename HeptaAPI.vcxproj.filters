@@ -429,6 +429,9 @@
     <ClInclude Include="armorItem.h">
       <Filter>playGround\Item\armor</Filter>
     </ClInclude>
+    <ClInclude Include="worldMapEnemyManager.h">
+      <Filter>playGround\MapScene\worldMapEnemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -709,6 +712,9 @@
     </ClCompile>
     <ClCompile Include="armorItem.cpp">
       <Filter>playGround\Item\armor</Filter>
+    </ClCompile>
+    <ClCompile Include="worldMapEnemyManager.cpp">
+      <Filter>playGround\MapScene\worldMapEnemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

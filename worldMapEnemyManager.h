@@ -29,8 +29,6 @@ private:
 
 public:
 
-	
-
 	worldMapEnemyManager();
 	~worldMapEnemyManager();
 

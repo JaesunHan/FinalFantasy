@@ -57,14 +57,19 @@ void worldMapEnemyManager::render()
 }
 
 void worldMapEnemyManager::beforeRender()
-{/*
+{
 	for (int i = 0; i < _vWME.size(); ++i)
 	{
-		if(_vWME[i]->getWorldMapEnemyPoint)
+		if(_vWME[i]->getWorldMapEnemyPoint().y <= _playerPos.y)
 		_vWME[i]->render();
-	}*/
+	}
 }
 
 void worldMapEnemyManager::afterRender()
 {
+	for (int i = 0; i < _vWME.size(); ++i)
+	{
+		if (_vWME[i]->getWorldMapEnemyPoint().y > _playerPos.y)
+			_vWME[i]->render();
+	}
 }
