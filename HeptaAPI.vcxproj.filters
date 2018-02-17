@@ -112,6 +112,15 @@
     <Filter Include="playGround\MapScene\worldMapEnemy">
       <UniqueIdentifier>{7f111f05-2a8e-4b35-af62-34810c7778d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\Item\expendables">
+      <UniqueIdentifier>{0c033aba-7e86-4351-b31f-7b93cf5d8da3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\Item\armor">
+      <UniqueIdentifier>{f3ad74cf-ed6f-4744-9858-1f23336358ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\Item\weapon">
+      <UniqueIdentifier>{a7d99341-1d2f-46b6-81c7-7dc7f8271cf7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -387,14 +396,29 @@
     <ClInclude Include="itemManager.h">
       <Filter>playGround\Item</Filter>
     </ClInclude>
-    <ClInclude Include="weaponItem.h">
-      <Filter>playGround\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="expendablesItem.h">
-      <Filter>playGround\Item</Filter>
-    </ClInclude>
     <ClInclude Include="dialogProc.h">
       <Filter>playGround\mapTool</Filter>
+    </ClInclude>
+    <ClInclude Include="herbs.h">
+      <Filter>playGround\Item\expendables</Filter>
+    </ClInclude>
+    <ClInclude Include="posion.h">
+      <Filter>playGround\Item\expendables</Filter>
+    </ClInclude>
+    <ClInclude Include="armor.h">
+      <Filter>playGround\Item\armor</Filter>
+    </ClInclude>
+    <ClInclude Include="head.h">
+      <Filter>playGround\Item\armor</Filter>
+    </ClInclude>
+    <ClInclude Include="shield.h">
+      <Filter>playGround\Item\armor</Filter>
+    </ClInclude>
+    <ClInclude Include="weapon.h">
+      <Filter>playGround\Item\weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="shuriken.h">
+      <Filter>playGround\Item\expendables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -647,11 +671,26 @@
     <ClCompile Include="itemManager.cpp">
       <Filter>playGround\Item</Filter>
     </ClCompile>
-    <ClCompile Include="weaponItem.cpp">
-      <Filter>playGround\Item</Filter>
+    <ClCompile Include="herbs.cpp">
+      <Filter>playGround\Item\expendables</Filter>
     </ClCompile>
-    <ClCompile Include="expendablesItem.cpp">
-      <Filter>playGround\Item</Filter>
+    <ClCompile Include="posion.cpp">
+      <Filter>playGround\Item\expendables</Filter>
+    </ClCompile>
+    <ClCompile Include="armor.cpp">
+      <Filter>playGround\Item\armor</Filter>
+    </ClCompile>
+    <ClCompile Include="head.cpp">
+      <Filter>playGround\Item\armor</Filter>
+    </ClCompile>
+    <ClCompile Include="shield.cpp">
+      <Filter>playGround\Item\armor</Filter>
+    </ClCompile>
+    <ClCompile Include="weapon.cpp">
+      <Filter>playGround\Item\weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="shuriken.cpp">
+      <Filter>playGround\Item\expendables</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
