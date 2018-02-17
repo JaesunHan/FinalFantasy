@@ -235,6 +235,13 @@ bool soundManager::isPlaySound(string keyName)
 	return isPlay;
 }
 
+bool soundManager::isPlaySound(CHANNELTYPE channel)
+{
+	bool isPlay;
+	_channel[channel]->isPlaying(&isPlay);
+	return isPlay;
+}
+
 bool soundManager::isPauseSound(string keyName)
 {
 	bool isPause;

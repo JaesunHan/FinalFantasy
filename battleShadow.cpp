@@ -101,6 +101,11 @@ battleShadow::battleShadow()
 	_m_Def = 25, _evasion = 28, _m_evasion = 9;
 
 	_atkAnimPlaySPD = 25;
+
+	//공격할 때 터질 사운드 이팩트
+	_atkEffectSoundKey = "ShadowAttackSound";
+	_atkEffectSoundFile = "./sound/sfx/8BClawSlash.wav";
+	SOUNDMANAGER->addSound(_atkEffectSoundKey, _atkEffectSoundFile, false, false);
 }
 
 

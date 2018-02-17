@@ -66,6 +66,11 @@ void battlePlayerMother::update()
 		//이제 공격한다.
 		if (_atkMotionList[1])
 		{
+			//공격 이펙트 사운드가 재생중이 아니면 재생한다.
+			if (!SOUNDMANAGER->isPlaySound(CH_SOKKONGGU))
+			{
+				SOUNDMANAGER->play(_atkEffectSoundKey, CH_SOKKONGGU, 1.0f);
+			}
 			//공격 모션일 때 
 			//만약 원거리 공격자라면 이미지 렌더 위치를 보정해줘야 한다
 			//공격 모션의 프레임 가로 길이가 달라서!
@@ -124,12 +129,12 @@ void battlePlayerMother::update()
 void battlePlayerMother::render() 
 {
 	draw();
-	TIMEMANAGER->render(getMemDC());
-	if (_status == BATTLE_PLAYER_ATTACK)
-	{
-		RECT rc = RectMakeCenter(_targetX, _targetY, _target->getImageWidth() - 20, _target->getImageHeight() - 20);
-		Rectangle(getMemDC(), rc.left, rc.top, rc.right, rc.bottom);
-	}
+	//TIMEMANAGER->render(getMemDC());
+	//if (_status == BATTLE_PLAYER_ATTACK)
+	//{
+	//	RECT rc = RectMakeCenter(_targetX, _targetY, _target->getImageWidth() - 20, _target->getImageHeight() - 20);
+	//	Rectangle(getMemDC(), rc.left, rc.top, rc.right, rc.bottom);
+	//}
 	
 }
 void battlePlayerMother::draw()	  

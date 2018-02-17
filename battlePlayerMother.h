@@ -95,6 +95,11 @@ protected:
 
 	int _atkAnimPlaySPD;		//어택 공격 애니메이션 재생할 때 속도
 
+	//공격할 때 띄울 사운드의 키값
+	string _atkEffectSoundKey;
+	string _atkEffectSoundFile;
+
+
 public:
 	battlePlayerMother();
 	~battlePlayerMother();

@@ -99,6 +99,11 @@ battleLocke::battleLocke()
 	_m_Def = 23, _evasion = 15, _m_evasion = 2;
 
 	_atkAnimPlaySPD = 35;
+		
+	//공격할 때 터질 사운드 이팩트
+	_atkEffectSoundKey = "LockeAttackSound";
+	_atkEffectSoundFile = "./sound/sfx/2ESwordSlashLong.wav";
+	SOUNDMANAGER->addSound(_atkEffectSoundKey, _atkEffectSoundFile, false, false);
 }
 
 

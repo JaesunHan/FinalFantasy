@@ -25,6 +25,8 @@ enum CHANNELTYPE
 	CH_EFFECT07,
 	CH_EFFECT08,
 	CH_EFFECT09,
+	CH_SOKKONGGU,		//아무도 건들지 마시오! 내 채널임!!!
+
 	MAX_CHANNEL
 };
 
@@ -67,6 +69,7 @@ public:
 	void releaseAllSound();
 
 	bool isPlaySound(string keyName);
+	bool isPlaySound(CHANNELTYPE channel);
 	bool isPauseSound(string keyName);
 
 	inline Channel* getChannel(CHANNELTYPE channel) { return _channel[channel]; }
