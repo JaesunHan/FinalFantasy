@@ -198,6 +198,11 @@ void soundManager::pause(string keyName)
 	}
 }
 
+void soundManager::pause(CHANNELTYPE channel)
+{
+	_channel[channel]->setPaused(true);
+}
+
 void soundManager::resume(string keyName)			 
 {
 	arrSoundsIter iter = _mTotalSounds.begin();
@@ -214,6 +219,10 @@ void soundManager::resume(string keyName)
 	}
 }
 
+void soundManager::resume(CHANNELTYPE channel)
+{
+	_channel[channel]->setPaused(false);
+}
 
 bool soundManager::isPlaySound(string keyName) 
 {

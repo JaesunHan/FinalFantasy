@@ -42,6 +42,7 @@ struct tagBattleCharacters
 	bool turnStart = false;		//카운터가 꽉 찼을때 큐에 푸시하는걸 방지하는 변수
 	bool selectAction = false;	//카운터가 찼을때 메뉴를 선택했는지 여부를 알려주는 변수
 	bool attackReady = false;	//공격 큐가 들어왔을때 사전준비
+	bool isDead = false;		//죽었니?
 };
 
 class playerManager;
@@ -56,6 +57,7 @@ private:
 	int _menuNum = 0;								//메뉴 선택 번호(1번 공격, 2번 마법, 3번 스킬, 4번 아이템, 5번 도망)
 	int _enemyNum = 4;								//적 선택 번호 (4번이 첫번째 적)
 	int _messageCounter = 0;						//메시지 표시 카운터
+	int _victoryCounter = 0;						//승리 카운터
 	float _damage = 0;								//상호 주고 받는 데미지를 입력받는 변수
 	unsigned int _position;							//사운드 포지션			
 	bool _counterRoll = true;						//참일때만 카운터 증가
@@ -65,6 +67,7 @@ private:
 	bool _sfx01 = true;								//이펙트 사운드 1번
 	bool _sfx02 = false;							//이펙트 사운드 2번
 	bool _isDamaged = false;						//데미지 들어갈 때 참
+	bool _victory = false;							//승리했을때 참
 	HFONT newFont, oldFont;							//폰트
 	RECT _damageRC;									//데미지 렉트
 	playerManager* _pm;
@@ -87,6 +90,7 @@ public:
 	void drawText(int fontSize, char* str, RECT rc, int position, bool dialogue = false);
 	void temporaryMessage(int endPoint);
 	void playerAttack();
+	void victoryCondition();
 
 	inline battlePlayerMother* getTinaAddress() { return _battleCharacters[0].player; }
 	inline battlePlayerMother* getLockeAddress() { return _battleCharacters[1].player; }

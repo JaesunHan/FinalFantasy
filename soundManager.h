@@ -62,7 +62,9 @@ public:
 	void stop(string keyName);
 	void stop(CHANNELTYPE channel);
 	void pause(string keyName);
+	void pause(CHANNELTYPE channel);
 	void resume(string keyName);
+	void resume(CHANNELTYPE channel);
 
 	void releaseSound(int num);
 	void releaseSingleSound(string keyName);

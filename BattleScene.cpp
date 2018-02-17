@@ -35,8 +35,10 @@ HRESULT BattleScene::init()
 	IMAGEMANAGER->addImage("shadowFace00", ".\\image\\playerImg\\shadow\\shadow_face.bmp", 56, 38, true, RGB(255, 0, 255));
 	//음악 추가
 	SOUNDMANAGER->addSound("battleBGM", ".\\sound\\battleSound\\05 - Battle Theme.mp3", false, true);
+	SOUNDMANAGER->addSound("fanfareBGM", ".\\sound\\battleSound\\06 - Fanfare.mp3", false, true);
 	SOUNDMANAGER->addSound("battleMenuOpen", ".\\sound\\sfx\\battleMenuOpen.wav", false, false);
 	SOUNDMANAGER->addSound("menuSelectLow", ".\\sound\\sfx\\menuSelectLow.wav", false, false);
+	SOUNDMANAGER->addSound("monsterDeath", ".\\sound\\sfx\\monsterDeath.wav", false, false);
 	SOUNDMANAGER->play("battleBGM", CH_BGM, 1.0f);
 
 	tagBattleCharacters temp;
@@ -70,7 +72,7 @@ HRESULT BattleScene::init()
 		}
 	}
 	//최대 몬스터 랜덤 지정
-	_maxMonster = 4;//RND->getInt(3) + 1;		
+	_maxMonster = RND->getInt(3) + 1;		
 	//에너미 동적할당 후 벡터에 담기
 	for (int i = 0; i < _maxMonster; ++i)
 	{
@@ -116,10 +118,14 @@ void BattleScene::release()
 
 void BattleScene::update() 
 {
-	ATBGauzeTimer();
-	playerMenuSelect();
+	if (_victory == false)
+	{
+		ATBGauzeTimer();
+		playerMenuSelect();
+	}
 	updateWhenCharacterTurn();
 	playerFrameUpdate();
+	victoryCondition();
 	soundControl();
 }
 
@@ -133,7 +139,9 @@ void BattleScene::render()
 	temporaryMessage(60);
 
 	EFFECTMANAGER->render();
-
+	char test[128];
+	wsprintf(test, "%d", _position);
+	TextOut(getMemDC(), 500, 0, test, strlen(test));
 }
 //배틀 타이머 돌리는 함수
 void BattleScene::ATBGauzeTimer()
@@ -215,7 +223,7 @@ void BattleScene::updateWhenCharacterTurn()
 		}
 		else
 		{
-			if (_battleTurn.front()->enemy->getCurHP() < 0)
+			if (_battleTurn.front()->enemy->getCurHP() <= 0)
 			{
 				_battleTurn.pop();
 			}
@@ -399,11 +407,11 @@ void BattleScene::playerMenuSelect()
 	}
 	//if (KEYMANAGER->isOnceKeyDown('R'))
 	//{
-	//	SOUNDMANAGER->releaseSingleSound("menuSelectLow");
+	//	SOUNDMANAGER->getChannel(CH_BGM)->setPosition(30000, FMOD_TIMEUNIT_MS);
 	//}
 	//if (KEYMANAGER->isOnceKeyDown('T'))
 	//{
-	//	SOUNDMANAGER->addSound("menuSelectLow", ".\\sound\\sfx\\menuSelectLow.wav", false, false);
+	//	SOUNDMANAGER->getChannel(CH_BGM)->setPosition(3900, FMOD_TIMEUNIT_MS);
 	//}
 }
 
@@ -414,7 +422,19 @@ void BattleScene::characterDraw()
 	{
 		if (_battleCharacters[i].characterType > 3)
 		{
-			if (_battleCharacters[i].enemy->getCurHP() < 0) continue;
+			if (_battleCharacters[i].enemy->getCurHP() <= 0 && _battleCharacters[i].isDead == false)
+			{
+				if (_battleCharacters[i].enemy->getAlpha() == 255)
+				{
+					SOUNDMANAGER->play("monsterDeath", CH_EFFECT04, 1.0f);
+				}
+				_battleCharacters[i].enemy->setAlpha(_battleCharacters[i].enemy->getAlpha() - 15);
+				if (_battleCharacters[i].enemy->getAlpha() <= 5)
+				{
+					_battleCharacters[i].isDead = true;
+				}
+			}
+			if (_battleCharacters[i].isDead == true) continue;
 			_battleCharacters[i].enemy->render();
 			char enemyHp[128];
 			wsprintf(enemyHp, "%d", _battleCharacters[i].enemy->getCurHP());
@@ -556,9 +576,13 @@ void BattleScene::playerFrameUpdate()
 void BattleScene::soundControl()
 {
 	SOUNDMANAGER->getChannel(CH_BGM)->getPosition(&_position, FMOD_TIMEUNIT_MS);
-	if (_position >= 56800)
+	if (_victory == false && _position >= 56800)
 	{
 		SOUNDMANAGER->getChannel(CH_BGM)->setPosition(4000, FMOD_TIMEUNIT_MS);
+	}
+	if (_victory == true && _victoryCounter >= 100 && _position >= 32500)
+	{
+		SOUNDMANAGER->getChannel(CH_BGM)->setPosition(3900, FMOD_TIMEUNIT_MS);
 	}
 	if (_sfx01 == false)
 	{
@@ -617,6 +641,34 @@ void BattleScene::temporaryMessage(int endPoint)
 		{
 			_messageCounter = 0;
 			_isDamaged = false;
+		}
+	}
+}
+
+void BattleScene::victoryCondition()
+{
+	for (int i = 0; i < _maxMonster; ++i)
+	{
+		_victory = false;
+		if (_battleCharacters[i + 4].enemy->getCurHP() > 0)
+		{
+			break;
+		}
+		_victory = true;
+	}
+	if (_victory == true)
+	{
+		_victoryCounter++;
+	}
+	if (_victoryCounter == 50)
+	{
+		SOUNDMANAGER->play("fanfareBGM", CH_BGM, 1.0f);
+		for (int i = 0; i < 4; ++i)
+		{
+			if (_battleCharacters[i].player->getCurHP() > 0)
+			{
+				_battleCharacters[i].player->setStatus(BATTLE_PLAYER_WIN);
+			}
 		}
 	}
 }
