@@ -70,14 +70,14 @@ HRESULT BattleScene::init()
 		}
 	}
 	//최대 몬스터 랜덤 지정
-	_maxMonster = RND->getInt(3) + 1;		
+	_maxMonster = 3;//RND->getInt(3) + 1;		
 	//에너미 동적할당 후 벡터에 담기
 	for (int i = 0; i < _maxMonster; ++i)
 	{
 		int monsterType = RND->getInt(3);
 		temp.characterType = i + 4;
 		temp.ATBcounter = 0;
-		temp.enemy = new Bear;
+		temp.enemy = new guard;
 		//switch (monsterType)
 		//{
 		//case(0):
@@ -214,12 +214,19 @@ void BattleScene::updateWhenCharacterTurn()
 		}
 		else
 		{
-			_battleTurn.front()->enemy->update();
-			if (_battleTurn.front()->enemy->getTurnEnd() == true)
+			if (_battleTurn.front()->enemy->getCurHP() < 0)
 			{
-				_battleTurn.front()->ATBcounter = 0;
-				_battleTurn.front()->turnStart = false;
 				_battleTurn.pop();
+			}
+			else
+			{
+				_battleTurn.front()->enemy->update();
+				if (_battleTurn.front()->enemy->getTurnEnd() == true)
+				{
+					_battleTurn.front()->ATBcounter = 0;
+					_battleTurn.front()->turnStart = false;
+					_battleTurn.pop();
+				}
 			}
 		}
 	}
@@ -245,8 +252,20 @@ void BattleScene::playerMenuSelect()
 		if (_enemySelect == true)
 		{
 			_enemyNum--;
-			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
 			if (_enemyNum < 4) _enemyNum = _maxMonster + 3;
+			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
+			for (int i = 0; i < _maxMonster; ++i)
+			{
+				if (_battleCharacters[_enemyNum].enemy->getCurHP() < 0)
+				{
+					_enemyNum--;
+					if (_enemyNum < 4) _enemyNum = _maxMonster + 3;
+				}
+				else
+				{
+					break;
+				}
+			}
 		}
 		else if (_playerTurn == true)
 		{
@@ -260,8 +279,20 @@ void BattleScene::playerMenuSelect()
 		if (_enemySelect == true)
 		{
 			_enemyNum++;
-			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
 			if (_enemyNum > _maxMonster + 3) _enemyNum = 4;
+			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
+			for (int i = 0; i < _maxMonster; ++i)
+			{
+				if (_battleCharacters[_enemyNum].enemy->getCurHP() < 0)
+				{
+					_enemyNum++;
+					if (_enemyNum > _maxMonster + 3) _enemyNum = 4;
+				}
+				else
+				{
+					break;
+				}
+			}
 		}
 		else if (_playerTurn == true)
 		{
@@ -282,6 +313,19 @@ void BattleScene::playerMenuSelect()
 				_battleCharacters[_currentTurn].player->setStatus(BATTLE_PLAYER_ATTACK_STANDBY);
 				_battleCharacters[_currentTurn].selectAction = true;
 				_battleTurn.push(&_battleCharacters[_currentTurn]);
+				_enemyNum = 4;
+				for (int i = 0; i < _maxMonster; ++i)
+				{
+					if (_battleCharacters[_enemyNum].enemy->getCurHP() < 0)
+					{
+						_enemyNum++;
+						if (_enemyNum > _maxMonster + 3) _enemyNum = 4;
+					}
+					else
+					{
+						break;
+					}
+				}
 				_enemySelect = false;
 				_playerTurn = false;
 				break;
@@ -452,7 +496,7 @@ void BattleScene::drawUI()
 		char shadowMenu[] = "던지기";
 		if (_enemySelect == true)
 		{
-			IMAGEMANAGER->findImage("fingerArrowLt")->render(getMemDC(), _battleCharacters[_enemyNum].enemy->getX(), _battleCharacters[_enemyNum].enemy->getY());
+			IMAGEMANAGER->findImage("fingerArrowLt")->render(getMemDC(), _battleCharacters[_enemyNum].enemy->getX(), _battleCharacters[_enemyNum].enemy->getY() + _battleCharacters[_enemyNum].enemy->getImageHeight());
 		}
 		else if (_playerTurn == true && i == _currentTurn)
 		{
@@ -545,7 +589,7 @@ void BattleScene::playerAttack()
 		_damage = (_damage * (float)RND->getFromIntTo(224, 255) / 256) + 1;
 		_damage = (_damage * (255 - (float)_battleTurn.front()->enemy->getADef()) / 256) + 1;
 		_battleTurn.front()->enemy->setCurHP(_battleTurn.front()->enemy->getCurHP() - _damage);
-		_damageRC = { _battleTurn.front()->enemy->getX() - 200, _battleTurn.front()->enemy->getY() - 15, _battleTurn.front()->enemy->getX() + 200, _battleTurn.front()->enemy->getY() + 15 };
+		_damageRC = { _battleTurn.front()->enemy->getX() - _battleTurn.front()->enemy->getImageWidth() / 2 - 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight(), _battleTurn.front()->enemy->getX() - _battleTurn.front()->enemy->getImageWidth() / 2 + 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() + 30 };
 	}
 	_isDamaged = true;
 }

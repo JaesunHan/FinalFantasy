@@ -5,10 +5,15 @@
 #include "battleLocke.h"
 #include "battleCeles.h"
 #include "Bear.h"
-#include "DarkWind.h"
-#include "VectorPup.h"
-#include "siren.h"
 #include "bossAtma.h"
+#include "covert.h"
+#include "DarkWind.h"
+#include "gobbler.h"
+#include "guard.h"
+#include "samurai.h"
+#include "siren.h"
+#include "tornadoShark.h"
+#include "VectorPup.h"
 #include <queue>
 #include <vector>
 
