@@ -12,7 +12,7 @@ herbs::~herbs()
 
 HRESULT herbs::init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price, int ability)
 {
-	itemMother::init(ITEM_EXPENDABLE, itemName, description, price, ability);
+	expendablesItem::init(ITEM_EXPENDABLE, itemName, description, price, ability);
 	//_itemKind = ITEM_EXPENDABLE;						//아이템 장르
 	//
 	//strcpy_s(_name, itemName);						//아이템 이름

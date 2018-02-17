@@ -10,7 +10,7 @@ public:
 	expendablesItem();
 	~expendablesItem();
 
-	HRESULT init(char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price, int performance);
+	HRESULT init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price, int ability);
 	void release();
 	void update();
 };

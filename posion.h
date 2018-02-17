@@ -1,13 +1,13 @@
 #pragma once
-#include "itemMother.h"
+#include "expendablesItem.h"
 
-class posion : public itemMother
+class posion : public expendablesItem
 {
 public:
 	posion();
 	~posion();
 
-	HRESULT init(char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price, int performance);
+	HRESULT init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price, int ability);
 	void release();
 	void update();
 };

@@ -12,7 +12,7 @@ expendablesItem::~expendablesItem()
 {
 }
 
-HRESULT expendablesItem::init(char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price, int ability)
+HRESULT expendablesItem::init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price, int ability)
 {
 	itemMother::init(ITEM_EXPENDABLE, itemName, description, price, ability);
 	//_itemKind = ITEM_EXPENDABLE;						//아이템 장르

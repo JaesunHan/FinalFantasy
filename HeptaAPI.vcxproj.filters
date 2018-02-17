@@ -420,6 +420,15 @@
     <ClInclude Include="shuriken.h">
       <Filter>playGround\Item\expendables</Filter>
     </ClInclude>
+    <ClInclude Include="expendablesItem.h">
+      <Filter>playGround\Item\expendables</Filter>
+    </ClInclude>
+    <ClInclude Include="weaponItem.h">
+      <Filter>playGround\Item\weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="armorItem.h">
+      <Filter>playGround\Item\armor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -691,6 +700,15 @@
     </ClCompile>
     <ClCompile Include="shuriken.cpp">
       <Filter>playGround\Item\expendables</Filter>
+    </ClCompile>
+    <ClCompile Include="expendablesItem.cpp">
+      <Filter>playGround\Item\expendables</Filter>
+    </ClCompile>
+    <ClCompile Include="weaponItem.cpp">
+      <Filter>playGround\Item\weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="armorItem.cpp">
+      <Filter>playGround\Item\armor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,5 @@
 #pragma once
-#include "itemMother.h"
+#include "weaponItem.h"
 
 class weapon : public itemMother
 {

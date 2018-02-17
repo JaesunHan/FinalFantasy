@@ -1,12 +1,12 @@
 #pragma once
-#include "itemMother.h"
+#include "expendablesItem.h"
 
 struct tagHerbs
 {
 
 };
 
-class herbs : public itemMother
+class herbs : public expendablesItem
 {
 public:
 	herbs();

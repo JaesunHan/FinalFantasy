@@ -1,7 +1,7 @@
 #pragma once
-#include "itemMother.h"
+#include "armorItem.h"
 
-class armor : public itemMother
+class armor : public armorItem
 {
 public:
 	armor();
