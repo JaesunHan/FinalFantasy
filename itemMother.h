@@ -5,12 +5,12 @@
 
 enum itemKind
 {
-	ITEM_EXPENDABLE,
-	ITEM_WEAPON,
-	ITEM_SUB_WEAPON,
-	ITEM_ARMOR,
-	ITEM_HELMET,
-	ITEM_ACCESSORY
+	ITEM_EXPENDABLE,			//소모품
+	ITEM_WEAPON,				//무기
+	ITEM_SUB_WEAPON,			//방패
+	ITEM_ARMOR,					//갑옷
+	ITEM_HELMET,				//투구
+	ITEM_ACCESSORY											//보류
 };
 
 class itemMother : public gameNode

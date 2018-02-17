@@ -21,8 +21,8 @@ samurai::samurai()
 	_spellEffect = new effect;
 	_spellEffect->init(IMAGEMANAGER->findImage("samurai스킬공격이미지"), 100, 50, 1.0f, 0.5f);
 
-	EFFECTMANAGER->addEffect("samurai기본공격이펙트", ".\\image\\enemyEffect\\effect1.bmp", 1800, 130, 150, 130, 1.0f, 1.0f, 1000);
-	EFFECTMANAGER->addEffect("samurai스킬공격이펙트", ".\\image\\enemyEffect\\effect3.bmp", 800, 50, 100, 50, 1.0f, 1.0f, 1000);
+	EFFECTMANAGER->addEffect("samurai기본공격이펙트", ".\\image\\enemyEffect\\effect1.bmp", 1800, 130, 150, 130, 1.0f, 1.0f, 2);
+	EFFECTMANAGER->addEffect("samurai스킬공격이펙트", ".\\image\\enemyEffect\\effect3.bmp", 800, 50, 100, 50, 1.0f, 1.0f, 2);
 	
 	//===========================================================================================================================
 	

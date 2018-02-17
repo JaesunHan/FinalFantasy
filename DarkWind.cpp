@@ -21,8 +21,8 @@ DarkWind::DarkWind()
 	_spellEffect = new effect;
 	_spellEffect->init(IMAGEMANAGER->findImage("darkWind스킬공격이미지"), 97, 109, 1.0f, 0.5f);
 
-	EFFECTMANAGER->addEffect("darkWind기본공격이펙트", ".\\image\\enemyEffect\\effect12.bmp", 310, 62, 62, 62, 1.0f, 1.0f, 1000);
-	EFFECTMANAGER->addEffect("darkWind스킬공격이펙트", ".\\image\\enemyEffect\\effect10.bmp", 679, 109, 97, 109, 1.0f, 1.0f, 1000);
+	EFFECTMANAGER->addEffect("darkWind기본공격이펙트", ".\\image\\enemyEffect\\effect12.bmp", 310, 62, 62, 62, 1.0f, 1.0f, 2);
+	EFFECTMANAGER->addEffect("darkWind스킬공격이펙트", ".\\image\\enemyEffect\\effect10.bmp", 679, 109, 97, 109, 1.0f, 1.0f, 2);
 	
 	//===========================================================================================================================
 	

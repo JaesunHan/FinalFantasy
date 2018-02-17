@@ -21,8 +21,8 @@ covert::covert()
 	_spellEffect = new effect;
 	_spellEffect->init(IMAGEMANAGER->findImage("covert스킬공격이미지"), 54, 107, 1.0f, 0.5f);
 
-	EFFECTMANAGER->addEffect("covert기본공격이펙트", ".\\image\\enemyEffect\\effect2.bmp", 1536, 192, 192, 192, 1.0f, 1.0f, 1000);
-	EFFECTMANAGER->addEffect("covert스킬공격이펙트", ".\\image\\enemyEffect\\effect8.bmp", 378, 107, 54, 107, 1.0f, 1.0f, 1000);
+	EFFECTMANAGER->addEffect("covert기본공격이펙트", ".\\image\\enemyEffect\\effect2.bmp", 1536, 192, 192, 192, 1.0f, 1.0f, 2);
+	EFFECTMANAGER->addEffect("covert스킬공격이펙트", ".\\image\\enemyEffect\\effect8.bmp", 378, 107, 54, 107, 1.0f, 1.0f, 2);
 	
 	//===========================================================================================================================
 	

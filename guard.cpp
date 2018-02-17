@@ -21,8 +21,8 @@ guard::guard()
 	_spellEffect = new effect;
 	_spellEffect->init(IMAGEMANAGER->findImage("guard스킬공격이미지"), 192, 192, 1.0f, 0.5f);
 
-	EFFECTMANAGER->addEffect("guard기본공격이펙트", ".\\image\\enemyEffect\\effect1.bmp", 1800, 130, 150, 130, 1.0f, 1.0f, 1000);
-	EFFECTMANAGER->addEffect("guard스킬공격이펙트", ".\\image\\enemyEffect\\effect2.bmp", 1536, 192, 192, 192, 1.0f, 1.0f, 1000);
+	EFFECTMANAGER->addEffect("guard기본공격이펙트", ".\\image\\enemyEffect\\effect1.bmp", 1800, 130, 150, 130, 1.0f, 1.0f, 2);
+	EFFECTMANAGER->addEffect("guard스킬공격이펙트", ".\\image\\enemyEffect\\effect2.bmp", 1536, 192, 192, 192, 1.0f, 1.0f, 2);
 	
 	//===========================================================================================================================
 	

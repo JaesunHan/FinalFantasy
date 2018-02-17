@@ -94,6 +94,9 @@ public:
 
 	//=========================== 접근자 / 설정자 =============================
 
+	inline int getAlpha() { return _alpha; }
+	inline void setAlpha(int alpha) { _alpha = alpha; }
+
 	inline int getImageWidth() { return _img->getFrameWidth(); }
 	inline int getImageHeight() { return _img->getFrameHeight(); }
 

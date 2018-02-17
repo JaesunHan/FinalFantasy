@@ -21,9 +21,8 @@ gobbler::gobbler()
 	_spellEffect = new effect;
 	_spellEffect->init(IMAGEMANAGER->findImage("gobbler스킬공격이미지"), 120, 80, 1.0f, 0.5f);
 
-	EFFECTMANAGER->addEffect("gobbler기본공격이펙트", ".\\image\\enemyEffect\\effect5.bmp", 846, 117, 94, 117, 1.0f, 1.0f, 1000);
-	
-	EFFECTMANAGER->addEffect("gobbler스킬공격이펙트", ".\\image\\enemyEffect\\effect7.bmp", 1320, 80, 120, 80, 1.0f, 1.0f, 1000);
+	EFFECTMANAGER->addEffect("gobbler기본공격이펙트", ".\\image\\enemyEffect\\effect5.bmp", 846, 117, 94, 117, 1.0f, 1.0f, 2);
+	EFFECTMANAGER->addEffect("gobbler스킬공격이펙트", ".\\image\\enemyEffect\\effect7.bmp", 1320, 80, 120, 80, 1.0f, 1.0f, 2);
 	
 	//===========================================================================================================================
 	

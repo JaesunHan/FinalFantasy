@@ -25,9 +25,9 @@ bossAtma::bossAtma()
 	_spellEffect2 = new effect;
 	_spellEffect2->init(IMAGEMANAGER->findImage("bossAtma스킬공격이미지2"), 100, 100, 1.0f, 0.5f);
 
-	EFFECTMANAGER->addEffect("bossAtma기본공격이펙트", ".\\image\\enemyEffect\\effect4.bmp", 304, 64, 76, 64, 1.0f, 1.0f, 1000);
-	EFFECTMANAGER->addEffect("bossAtma스킬공격이펙트", ".\\image\\enemyEffect\\effect11.bmp", 583, 102, 53, 102, 1.0f, 1.0f, 1000);
-	EFFECTMANAGER->addEffect("bossAtma스킬공격이펙트2", ".\\image\\enemyEffect\\effect6.bmp", 2100, 100, 100, 100, 1.0f, 1.0f, 1000);
+	EFFECTMANAGER->addEffect("bossAtma기본공격이펙트", ".\\image\\enemyEffect\\effect4.bmp", 304, 64, 76, 64, 1.0f, 1.0f, 2);
+	EFFECTMANAGER->addEffect("bossAtma스킬공격이펙트", ".\\image\\enemyEffect\\effect11.bmp", 583, 102, 53, 102, 1.0f, 1.0f, 2);
+	EFFECTMANAGER->addEffect("bossAtma스킬공격이펙트2", ".\\image\\enemyEffect\\effect6.bmp", 2100, 100, 100, 100, 1.0f, 1.0f, 2);
 	
 	//===========================================================================================================================
 	

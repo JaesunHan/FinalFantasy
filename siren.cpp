@@ -21,8 +21,8 @@ siren::siren()
 	_spellEffect = new effect;
 	_spellEffect->init(IMAGEMANAGER->findImage("siren스킬공격이미지"), 80, 59, 1.0f, 0.5f);
 
-	EFFECTMANAGER->addEffect("siren기본공격이펙트", ".\\image\\enemyEffect\\effect14.bmp", 608, 76, 76, 76, 1.0f, 1.0f, 1000);
-	EFFECTMANAGER->addEffect("siren스킬공격이펙트", ".\\image\\enemyEffect\\effect9.bmp", 480, 59, 80, 59, 1.0f, 1.0f, 1000);
+	EFFECTMANAGER->addEffect("siren기본공격이펙트", ".\\image\\enemyEffect\\effect14.bmp", 608, 76, 76, 76, 1.0f, 1.0f, 2);
+	EFFECTMANAGER->addEffect("siren스킬공격이펙트", ".\\image\\enemyEffect\\effect9.bmp", 480, 59, 80, 59, 1.0f, 1.0f, 2);
 	
 	//===========================================================================================================================
 	
