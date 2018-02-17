@@ -121,7 +121,7 @@ void tornadoShark::update()
 
 void tornadoShark::render()
 {
-	IMAGEMANAGER->findImage("tornadoShack")->alphaFrameRender(getMemDC(), _x - _img->getFrameWidth(), _y - _img->getFrameHeight(), _frameX, 0, _alpha);
+	IMAGEMANAGER->findImage("tornadoShack")->alphaFrameRender(getMemDC(), _x - 50, _y, _frameX, 0, _alpha);
 	//IMAGEMANAGER->findImage("tornadoShack")->frameRender(getMemDC(), _x, _y);
 }
 

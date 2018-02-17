@@ -127,7 +127,7 @@ void VectorPup::update()
 
 void VectorPup::render() 
 {
-	IMAGEMANAGER->findImage("vectorPup")->alphaFrameRender(getMemDC(), _x - _img->getFrameWidth(), _y - _img->getFrameHeight(), _frameX, 0, _alpha);
+	IMAGEMANAGER->findImage("vectorPup")->alphaFrameRender(getMemDC(), _x - 50, _y + 40, _frameX, 0, _alpha);
 	//IMAGEMANAGER->findImage("vectorPup")->frameRender(getMemDC(), _x, _y);
 }
 

@@ -130,7 +130,7 @@ void bossAtma::update()
 
 void bossAtma::render()
 {
-	IMAGEMANAGER->findImage("bossAtma")->alphaFrameRender(getMemDC(), _x - _img->getFrameWidth(), _y - _img->getFrameHeight(), _frameX, 0, _alpha);
+	IMAGEMANAGER->findImage("bossAtma")->alphaFrameRender(getMemDC(), _x - _img->getFrameWidth() / 2, _y - _img->getFrameHeight() / 2, _frameX, 0, _alpha);
 	//IMAGEMANAGER->findImage("bossAtma")->frameRender(getMemDC(), _x, _y);
 }
 

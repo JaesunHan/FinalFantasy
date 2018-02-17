@@ -11,11 +11,12 @@ weaponItem::~weaponItem()
 {
 }
 
-HRESULT weaponItem::init(char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price, int performance)
+HRESULT weaponItem::init(char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price, int ability)
 {
+	itemMother::init(ITEM_EXPENDABLE, itemName, description, price, ability);
 	
-	_performance = performance;						//아이템 효과
-	
+
+
 	return S_OK;
 }
 

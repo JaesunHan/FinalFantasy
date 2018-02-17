@@ -12,14 +12,15 @@ itemMother::~itemMother()
 
 }
 
-HRESULT itemMother::init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price, int performance)
+HRESULT itemMother::init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price, int ability)
 {
-	_itemKind = ITEM_EXPENDABLE;					//아이템 장르
+	_itemKind = ITEM_EXPENDABLE;					//아이템 종류
 
 	strcpy_s(_name, itemName);						//아이템 이름
-	strcpy_s(_description, description);			//아이템 종류
-	_price = price;									//아이템 가격 (상점)
-	_performance = performance;
+	strcpy_s(_description, description);			//아이템 설명
+
+	_price = price;									//아이템 가격
+	_ability = ability;								//아이템 효과
 
 	return S_OK;
 }

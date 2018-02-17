@@ -128,7 +128,7 @@ void Bear::update()
 
 void Bear::render()
 {
-	IMAGEMANAGER->findImage("bear")->alphaFrameRender(getMemDC(), _x - _img->getFrameWidth(), _y - _img->getFrameHeight(), _frameX, 0, _alpha);
+	IMAGEMANAGER->findImage("bear")->alphaFrameRender(getMemDC(), _x - _img->getFrameWidth(), _y, _frameX, 0, _alpha);
 	//IMAGEMANAGER->findImage("bear")->frameRender(getMemDC(), _x, _y);
 }
 
