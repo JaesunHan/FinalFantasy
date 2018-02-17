@@ -104,6 +104,7 @@
     <ClInclude Include="effectManager.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="equipMenu.h" />
+    <ClInclude Include="expendablesItem.h" />
     <ClInclude Include="GameMenuManager.h" />
     <ClInclude Include="gameNode.h" />
     <ClInclude Include="gobbler.h" />
@@ -113,6 +114,7 @@
     <ClInclude Include="imageManager.h" />
     <ClInclude Include="iniDataManager.h" />
     <ClInclude Include="itemMenu.h" />
+    <ClInclude Include="itemManager.h" />
     <ClInclude Include="itemMother.h" />
     <ClInclude Include="keyAniManager.h" />
     <ClInclude Include="keyManager.h" />
@@ -162,6 +164,7 @@
     <ClInclude Include="txtData.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="VectorPup.h" />
+    <ClInclude Include="weaponItem.h" />
     <ClInclude Include="worldMap.h" />
     <ClInclude Include="worldMapPlayer.h" />
     <ClInclude Include="worldMapScene.h" />
@@ -191,6 +194,7 @@
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="equipMenu.cpp" />
+    <ClCompile Include="expendablesItem.cpp" />
     <ClCompile Include="GameMenuManager.cpp" />
     <ClCompile Include="gameNode.cpp" />
     <ClCompile Include="gobbler.cpp" />
@@ -200,6 +204,7 @@
     <ClCompile Include="imageManager.cpp" />
     <ClCompile Include="iniDataManager.cpp" />
     <ClCompile Include="itemMenu.cpp" />
+    <ClCompile Include="itemManager.cpp" />
     <ClCompile Include="itemMother.cpp" />
     <ClCompile Include="keyAniManager.cpp" />
     <ClCompile Include="keyManager.cpp" />
@@ -245,6 +250,7 @@
     <ClCompile Include="txtData.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="VectorPup.cpp" />
+    <ClCompile Include="weaponItem.cpp" />
     <ClCompile Include="winMain.cpp" />
     <ClCompile Include="worldMap.cpp" />
     <ClCompile Include="worldMapPlayer.cpp" />

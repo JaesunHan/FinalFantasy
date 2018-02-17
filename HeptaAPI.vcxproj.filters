@@ -213,9 +213,6 @@
     <ClInclude Include="shadow.h">
       <Filter>playGround\player</Filter>
     </ClInclude>
-    <ClInclude Include="itemMother.h">
-      <Filter>playGround\Item</Filter>
-    </ClInclude>
     <ClInclude Include="celes.h">
       <Filter>playGround\player</Filter>
     </ClInclude>
@@ -369,6 +366,18 @@
     <ClInclude Include="npcManager.h">
       <Filter>playGround\MapScene\NPC</Filter>
     </ClInclude>
+    <ClInclude Include="itemManager.h">
+      <Filter>playGround\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="itemMother.h">
+      <Filter>playGround\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="expendablesItem.h">
+      <Filter>playGround\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="weaponItem.h">
+      <Filter>playGround\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -460,9 +469,6 @@
     </ClCompile>
     <ClCompile Include="shadow.cpp">
       <Filter>playGround\player</Filter>
-    </ClCompile>
-    <ClCompile Include="itemMother.cpp">
-      <Filter>playGround\Item</Filter>
     </ClCompile>
     <ClCompile Include="celes.cpp">
       <Filter>playGround\player</Filter>
@@ -607,6 +613,18 @@
     </ClCompile>
     <ClCompile Include="npcManager.cpp">
       <Filter>playGround\MapScene\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="itemManager.cpp">
+      <Filter>playGround\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="itemMother.cpp">
+      <Filter>playGround\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="expendablesItem.cpp">
+      <Filter>playGround\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="weaponItem.cpp">
+      <Filter>playGround\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
