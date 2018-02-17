@@ -101,7 +101,10 @@ HRESULT BattleScene::init()
 		_battleCharacters[i + 4].enemy->setBattleShadowMemoryAddressLink(_battleCharacters[2].player);
 		_battleCharacters[i + 4].enemy->setBattleCelesMemoryAddressLink(_battleCharacters[3].player);
 	}
-
+	for (int i = 0; i < 4; ++i)
+	{
+		_battleCharacters[i].player->setBattleScene(this);
+	}
 	return S_OK;
 }
 
@@ -522,11 +525,10 @@ void BattleScene::soundControl()
 void BattleScene::playerAttack()
 {
 	bool Hit;
-	float _damage;
-	float BlockValue = (255 - _battleCharacters[_currentTurn].enemy->getMDef() * 2) + 1;
+	float BlockValue = (255 - _battleTurn.front()->enemy->getMDef() * 2) + 1;
 	if (BlockValue > 255) BlockValue = 255;
 	if (BlockValue < 1) BlockValue = 1;
-	if ((_battleCharacters[_currentTurn].player->getHitRate() * BlockValue / 256) > RND->getFromFloatTo(0, 0.99f))
+	if ((_battleTurn.front()->player->getHitRate() * BlockValue / 256) > RND->getFromFloatTo(0, 0.99f))
 	{
 		Hit = true;
 	}
@@ -536,12 +538,14 @@ void BattleScene::playerAttack()
 	}
 	if (Hit == true)
 	{
-		float Vigor2 = _battleCharacters[_currentTurn].player->getStrength() * 2;
+		float Vigor2 = _battleTurn.front()->player->getStrength() * 2;
 		if (Vigor2 > 255) Vigor2 = 255;
-		float Attack = _battleCharacters[_currentTurn].player->getAttack() + Vigor2;
-		_damage = (float)_battleCharacters[_currentTurn].player->getAttack() + (((float)_battleCharacters[_currentTurn].player->getLv() * (float)_battleCharacters[_currentTurn].player->getLv() * Attack) / 256) * 3 / 2;
+		float Attack = _battleTurn.front()->player->getAttack() + Vigor2;
+		_damage = (float)_battleTurn.front()->player->getAttack() + (((float)_battleTurn.front()->player->getLv() * (float)_battleTurn.front()->player->getLv() * Attack) / 256) * 3 / 2;
 		_damage = (_damage * (float)RND->getFromIntTo(224, 255) / 256) + 1;
-		_damage = (_damage * (255 - (float)_battleCharacters[_currentTurn].enemy->getADef()) / 256) + 1;
+		_damage = (_damage * (255 - (float)_battleTurn.front()->enemy->getADef()) / 256) + 1;
+		_battleTurn.front()->enemy->setCurHP(_battleTurn.front()->enemy->getCurHP() - _damage);
+		_damageRC = { _battleTurn.front()->enemy->getX() - 200, _battleTurn.front()->enemy->getY() - 15, _battleTurn.front()->enemy->getX() + 200, _battleTurn.front()->enemy->getY() + 15 };
 	}
 	_isDamaged = true;
 }
@@ -561,10 +565,9 @@ void BattleScene::temporaryMessage(int endPoint)
 	if (_isDamaged == true)
 	{
 		_messageCounter++;
-		RECT DamageRC = { _battleCharacters[_currentTurn].enemy->getX() - 200,_battleCharacters[_currentTurn].enemy->getY() - 15,_battleCharacters[_currentTurn].enemy->getX() + 200,_battleCharacters[_currentTurn].enemy->getY() + 15 };
 		char tempDamage[128];
 		wsprintf(tempDamage, "%d", (int)_damage);
-		drawText(30, tempDamage, DamageRC, DT_CENTER);
+		drawText(30, tempDamage, _damageRC, DT_CENTER);
 		if (_messageCounter > endPoint)
 		{
 			_messageCounter = 0;

@@ -57,7 +57,8 @@ private:
 	bool _sfx01 = true;								//이펙트 사운드 1번
 	bool _sfx02 = false;							//이펙트 사운드 2번
 	bool _isDamaged = false;						//데미지 들어갈 때 참
-	HFONT newFont, oldFont;
+	HFONT newFont, oldFont;							//폰트
+	RECT _damageRC;									//데미지 렉트
 public:
 	BattleScene();
 	~BattleScene();

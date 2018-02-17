@@ -81,6 +81,7 @@ void battlePlayerMother::update()
 					_atkMotionList[1] = true;
 				}
 				_playAnimList[BATTLE_PLAYER_ATTACK] = false;
+				_BS->playerAttack();
 			}
 		}
 	}
