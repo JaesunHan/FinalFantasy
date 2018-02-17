@@ -44,6 +44,8 @@ struct tagBattleCharacters
 	bool attackReady = false;	//공격 큐가 들어왔을때 사전준비
 };
 
+class playerManager;
+
 class BattleScene : public gameNode
 {
 private:
@@ -59,11 +61,13 @@ private:
 	bool _counterRoll = true;						//참일때만 카운터 증가
 	bool _playerTurn = false;						//플레이어 턴일때 참
 	bool _enemySelect = false;						//에너미 선택할때 참
+	bool _magicSelect = false;						//마법 선택
 	bool _sfx01 = true;								//이펙트 사운드 1번
 	bool _sfx02 = false;							//이펙트 사운드 2번
 	bool _isDamaged = false;						//데미지 들어갈 때 참
 	HFONT newFont, oldFont;							//폰트
 	RECT _damageRC;									//데미지 렉트
+	playerManager* _pm;
 public:
 	BattleScene();
 	~BattleScene();
@@ -88,5 +92,6 @@ public:
 	inline battlePlayerMother* getLockeAddress() { return _battleCharacters[1].player; }
 	inline battlePlayerMother* getCelesAddress() { return _battleCharacters[2].player; }
 	inline battlePlayerMother* getShadowAddress() { return _battleCharacters[3].player; }
+	inline void setPlayerManagerMemoryAddressLink(playerManager* pm) { _pm = pm; }
 };
 

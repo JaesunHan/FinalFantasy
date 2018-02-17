@@ -122,7 +122,7 @@ void gobbler::update()
 
 void gobbler::render()
 {
-	IMAGEMANAGER->findImage("gobbler")->alphaFrameRender(getMemDC(), _x - 50, _y - 30, _frameX, 0, _alpha);
+	IMAGEMANAGER->findImage("gobbler")->alphaFrameRender(getMemDC(), _x - _img->getFrameWidth() / 2, _y - _img->getFrameHeight() / 2, _frameX, 0, _alpha);
 	//IMAGEMANAGER->findImage("gobbler")->frameRender(getMemDC(), _x, _y);
 }
 

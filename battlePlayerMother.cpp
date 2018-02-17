@@ -23,6 +23,7 @@ HRESULT battlePlayerMother::init()
 }
 void battlePlayerMother::update() 
 {
+	
 	//attack 일때
 	if (_status == BATTLE_PLAYER_ATTACK)
 	{
@@ -41,14 +42,14 @@ void battlePlayerMother::update()
 			if (_atkMotionList[0])
 			{
 				//어디까지 움직여야 하는지 세팅하기
-				_targetX = _target->getX() - _target->getImageWidth();
-				_targetY = _target->getY() - _target->getImageHeight() / 2;
+				_targetX = _target->getX();
+				_targetY = _target->getY();
 				moveToTarget(_targetX, _targetY, 0);
 			}
 			//제자리로 돌아온다
 			if (_atkMotionList[2])
 			{
-				_targetX = 800 - (_partyIdx % 2) * 70;
+				_targetX = 760 + (_partyIdx % 2) * 70;
 				_targetY = 150 + _partyIdx * 100;
 				if (moveToTarget(_targetX, _targetY, 2))
 				{
@@ -65,12 +66,19 @@ void battlePlayerMother::update()
 		//이제 공격한다.
 		if (_atkMotionList[1])
 		{
+			//공격 모션일 때 
+			//만약 원거리 공격자라면 이미지 렌더 위치를 보정해줘야 한다
+			//공격 모션의 프레임 가로 길이가 달라서!
+			if (!_atkDistance)
+			{
+				_posX = 760 + (_partyIdx % 2) * 70 - _atkImg->getFrameWidth()/4*3;
+			}
 			if (!_playAnimList[BATTLE_PLAYER_ATTACK])
 			{
 				_atkAnim->start();
 				_playAnimList[BATTLE_PLAYER_ATTACK] = true;
 			}
-			_atkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 40);
+			_atkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * _atkAnimPlaySPD);
 			//애니메이션 재생이 끝났을 때는 
 			if (!_atkAnim->isPlay())
 			{
@@ -81,15 +89,15 @@ void battlePlayerMother::update()
 				if (!_atkDistance)
 				{
 					_isStartAtk = true;
-					_turnEnd = true;
 					_atkMotionList[1] = true;
 					setPlayerStatusToIdle(_atkAnim);
 				}
-			
+				
 				_playAnimList[BATTLE_PLAYER_ATTACK] = false;
 				_BS->playerAttack();
 				
 			}
+			
 		}
 	}
 	//마법 공격 일 때는 근거리,원거리 상관없이 바로 공격한다.
@@ -110,11 +118,19 @@ void battlePlayerMother::update()
 		}
 		
 	}
+
+	
 }
 void battlePlayerMother::render() 
 {
 	draw();
 	TIMEMANAGER->render(getMemDC());
+	if (_status == BATTLE_PLAYER_ATTACK)
+	{
+		RECT rc = RectMakeCenter(_targetX, _targetY, _target->getImageWidth() - 20, _target->getImageHeight() - 20);
+		Rectangle(getMemDC(), rc.left, rc.top, rc.right, rc.bottom);
+	}
+	
 }
 void battlePlayerMother::draw()	  
 {
@@ -195,6 +211,7 @@ void battlePlayerMother::animationFrameUpdate()
 	//IDLE일때
 	if (_status == BATTLE_PLAYER_IDLE)
 	{
+		setPlayerDefaultPosition();
 		//애니메이션 재생중이 아닐 때 
 		if (!_playAnimList[BATTLE_PLAYER_IDLE])
 		{
@@ -280,15 +297,16 @@ int battlePlayerMother::attackAlgorithm()
 
 void battlePlayerMother::setPlayerDefaultPosition()
 {
-	_posX = 800 - (_partyIdx % 2) * 70;
+	_posX = 760 + (_partyIdx % 2) * 70;
 	_posY = 150 + _partyIdx * 100;
 }
 
 bool battlePlayerMother::moveToTarget(int targetX, int targetY, int motionListIdx)
 {
-	RECT rcTarget = RectMake(targetX, targetY, _target->getImageWidth(), _target->getImageHeight());
+	RECT rcTarget = RectMakeCenter(targetX, targetY, _target->getImageWidth()-20, _target->getImageHeight()-20);
 	RECT rcInter;
 	RECT rcChar = RectMake(_posX, _posY, 100,100);
+
 	//타겟까지 도달ㅎ면
 	if (IntersectRect(&rcInter, &rcTarget, &rcChar))
 	{
@@ -310,8 +328,8 @@ bool battlePlayerMother::moveToTarget(int targetX, int targetY, int motionListId
 	//도달 안했으면
 	else 
 	{
-		_angle = getAngle(_posX, _posY, _targetX, _targetY);
-		_moveSpd = 23.0f;
+		_angle = getAngle(_posX, _posY+_atkImg->getFrameHeight()/2, _targetX, _targetY);
+		_moveSpd = 50.0f;
 		_posX += cosf(_angle) * _moveSpd;
 		_posY += -sinf(_angle) * _moveSpd;
 		return false;

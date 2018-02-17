@@ -11,8 +11,10 @@ shuriken::~shuriken()
 {
 }
 
-HRESULT shuriken::init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price, int ability)
+HRESULT shuriken::init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price)
 {
+	expendablesItem::init(ITEM_EXPENDABLE, itemName, description, price);
+
 
 	return E_NOTIMPL;
 }

@@ -23,10 +23,10 @@ class playGround : public gameNode
 private:
 	playerManager* _pm;
 	itemManager* _item;
-	
+	BattleScene* _bts;
 
 
-	bool _isBattle;
+	//bool _isBattle;
 public:
 	virtual HRESULT init(void);		//초기화 함수
 	virtual void release(void);		//메모리 관련 해제

@@ -89,8 +89,14 @@ battleTina::battleTina()
 	{
 		_atkMotionList[i] = false;
 	}
-	_angle = 0.0f, _speed = 0.0f;
+	_strength = 31, _speed = 33.0f, _stamina = 28;
+	_attack = 12, _magic = 39, _a_Def = 42;
+	_m_Def = 33, _evasion = 5, _m_evasion = 7;
+
+	_angle = 0.0f;
 	_hitRate = 200;
+	
+	_atkAnimPlaySPD = 20;
 }
 
 
@@ -107,7 +113,16 @@ HRESULT battleTina::init()
 }
 void battleTina::update() 
 {
+	_count++;
 	battlePlayerMother::update();
+	if (_count % 120==0)
+	{
+		//티나의 turnEnd 를 true 로 반환
+		_count = 0;
+		_turnEnd = true;
+		setPlayerDefaultPosition();
+	}
+	
 	
 }
 

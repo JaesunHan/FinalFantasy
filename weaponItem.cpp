@@ -11,9 +11,9 @@ weaponItem::~weaponItem()
 {
 }
 
-HRESULT weaponItem::init(char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price, int ability)
+HRESULT weaponItem::init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price)
 {
-	itemMother::init(ITEM_EXPENDABLE, itemName, description, price, ability);
+	itemMother::init(ITEM_EXPENDABLE, itemName, description, price);
 	
 
 

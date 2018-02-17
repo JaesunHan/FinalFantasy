@@ -121,7 +121,7 @@ void guard::update()
 
 void guard::render()
 {
-	IMAGEMANAGER->findImage("guard")->alphaFrameRender(getMemDC(), _x - _img->getFrameWidth(), _y + 50, _frameX, 0, _alpha);
+	IMAGEMANAGER->findImage("guard")->alphaFrameRender(getMemDC(), _x - _img->getFrameWidth() / 2, _y - _img->getFrameHeight() / 2, _frameX, 0, _alpha);
 	//IMAGEMANAGER->findImage("guard")->frameRender(getMemDC(), _x, _y);
 }
 

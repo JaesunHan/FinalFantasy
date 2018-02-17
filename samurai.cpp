@@ -121,7 +121,7 @@ void samurai::update()
 
 void samurai::render()
 {
-	IMAGEMANAGER->findImage("samurai")->alphaFrameRender(getMemDC(), _x - _img->getFrameWidth(), _y, _frameX, 0, _alpha);
+	IMAGEMANAGER->findImage("samurai")->alphaFrameRender(getMemDC(), _x - _img->getFrameWidth() / 2, _y - _img->getFrameHeight() / 2, _frameX, 0, _alpha);
 	//IMAGEMANAGER->findImage("samurai")->frameRender(getMemDC(), _x, _y);
 }
 

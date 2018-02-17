@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "BattleScene.h"
-
+#include "playerManager.h"
 
 BattleScene::BattleScene()
 {
@@ -70,7 +70,7 @@ HRESULT BattleScene::init()
 		}
 	}
 	//최대 몬스터 랜덤 지정
-	_maxMonster = 3;//RND->getInt(3) + 1;		
+	_maxMonster = 4;//RND->getInt(3) + 1;		
 	//에너미 동적할당 후 벡터에 담기
 	for (int i = 0; i < _maxMonster; ++i)
 	{
@@ -95,7 +95,7 @@ HRESULT BattleScene::init()
 	//에너미 클래스 init 및 플레이어 주소 어드레쓰 링크
 	for (int i = 0; i < _maxMonster; ++i)
 	{
-		_battleCharacters[i + 4].enemy->init(250 + (240 / _maxMonster * (_maxMonster - 1)) * cosf(PI2 / _maxMonster * i + PI / 2), 300 - (240 / _maxMonster * (_maxMonster - 1)) * sinf(PI2 / _maxMonster * i + PI / 2));
+		_battleCharacters[i + 4].enemy->init(350 + (240 / _maxMonster * (_maxMonster - 1)) * cosf(PI2 / _maxMonster * i + PI / 2), 350 - (240 / _maxMonster * (_maxMonster - 1)) * sinf(PI2 / _maxMonster * i + PI / 2));
 		_battleCharacters[i + 4].enemy->setBattleTinaMemoryAddressLink(_battleCharacters[0].player);
 		_battleCharacters[i + 4].enemy->setBattleLockeMemoryAddressLink(_battleCharacters[1].player);
 		_battleCharacters[i + 4].enemy->setBattleShadowMemoryAddressLink(_battleCharacters[2].player);
@@ -105,6 +105,7 @@ HRESULT BattleScene::init()
 	{
 		_battleCharacters[i].player->setBattleScene(this);
 	}
+	_pm->setPlayerInfoToBattlePlayer();
 	return S_OK;
 }
 
@@ -411,18 +412,18 @@ void BattleScene::characterDraw()
 	//플레이어 및 에너미 랜더
 	for (int i = 0; i < _battleCharacters.size(); ++i)
 	{
-		if (_battleCharacters[i].characterType <= 3)
-		{
-			if (_battleCharacters[i].player->getCurHP() < 0) continue;
-			_battleCharacters[i].player->render();
-		}
 		if (_battleCharacters[i].characterType > 3)
 		{
 			if (_battleCharacters[i].enemy->getCurHP() < 0) continue;
 			_battleCharacters[i].enemy->render();
 			char enemyHp[128];
 			wsprintf(enemyHp, "%d", _battleCharacters[i].enemy->getCurHP());
-			TextOut(getMemDC(), _battleCharacters[i].enemy->getX(), _battleCharacters[i].enemy->getY() + 35, enemyHp, strlen(enemyHp));
+			TextOut(getMemDC(), _battleCharacters[i].enemy->getX(), _battleCharacters[i].enemy->getY(), enemyHp, strlen(enemyHp));
+		}
+		if (_battleCharacters[i].characterType <= 3)
+		{
+			if (_battleCharacters[i].player->getCurHP() < 0) continue;
+			_battleCharacters[i].player->render();
 		}
 	}
 }
@@ -496,7 +497,7 @@ void BattleScene::drawUI()
 		char shadowMenu[] = "던지기";
 		if (_enemySelect == true)
 		{
-			IMAGEMANAGER->findImage("fingerArrowLt")->render(getMemDC(), _battleCharacters[_enemyNum].enemy->getX(), _battleCharacters[_enemyNum].enemy->getY() + _battleCharacters[_enemyNum].enemy->getImageHeight());
+			IMAGEMANAGER->findImage("fingerArrowLt")->render(getMemDC(), _battleCharacters[_enemyNum].enemy->getX() + _battleCharacters[_enemyNum].enemy->getImageWidth() / 2, _battleCharacters[_enemyNum].enemy->getY());
 		}
 		else if (_playerTurn == true && i == _currentTurn)
 		{
