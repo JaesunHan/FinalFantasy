@@ -106,6 +106,12 @@
     <Filter Include="playGround\MapScene\NPC">
       <UniqueIdentifier>{b857bb52-533a-4884-ad55-8d5ded15e77f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\MapScene\worldMapPlayer">
+      <UniqueIdentifier>{653f9036-5e79-4f48-b386-b1bcfe5ba443}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\MapScene\worldMapEnemy">
+      <UniqueIdentifier>{7f111f05-2a8e-4b35-af62-34810c7778d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -212,6 +218,9 @@
     </ClInclude>
     <ClInclude Include="shadow.h">
       <Filter>playGround\player</Filter>
+    </ClInclude>
+    <ClInclude Include="itemMother.h">
+      <Filter>playGround\Item</Filter>
     </ClInclude>
     <ClInclude Include="celes.h">
       <Filter>playGround\player</Filter>
@@ -336,9 +345,6 @@
     <ClInclude Include="fButton.h">
       <Filter>playGround\gameMenu\etc</Filter>
     </ClInclude>
-    <ClInclude Include="worldMapPlayer.h">
-      <Filter>playGround\MapScene</Filter>
-    </ClInclude>
     <ClInclude Include="newGame.h">
       <Filter>playGround\gameMenu\scene</Filter>
     </ClInclude>
@@ -366,16 +372,25 @@
     <ClInclude Include="npcManager.h">
       <Filter>playGround\MapScene\NPC</Filter>
     </ClInclude>
+    <ClInclude Include="worldMapPlayer.h">
+      <Filter>playGround\MapScene\worldMapPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="worldMapEnemy.h">
+      <Filter>playGround\MapScene\worldMapEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="worldEnemyBear.h">
+      <Filter>playGround\MapScene\worldMapEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="worldMapEnemySamurai.h">
+      <Filter>playGround\MapScene\worldMapEnemy</Filter>
+    </ClInclude>
     <ClInclude Include="itemManager.h">
       <Filter>playGround\Item</Filter>
     </ClInclude>
-    <ClInclude Include="itemMother.h">
+    <ClInclude Include="weaponItem.h">
       <Filter>playGround\Item</Filter>
     </ClInclude>
     <ClInclude Include="expendablesItem.h">
-      <Filter>playGround\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="weaponItem.h">
       <Filter>playGround\Item</Filter>
     </ClInclude>
   </ItemGroup>
@@ -469,6 +484,9 @@
     </ClCompile>
     <ClCompile Include="shadow.cpp">
       <Filter>playGround\player</Filter>
+    </ClCompile>
+    <ClCompile Include="itemMother.cpp">
+      <Filter>playGround\Item</Filter>
     </ClCompile>
     <ClCompile Include="celes.cpp">
       <Filter>playGround\player</Filter>
@@ -584,9 +602,6 @@
     <ClCompile Include="fButton.cpp">
       <Filter>playGround\gameMenu\etc</Filter>
     </ClCompile>
-    <ClCompile Include="worldMapPlayer.cpp">
-      <Filter>playGround\MapScene</Filter>
-    </ClCompile>
     <ClCompile Include="newGame.cpp">
       <Filter>playGround\gameMenu\scene</Filter>
     </ClCompile>
@@ -614,16 +629,25 @@
     <ClCompile Include="npcManager.cpp">
       <Filter>playGround\MapScene\NPC</Filter>
     </ClCompile>
+    <ClCompile Include="worldMapPlayer.cpp">
+      <Filter>playGround\MapScene\worldMapPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="worldMapEnemy.cpp">
+      <Filter>playGround\MapScene\worldMapEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="worldEnemyBear.cpp">
+      <Filter>playGround\MapScene\worldMapEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="worldMapEnemySamurai.cpp">
+      <Filter>playGround\MapScene\worldMapEnemy</Filter>
+    </ClCompile>
     <ClCompile Include="itemManager.cpp">
       <Filter>playGround\Item</Filter>
     </ClCompile>
-    <ClCompile Include="itemMother.cpp">
+    <ClCompile Include="weaponItem.cpp">
       <Filter>playGround\Item</Filter>
     </ClCompile>
     <ClCompile Include="expendablesItem.cpp">
-      <Filter>playGround\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="weaponItem.cpp">
       <Filter>playGround\Item</Filter>
     </ClCompile>
   </ItemGroup>

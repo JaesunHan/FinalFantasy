@@ -11,143 +11,201 @@ aStar::~aStar()
 {
 }
 
-HRESULT aStar::init(int enemyPosX, int enemyPosY, int playerPosX, int playerPosY)
-{
-	////셋타일로부터 좌표를 받아온다.
-	//setTiles(enemyPosX, enemyPosY, playerPosX, playerPosY);
 
+HRESULT aStar::init(tile* map, int numX, int numY, tile start, tile end)
+{
+	this->release();
+
+	for (int i = 0; i < numX*numY; ++i)
+	{
+		_vTotalList.push_back(map[i]);
+	}
+
+	_startTile = _currentTile = start;
+
+	_endTile = end;
+	_tileX = numX;
+	_tileY = numY;
 
 	return S_OK;
 }
 
-void aStar::setTiles(int enemyPosX, int enemyPosY, int playerPosX, int playerPosY)
+void aStar::release()
 {
-	//각 벡터 초기화
-	//에너미 마다 a*를 불러오게 될텐데 기존에 담긴것들은 초기화 해주어야 할거 같다.
-	//..아마도
 	_vTotalList.clear();
 	_vOpenList.clear();
 	_vCloseList.clear();
 
-	//에너미 입장에서 쫒아오는것이니 스타트 타일의 좌표는 에너미로부터 받아오는것. 
-
-
-	_startTile = new tile;
-	_startTile->init(PointMake(enemyPosX / TILEWIDTH, enemyPosY / TILEHEIGHT)); //좌표를 받아서 X타일 크기로 나눠주면 현재 타일의 위치가 나옴
-	_startTile->setAttribute("start");
-
-
-	_endTile = new tile;
-	_endTile->init(PointMake(playerPosX / TILEWIDTH, playerPosY / TILEHEIGHT)); //플레이어 좌표 받아서 Y타일 크기로 나눠주어 현재 타일의 위치를 받아온다.
-	_endTile->setAttribute("end");
-
-
-	_currentTile = _startTile;
-
-	for (int i = 0; i < TILENUMY; ++i)
-	{
-		for (int j = 0; j < TILENUMX; ++j)
-		{	//ij를 돌아서 나온 타일의 인덱스가 스타트타일일때
-			if (j == _startTile->getIndex().x && i == _startTile->getIndex().y)
-			{
-				_vTotalList.push_back(_startTile);
-			}
-			continue;
-			//포문 돌려서 나온 타일의 인덱스가 엔드타일일때
-			if (j == _endTile->getIndex().x && i == _endTile->getIndex().y)
-			{
-				_vTotalList.push_back(_endTile);
-			}
-			continue;
-
-			//그외 타일들은 node라 하자.
-			tile* _node = new tile;
-			_node->init(PointMake(j, i));
-			_vTotalList.push_back(_node);
-
-		}
-	}
 }
 
-vector<tile*> aStar::addOpenList(tile * currentTile)
+vector<tile> aStar::addOpenList(tile currentTile)
 {
-	int startX = currentTile->getIndex().x - 1;
-	int startY = currentTile->getIndex().y - 1;
+	int startX = currentTile.getIndex().x - 1;
+	int startY = currentTile.getIndex().y - 1;
 
 	for (int i = 0; i < 3; ++i)
 	{
-		for (int j = 0; j < 3; ++j)
+		for (int j = 0; j < 3; j++)
 		{
-			//1차원 배열에서의 특정 타일 인덱스를 구하는 공식
-			tile* _node = _vTotalList[(startY * TILENUMX) + startX + j + (i * TILENUMX)];
+			//예외처리
+			if (startX + j < 0 || startY + i< 0) continue;
+			if (startX + j >= _tileX - 1 || startY + i >= _tileY - 1) continue;
 
-			if (!_node->getIsOpen()) continue;
-			//if(_node->getAttribute() == "벽이라니 벽!!") attribute 값 추가되면 추가할것
-			if (startX + j < 0) continue;  //X가 0보다 작으면 재껴라
-			if (startY + i < 0) continue;  //y가 0 보다 작으면 재껴라
-			if (startX + j >= TILENUMX) continue; //X가 타일 X라인의 갯수보다 커지거나 같아지면 재껴라
-			if (startY + i >= TILENUMY) continue; //y가 타일 Y라인의 갯수보다 커지거나 같아지면 재껴라
+			//대각선 예외처리
+			if (j == 0 && i == 0)
+			{
+				tile temp = _vTotalList[startX + (startY + 1)* _tileX];
+				tile temp2 = _vTotalList[startX + 1 + (startY)*_tileX];
+				if (!temp.getIsOpen()) continue;
+				if (!temp2.getIsOpen()) continue;
+			}
+			if (j == 2 && i == 0)
+			{
+				tile temp = _vTotalList[startX + (startY + 1)* _tileX];
+				tile temp2 = _vTotalList[startX + 1 + (startY)* _tileX];
+				if (!temp.getIsOpen()) continue;
+				if (!temp2.getIsOpen()) continue;
+			}
+			if (j == 2 && i == 2)
+			{
+				tile temp = _vTotalList[startX + 2 + (startY + 1)*_tileX];
+				tile temp2 = _vTotalList[startX + 1 + (startY + 2)*_tileX];
+				if (!temp.getIsOpen()) continue;
+				if (!temp2.getIsOpen()) continue;
+			}
+			if (j == 0 && i == 2)
+			{
+				tile temp = _vTotalList[startX + 1 + (startY + 2)];
+				tile temp2 = _vTotalList[startX + (startY + 1)*_tileX];
+				if (!temp.getIsOpen()) continue;
+				if (!temp2.getIsOpen()) continue;
+			}
 
+			tile node = _vTotalList[(startY*_tileX) + startX + j + (i*_tileX)];
 
-												  //현재 타일을 계속 갱신해준다.
-			_node->setParentNode(_currentTile);
+			if (!node.getIsOpen()) continue;
+			if (node.getIndex().x == _startTile.getIndex().x &&
+				node.getIndex().y == _startTile.getIndex().y) continue;
 
-			//주변 타일을 검출하면서 체킇ㅆ는지 유무를 알수 있게 임의의 불값선언
+			//현재타일 갱신
+			tile* tempNode = new tile;
+			(*tempNode) = currentTile;
+			node.setParentNode(tempNode);
+
+			//주변 타일 검출
 			bool addObj = true;
-
 
 			for (_viOpenList = _vOpenList.begin(); _viOpenList != _vOpenList.end(); ++_viOpenList)
 			{
-				if (*_viOpenList == _node)
+				//이미 있음
+				if ((*_viOpenList).getIndex().x == node.getIndex().x &&
+					(*_viOpenList).getIndex().y == node.getIndex().y)
 				{
 					addObj = false;
 					break;
 				}
 			}
-
 			if (!addObj) continue;
 
-			_vOpenList.push_back(_node);
+			_vOpenList.push_back(node);
 		}
-
 	}
 
 	return _vOpenList;
 }
 
-void aStar::pathFinder(tile * currentTile)
+vector<tile> aStar::pathFinder(tile current)
 {
-	//비교하기 쉽게 임의의 경로비용을 설정해둔다
-	float tempTotalCost = 5000;
-	tile* tempTile = NULL;
+	//start == end 예외처리
+	if (_startTile.getIndex().x == _endTile.getIndex().x &&
+		_startTile.getIndex().y == _endTile.getIndex().y) return _vCloseList;
 
-	for (int i = 0; i < addOpenList(currentTile).size(); ++i)
+	int addOpenListNum = addOpenList(current).size();
+	float tempTotalCost = INT_MAX;
+	tile tempTile;
+
+	for (int i = 0; i < addOpenListNum; ++i)
 	{
-		_vOpenList[i]->setCostToGoal(
-			abs(_endTile->getIndex().x - _vOpenList[i]->getIndex().x +
-				abs(_endTile->getIndex().y - _vOpenList[i]->getIndex().y)) * 10);
+		//H값 연산
+		_vOpenList[i].setCostToGoal(abs(_endTile.getIndex().x - _vOpenList[i].getIndex().x) +
+			abs(_endTile.getIndex().y - _vOpenList[i].getIndex().y) * 10);
 
 
-		//현재타일이 담겨있는 녀석
-		POINT center1 = _vOpenList[i]->getParentNode()->getCenterPt();
-		POINT center2 = _vOpenList[i]->getCenterPt();
+		//G값 연산
+		POINT center1 = PointMake(_vOpenList[i].getParentNode()->getCenterPt().x, _vOpenList[i].getParentNode()->getCenterPt().y);
+		POINT center2 = PointMake(_vOpenList[i].getCenterPt().x, _vOpenList[i].getCenterPt().y);
 
-		_vOpenList[i]->setCostFromStart((getDistance(center1.x, center1.y, center2.x, center2.y) > TILEWIDTH) ? 14 : 10);
+		_vOpenList[i].setCostFromStart((getDistance(center1.x, center1.y, center2.x, center2.y) > TILE_SIZEX) ? 14 : 10);
 
-		_vOpenList[i]->setTotalCost(_vOpenList[i]->getCostToGoal() + _vOpenList[i]->getCostFromStart());
 
+		//F값 연산
+		_vOpenList[i].setTotalCost(_vOpenList[i].getCostToGoal() + _vOpenList[i].getCostFromStart());
+
+
+		//F값 비교
+		if (tempTotalCost > _vOpenList[i].getTotalCost())
+		{
+			tempTotalCost = _vOpenList[i].getTotalCost();
+			tempTile = _vOpenList[i];
+		}
+
+		bool addObj = true;
+		for (_viOpenList = _vOpenList.begin(); _viOpenList != _vOpenList.end(); ++_viOpenList)
+		{
+			if ((*_viOpenList).getIndex().x == tempTile.getIndex().x &&
+				(*_viOpenList).getIndex().y == tempTile.getIndex().y)
+			{
+				addObj = false;
+				break;
+			}
+		}
+
+		tempTile.setIsOpen(false);
+		_vOpenList[i].setIsOpen(false);
+		for (int i = 0; i < _vTotalList.size(); ++i)
+		{
+			if (_vTotalList[i].getIndex().x == tempTile.getIndex().x &&
+				_vTotalList[i].getIndex().y == tempTile.getIndex().y)
+			{
+				_vTotalList[i].setIsOpen(false);
+				break;
+			}
+		}
+
+		if (!addObj) continue;
+		_vOpenList.push_back(tempTile);
+	}
+
+	//
+	if (tempTile.getIndex().x == _endTile.getIndex().x &&
+		tempTile.getIndex().y == _endTile.getIndex().y)
+	{
+		_vCloseList.push_back(tempTile);
+		while (!(tempTile.getIndex().x == _startTile.getIndex().x &&
+			tempTile.getIndex().y == _startTile.getIndex().y))
+		{
+			_vCloseList.push_back((*tempTile.getParentNode()));
+			tempTile = (*tempTile.getParentNode());
+		}
+		_vCloseList.erase(_vCloseList.end() - 1);
+		return _vCloseList;
+	}
+
+	for (_viOpenList = _vOpenList.begin(); _viOpenList != _vOpenList.end(); ++_viOpenList)
+	{
+		//최단경로 오픈 리스트에서 삭제
+		if ((*_viOpenList).getIndex().x == tempTile.getIndex().x &&
+			(*_viOpenList).getIndex().y == tempTile.getIndex().y)
+		{
+			_viOpenList = _vOpenList.erase(_viOpenList);
+			break;
+		}
 
 	}
+
+	_currentTile = tempTile;
+
+
+	return pathFinder(_currentTile);// 재귀
 }
 
-void aStar::release()
-{
-}
-
-void aStar::update()
-{
-}
-
-void aStar::render()
-{
-}

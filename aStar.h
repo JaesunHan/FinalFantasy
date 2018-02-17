@@ -22,23 +22,25 @@ class aStar : public gameNode
 {
 private:
 	//전체 담고
-	vector<tile*> _vTotalList;
-	vector<tile*>::iterator _viTotalList;
+	vector<tile> _vTotalList;
+	vector<tile>::iterator _viTotalList;
 
 	//갈수 있는 타일을 담고 
-	vector<tile*> _vOpenList;
-	vector<tile*>::iterator _viOpenList;
+	vector<tile> _vOpenList;
+	vector<tile>::iterator _viOpenList;
 
 	//가장 가까운 경로를 담고
-	vector<tile*> _vCloseList;
-	vector<tile*>::iterator _viCloseList;
+	vector<tile> _vCloseList;
+	vector<tile>::iterator _viCloseList;
 
 
 
-	tile* _startTile;			//시작타일
-	tile* _endTile;				//끝타일
-	tile* _currentTile;			//계속 갱신될 현재타일
+	tile _startTile;			//시작타일
+	tile _endTile;				//끝타일
+	tile _currentTile;			//계속 갱신될 현재타일
 
+	int _tileX;
+	int _tileY;
 
 	int _count;
 	bool _start;
@@ -48,19 +50,13 @@ public:
 	~aStar();
 
 	//처음 시작할때 에너미 x,y좌표, 플레이어 x,y 좌표 받도록 세팅
-	HRESULT init(int enemyPosX, int enemyPosY, int playerPosX, int playerPosY);
-
-	//타일 세팅함수 그런데 여기는 맵툴에서 타일을 세팅하잖아?
-	void setTiles(int enemyPosX, int enemyPosY, int playerPosX, int playerPosY);
+	HRESULT init(tile* map, int numX, int numY, tile start, tile end);
 
 	//갈수있는 길을 찾아 담아줄 함수
-	vector<tile*> addOpenList(tile* currentTile);
-
-	void pathFinder(tile* currentTile);
+	vector<tile> addOpenList(tile currentTile);
+	vector<tile> pathFinder(tile current);
 
 	void release();
-	void update();
-	void render();
+
 
 };
-

@@ -113,8 +113,8 @@
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
     <ClInclude Include="iniDataManager.h" />
-    <ClInclude Include="itemMenu.h" />
     <ClInclude Include="itemManager.h" />
+    <ClInclude Include="itemMenu.h" />
     <ClInclude Include="itemMother.h" />
     <ClInclude Include="keyAniManager.h" />
     <ClInclude Include="keyManager.h" />
@@ -165,7 +165,10 @@
     <ClInclude Include="utils.h" />
     <ClInclude Include="VectorPup.h" />
     <ClInclude Include="weaponItem.h" />
+    <ClInclude Include="worldEnemyBear.h" />
     <ClInclude Include="worldMap.h" />
+    <ClInclude Include="worldMapEnemy.h" />
+    <ClInclude Include="worldMapEnemySamurai.h" />
     <ClInclude Include="worldMapPlayer.h" />
     <ClInclude Include="worldMapScene.h" />
   </ItemGroup>
@@ -203,8 +206,8 @@
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
     <ClCompile Include="iniDataManager.cpp" />
-    <ClCompile Include="itemMenu.cpp" />
     <ClCompile Include="itemManager.cpp" />
+    <ClCompile Include="itemMenu.cpp" />
     <ClCompile Include="itemMother.cpp" />
     <ClCompile Include="keyAniManager.cpp" />
     <ClCompile Include="keyManager.cpp" />
@@ -252,7 +255,10 @@
     <ClCompile Include="VectorPup.cpp" />
     <ClCompile Include="weaponItem.cpp" />
     <ClCompile Include="winMain.cpp" />
+    <ClCompile Include="worldEnemyBear.cpp" />
     <ClCompile Include="worldMap.cpp" />
+    <ClCompile Include="worldMapEnemy.cpp" />
+    <ClCompile Include="worldMapEnemySamurai.cpp" />
     <ClCompile Include="worldMapPlayer.cpp" />
     <ClCompile Include="worldMapScene.cpp" />
   </ItemGroup>

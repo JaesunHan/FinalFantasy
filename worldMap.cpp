@@ -60,10 +60,25 @@ void worldMap::mapLoad(void)
 
 
 	file = CreateFile(".//38X20.map", GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-					//포인트 변수로 xy선언되어있기에 포인트 변수로 받음
+	//포인트 변수로 xy선언되어있기에 포인트 변수로 받음
 	ReadFile(file, &_worldMap, sizeof(POINT), &read, NULL);
 	_worldMapTiles = new tile[_worldMap.x * _worldMap.y];
 	ReadFile(file, _worldMapTiles, sizeof(tile) * _worldMap.x *  _worldMap.y, &read, NULL);
+
+
+	for (int i = 0; i < _worldMap.x*_worldMap.y; ++i)
+	{
+		if (_worldMapTiles[i].getTerrainAttr() == (ATTRIBUTE)ATTR_UNMOVE)
+		{
+			_worldMapTiles[i].setIsOpen(false);
+		}
+		else
+		{
+			_worldMapTiles[i].setIsOpen(true);
+		}
+
+	}
+
 
 	CloseHandle(file);
 }
