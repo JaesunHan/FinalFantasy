@@ -31,7 +31,7 @@ HRESULT mapTool::init(void)
 	IMAGEMANAGER->addFrameImage("townHouse4", ".//tileSet//House4.bmp", 320, 384, 10, 12, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("townHouse5", ".//tileSet//House5.bmp", 256, 384, 8, 12, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("townHouse6", ".//tileSet//House6.bmp", 224, 384, 7, 12, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("townObject1", ".//tileSet//tileMap04.bmp", 256, 384, 8, 12, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("townObject1", ".//tileSet//townObject.bmp", 256, 384, 8, 12, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("townObject2", ".//tileSet//tileMap05.bmp", 256, 256, 8, 8, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("townObject3", ".//tileSet//tileMap06.bmp", 256, 256, 8, 8, true, RGB(255, 0, 255));
 
@@ -198,7 +198,7 @@ void mapTool::terrainTileSetInit()
 			// 지형 타입 부여
 			_terrainTileSet[i].setTerrain(TR_GRASS);		// 대부분이 초원 타입이기 때문에 우선 초원 타입으로 초기화
 
-			if ((i >= 0 && i <= 2) || i == 12 || i == 14 || (i >= 24 && i <= 26) || i == 40 || i == 41 || i == 52 || i == 53 || i == 63)
+			if ((i >= 0 && i <= 2) || i == 12 || i == 14 || (i >= 24 && i <= 26) || i == 63)
 			{
 				_terrainTileSet[i].setTerrain(TR_WATER);
 			}
@@ -341,7 +341,18 @@ void mapTool::objectTileSetInit()
 		}
 		else if (_objectTileImageKey == "townObject1")
 		{
+			_objectTileSet[i].setObject(OBJ_NONE);
 
+			if (i == 0 || i == 1 || i == 8 || i == 9 || i == 16 || i == 17 || i == 24) _objectTileSet[i].setObject(OBJ_SIGNBOARD);
+			else if (i == 25) _objectTileSet[i].setObject(OBJ_TOMBSTONE);
+			else if (i >= 32 && i <= 35) _objectTileSet[i].setObject(OBJ_PLANT);
+			else if (i == 40 || i == 41) _objectTileSet[i].setObject(OBJ_WELL_TOP);
+			else if (i == 48 || i == 49 || i == 56 || i == 57) _objectTileSet[i].setObject(OBJ_WELL_BOTTOM);
+			else if (i == 72 || i == 73 || i == 80 || i == 88) _objectTileSet[i].setObject(OBJ_BRIDGE_TOP);
+			else if (i == 64 || i == 65) _objectTileSet[i].setObject(OBJ_BRIDGE_BOTTOM);
+			else if ((i >= 5 && i <= 7) || (i >= 13 && i <= 15) || (i >= 21 && i <= 23) || (i >= 29 && i <= 31)
+				|| i == 38 || i == 39 || i == 46 || i == 47) _objectTileSet[i].setObject(OBJ_TREE_TOP);
+			else if (i == 37 || i == 54 || i == 55 || i == 62 || i == 63) _objectTileSet[i].setObject(OBJ_TREE_BOTTOM);
 		}
 		else if (_objectTileImageKey == "townObject2")
 		{
