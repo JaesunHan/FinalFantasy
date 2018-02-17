@@ -7,7 +7,7 @@ public:
 	posion();
 	~posion();
 
-	HRESULT init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price, int ability);
+	HRESULT init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price);
 	void release();
 	void update();
 };

@@ -9,9 +9,9 @@ posion::~posion()
 {
 }
 
-HRESULT posion::init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price, int ability)
+HRESULT posion::init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price)
 {
-	expendablesItem::init(ITEM_EXPENDABLE, itemName, description, price, ability);
+	expendablesItem::init(ITEM_EXPENDABLE, itemName, description, price);
 
 	return E_NOTIMPL;
 }
