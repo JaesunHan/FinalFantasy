@@ -25,12 +25,19 @@ enum ENEMYTYPE
 	ENEMY_END
 };
 
+enum ENEMYDIRECTION
+{
+	ENEMYDIRECTION_RIGHT,
+	ENEMYDIRECTION_LEFT,
+	ENEMYDIRECTION_END
+};
 
 class worldMapEnemy : public gameNode
 {
 public:
 
 	ENEMYTYPE _enemyType;
+	ENEMYDIRECTION _enemyDirection;
 
 	//월드맵 클래스
 	worldMap* _worldMap;
