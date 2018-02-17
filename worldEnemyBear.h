@@ -4,7 +4,8 @@
 #include "aStar.h"
 #include "worldMapPlayer.h"
 
-
+#define MAX_FIND_COUNTER 200
+#define ENEMY_MOVE_SPEED 3.0f
 
 class worldEnemyBear :
 	public worldMapEnemy
