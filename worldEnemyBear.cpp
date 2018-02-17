@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "worldEnemyBear.h"
 
+BOOL operator!=(POINT sour, POINT dest);
 
 worldEnemyBear::worldEnemyBear()
 {
@@ -45,17 +46,18 @@ void worldEnemyBear::release()
 void worldEnemyBear::update()
 {
 	worldEnemyImageFrameControl();
-	if (_count % 20 == 0)//(KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
+	if (_count % MAX_FIND_COUNTER == 0)//(KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
 	{
 		tile start;
 		tile end;
+		//_count = 0;
 
 		for (int i = 0; i < _worldMap->getWorldMapPOINT().x * _worldMap->getWorldMapPOINT().y; ++i)
 		{
 			//RECT temp = RectMakeCenter(_worldMap->getWorldMapTiles()[i].getCenterPt().x, _worldMap->getWorldMapTiles()[i].getCenterPt().y, TILE_SIZEX, TILE_SIZEY);
 			//if (PtInRect(&temp, PointMake(_enemy.x, _enemy.y)))
-			if (_worldMap->getWorldMapTiles()[i].getCenterPt().x / TILE_SIZEX == _enemy.x / TILE_SIZEX &&
-				_worldMap->getWorldMapTiles()[i].getCenterPt().y / TILE_SIZEY == _enemy.y / TILE_SIZEY)
+			if ((_worldMap->getWorldMapTiles()[i].getCenterPt().x - TILE_SIZEX / 2) / TILE_SIZEX == _enemy.x / TILE_SIZEX &&
+				(_worldMap->getWorldMapTiles()[i].getCenterPt().y - TILE_SIZEY / 2) / TILE_SIZEY == _enemy.y / TILE_SIZEY)
 			{
 				start = _worldMap->getWorldMapTiles()[i];
 				break;
@@ -66,8 +68,8 @@ void worldEnemyBear::update()
 		{
 			//RECT temp = RectMakeCenter(_worldMap->getWorldMapTiles()[i].getCenterPt().x, _worldMap->getWorldMapTiles()[i].getCenterPt().y, TILE_SIZEX, TILE_SIZEY);
 			//if (PtInRect(&temp, _wp->getWorldMapPlayerPoint()))
-			if (_worldMap->getWorldMapTiles()[i].getCenterPt().x / TILE_SIZEX == _wp->getWorldMapPlayerPoint().x / TILE_SIZEX &&
-				_worldMap->getWorldMapTiles()[i].getCenterPt().y / TILE_SIZEY == _wp->getWorldMapPlayerPoint().y / TILE_SIZEY)
+			if ((_worldMap->getWorldMapTiles()[i].getCenterPt().x - TILE_SIZEX / 2) / TILE_SIZEX == _wp->getWorldMapPlayerPoint().x / TILE_SIZEX &&
+				(_worldMap->getWorldMapTiles()[i].getCenterPt().y - TILE_SIZEY / 2) / TILE_SIZEY == _wp->getWorldMapPlayerPoint().y / TILE_SIZEY)
 			{
 				//!isOpen이면 못가게
 				if (!_worldMap->getWorldMapTiles()[i].getIsOpen()) return;
@@ -107,24 +109,37 @@ void worldEnemyBear::render()
 
 void worldEnemyBear::move()
 {
+	POINT enemyPos = PointMake(_enemy.x / TILE_SIZEX, _enemy.y / TILE_SIZEY);
 	if (_vCloseList.size() <= 0)
 		return;
 	else
 	{
-		RECT temp = RectMakeCenter(_vCloseList[_vCloseList.size() - 1].getCenterPt().x,
+		/*RECT temp = RectMakeCenter(_vCloseList[_vCloseList.size() - 1].getCenterPt().x,
 			_vCloseList[_vCloseList.size() - 1].getCenterPt().y, TILE_SIZEX, TILE_SIZEY);
 		if (!PtInRect(&temp, PointMake(_enemy.x, _enemy.y)))
 		{
-			float angle = getAngle(_enemy.x, _enemy.y, _vCloseList[_vCloseList.size() - 1].getCenterPt().x, _vCloseList[_vCloseList.size() - 1].getCenterPt().y);
-			_enemy.x += cos(angle) * 5;
-			_enemy.y += -sin(angle) * 5;
+			float angle = getAngle(_enemy.x, _enemy.y, temp.left + TILE_SIZEX / 2, temp.top + TILE_SIZEY / 2);
+			_enemy.x += cos(angle) * ENEMY_MOVE_SPEED;
+			_enemy.y += -sin(angle) * ENEMY_MOVE_SPEED;
 
+			_rc = RectMake(_enemy.x, _enemy.y + 30, TILE_SIZEX, TILE_SIZEY / 2);
+		}*/
+		POINT nextNodeIndex = PointMake(_vCloseList[_vCloseList.size() - 1].getCenterPt().x / TILE_SIZEX,
+			_vCloseList[_vCloseList.size() - 1].getCenterPt().y / TILE_SIZEY);
+
+		if (enemyPos != nextNodeIndex)
+		{
+			if (enemyPos.x > nextNodeIndex.x) _enemy.x -= ENEMY_MOVE_SPEED;
+			else if (enemyPos.x < nextNodeIndex.x) _enemy.x += ENEMY_MOVE_SPEED;
+			else if (enemyPos.y > nextNodeIndex.y) _enemy.y -= ENEMY_MOVE_SPEED;
+			else if (enemyPos.y < nextNodeIndex.y) _enemy.y += ENEMY_MOVE_SPEED;
 
 			_rc = RectMake(_enemy.x, _enemy.y + 30, TILE_SIZEX, TILE_SIZEY / 2);
 		}
 		else
 		{
-			_ast->release();
+			_vCloseList.erase(_vCloseList.begin() + _vCloseList.size() - 1);
+			//_ast->release();
 		}
 	}
 }
@@ -159,4 +174,14 @@ void worldEnemyBear::worldEnemyImageControl()
 	}
 
 
+}
+
+BOOL operator!=(POINT sour, POINT dest)
+{
+	if (sour.x != dest.x || sour.y != dest.y)
+	{
+		return TRUE;
+	}
+
+	return FALSE;
 }

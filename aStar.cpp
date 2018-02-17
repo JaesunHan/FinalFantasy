@@ -54,31 +54,35 @@ vector<tile> aStar::addOpenList(tile currentTile)
 			//대각선 예외처리
 			if (j == 0 && i == 0)
 			{
-				tile temp = _vTotalList[startX + (startY + 1)* _tileX];
-				tile temp2 = _vTotalList[startX + 1 + (startY)*_tileX];
-				if (!temp.getIsOpen()) continue;
-				if (!temp2.getIsOpen()) continue;
+				continue;
+				//tile temp = _vTotalList[startX + (startY + 1)* _tileX];
+				//tile temp2 = _vTotalList[startX + 1 + (startY)*_tileX];
+				//if (!temp.getIsOpen()) continue;
+				//if (!temp2.getIsOpen()) continue;
 			}
 			if (j == 2 && i == 0)
 			{
-				tile temp = _vTotalList[startX + (startY + 1)* _tileX];
-				tile temp2 = _vTotalList[startX + 1 + (startY)* _tileX];
-				if (!temp.getIsOpen()) continue;
-				if (!temp2.getIsOpen()) continue;
+				continue;
+				//tile temp = _vTotalList[startX + (startY + 1)* _tileX];
+				//tile temp2 = _vTotalList[startX + 1 + (startY)* _tileX];
+				//if (!temp.getIsOpen()) continue;
+				//if (!temp2.getIsOpen()) continue;
 			}
 			if (j == 2 && i == 2)
 			{
-				tile temp = _vTotalList[startX + 2 + (startY + 1)*_tileX];
-				tile temp2 = _vTotalList[startX + 1 + (startY + 2)*_tileX];
-				if (!temp.getIsOpen()) continue;
-				if (!temp2.getIsOpen()) continue;
+				continue;
+				//tile temp = _vTotalList[startX + 2 + (startY + 1)*_tileX];
+				//tile temp2 = _vTotalList[startX + 1 + (startY + 2)*_tileX];
+				//if (!temp.getIsOpen()) continue;
+				//if (!temp2.getIsOpen()) continue;
 			}
 			if (j == 0 && i == 2)
 			{
-				tile temp = _vTotalList[startX + 1 + (startY + 2)];
-				tile temp2 = _vTotalList[startX + (startY + 1)*_tileX];
-				if (!temp.getIsOpen()) continue;
-				if (!temp2.getIsOpen()) continue;
+				continue;
+				//tile temp = _vTotalList[startX + 1 + (startY + 2)];
+				//tile temp2 = _vTotalList[startX + (startY + 1)*_tileX];
+				//if (!temp.getIsOpen()) continue;
+				//if (!temp2.getIsOpen()) continue;
 			}
 
 			tile node = _vTotalList[(startY*_tileX) + startX + j + (i*_tileX)];

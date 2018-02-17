@@ -470,7 +470,7 @@ void mapTool::clickButton(void)
 	{
 		for (int i = 0; i < _mapSize.x * _mapSize.y; i++)
 		{
-			if (PtInRect(&RectMakeCenter(_mapTiles[i].getCenterPt().x, _mapTiles[i].getCenterPt().y, TILE_SIZEX, TILE_SIZEY), _ptMouse))
+			if (PtInRect(&RectMakeCenter(_mapTiles[i].getCenterPt().x, _mapTiles[i].getCenterPt().y, TILE_SIZEX, TILE_SIZEY), _ptMouse + _mapMove + PointMake(TILE_SIZEX, TILE_SIZEY)))
 			{
 				_mapTiles[i].eraseObject();
 				break;

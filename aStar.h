@@ -57,6 +57,7 @@ public:
 	vector<tile> pathFinder(tile current);
 
 	void release();
-
+	
+	inline vector<tile>* getCloseList(void) { return &_vCloseList; }
 
 };
