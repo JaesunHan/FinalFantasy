@@ -393,6 +393,9 @@
     <ClInclude Include="expendablesItem.h">
       <Filter>playGround\Item</Filter>
     </ClInclude>
+    <ClInclude Include="dialogProc.h">
+      <Filter>playGround\mapTool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

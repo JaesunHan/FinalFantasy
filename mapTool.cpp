@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "mapTool.h"
-
-BOOL CALLBACK newTileProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam);
-BOOL CALLBACK selectTerrainTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam);
-BOOL CALLBACK selectObjectTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam);
+#include "dialogProc.h"
 
 POINT operator+(POINT operand1, POINT operand2);
 POINT operator-(POINT operand1, POINT operand2);
@@ -42,15 +39,18 @@ HRESULT mapTool::init(void)
 	_newBtn = RectMake(850, 480, 100, 30);
 	_saveBtn = RectMake(960, 480, 100, 30);
 	_loadBtn = RectMake(1070, 480, 100, 30);
-	//_terrainBtn = RectMake(850, 560, 100, 30);
-	//_objectBtn = RectMake(960, 560, 100, 30);
-	_eraserBtn = RectMake(850, 520, 100, 30);
+	_terrainBtn = RectMake(850, 520, 100, 30);
+	_objectBtn = RectMake(960, 520, 100, 30);
+	_eraserBtn = RectMake(1070, 520, 100, 30);
 	//_changeGameModeBtn = RectMake(850, 600, 100, 30);
 	//_changeMapEditModeBtn = RectMake(960, 600, 100, 30);
 
 	//타일셋 초기화
-	terrainTileSetInit("worldTerrain");
-	objectTileSetInit("worldObject");
+	_terrainTileImageKey = "worldTerrain";
+	_objectTileImageKey = "worldObject";
+
+	terrainTileSetInit();
+	objectTileSetInit();
 	
 	//맵 초기화
 	_mapTiles = NULL;
@@ -67,17 +67,7 @@ HRESULT mapTool::init(void)
 	_curMapFileName = "none";
 	_autoSaveTimer = TIMEMANAGER->getWorldTime();
 
-	if (_hSelectTerrain == NULL)
-	{
-		_hSelectTerrain = CreateDialogParam(_hInstance, MAKEINTRESOURCE(IDD_DIALOG2), _hWnd, selectTerrainTileSetProc, (LPARAM)this);
-		ShowWindow(_hSelectTerrain, SW_SHOW);
-	}
-
-	if (_hSelectObject == NULL)
-	{
-		_hSelectObject = CreateDialogParam(_hInstance, MAKEINTRESOURCE(IDD_DIALOG3), _hWnd, selectObjectTileSetProc, (LPARAM)this);
-		ShowWindow(_hSelectObject, SW_SHOW);
-	}
+	
 	
 
 	return S_OK;
@@ -114,7 +104,7 @@ void mapTool::update(void)
 	if (TIMEMANAGER->getWorldTime() - _autoSaveTimer >= 80)
 	{
 		_autoSaveTimer = TIMEMANAGER->getWorldTime();
-		//MessageBox(_hWnd, "test", "test", MB_OK);
+		//MessageBox(_hWnd, "test", "test", MB_OK);			//세이브 되는지 확인하기 위한 테스트 메세지박스
 		if (_curMapFileName != "none") mapAutoSave();
 	}
 	
@@ -153,6 +143,19 @@ void mapTool::render(void)
 				_mapTiles[_mapMove.x / TILE_SIZEX + j + (_mapMove.y / TILE_SIZEY + i) * _mapSize.x].render(tileMapDC->getMemDC(), _mapMove.x, _mapMove.y);
 			}
 		}
+
+		//나중에 랜더해야할 오브젝트
+		for (int i = indexY; i < renderY; ++i)
+		{
+			for (int j = indexX; j < renderX; ++j)
+			{
+				if (_mapMove.x / TILE_SIZEX + j + (_mapMove.y / TILE_SIZEY + i) * _mapSize.x < 0) continue;
+				if (_mapMove.x / TILE_SIZEX + j + (_mapMove.y / TILE_SIZEY + i) * _mapSize.x >= _mapSize.x * _mapSize.y)
+					continue;
+
+				_mapTiles[_mapMove.x / TILE_SIZEX + j + (_mapMove.y / TILE_SIZEY + i) * _mapSize.x].afterObjectRender(tileMapDC->getMemDC(), _mapMove.x, _mapMove.y);
+			}
+		}
 	}
 	
 	if (_currentSelectMode == MODE_TERRAIN_SELECT)
@@ -167,6 +170,7 @@ void mapTool::render(void)
 		for (int i = 0; i < _objectTileSize.x * _objectTileSize.y; i++)
 		{
 			_objectTileSet[i].render(getMemDC(), 0, 0);
+			_objectTileSet[i].afterObjectRender(getMemDC(), 0, 0);
 		}
 	}
 
@@ -175,9 +179,9 @@ void mapTool::render(void)
 	tileMapDC->render(getMemDC(), -32, -32, 0, 0, 672, 672);
 }
 
-void mapTool::terrainTileSetInit(string imageKey)
+void mapTool::terrainTileSetInit()
 {
-	_terrainTileImage = IMAGEMANAGER->findImage(imageKey);
+	_terrainTileImage = IMAGEMANAGER->findImage(_terrainTileImageKey);
 	_terrainTileSize = PointMake(_terrainTileImage->getMaxFrameX() + 1, _terrainTileImage->getMaxFrameY() + 1);
 	_terrainTileSet = new tile[_terrainTileSize.x * _terrainTileSize.y];
 
@@ -185,11 +189,11 @@ void mapTool::terrainTileSetInit(string imageKey)
 	{
 		_terrainTileSet[i].init(PointMake(WINSIZEX - _terrainTileImage->getWidth()
 			+ TILE_SIZEX / 2 + (i % _terrainTileSize.x) * TILE_SIZEX, TILE_SIZEY / 2 + (i / _terrainTileSize.x) * TILE_SIZEY));
-		_terrainTileSet[i].setTerrainImageKey(imageKey);
+		_terrainTileSet[i].setTerrainImageKey(_terrainTileImageKey);
 		_terrainTileSet[i].setTerrainFramePos(PointMake(i % _terrainTileSize.x, i / _terrainTileSize.x));
 		_terrainTileSet[i].setIndex(PointMake(i % _terrainTileSize.x, i / _terrainTileSize.x));
 		
-		if (imageKey == "worldTerrain")
+		if (_terrainTileImageKey == "worldTerrain")
 		{
 			// 지형 타입 부여
 			_terrainTileSet[i].setTerrain(TR_GRASS);		// 대부분이 초원 타입이기 때문에 우선 초원 타입으로 초기화
@@ -203,7 +207,7 @@ void mapTool::terrainTileSetInit(string imageKey)
 				_terrainTileSet[i].setTerrain(TR_DESERT);
 			}
 		}
-		else if (imageKey == "townTerrain1")
+		else if (_terrainTileImageKey == "townTerrain1")
 		{
 			// 지형 타입 부여
 			_terrainTileSet[i].setTerrain(TR_ROAD);		// 대부분이 길 타입이기 때문에 우선 길 타입으로 초기화
@@ -221,7 +225,7 @@ void mapTool::terrainTileSetInit(string imageKey)
 				_terrainTileSet[i].setTerrain(TR_STUMP);
 			}
 		}
-		else if (imageKey == "townTerrain2")
+		else if (_terrainTileImageKey == "townTerrain2")
 		{
 			// 지형 타입 부여
 			_terrainTileSet[i].setTerrain(TR_GRASS);		// 대부분이 초원 타입이기 때문에 우선 초원 타입으로 초기화
@@ -235,7 +239,7 @@ void mapTool::terrainTileSetInit(string imageKey)
 				_terrainTileSet[i].setTerrain(TR_DIRT);
 			}
 		}
-		else if (imageKey == "townTerrain3")
+		else if (_terrainTileImageKey == "townTerrain3")
 		{
 			// 지형 타입 부여
 			_terrainTileSet[i].setTerrain(TR_ROAD);		// 대부분이 길 타입이기 때문에 우선 길 타입으로 초기화
@@ -259,9 +263,9 @@ void mapTool::terrainTileSetInit(string imageKey)
 	}
 }
 
-void mapTool::objectTileSetInit(string imageKey)
+void mapTool::objectTileSetInit()
 {
-	_objectTileImage = IMAGEMANAGER->findImage(imageKey);
+	_objectTileImage = IMAGEMANAGER->findImage(_objectTileImageKey);
 	_objectTileSize = PointMake(_objectTileImage->getMaxFrameX() + 1, _objectTileImage->getMaxFrameY() + 1);
 	_objectTileSet = new tile[_objectTileSize.x * _objectTileSize.y];
 
@@ -269,12 +273,13 @@ void mapTool::objectTileSetInit(string imageKey)
 	{
 		_objectTileSet[i].init(PointMake(WINSIZEX - _objectTileImage->getWidth()
 			+ TILE_SIZEX / 2 + (i % _objectTileSize.x) * TILE_SIZEX, TILE_SIZEY / 2 + (i / _objectTileSize.x) * TILE_SIZEY));
-		_objectTileSet[i].setObjectImageKey(imageKey);
+		//_objectTileSet[i].init(PointMake(TILE_SIZEX / 2 + (i % _objectTileSize.x) * TILE_SIZEX, TILE_SIZEY / 2 + (i / _objectTileSize.x) * TILE_SIZEY));
+		_objectTileSet[i].setObjectImageKey(_objectTileImageKey);
 		_objectTileSet[i].setObjectFramePos(PointMake(i % _objectTileSize.x, i / _objectTileSize.x));
 		_objectTileSet[i].setIndex(PointMake(i % _objectTileSize.x, i / _objectTileSize.x));
 		
 		//오브젝트 타입 부여
-		if (imageKey == "worldObject")
+		if (_objectTileImageKey == "worldObject")
 		{
 			_objectTileSet[i].setObject(OBJ_MOUNTAIN);		//대부분 산 타입이기 때문에 산 타입으로 초기화
 
@@ -282,7 +287,7 @@ void mapTool::objectTileSetInit(string imageKey)
 			else if (i == 18 || i == 19 || i == 26 || i == 27) _objectTileSet[i].setObject(OBJ_TOWN);
 			else if (i == 29) _objectTileSet[i].setObject(OBJ_CAVE);
 		}
-		else if (imageKey == "townHouse1")
+		else if (_objectTileImageKey == "townHouse1")
 		{
 			_objectTileSet[i].setObject(OBJ_HOUSE_BOTTOM);
 
@@ -290,7 +295,7 @@ void mapTool::objectTileSetInit(string imageKey)
 			else if (i >= 28 && i <= 33) _objectTileSet[i].setObject(OBJ_HOUSE_BOT_PASS);
 			else if (i == 34) _objectTileSet[i].setObject(OBJ_NONE);
 		}
-		else if (imageKey == "townHouse2")
+		else if (_objectTileImageKey == "townHouse2")
 		{
 			_objectTileSet[i].setObject(OBJ_NONE);
 
@@ -299,7 +304,7 @@ void mapTool::objectTileSetInit(string imageKey)
 			else if (i >= 51 && i <= 53) _objectTileSet[i].setObject(OBJ_HOUSE_BOT_PASS);
 			else if ((i >= 1 && i <= 7) || (i >= 9 && i <= 15)) _objectTileSet[i].setObject(OBJ_HOUSE_TOP);
 		}
-		else if (imageKey == "townHouse3")
+		else if (_objectTileImageKey == "townHouse3")
 		{
 			_objectTileSet[i].setObject(OBJ_HOUSE_BOTTOM);
 
@@ -307,7 +312,7 @@ void mapTool::objectTileSetInit(string imageKey)
 			else if ((i >= 4 && i <= 6) || (i >= 8 && i <= 14) || (i >= 16 && i <= 22)) _objectTileSet[i].setObject(OBJ_HOUSE_TOP);
 			else if ((i >= 0 && i <= 3) || i == 7 || i == 15 || i == 23) _objectTileSet[i].setObject(OBJ_NONE);
 		}
-		else if (imageKey == "townHouse4")
+		else if (_objectTileImageKey == "townHouse4")
 		{
 			_objectTileSet[i].setObject(OBJ_HOUSE_BOTTOM);
 
@@ -315,7 +320,7 @@ void mapTool::objectTileSetInit(string imageKey)
 			else if (i == 0 || i == 1 || (i >= 3 && i <= 6) || i == 8 || i == 9 || i == 10 || i == 19
 				|| (i >= 105 && i <= 109 ) || (i >= 115 && i <= 119)) _objectTileSet[i].setObject(OBJ_NONE);
 		}
-		else if (imageKey == "townHouse5")
+		else if (_objectTileImageKey == "townHouse5")
 		{
 			_objectTileSet[i].setObject(OBJ_HOUSE_BOTTOM);
 
@@ -325,7 +330,7 @@ void mapTool::objectTileSetInit(string imageKey)
 			else if ((i >= 1 && i <= 3) || (i >= 8 && i <= 12) || (i >= 16 && i <= 20) 
 				|| (i >= 37 && i <= 39) || (i >= 45 && i <= 47)) _objectTileSet[i].setObject(OBJ_HOUSE_TOP);
 		}
-		else if (imageKey == "townHouse6")
+		else if (_objectTileImageKey == "townHouse6")
 		{
 			_objectTileSet[i].setObject(OBJ_HOUSE_BOTTOM);
 
@@ -334,15 +339,15 @@ void mapTool::objectTileSetInit(string imageKey)
 			else if (i == 80) _objectTileSet[i].setObject(OBJ_HOUSE_BOT_PASS);
 			else if (i == 2 || (i >= 8 && i <= 10) || (i >= 14 && i <= 34)) _objectTileSet[i].setObject(OBJ_HOUSE_TOP);
 		}
-		else if (imageKey == "townObject1")
+		else if (_objectTileImageKey == "townObject1")
 		{
 
 		}
-		else if (imageKey == "townObject2")
+		else if (_objectTileImageKey == "townObject2")
 		{
 
 		}
-		else if (imageKey == "townObject3")
+		else if (_objectTileImageKey == "townObject3")
 		{
 
 		}
@@ -370,17 +375,36 @@ void mapTool::clickButton(void)
 		return;
 	}
 	else if (PtInRect(&_eraserBtn, _ptMouse)) _currentSelectMode = MODE_ERASER;
-	//else if (PtInRect(&_terrainBtn, _ptMouse))
-	//{
-	//	_currentSelectMode = MODE_TERRAIN_SELECT;
-	//	_selectedTerrainTile.selectTerrain(_terrainTileSet[0]);
-	//}
-	//else if (PtInRect(&_objectBtn, _ptMouse))
-	//{
-	//	
-	//	_currentSelectMode = MODE_OBJECT_SELECT;
-	//	_selectedObjectTile.selectObject(_objectTileSet[0]);
-	//}
+	else if (PtInRect(&_terrainBtn, _ptMouse))
+	{
+		_currentSelectMode = MODE_TERRAIN_SELECT;
+		if (_hSelectObject != NULL)
+		{
+			EndDialog(_hSelectObject, IDOK);
+			_hSelectObject = NULL;
+		}
+		if (_hSelectTerrain == NULL)
+		{
+			_hSelectTerrain = CreateDialogParam(_hInstance, MAKEINTRESOURCE(IDD_DIALOG2), _hWnd, selectTerrainTileSetProc, (LPARAM)this);
+			ShowWindow(_hSelectTerrain, SW_SHOW);
+		}
+		//_selectedTerrainTile.selectTerrain(_terrainTileSet[0]);
+	}
+	else if (PtInRect(&_objectBtn, _ptMouse))
+	{
+		_currentSelectMode = MODE_OBJECT_SELECT;
+		if (_hSelectTerrain != NULL)
+		{
+			EndDialog(_hSelectTerrain, IDOK);
+			_hSelectTerrain = NULL;
+		}
+		if (_hSelectObject == NULL)
+		{
+			_hSelectObject = CreateDialogParam(_hInstance, MAKEINTRESOURCE(IDD_DIALOG3), _hWnd, selectObjectTileSetProc, (LPARAM)this);
+			ShowWindow(_hSelectObject, SW_SHOW);
+		}
+		//_selectedObjectTile.selectObject(_objectTileSet[0]);
+	}
 	//else if (PtInRect(&_changeGameModeBtn, _ptMouse)) _currentSelectMode = EDIT_BUTTON_CHANGE_GAME_MODE;
 	//else if (PtInRect(&_changeMapEditModeBtn, _ptMouse)) _currentSelectMode = EDIT_BUTTON_CHANGE_MAP_EDIT_MODE;
 	//else _currentSelectMode = EDIT_BUTTON_END;
@@ -454,10 +478,10 @@ void mapTool::buttonDraw(void)
 	TextOut(getMemDC(), _saveBtn.left + 50, _saveBtn.top + 7, "save", strlen("save"));
 	Rectangle(getMemDC(), _loadBtn.left, _loadBtn.top, _loadBtn.right, _loadBtn.bottom);
 	TextOut(getMemDC(), _loadBtn.left + 50, _loadBtn.top + 7, "load", strlen("load"));
-	//Rectangle(getMemDC(), _terrainBtn.left, _terrainBtn.top, _terrainBtn.right, _terrainBtn.bottom);
-	//TextOut(getMemDC(), _terrainBtn.left + 50, _terrainBtn.top + 7, "terrain", strlen("terrain"));
-	//Rectangle(getMemDC(), _objectBtn.left, _objectBtn.top, _objectBtn.right, _objectBtn.bottom);
-	//TextOut(getMemDC(), _objectBtn.left + 50, _objectBtn.top + 7, "object", strlen("object"));
+	Rectangle(getMemDC(), _terrainBtn.left, _terrainBtn.top, _terrainBtn.right, _terrainBtn.bottom);
+	TextOut(getMemDC(), _terrainBtn.left + 50, _terrainBtn.top + 7, "terrain", strlen("terrain"));
+	Rectangle(getMemDC(), _objectBtn.left, _objectBtn.top, _objectBtn.right, _objectBtn.bottom);
+	TextOut(getMemDC(), _objectBtn.left + 50, _objectBtn.top + 7, "object", strlen("object"));
 	Rectangle(getMemDC(), _eraserBtn.left, _eraserBtn.top, _eraserBtn.right, _eraserBtn.bottom);
 	TextOut(getMemDC(), _eraserBtn.left + 50, _eraserBtn.top + 7, "eraser", strlen("eraser"));
 	//맵툴 모드, 게임 모드 변경버튼
@@ -593,165 +617,6 @@ void mapTool::mapAutoSave(void)
 	WriteFile(file, _mapTiles, sizeof(tile) * _mapSize.x * _mapSize.y, &write, NULL);
 
 	CloseHandle(file);
-}
-
-BOOL CALLBACK newTileProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam)
-{
-	int mapSizeX = 0;
-	int mapSizeY = 0;
-	mapTool* pThis = (mapTool*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-
-	switch (iMessage)
-	{
-	case WM_INITDIALOG:
-
-		SetWindowPos(hDlg, HWND_TOP, 100, 100, 0,0,SWP_NOSIZE);
-		SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)lParam);
-		pThis = (mapTool*)lParam;
-		pThis->setHandleNewTile(hDlg);
-		break;
-
-	case WM_COMMAND:
-
-		switch (LOWORD(wParam))
-		{
-		case IDOK:
-			mapSizeX = GetDlgItemInt(hDlg, IDC_EDIT1, NULL, FALSE);
-			mapSizeY = GetDlgItemInt(hDlg, IDC_EDIT2, NULL, FALSE);
-			pThis->createDefaultMap(PointMake(mapSizeX, mapSizeY));
-		case IDCANCEL:
-			EndDialog(pThis->getHandleNewTile(), 0);
-			return TRUE;
-		}
-
-		return FALSE;
-	case WM_CLOSE:
-		EndDialog(hDlg, IDOK);
-		return TRUE;
-	}
-	return FALSE;
-
-}
-
-BOOL CALLBACK selectTerrainTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam)
-{
-	int selectPos = 0;
-	char selectImageKey[1024] = "";
-	mapTool* pThis = (mapTool*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-
-	switch (iMessage)
-	{
-	case WM_INITDIALOG:
-
-		SetWindowPos(hDlg, HWND_TOP, WINSIZEX + 3, 0, 0, 0, SWP_NOSIZE);
-		SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)lParam);
-		pThis = (mapTool*)lParam;
-		pThis->setHandleSelTerrain(hDlg);
-		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"worldTerrain");
-		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"townTerrain1");
-		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"townTerrain2");
-		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"townTerrain3");
-		break;
-
-	case WM_COMMAND:
-
-		switch (LOWORD(wParam))
-		{
-		case IDOK:
-			selectPos = SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_GETCURSEL, 0, 0);
-			SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_GETTEXT, (WPARAM)selectPos, (LPARAM)selectImageKey);
-			pThis->terrainTileSetInit(selectImageKey);
-			pThis->setSelectMode(MODE_TERRAIN_SELECT);
-			pThis->getSelTerrainTile().selectTerrain(pThis->getFirstTerrainTile());
-			break;
-		}
-
-		return FALSE;
-	case WM_CLOSE:
-		//PostQuitMessage(0);
-		return TRUE;
-	}
-	return FALSE;
-}
-
-BOOL CALLBACK selectObjectTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam)
-{
-	int selectPos = 0;
-	char selectImageKey[256] = "";
-	mapTool* pThis = (mapTool*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-
-	HDC hdc;
-	PAINTSTRUCT ps;
-	RECT rc;
-	POINT ptMouse;
-
-	switch (iMessage)
-	{
-	case WM_INITDIALOG:		// 다이얼로그 박스 처음 생성시 호출
-		SetWindowPos(hDlg, HWND_TOP, WINSIZEX + 3, 160, 0, 0, SWP_NOSIZE);		// 윈도웈의 크기와 위치를 설정
-		SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)lParam);
-		pThis = (mapTool*)lParam;												//CreateDialogParam, DialogBoxParam함수를 통해 전달받은 변수를 저장
-		pThis->setHandleSelObject(hDlg);
-		// 콤보 박스에 오브젝트 이미지 키 값을 삽입
-		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"townHouse1");
-		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"townHouse2");
-		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"townHouse3");
-		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"townHouse4");
-		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"townHouse5");
-		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"townHouse6");
-		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"townObject1");
-		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"townObject2");
-		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"townObject3");
-		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_ADDSTRING, 0, (LPARAM)"worldObject");
-		SetDlgItemInt(hDlg, IDC_COMBO1, 0, FALSE);
-		SendMessage(GetDlgItem(hDlg, IDC_COMBO1), CB_SETLOCALE, 1, 1);
-		break;
-
-	case WM_PAINT:		// 다이얼로그 박스에 이미지를 그릴때 호출, invalidateRect함수를 통해 호출 가능
-		hdc = BeginPaint(hDlg, &ps);
-
-		pThis->getObjTileImage()->render(hdc, 11, 38);
-
-		EndPaint(hDlg, &ps);
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam))
-		{
-		case IDC_COMBO1:					// 콤보박스 제어 부분
-			switch (HIWORD(wParam))
-			{
-			case CBN_SELCHANGE:				// 콤보박스에서 선택할 때
-				GetDlgItemText(hDlg, IDC_COMBO1, selectImageKey, 256);
-				pThis->objectTileSetInit(selectImageKey);
-				pThis->setSelectMode(MODE_OBJECT_SELECT);
-				pThis->getSelObjectTile().selectObject(pThis->getFirstObjectTile());
-				SetWindowPos(hDlg, HWND_TOP, WINSIZEX + 3, 160, pThis->getObjTileImage()->getWidth() + 10, pThis->getObjTileImage()->getHeight() + 50, NULL);
-				GetClientRect(hDlg, &rc);
-				InvalidateRect(hDlg, &rc, TRUE);
-				break;
-			}
-			break;
-		}
-		return FALSE;
-	case WM_KEYDOWN:		// 키 입력이 발생할 경우
-		switch (wParam)
-		{
-		case VK_LBUTTON:
-		
-			break;
-		
-		}
-		break;
-	case WM_MOUSEMOVE:
-		ptMouse.x = static_cast<float>LOWORD(lParam);
-		ptMouse.y = static_cast<float>HIWORD(lParam);
-		break;
-	case WM_CLOSE:		// 종료 버튼 클릭시
-		//PostQuitMessage(0);
-		return TRUE;
-	}
-	return FALSE;
 }
 
 //POINT 변수를 위한 +, - 연산자 오버로딩(각각의 x, y값을 연산)

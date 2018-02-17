@@ -64,7 +64,21 @@ void tile::objectRender(HDC hdc, int destX, int destY)
 {
 	if (_objectImageKey != "none")
 	{
-		IMAGEMANAGER->frameRender(_objectImageKey, hdc, _centerPt.x - TILE_SIZEX / 2 - destX, _centerPt.y - TILE_SIZEY / 2 - destY, _objectFramePos.x, _objectFramePos.y);
+		if (_objectAttribute != ATTR_AFTER_RENDER)
+		{
+			IMAGEMANAGER->frameRender(_objectImageKey, hdc, _centerPt.x - TILE_SIZEX / 2 - destX, _centerPt.y - TILE_SIZEY / 2 - destY, _objectFramePos.x, _objectFramePos.y);
+		}
+	}
+}
+
+void tile::afterObjectRender(HDC hdc, int destX, int destY)
+{
+	if (_objectImageKey != "none")
+	{
+		if (_objectAttribute == ATTR_AFTER_RENDER)
+		{
+			IMAGEMANAGER->frameRender(_objectImageKey, hdc, _centerPt.x - TILE_SIZEX / 2 - destX, _centerPt.y - TILE_SIZEY / 2 - destY, _objectFramePos.x, _objectFramePos.y);
+		}
 	}
 }
 
@@ -90,7 +104,7 @@ void tile::attributeRender(HDC hdc, int destX, int destY)
 		hPen = (HPEN)CreatePen(PS_SOLID, 2, RGB(50, 255, 50));
 		oPen = (HPEN)SelectObject(hdc, hPen);
 
-		Ellipse(hdc, _centerPt.x - TILE_SIZEX / 2, _centerPt.y - TILE_SIZEY / 2 - destY, 
+		Ellipse(hdc, _centerPt.x - TILE_SIZEX / 2 - destX, _centerPt.y - TILE_SIZEY / 2 - destY,
 			_centerPt.x + TILE_SIZEX / 2 - destX, _centerPt.y + TILE_SIZEY / 2 - destY);
 	}
 

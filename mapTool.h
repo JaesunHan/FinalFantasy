@@ -50,6 +50,9 @@ private:
 	image* _terrainTileImage;
 	image* _objectTileImage;
 
+	string _terrainTileImageKey;
+	string _objectTileImageKey;
+
 private:
 	SELECTMODE _currentSelectMode;
 	tile _selectedTerrainTile;
@@ -80,8 +83,8 @@ public:
 	void update(void);
 	void render(void);
 
-	void terrainTileSetInit(string imageKey);
-	void objectTileSetInit(string imageKey);
+	void terrainTileSetInit();
+	void objectTileSetInit();
 
 	void clickButton(void);
 	void buttonDraw(void);						//버튼 그리는 함수
@@ -108,8 +111,17 @@ public:
 	inline tile getFirstTerrainTile(void) { return _terrainTileSet[0]; }
 	inline tile getFirstObjectTile(void) { return _objectTileSet[0]; }
 
-	inline image* getTrTileImage(void) { return _terrainTileImage; }
-	inline image* getObjTileImage(void) { return _objectTileImage; }
+	inline image* getTerrainTileImage(void) { return _terrainTileImage; }
+	inline image* getObjectTileImage(void) { return _objectTileImage; }
+	inline tile* getTerrainTileSet(void) { return _terrainTileSet; }
+	inline tile* getObjectTileSet(void) { return _objectTileSet; }
+	inline POINT getTerrainTileSetSize(void) { return _terrainTileSize; }
+	inline POINT getObjectTileSetSize(void) { return _objectTileSize; }
+
+	inline void setTerrainTileImageKey(string imageKey) { _terrainTileImageKey = imageKey; }
+	inline string getTerrainTileImageKey(void) { return _terrainTileImageKey; }
+	inline void setObjectTileImageKey(string imageKey) { _objectTileImageKey = imageKey; }
+	inline string getObjectTileImageKey(void) { return _objectTileImageKey; }
 
 	inline void setHandleNewTile(HWND handle) { _hDlgNewTile = handle; }
 	inline HWND getHandleNewTile(void) { return _hDlgNewTile; }

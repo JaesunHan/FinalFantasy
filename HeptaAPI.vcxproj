@@ -99,6 +99,7 @@
     <ClInclude Include="covert.h" />
     <ClInclude Include="DarkWind.h" />
     <ClInclude Include="database.h" />
+    <ClInclude Include="dialogProc.h" />
     <ClInclude Include="dialogueManager.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />

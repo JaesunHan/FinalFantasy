@@ -53,6 +53,7 @@ public:
 
 	void terrainRender(HDC hdc, int destX, int destY);
 	void objectRender(HDC hdc, int destX, int destY);
+	void afterObjectRender(HDC hdc, int destX, int destY);
 	void attributeRender(HDC hdc, int destX, int destY);
 
 	void selectTerrain(tile sour);
