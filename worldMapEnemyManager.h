@@ -37,16 +37,17 @@ public:
 	void update();
 	void render();
 
-//zorder를 위한 렌더 두개 추가 
+	//zorder를 위한 렌더 두개 추가 
 	void beforeRender();
 	void afterRender();
 
 	void setPlayerPos(POINT pt) { _playerPos = pt; }
 
 	//========겟함수======= 
-	vector <worldMapEnemy*> getVNpc() { return _vWME; }
-	vector <worldMapEnemy*>::iterator getViNpc() { return _viWME; }
+	vector <worldMapEnemy*> getVWME() { return _vWME; }
+	vector <worldMapEnemy*>::iterator getViWME() { return _viWME; }
 
 
 };
+
 

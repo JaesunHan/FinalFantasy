@@ -22,12 +22,15 @@ HRESULT worldMapScene::init()
 	_npcManager = new npcManager;
 	_npcManager->init();
 
-	_wEB = new worldEnemyBear;
-	_wEB->init(700, 340);
+	_wMEM = new worldMapEnemyManager;
+	_wMEM->init();
 
 
-	_wEB->setEnemyAddressLinkWithWM(_worldMap);
-	_wEB->setEnemyAddressLinkWihtPlayer(_worldMapPlayer);
+	for (int i = 0; i < WORLDMAPENEMY; ++i)
+	{
+		_wMEM->getVWME()[i]->setEnemyAddressLinkWithWM(_worldMap);
+		_wMEM->getVWME()[i]->setEnemyAddressLinkWihtPlayer(_worldMapPlayer);
+	}
 	return S_OK;
 }
 
@@ -40,7 +43,7 @@ void worldMapScene::update()
 	_worldMap->update();
 	_worldMapPlayer->update();
 	_npcManager->update();
-	_wEB->update();
+	_wMEM->update();
 
 
 	//Z오더용
@@ -54,7 +57,7 @@ void worldMapScene::render()
 {
 	_worldMap->render();
 
-	_wEB->render();
+	_wMEM->render();
 	//업데이트에서 받은 플레이어의 실시간 좌표를 NPC와 비교하여 
 	//플레이어보다 먼저 그려주는 이미지 -> 플레이어 이미지 -> 플레이어보다 다음에 그려주는 이미지 순으로 랜더를 한다.
 	_npcManager->beforeRender();

@@ -1,18 +1,11 @@
 #pragma once
 #include "worldMapEnemy.h"
-#include "worldMap.h"
-#include "aStar.h"
-#include "worldMapPlayer.h"
 
 
 class worldMapEnemySamurai :
 	public worldMapEnemy
 {
-private:
-	aStar * _ast;
-	worldMapPlayer* _wp;
 
-	int _count;
 public:
 	worldMapEnemySamurai();
 	~worldMapEnemySamurai();
@@ -30,8 +23,6 @@ public:
 	//월드플레이어 이미지 컨트롤
 	void worldEnemyImageControl();
 
-	void setEnemyAddressLinkWithWM(worldMap* wm) { _worldMap = wm; }
-	void setEnemyAddressLinkWihtPlayer(worldMapPlayer* wp) { _wp = wp; }
 
 };
 

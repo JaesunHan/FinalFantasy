@@ -3,6 +3,10 @@
 #include "worldMap.h"
 #include "aStar.h"
 #include "tile.h"
+#include "worldMapPlayer.h"
+
+#define MAX_FIND_COUNTER 200
+#define ENEMY_MOVE_SPEED 3.0f
 
 //==============월드맵 에너미=====================//
 //1. a*적용되는 아이
@@ -42,6 +46,8 @@ public:
 	//월드맵 클래스
 	worldMap* _worldMap;
 
+	//월드맵 플레이어 정보 
+	worldMapPlayer* _wp;
 
 	//에너미 이미지 제어용
 	image* _image;
@@ -66,22 +72,19 @@ public:
 	~worldMapEnemy();
 
 	//init에서 좌표값을 받는 이유는 씬이 바뀔때 해당씬에서 위치를 지정할수 있기 위함이다.
-	virtual HRESULT init();
+	HRESULT init();
 	virtual HRESULT init(int enemyX, int enemyY);
-	virtual void release();
-	virtual void update();
-	virtual void render();
+	void release();
+	void update();
+	void render();
 	//a*용
-	virtual void move();
+	void move();
 
 	//월드에너미 이미지 프레임 컨트롤
 	void worldEnemyImageFrameControl();
 
-	//월드플레이어 이미지 컨트롤
-	void worldEnemyImageControl();
-
-	//월드플에이어 키 컨트롤
-	void worldEnemyKeyControl();
+	//월드에너미 이미지 컨트롤
+	virtual void worldEnemyImageControl();
 
 	//타일 인덱스 계산하는 함수
 	int tileNum(float x, float y);
@@ -97,8 +100,8 @@ public:
 	bool getWorldMapEnemyCollision() { return _isCollision; }
 	void setWorldMapEnemyCollision(bool collision) { _isCollision = collision; }
 
-
+	void setEnemyAddressLinkWithWM(worldMap* wm) { _worldMap = wm; }
+	void setEnemyAddressLinkWihtPlayer(worldMapPlayer* wp) { _wp = wp; }
 
 
 };
-

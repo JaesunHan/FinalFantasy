@@ -3,7 +3,7 @@
 #include "worldMap.h"
 #include "worldMapPlayer.h"
 #include "npcManager.h"
-#include "worldEnemyBear.h"
+#include "worldMapEnemyManager.h"
 
 //======월드맵 씬	 =======//
 //		제작자 : 한재환		//
@@ -23,7 +23,7 @@ public:
 	npcManager* _npcManager;
 
 	//에너미 등장용
-	worldEnemyBear* _wEB;
+	worldMapEnemyManager* _wMEM;
 
 	worldMapScene();
 	~worldMapScene();
