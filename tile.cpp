@@ -192,7 +192,7 @@ void tile::updateTerrainAttr(void)
 //오브젝트의 종류에 따라 타일 속성 적용
 void tile::updateObjectAttr(void)
 {
-	if (_object == OBJ_NONE || _object == OBJ_CAVE || _object == OBJ_CASTLE || _object == OBJ_TOWN
+	if (_object == OBJ_NONE || _object == OBJ_TREE || _object == OBJ_CAVE || _object == OBJ_CASTLE || _object == OBJ_TOWN
 		|| _object == OBJ_HOUSE_BOT_PASS || _object == OBJ_PLANT || _object == OBJ_BRIDGE_TOP)
 		_objectAttribute = ATTR_MOVE;
 	else if (_object == OBJ_MOUNTAIN || _object == OBJ_HOUSE_BOTTOM || _object == OBJ_SIGNBOARD || _object == OBJ_TOMBSTONE
@@ -225,36 +225,45 @@ void tile::updateNearTileDif(TERRAIN upTile, TERRAIN downTile, TERRAIN leftTile,
 	if (_terrain == TR_WATER)
 	{
 		_terrainImageKey = "testTileSet2";
-
 		_terrainFramePos = PointMake(10, 1);
 
-		if ((totalDifValue >= 3) || (_nearTileDif[DIR_UP] == 1 && _nearTileDif[DIR_DOWN] == 1)
-			|| (_nearTileDif[DIR_LEFT] == 1 && _nearTileDif[DIR_RIGHT] == 1));
-		else
-		{
-			_terrainFramePos.y -= _nearTileDif[DIR_UP];
-			_terrainFramePos.y += _nearTileDif[DIR_DOWN];
-			_terrainFramePos.x -= _nearTileDif[DIR_LEFT];
-			_terrainFramePos.x += _nearTileDif[DIR_RIGHT];
-		}
-
+		autoTileSelect(totalDifValue);
 	}
 
 	if (_terrain == TR_DESERT)
 	{
 		_terrainImageKey = "testTileSet2";
-
 		_terrainFramePos = PointMake(1, 1);
 
-		if ((totalDifValue >= 3) || (_nearTileDif[DIR_UP] == 1 && _nearTileDif[DIR_DOWN] == 1)
-			|| (_nearTileDif[DIR_LEFT] == 1 && _nearTileDif[DIR_RIGHT] == 1));
-		else
-		{
-			_terrainFramePos.y -= _nearTileDif[DIR_UP];
-			_terrainFramePos.y += _nearTileDif[DIR_DOWN];
-			_terrainFramePos.x -= _nearTileDif[DIR_LEFT];
-			_terrainFramePos.x += _nearTileDif[DIR_RIGHT];
-		}
+		autoTileSelect(totalDifValue);
+	}
 
+	if (_terrain == TR_SNOW)
+	{
+		_terrainImageKey = "testTileSet2";
+		_terrainFramePos = PointMake(4, 1);
+
+		autoTileSelect(totalDifValue);
+	}
+
+	if (_terrain == TR_SWAMP)
+	{
+		_terrainImageKey = "testTileSet2";
+		_terrainFramePos = PointMake(7, 1);
+
+		autoTileSelect(totalDifValue);
+	}
+}
+
+void tile::autoTileSelect(int totalDifferentTile)
+{
+	if ((totalDifferentTile >= 3) || (_nearTileDif[DIR_UP] == 1 && _nearTileDif[DIR_DOWN] == 1)
+		|| (_nearTileDif[DIR_LEFT] == 1 && _nearTileDif[DIR_RIGHT] == 1));
+	else
+	{
+		_terrainFramePos.y -= _nearTileDif[DIR_UP];
+		_terrainFramePos.y += _nearTileDif[DIR_DOWN];
+		_terrainFramePos.x -= _nearTileDif[DIR_LEFT];
+		_terrainFramePos.x += _nearTileDif[DIR_RIGHT];
 	}
 }

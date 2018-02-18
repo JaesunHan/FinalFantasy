@@ -27,7 +27,8 @@ HRESULT mapTool::init(void)
 	IMAGEMANAGER->addFrameImage("testTileSet", ".//tileSet//testTileSet.bmp", 128, 64, 4, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("testTileSet2", ".//tileSet//testTileSet2.bmp", 480, 128, 15, 4, true, RGB(255, 0, 255));
 	//오브젝트 타일 이미지 추가
-	IMAGEMANAGER->addFrameImage("worldObject", ".//tileSet//worldMapObjectTileSet.bmp", 256, 128, 8, 4, true, RGB(255, 0, 255));
+	//IMAGEMANAGER->addFrameImage("worldObject", ".//tileSet//worldMapObjectTileSet.bmp", 256, 128, 8, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("worldObject", ".//tileSet//worldMapObject2.bmp", 256, 192, 8, 6, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("townHouse1", ".//tileSet//House1.bmp", 160, 224, 5, 7, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("townHouse2", ".//tileSet//House2.bmp", 256, 256, 8, 8, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("townHouse3", ".//tileSet//House3.bmp", 256, 256, 8, 8, true, RGB(255, 0, 255));
@@ -49,7 +50,7 @@ HRESULT mapTool::init(void)
 	//_changeMapEditModeBtn = RectMake(960, 600, 100, 30);
 
 	//타일셋 초기화
-	_terrainTileImageKey = "worldTerrain";
+	_terrainTileImageKey = "testTileSet";
 	_objectTileImageKey = "worldObject";
 
 	terrainTileSetInit();
@@ -294,13 +295,21 @@ void mapTool::objectTileSetInit()
 		_objectTileSet[i].setIndex(PointMake(i % _objectTileSize.x, i / _objectTileSize.x));
 		
 		//오브젝트 타입 부여
-		if (_objectTileImageKey == "worldObject")
+		/*if (_objectTileImageKey == "worldObject")
 		{
 			_objectTileSet[i].setObject(OBJ_MOUNTAIN);		//대부분 산 타입이기 때문에 산 타입으로 초기화
 
 			if (i == 16 || i == 17 || i == 24 || i == 25) _objectTileSet[i].setObject(OBJ_CASTLE);
 			else if (i == 18 || i == 19 || i == 26 || i == 27) _objectTileSet[i].setObject(OBJ_TOWN);
 			else if (i == 29) _objectTileSet[i].setObject(OBJ_CAVE);
+		}*/
+		if (_objectTileImageKey == "worldObject")
+		{
+			_objectTileSet[i].setObject(OBJ_MOUNTAIN);		//대부분 산 타입이기 때문에 산 타입으로 초기화
+
+			if ((i >= 0 && i <= 2) || i == 6 || i == 7 || (i >= 8 && i <= 10) || (i >= 16 && i <= 18)
+				|| (i >= 24 && i <= 26) || (i >= 32 && i <= 34) || (i >= 40 && i <= 42)) _objectTileSet[i].setObject(OBJ_TREE);
+			else if (i == 39 || i == 47) _objectTileSet[i].setObject(OBJ_TOWN);
 		}
 		else if (_objectTileImageKey == "townHouse1")
 		{
@@ -593,8 +602,8 @@ void mapTool::createDefaultMap(POINT mapSize)
 	for (int i = 0; i < _mapSize.x * _mapSize.y; i++)
 	{
 		_mapTiles[i].init(PointMake(TILE_SIZEX / 2 + TILE_SIZEX * (i % _mapSize.x), TILE_SIZEY / 2 + TILE_SIZEY * (i / _mapSize.x)));
-		_mapTiles[i].setTerrainImageKey("worldTerrain");
-		_mapTiles[i].setTerrainFramePos(PointMake(1, 1));
+		_mapTiles[i].setTerrainImageKey("testTileSet2");
+		_mapTiles[i].setTerrainFramePos(PointMake(0, 3));
 		_mapTiles[i].setTerrain(TR_GRASS);
 		//맵 타일 초기화 부분
 	}

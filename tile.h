@@ -78,6 +78,7 @@ public:
 	void updateTerrainAttr(void);
 	void updateObjectAttr(void);
 	void updateNearTileDif(TERRAIN upTile, TERRAIN downTile, TERRAIN leftTile, TERRAIN rightTile);
+	void autoTileSelect(int totalDifferentTile);
 
 	//======================= 설정자 & 접근자 =======================
 	inline void setCenterPt(POINT center) { _centerPt = center; }
