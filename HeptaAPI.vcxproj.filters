@@ -121,6 +121,9 @@
     <Filter Include="playGround\Item\weapon">
       <UniqueIdentifier>{a7d99341-1d2f-46b6-81c7-7dc7f8271cf7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\gameOver">
+      <UniqueIdentifier>{f30130bc-7182-4bd3-8e2c-1fe11e513fef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -399,6 +402,15 @@
     <ClInclude Include="dialogProc.h">
       <Filter>playGround\mapTool</Filter>
     </ClInclude>
+    <ClInclude Include="armor.h">
+      <Filter>playGround\Item\armor</Filter>
+    </ClInclude>
+    <ClInclude Include="head.h">
+      <Filter>playGround\Item\armor</Filter>
+    </ClInclude>
+    <ClInclude Include="shield.h">
+      <Filter>playGround\Item\armor</Filter>
+    </ClInclude>
     <ClInclude Include="expendablesItem.h">
       <Filter>playGround\Item\expendables</Filter>
     </ClInclude>
@@ -413,6 +425,9 @@
     </ClInclude>
     <ClInclude Include="worldMapEnemyVectorPup.h">
       <Filter>playGround\MapScene\worldMapEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="gameOverScene.h">
+      <Filter>playGround\gameOver</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -665,6 +680,15 @@
     <ClCompile Include="itemManager.cpp">
       <Filter>playGround\Item</Filter>
     </ClCompile>
+    <ClCompile Include="armor.cpp">
+      <Filter>playGround\Item\armor</Filter>
+    </ClCompile>
+    <ClCompile Include="head.cpp">
+      <Filter>playGround\Item\armor</Filter>
+    </ClCompile>
+    <ClCompile Include="shield.cpp">
+      <Filter>playGround\Item\armor</Filter>
+    </ClCompile>
     <ClCompile Include="expendablesItem.cpp">
       <Filter>playGround\Item\expendables</Filter>
     </ClCompile>
@@ -679,6 +703,9 @@
     </ClCompile>
     <ClCompile Include="worldMapEnemyVectorPup.cpp">
       <Filter>playGround\MapScene\worldMapEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="gameOverScene.cpp">
+      <Filter>playGround\gameOver</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

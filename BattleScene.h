@@ -58,6 +58,7 @@ private:
 	int _enemyNum = 4;								//적 선택 번호 (4번이 첫번째 적)
 	int _messageCounter = 0;						//메시지 표시 카운터
 	int _victoryCounter = 0;						//승리 카운터
+	int _gameOver = 0;								//게임 오버니?
 	float _damage = 0;								//상호 주고 받는 데미지를 입력받는 변수
 	unsigned int _position;							//사운드 포지션			
 	bool _counterRoll = true;						//참일때만 카운터 증가

@@ -26,6 +26,7 @@ HRESULT playGround::init()
 	SCENEMANAGER->addScene("mapToolScene", new mapTool);
 	SCENEMANAGER->addScene("¹èÆ²¾À", _bts);
 	SCENEMANAGER->addScene("¿ùµå¸Ê¾À", new worldMapScene);
+	SCENEMANAGER->addScene("°ÔÀÓ¿À¹ö", new gameOverScene);
 	
 	//SCENEMANAGER->changeScene("mapToolScene");
 	
@@ -75,7 +76,7 @@ void playGround::update(void)
 		SCENEMANAGER->changeScene("·Îµù");
 	}
 	//¿É¼Ç¸Þ´º
-	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE) && SCENEMANAGER->getCurrentSceneName() == "¿ùµå¸Ê¾À")
+	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE) && SCENEMANAGER->getCurrentSceneName() != "¹èÆ²¾À")
 	{
 		SCENEMANAGER->changeScene("¿É¼Ç");
 	}

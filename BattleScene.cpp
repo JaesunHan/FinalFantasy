@@ -129,15 +129,16 @@ void BattleScene::update()
 	updateWhenCharacterTurn();
 	playerFrameUpdate();
 	victoryCondition();
-	gameOverCondition();
 	soundControl();
 	if (KEYMANAGER->isOnceKeyDown('R'))
 	{
 		//SOUNDMANAGER->releaseAllSound();
 		//SOUNDMANAGER->getChannel(CH_BGM)->setPosition(30000, FMOD_TIMEUNIT_MS);
 		this->release();
-		SCENEMANAGER->changeScene("월드맵씬", false);
+		SCENEMANAGER->changeScene("게임오버", true);
+		//SCENEMANAGER->changeScene("월드맵씬", false);
 	}
+	//gameOverCondition();
 }
 
 void BattleScene::render() 
@@ -261,7 +262,7 @@ void BattleScene::updateWhenCharacterTurn()
 					_battleTurn.front()->ATBcounter = 0;
 					_battleTurn.front()->turnStart = false;
 					_battleTurn.front()->attackReady = false;
-					_battleTurn.pop();
+					if (_gameOver == 0) _battleTurn.pop();
 				}
 			}
 		}
@@ -726,6 +727,19 @@ void BattleScene::gameOverCondition()
 			_battleCharacters[i].player->setStatus(BATTLE_PLAYER_DEAD);
 			deathCount++;
 		}
+		if (deathCount == 4 && _gameOver == 0)
+		{
+			_gameOver = 1;
+			SOUNDMANAGER->stop(CH_BGM);
+		}
 	}
-
+	if (_gameOver > 0)
+	{
+		_gameOver++;
+	}
+	if (_gameOver > 60)
+	{
+		this->release();
+		SCENEMANAGER->changeScene("게임오버");
+	}
 }
