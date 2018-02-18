@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Enemy.h"
+#include "BattleScene.h"
 
 Enemy::Enemy()
 {
@@ -32,7 +33,6 @@ HRESULT Enemy::init(int x, int y)
 
 	_turnEnd = false;
 	_effectFire = true;
-
 	return S_OK;
 }
 

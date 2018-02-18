@@ -11,16 +11,12 @@ armorItem::~armorItem()
 {
 }
 
-HRESULT armorItem::init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price)
+HRESULT armorItem::init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price, int a_Def, int m_Def)
 {
-	itemMother::init(ITEM_ARMOR, itemName, description, price);
-	//_itemKind = ITEM_EXPENDABLE;						//아이템 장르
-	//
-	//strcpy_s(_name, itemName);						//아이템 이름
-	//strcpy_s(_description, description);				//아이템 종류
-	//_price = price;									//아이템 가격 (상점)
-	//_performance = performance;						//아이템 효과
-
+	itemMother::init(itemKind, itemName, description, price);
+	
+	_a_Def = a_Def;									//물리 방어력
+	_m_Def = m_Def;									//마법 방어력
 
 	return S_OK;
 }

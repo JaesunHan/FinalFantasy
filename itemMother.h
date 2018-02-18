@@ -48,8 +48,5 @@ public:
 	virtual	HRESULT init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price);
 	virtual void release();
 	virtual void update();
-
-	//void shopItemList();
-	//void enemyItemList();
 };
 

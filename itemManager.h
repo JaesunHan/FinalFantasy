@@ -3,6 +3,7 @@
 #include <vector>
 #include "expendablesItem.h"
 #include "weaponItem.h"
+#include "armorItem.h"
 
 class itemManager : public gameNode
 {
