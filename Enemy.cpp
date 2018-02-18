@@ -59,7 +59,7 @@ void Enemy::enemyTurn(int damage)
 		_damage = _2Lv * (damage * 4 + (RND->getFromIntTo(56, 63))) / 256; 
 		
 		//스킬 데미지 공식
-		_spellDamage = _damage * RND->getFromFloatTo(1.2f, 2.5f);
+		//_spellDamage = _damage * RND->getFromFloatTo(1.2f, 2.5f);
 	}
 }
 

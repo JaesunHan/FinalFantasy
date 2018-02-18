@@ -399,9 +399,6 @@
     <ClInclude Include="dialogProc.h">
       <Filter>playGround\mapTool</Filter>
     </ClInclude>
-    <ClInclude Include="posion.h">
-      <Filter>playGround\Item\expendables</Filter>
-    </ClInclude>
     <ClInclude Include="armor.h">
       <Filter>playGround\Item\armor</Filter>
     </ClInclude>
@@ -425,9 +422,6 @@
     </ClInclude>
     <ClInclude Include="worldMapEnemyVectorPup.h">
       <Filter>playGround\MapScene\worldMapEnemy</Filter>
-    </ClInclude>
-    <ClInclude Include="shuriken.h">
-      <Filter>playGround\Item\weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -680,9 +674,6 @@
     <ClCompile Include="itemManager.cpp">
       <Filter>playGround\Item</Filter>
     </ClCompile>
-    <ClCompile Include="posion.cpp">
-      <Filter>playGround\Item\expendables</Filter>
-    </ClCompile>
     <ClCompile Include="armor.cpp">
       <Filter>playGround\Item\armor</Filter>
     </ClCompile>
@@ -706,9 +697,6 @@
     </ClCompile>
     <ClCompile Include="worldMapEnemyVectorPup.cpp">
       <Filter>playGround\MapScene\worldMapEnemy</Filter>
-    </ClCompile>
-    <ClCompile Include="shuriken.cpp">
-      <Filter>playGround\Item\weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

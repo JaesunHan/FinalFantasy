@@ -15,7 +15,7 @@ HRESULT itemManager::init()
 {
 	//======================================== 소모품 ========================================
 	
-	posion* ether = new posion;
+	expendablesItem* ether = new expendablesItem;
 	ether->init(ITEM_EXPENDABLE, "에테르", "플레이어 마력 150 회복", 2, 0, 150, false, false, false, false);
 	_vItem.push_back(ether);
 
@@ -113,49 +113,49 @@ HRESULT itemManager::init()
 
 	//======================================== 투구 =========================================
 
-	expendablesItem* X_potion = new expendablesItem;
-	X_potion->init(ITEM_EXPENDABLE, "X-포션", "플레이어 체력 100% 회복", 5000, 0, 0, false, false, true, false);
-	_vItem.push_back(X_potion);
-
-	expendablesItem* X_potion = new expendablesItem;
-	X_potion->init(ITEM_EXPENDABLE, "X-포션", "플레이어 체력 100% 회복", 5000, 0, 0, false, false, true, false);
-	_vItem.push_back(X_potion);
-
-	expendablesItem* X_potion = new expendablesItem;
-	X_potion->init(ITEM_EXPENDABLE, "X-포션", "플레이어 체력 100% 회복", 5000, 0, 0, false, false, true, false);
-	_vItem.push_back(X_potion);
-
-	expendablesItem* X_potion = new expendablesItem;
-	X_potion->init(ITEM_EXPENDABLE, "X-포션", "플레이어 체력 100% 회복", 5000, 0, 0, false, false, true, false);
-	_vItem.push_back(X_potion);
-
-	expendablesItem* X_potion = new expendablesItem;
-	X_potion->init(ITEM_EXPENDABLE, "X-포션", "플레이어 체력 100% 회복", 5000, 0, 0, false, false, true, false);
-	_vItem.push_back(X_potion);
-
-	//=======================================================================================
-
-	//======================================== 방패 =========================================
-
-	expendablesItem* X_potion = new expendablesItem;
-	X_potion->init(ITEM_EXPENDABLE, "X-포션", "플레이어 체력 100% 회복", 5000, 0, 0, false, false, true, false);
-	_vItem.push_back(X_potion);
-
-	expendablesItem* X_potion = new expendablesItem;
-	X_potion->init(ITEM_EXPENDABLE, "X-포션", "플레이어 체력 100% 회복", 5000, 0, 0, false, false, true, false);
-	_vItem.push_back(X_potion);
-
-	expendablesItem* X_potion = new expendablesItem;
-	X_potion->init(ITEM_EXPENDABLE, "X-포션", "플레이어 체력 100% 회복", 5000, 0, 0, false, false, true, false);
-	_vItem.push_back(X_potion);
-
-	expendablesItem* X_potion = new expendablesItem;
-	X_potion->init(ITEM_EXPENDABLE, "X-포션", "플레이어 체력 100% 회복", 5000, 0, 0, false, false, true, false);
-	_vItem.push_back(X_potion);
-
-	expendablesItem* X_potion = new expendablesItem;
-	X_potion->init(ITEM_EXPENDABLE, "X-포션", "플레이어 체력 100% 회복", 5000, 0, 0, false, false, true, false);
-	_vItem.push_back(X_potion);
+	//expendablesItem* X_potion = new expendablesItem;
+	//X_potion->init(ITEM_EXPENDABLE, "X-포션", "플레이어 체력 100% 회복", 5000, 0, 0, false, false, true, false);
+	//_vItem.push_back(X_potion);
+	//
+	//expendablesItem* X_potion = new expendablesItem;
+	//X_potion->init(ITEM_EXPENDABLE, "X-포션", "플레이어 체력 100% 회복", 5000, 0, 0, false, false, true, false);
+	//_vItem.push_back(X_potion);
+	//
+	//expendablesItem* X_potion = new expendablesItem;
+	//X_potion->init(ITEM_EXPENDABLE, "X-포션", "플레이어 체력 100% 회복", 5000, 0, 0, false, false, true, false);
+	//_vItem.push_back(X_potion);
+	//
+	//expendablesItem* X_potion = new expendablesItem;
+	//X_potion->init(ITEM_EXPENDABLE, "X-포션", "플레이어 체력 100% 회복", 5000, 0, 0, false, false, true, false);
+	//_vItem.push_back(X_potion);
+	//
+	//expendablesItem* X_potion = new expendablesItem;
+	//X_potion->init(ITEM_EXPENDABLE, "X-포션", "플레이어 체력 100% 회복", 5000, 0, 0, false, false, true, false);
+	//_vItem.push_back(X_potion);
+	//
+	////=======================================================================================
+	//
+	////======================================== 방패 =========================================
+	//
+	//expendablesItem* X_potion = new expendablesItem;
+	//X_potion->init(ITEM_EXPENDABLE, "X-포션", "플레이어 체력 100% 회복", 5000, 0, 0, false, false, true, false);
+	//_vItem.push_back(X_potion);
+	//
+	//expendablesItem* X_potion = new expendablesItem;
+	//X_potion->init(ITEM_EXPENDABLE, "X-포션", "플레이어 체력 100% 회복", 5000, 0, 0, false, false, true, false);
+	//_vItem.push_back(X_potion);
+	//
+	//expendablesItem* X_potion = new expendablesItem;
+	//X_potion->init(ITEM_EXPENDABLE, "X-포션", "플레이어 체력 100% 회복", 5000, 0, 0, false, false, true, false);
+	//_vItem.push_back(X_potion);
+	//
+	//expendablesItem* X_potion = new expendablesItem;
+	//X_potion->init(ITEM_EXPENDABLE, "X-포션", "플레이어 체력 100% 회복", 5000, 0, 0, false, false, true, false);
+	//_vItem.push_back(X_potion);
+	//
+	//expendablesItem* X_potion = new expendablesItem;
+	//X_potion->init(ITEM_EXPENDABLE, "X-포션", "플레이어 체력 100% 회복", 5000, 0, 0, false, false, true, false);
+	//_vItem.push_back(X_potion);
 
 	//=======================================================================================
 
