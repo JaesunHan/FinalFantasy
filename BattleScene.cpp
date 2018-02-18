@@ -73,7 +73,7 @@ HRESULT BattleScene::init()
 		}
 	}
 	//최대 몬스터 랜덤 지정
-	_maxMonster = 3;//RND->getInt(3) + 1;		
+	_maxMonster = RND->getInt(3) + 1;		
 	//에너미 동적할당 후 벡터에 담기
 	for (int i = 0; i < _maxMonster; ++i)
 	{
@@ -129,6 +129,7 @@ void BattleScene::update()
 	updateWhenCharacterTurn();
 	playerFrameUpdate();
 	victoryCondition();
+	gameOverCondition();
 	soundControl();
 	if (KEYMANAGER->isOnceKeyDown('R'))
 	{
@@ -160,12 +161,12 @@ void BattleScene::ATBGauzeTimer()
 		{
 			if (_battleCharacters[i].characterType <= 3)
 			{
-				if (_battleCharacters[i].player->getCurHP() < 0) continue;
+				if (_battleCharacters[i].player->getCurHP() <= 0) continue;
 				_battleCharacters[i].ATBcounter += 96 * (_battleCharacters[i].player->getSpeed() + 20) / 32;
 			}
 			if (_battleCharacters[i].characterType > 3)
 			{
-				if (_battleCharacters[i].enemy->getCurHP() < 0) continue;
+				if (_battleCharacters[i].enemy->getCurHP() <= 0) continue;
 				_battleCharacters[i].ATBcounter += 96 * (_battleCharacters[i].enemy->getSpeed() + 20) / 32;
 			}
 		}
@@ -225,7 +226,7 @@ void BattleScene::updateWhenCharacterTurn()
 				_battleTurn.front()->turnStart = false;
 				_battleTurn.front()->selectAction = false;
 				_battleTurn.front()->attackReady = false;
-				_battleTurn.pop();
+				if (_victory == false) _battleTurn.pop();
 			}
 		}
 		else
@@ -431,6 +432,12 @@ void BattleScene::playerMenuSelect()
 			}
 		}
 	}
+	if (_playerTurn == true && _battleCharacters[_currentTurn].player->getCurHP() <= 0)
+	{
+		_menuNum = 0;
+		_enemySelect = false;
+		_playerTurn = false;
+	}
 	//if (KEYMANAGER->isOnceKeyDown('R'))
 	//{
 	//	//SOUNDMANAGER->getChannel(CH_BGM)->setPosition(30000, FMOD_TIMEUNIT_MS);
@@ -470,7 +477,6 @@ void BattleScene::characterDraw()
 		}
 		if (_battleCharacters[i].characterType <= 3)
 		{
-			if (_battleCharacters[i].player->getCurHP() < 0) continue;
 			_battleCharacters[i].player->render();
 		}
 	}
@@ -646,25 +652,6 @@ void BattleScene::playerAttack()
 	_isDamaged = true;
 }
 
-void BattleScene::monsterAttack()
-{
-	int selectPlayer = RND->getInt(4);
-	for (int i = 0; i < 4; ++i)
-	{
-		if (_battleCharacters[selectPlayer].player->getCurHP() <= 0)
-		{
-			selectPlayer++;
-			if (selectPlayer > 3) selectPlayer = 0;
-		}
-		else
-		{
-			break;
-		}
-	}
-	//Step 1a.Damage = Level * Level * (Battle Power * 4 + Vigor) / 256
-	//Note that vigor for each monster is randomly determined at the beginning of the battle as[56..63]
-}
-
 void BattleScene::drawText(int fontSize, char* str, RECT rc, int position, bool dialogue)
 {
 	newFont = CreateFont(fontSize, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
@@ -725,4 +712,20 @@ void BattleScene::victoryCondition()
 			}
 		}
 	}
+}
+
+void BattleScene::gameOverCondition()
+{
+	int deathCount = 0;
+	for (int i = 0; i < 4; ++i)
+	{
+		if (_battleCharacters[i].player->getCurHP() <= 0)
+		{
+			_battleCharacters[i].ATBcounter = 0;
+			_battleCharacters[i].player->setCurHP(0);
+			_battleCharacters[i].player->setStatus(BATTLE_PLAYER_DEAD);
+			deathCount++;
+		}
+	}
+
 }
