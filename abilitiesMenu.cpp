@@ -19,7 +19,6 @@ HRESULT abilitiesMenu::init()
 
 
 
-
 	return S_OK;
 }
 

@@ -115,6 +115,8 @@ void menu::cursorKeyControlX(float moveValueX, int moveNumber)
 
 	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 	{
+		SOUNDMANAGER->play("menuSelectLow", CH_MENU_EFFECT, EFFECTVOLUME);
+
 		_cursor.x += moveValueX;
 		_cursor.startX += moveValueX;
 		_cursor.currentXNum++;
@@ -131,6 +133,8 @@ void menu::cursorKeyControlX(float moveValueX, int moveNumber)
 
 	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 	{
+		SOUNDMANAGER->play("menuSelectLow", CH_MENU_EFFECT, EFFECTVOLUME);
+
 		_cursor.x -= moveValueX;
 		_cursor.startX -= moveValueX;
 		_cursor.currentXNum--;
@@ -162,6 +166,8 @@ void menu::cursorKeyControlY(float moveValueY, int downNumber)
 
 	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 	{
+		SOUNDMANAGER->play("menuSelectLow", CH_MENU_EFFECT, EFFECTVOLUME);
+
 		_cursor.y += moveValueY;
 		_cursor.currentYNum++;
 
@@ -176,6 +182,8 @@ void menu::cursorKeyControlY(float moveValueY, int downNumber)
 
 	if (KEYMANAGER->isOnceKeyDown(VK_UP))
 	{
+		SOUNDMANAGER->play("menuSelectLow", CH_MENU_EFFECT, EFFECTVOLUME);
+
 		_cursor.y -= moveValueY;
 		_cursor.currentYNum--;
 
@@ -274,7 +282,7 @@ void menu::playerSlotRender()
 		textPrint(getMemDC(), strLevel,         _vPlayer[i].x + 200, _vPlayer[i].y + 30, 15, 15, "HY견고딕", COLOR_BLACK, false);	//레벨
 		textPrint(getMemDC(), "HP",				_vPlayer[i].x + 150, _vPlayer[i].y + 50, 15, 15, "HY견고딕", COLOR_BLUE, false);	//"HP"
 		textPrint(getMemDC(), strHp,			_vPlayer[i].x + 200, _vPlayer[i].y + 50, 15, 15, "HY견고딕", COLOR_BLACK, false);	//체력
-		if (_vPlayer[i].mp == 0) continue;  //예외처리: MP가 없으면 건너띄기
+		if (_vPlayer[i].mp == -1) continue;  //예외처리: MP가 없으면 건너띄기
 		textPrint(getMemDC(), "MP",				_vPlayer[i].x + 150, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLUE, false);	//"MP"
 		textPrint(getMemDC(), strMp,			_vPlayer[i].x + 200, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLACK, false);	//마력
 	}
@@ -324,7 +332,7 @@ void menu::fileLoad(int fileNum)
 		_playerSlot.img = IMAGEMANAGER->findImage(_playerSlot.name);
 		wsprintf(_playerSlot.job, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "job"));
 		_playerSlot.level = INIDATA->loadDataInterger(saveFileNum, playerNum, "level");
-		if (_playerSlot.level == 0) continue; //예외처리: 정보가 없으면 다음으로...
+		if (_playerSlot.level == -1) continue; //예외처리: 정보가 없으면 다음으로...
 		_playerSlot.hp = INIDATA->loadDataInterger(saveFileNum, playerNum, "hp");
 		_playerSlot.maxHp = INIDATA->loadDataInterger(saveFileNum, playerNum, "maxHp");
 		_playerSlot.mp = INIDATA->loadDataInterger(saveFileNum, playerNum, "mp");
@@ -341,3 +349,168 @@ void menu::fileLoad(int fileNum)
 
 
 //============================== player ==============================
+
+
+//============================ save & load ===========================
+
+//                           
+tagElements menu::saveTxtData(int fileNum, string cStage)
+{
+	char tmp[36];
+	ZeroMemory(&tmp, sizeof(tmp));
+	sprintf(tmp, "saveFile%d", fileNum);
+
+	_playerElements.currentFile = tmp;
+	_playerElements.currentScene = cStage;
+
+	return _playerElements;
+}
+
+
+void menu::saveIniPlayerData(int fileNum, int playerNum, string cName, string job, int level, int hp, int maxHp, int mp, int maxMp)
+{
+	//파일정보 넘버
+	TCHAR tmp[4];
+	ZeroMemory(&tmp, sizeof(tmp));
+	wsprintf(tmp, "%d", fileNum);
+	INIDATA->addData("fileInfo", "num",  tmp);
+
+	//플레이어 넘버
+	TCHAR subjectNum[12];
+	ZeroMemory(&subjectNum, sizeof(subjectNum));
+	wsprintf(subjectNum, "player%d", playerNum);
+	//플레이어 이름 & 직업
+	INIDATA->addData(subjectNum,  "name",  cName.c_str());
+	INIDATA->addData(subjectNum,  "job",   job.c_str());
+	//플레이어 레벨
+	TCHAR tmp1[4];
+	ZeroMemory(&tmp1, sizeof(tmp1));
+	wsprintf(tmp1, "%d", level);
+	INIDATA->addData(subjectNum,  "level", tmp1);
+	//플레이어 체력
+	TCHAR tmp2[4];
+	ZeroMemory(&tmp2, sizeof(tmp2));
+	wsprintf(tmp2, "%d", hp);
+	INIDATA->addData(subjectNum,  "hp", tmp2);
+	//플레이어 최대체력
+	TCHAR tmp3[4];
+	ZeroMemory(&tmp3, sizeof(tmp3));
+	wsprintf(tmp3, "%d", maxHp);
+	INIDATA->addData(subjectNum,  "maxHp", tmp3);
+	//플레이어 마력
+	TCHAR tmp4[4];
+	ZeroMemory(&tmp4, sizeof(tmp4));
+	wsprintf(tmp4, "%d", mp);
+	INIDATA->addData(subjectNum,  "mp", tmp4);
+	//플레이어 최대마력
+	TCHAR tmp5[4];
+	ZeroMemory(&tmp5, sizeof(tmp5));
+	wsprintf(tmp5, "%d", maxMp);
+	INIDATA->addData(subjectNum,  "maxMp", tmp5);
+
+	//파일저장
+	TCHAR saveFileName[16];
+	wsprintf(saveFileName, "saveFile%d", fileNum);
+	INIDATA->iniSave(saveFileName);
+}
+
+void menu::saveIniSlotGameData(int fileNum, string stage, int gil, int playTime, int steps)
+{
+	//스테이지
+	INIDATA->addData("gameData", "stage", stage.c_str());
+
+	//플레이어 돈
+	TCHAR tmp2[8];
+	ZeroMemory(&tmp2, sizeof(tmp2));
+	wsprintf(tmp2, "%d", gil);
+	INIDATA->addData("gameData", "gil", tmp2);
+
+	//플레이 시간
+	TCHAR tmp3[32];
+	ZeroMemory(&tmp3, sizeof(tmp3));
+	wsprintf(tmp3, "%d", playTime);
+	INIDATA->addData("gameData", "playTime", tmp3);
+
+	//플레이 스텝
+	TCHAR tmp4[32];
+	ZeroMemory(&tmp4, sizeof(tmp4));
+	wsprintf(tmp4, "%d", steps);
+	INIDATA->addData("gameData", "steps", tmp4);
+
+	//파일저장
+	TCHAR saveFileName[16];
+	wsprintf(saveFileName, "saveFile%d", fileNum);
+	INIDATA->iniSave(saveFileName);
+
+}
+
+//============================ save & load ===========================
+
+
+//============================== gameData ============================
+
+void menu::saveIniGameData(int fileNum, string currentScene)
+{
+	//세이브 파일넘버
+	TCHAR tmp1[8];
+	ZeroMemory(&tmp1, sizeof(tmp1));
+	wsprintf(tmp1, "%d", fileNum);
+	INIDATA->addData("gameData", "fileNum", tmp1);
+
+	//저장파일이름
+	TCHAR saveFileName[16];
+	wsprintf(saveFileName, "saveFile%d", fileNum);;
+	INIDATA->addData("gameData", "saveFileName", saveFileName);
+
+	if (currentScene != "") INIDATA->addData("gameData", "currentScene", currentScene.c_str());
+
+	//파일저장
+	INIDATA->iniSave("gameData");
+}
+
+void menu::gameDataRender(bool isNewGame)
+{
+	//현재 선택한 세이브파일 정보 로드
+	tagCurrentGameData tmpGD;  
+	wsprintf(tmpGD.saveFileName, "%s", INIDATA->loadDataString("gameData", "gameData", "saveFileName"));
+
+	wsprintf(tmpGD.stage, "%s", INIDATA->loadDataString(tmpGD.saveFileName, "gameData", "stage"));
+	tmpGD.playTime = INIDATA->loadDataInterger(tmpGD.saveFileName, "gameData", "playTime");
+	tmpGD.gil = INIDATA->loadDataInterger(tmpGD.saveFileName, "gameData", "gil");
+	tmpGD.steps = INIDATA->loadDataInterger(tmpGD.saveFileName, "gameData", "steps");
+
+	
+	if (isNewGame)
+	{
+		//NEWGAME: 해당파일이 없으면 첫번째 파일부터 탐색해서 로드
+		if (tmpGD.playTime == -1)
+		{
+			for (int i = 0; i < 4; ++i)
+			{
+				char tmpSaveFileNum[16];
+				ZeroMemory(&tmpSaveFileNum, sizeof(tmpSaveFileNum));
+				sprintf(tmpSaveFileNum, "saveFile%d", i);
+
+				wsprintf(tmpGD.stage, "%s", INIDATA->loadDataString(tmpSaveFileNum, "gameData", "stage"));
+				tmpGD.playTime = INIDATA->loadDataInterger(tmpSaveFileNum, "gameData", "playTime");
+				tmpGD.gil = INIDATA->loadDataInterger(tmpSaveFileNum, "gameData", "gil");
+				tmpGD.steps = INIDATA->loadDataInterger(tmpSaveFileNum, "gameData", "steps");
+
+				if (tmpGD.playTime != -1) break;
+			}
+		}
+	}
+    
+
+	//텍스트 출력
+	if (tmpGD.playTime != -1)
+	{
+		char tmpBuff[32];
+		textPrint(getMemDC(), tmpGD.stage,					     1050, 392, 30, 30, "Stencil", COLOR_WHITE, true);
+		textPrint(getMemDC(), itoa(tmpGD.playTime, tmpBuff, 10), 1080, 462, 20, 20, "Stencil", COLOR_WHITE, true);
+		textPrint(getMemDC(), itoa(tmpGD.steps, tmpBuff, 10),    1080, 516, 20, 20, "Stencil", COLOR_WHITE, true);
+		textPrint(getMemDC(), itoa(tmpGD.gil, tmpBuff, 10),      1080, 570, 20, 20, "Stencil", COLOR_WHITE, true);
+	}
+}
+
+//============================== gameData ============================

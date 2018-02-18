@@ -27,6 +27,9 @@ HRESULT optionMenu::init()
 	_button->buttonSet("버튼판타지", 1000, 250, "Save", 30);
 	_button->buttonSet("버튼판타지", 1000, 300, "Config", 30);
 
+	//선택한 세이브 파일 가져오기 
+	fileLoad(INIDATA->loadDataInterger("gameData", "gameData", "fileNum"));
+
 
 	return S_OK;
 }
@@ -158,4 +161,7 @@ void optionMenu::render()
 	_bgImage->render(getMemDC());
 	cursorRender();
 	_button->render();
+
+	playerSlotRender();
+	gameDataRender(false);  //게임 데이터(플레이장소/플레이시간/돈)
 }

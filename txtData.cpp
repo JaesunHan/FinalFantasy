@@ -33,8 +33,10 @@ void txtData::txtSave(const char* saveFileName, vector<string> vStr)
 
 	strncpy_s(str, 128, vectorArrayCombine(vStr), 126);
 
+
 	file = CreateFile(saveFileName, GENERIC_WRITE, NULL, NULL,
-		CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+			CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+
 
 	//strlen 등 문자열 길이 함수를 쓰면 먹통된다
 	WriteFile(file, str, 128, &write, NULL);

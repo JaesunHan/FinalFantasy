@@ -94,6 +94,6 @@ int iniDataManager::loadDataInterger(const char* fileName, const char* subject, 
 
 
 
-	return GetPrivateProfileInt(subject, title, 0, str); 
+	return GetPrivateProfileInt(subject, title, -1, str); //반환값 수정 0 -> -1
 }
 
