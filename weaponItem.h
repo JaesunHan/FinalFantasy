@@ -15,7 +15,7 @@ public:
 	weaponItem();
 	~weaponItem();
 
-	HRESULT init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price);
+	HRESULT init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price, int _attack, int _hitRate);
 	void release();
 	void update();
 };
