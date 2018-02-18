@@ -6,7 +6,7 @@
 #include "battleShadow.h"
 #include "battleTina.h"
 #include "weaponItem.h"
-
+#include "newGame.h"
 
 playerManager::playerManager()
 {
@@ -25,6 +25,8 @@ HRESULT playerManager::init()
 	_locke = new Locke;
 	_shadow = new shadow;
 	_tina = new Tina;
+	
+	
 	
 
 	return S_OK;
@@ -84,4 +86,15 @@ void playerManager::setPlayerInfoToBattlePlayer()
 	bTina->setWeapon(_tina->getWeapon());
 	
 	//================================== End 그 배틀씬의 배틀플레이어들의 정보를 저장한다.====================================
+}
+
+//새 게임을 시작하면 기본적으로 생성한 플레이어들의 정보를 파일에 저장한다.
+void playerManager::saveNewGame()
+{
+	newGame* ng = new newGame;
+	ng = (newGame*)SCENEMANAGER->findScene("뉴게임");
+	int saveFileNum = ng->getSaveFileNum();
+
+	
+
 }

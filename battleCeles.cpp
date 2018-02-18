@@ -102,6 +102,10 @@ battleCeles::battleCeles()
 
 	_atkAnimPlaySPD = 20;
 
+	//공격할 때 터질 사운드 이팩트
+	_atkEffectSoundKey = "CelesAttackSound";
+	_atkEffectSoundFile = "./sound/sfx/65SwordSlash.wav";
+	SOUNDMANAGER->addSound(_atkEffectSoundKey, _atkEffectSoundFile, false, false);
 }
 
 

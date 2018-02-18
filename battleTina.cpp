@@ -97,6 +97,11 @@ battleTina::battleTina()
 	_hitRate = 200;
 	
 	_atkAnimPlaySPD = 15;
+
+	//공격할 때 터질 사운드 이팩트
+	_atkEffectSoundKey = "TinaAttackSound";
+	_atkEffectSoundFile = "./sound/sfx/42Fire2.wav";
+	SOUNDMANAGER->addSound(_atkEffectSoundKey, _atkEffectSoundFile, false, false);
 }
 
 
