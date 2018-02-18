@@ -75,7 +75,7 @@ void playGround::update(void)
 		SCENEMANAGER->changeScene("·Îµù");
 	}
 	//¿É¼Ç¸Þ´º
-	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE) && SCENEMANAGER->getCurrentSceneName() != "¹èÆ²¾À")
+	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE) && SCENEMANAGER->getCurrentSceneName() == "¿ùµå¸Ê¾À")
 	{
 		SCENEMANAGER->changeScene("¿É¼Ç");
 	}

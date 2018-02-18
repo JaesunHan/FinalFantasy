@@ -78,8 +78,74 @@ void abilitiesMenu::update()
 	//버튼
 	_button->update();
 
+	//선택
+	switch (_cursor.currentYNum)
+	{
+		case 0:
+			//버튼 에니메이션 활성화
+			_button->setVButtonAniStart(_cursor.currentYNum, true);
+			for (int i = 0; i < _cursorYNum; ++i)
+			{
+				if (i == _cursor.currentYNum) continue;
+				_button->setVButtonAniStart(i, false);
+			}
 
+			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+			{
+				_button->buttonRemove();
+				delete _button;
+				SCENEMANAGER->changeScene("아이템");
+			}
+		break;
+		case 1:
+			//버튼 에니메이션 활성화
+			_button->setVButtonAniStart(_cursor.currentYNum, true);
+			for (int i = 0; i < _cursorYNum; ++i)
+			{
+				if (i == _cursor.currentYNum) continue;
+				_button->setVButtonAniStart(i, false);
+			}
 
+			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+			{
+				_button->buttonRemove();
+				delete _button;
+				SCENEMANAGER->changeScene("아이템");
+			}
+		break;
+		case 2:
+			//버튼 에니메이션 활성화
+			_button->setVButtonAniStart(_cursor.currentYNum, true);
+			for (int i = 0; i < _cursorYNum; ++i)
+			{
+				if (i == _cursor.currentYNum) continue;
+				_button->setVButtonAniStart(i, false);
+			}
+
+			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+			{
+				_button->buttonRemove();
+				delete _button;
+				SCENEMANAGER->changeScene("아이템");
+			}
+			break;
+		case 3:
+			//버튼 에니메이션 활성화
+			_button->setVButtonAniStart(_cursor.currentYNum, true);
+			for (int i = 0; i < _cursorYNum; ++i)
+			{
+				if (i == _cursor.currentYNum) continue;
+				_button->setVButtonAniStart(i, false);
+			}
+
+			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+			{
+				_button->buttonRemove();
+				delete _button;
+				SCENEMANAGER->changeScene("아이템");
+			}
+		break;
+	}
 
 
 
