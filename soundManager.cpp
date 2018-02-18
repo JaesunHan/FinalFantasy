@@ -338,9 +338,12 @@ void soundManager::releaseSingleSound(string keyName)
 
 void soundManager::releaseAllSound()
 {
-	for (int i = 0; i < MAX_CHANNEL; ++i)
+	if (_channel != NULL)
 	{
-		_channel[i]->stop();
+		for (int i = 0; i < MAX_CHANNEL; ++i)
+		{
+			_channel[i]->stop();
+		}
 	}
 	int tempSize = _mTotalSounds.size();
 	for (int i = 0; i < tempSize; ++i)

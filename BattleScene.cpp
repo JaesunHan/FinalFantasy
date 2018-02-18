@@ -113,9 +113,9 @@ HRESULT BattleScene::init()
 
 void BattleScene::release()
 {
-	_battleCharacters.clear();
 	SOUNDMANAGER->releaseAllSound();
 	EFFECTMANAGER->release();
+	_battleCharacters.clear();
 }
 
 void BattleScene::update() 
@@ -131,6 +131,7 @@ void BattleScene::update()
 	soundControl();
 	if (KEYMANAGER->isOnceKeyDown('R'))
 	{
+		//SOUNDMANAGER->releaseAllSound();
 		//SOUNDMANAGER->getChannel(CH_BGM)->setPosition(30000, FMOD_TIMEUNIT_MS);
 		this->release();
 		SCENEMANAGER->changeScene("¿ùµå¸Ê¾À");
@@ -677,7 +678,7 @@ void BattleScene::victoryCondition()
 		{
 			if (_battleCharacters[i].player->getCurHP() > 0)
 			{
-				_battleCharacters[i].player->setStatus(BATTLE_PLAYER_WIN);
+				_battleCharacters[i].player->setStatus(BATTLE_PLAYER_WIN_BEFORE);
 			}
 		}
 	}
