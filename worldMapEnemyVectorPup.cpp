@@ -96,7 +96,6 @@ void worldMapEnemyVectorPup::move()
 			_vectorPupCount = 0;
 		}
 	}
-	worldMapEnemy::move();
 }
 
 void worldMapEnemyVectorPup::worldEnemyImageFrameControl()

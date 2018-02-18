@@ -93,7 +93,6 @@ void worldMapEnemySamurai::move()
 			_samuraiCount = 0;
 		}
 	}
-	worldMapEnemy::move();
 }
 
 

@@ -17,21 +17,21 @@ HRESULT worldMapEnemyManager::init()
 	{
 		worldMapEnemy* _worldMapEnemy;
 
-		switch (i)
+		switch (i % (RND->getInt(3) + 1))
 		{
 		case ENEMY_BEAR:
 			_worldMapEnemy = new worldEnemyBear;
-			_worldMapEnemy->init(700, 340);
+			_worldMapEnemy->init(700 - i * 50, 340 - i * 30);
 			break;
 
 		case ENEMY_SKELETON:
 			_worldMapEnemy = new worldMapEnemySamurai;
-			_worldMapEnemy->init(400, 200);
+			_worldMapEnemy->init(400 + i * 50, 200 + i * 20);
 			break;
 		
 		case ENEMY_VECTORPUP:
 			_worldMapEnemy = new worldMapEnemyVectorPup;
-			_worldMapEnemy->init(800, 500);
+			_worldMapEnemy->init(800 - i * 50, 500 - i * 50);
 		}
 
 		_vWME.push_back(_worldMapEnemy);

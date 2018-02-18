@@ -92,7 +92,6 @@ void worldEnemyBear::move()
 				_bearCount = 0;
 			}
 	}
-	worldMapEnemy::move();
 }
 
 void worldEnemyBear::worldEnemyImageFrameControl()

@@ -267,8 +267,10 @@ void mapTool::terrainTileSetInit()
 		else if (_terrainTileImageKey == "testTileSet")
 		{
 			if (i == 0) _terrainTileSet[i].setTerrain(TR_DESERT);
-			if (i == 3) _terrainTileSet[i].setTerrain(TR_WATER);
-			if (i == 4) _terrainTileSet[i].setTerrain(TR_GRASS);
+			if (i == 1) _terrainTileSet[i].setTerrain(TR_SNOW);
+			if (i == 2) _terrainTileSet[i].setTerrain(TR_SWAMP);
+			if (i == 3 || i == 7) _terrainTileSet[i].setTerrain(TR_WATER);
+			if (i == 4 || i == 5) _terrainTileSet[i].setTerrain(TR_GRASS);
 		}
 		
 		// 지형 타입에 따른 속성 부여

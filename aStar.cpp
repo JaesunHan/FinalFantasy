@@ -49,7 +49,7 @@ vector<tile> aStar::addOpenList(tile currentTile)
 		{
 			//예외처리
 			if (startX + j < 0 || startY + i< 0) continue;
-			if (startX + j >= _tileX - 1 || startY + i >= _tileY - 1) continue;
+			if (startX + j > _tileX - 1 || startY + i > _tileY - 1) continue;
 
 			//대각선 예외처리
 			if (j == 0 && i == 0)
