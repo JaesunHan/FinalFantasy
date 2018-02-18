@@ -23,7 +23,7 @@ HRESULT gameOverScene::init()
 void gameOverScene::release()
 {
 	IMAGEMANAGER->deleteImage("gameOver");
-	SOUNDMANAGER->releaseSingleSound("gameOverBGM");
+	SOUNDMANAGER->releaseAllSound();
 }
 
 void gameOverScene::update() 

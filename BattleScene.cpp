@@ -30,6 +30,8 @@ HRESULT BattleScene::init()
 	_isDamaged = false;
 	_victory = false;
 	_hit = false;
+	//벡터 초기화
+	//SAFE_DELETE(_battleCharacters);
 	//폰트 추가
 	AddFontResourceEx(
 		"SDMiSaeng.ttf", 	// font file name
