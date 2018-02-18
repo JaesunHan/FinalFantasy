@@ -66,7 +66,7 @@ battleTina::battleTina()
 	_winBeforeAnim = new animation;
 	_winBeforeAnim->init(_winBeforeImg->getWidth(), _winBeforeImg->getHeight(), _winBeforeImg->getFrameWidth(), _winBeforeImg->getFrameHeight());
 	int winBeforeArr[] = { 0, 1, 2, 3, 4 };
-	_winBeforeAnim->setPlayFrame(winBeforeArr, 5, true);
+	_winBeforeAnim->setPlayFrame(winBeforeArr, 5, false);
 	_winBeforeAnim->setFPS(1);
 
 	_jumpImg = IMAGEMANAGER->addImage("tinaJump", "./image/playerImg/tina/tina_jump.bmp", 40, 50, true, RGB(255, 0, 255));

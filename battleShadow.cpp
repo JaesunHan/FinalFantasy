@@ -69,7 +69,7 @@ battleShadow::battleShadow()
 	_winBeforeAnim = new animation;
 	_winBeforeAnim->init(_winBeforeImg->getWidth(), _winBeforeImg->getHeight(), _winBeforeImg->getFrameWidth(), _winBeforeImg->getFrameHeight());
 	int winBeforeArr[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
-	_winBeforeAnim->setPlayFrame(winArr, 15, true);
+	_winBeforeAnim->setPlayFrame(winBeforeArr, 15, true);
 	_winBeforeAnim->setFPS(1);
 
 
