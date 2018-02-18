@@ -52,23 +52,4 @@ namespace HEPTA_UTIL
 		SetTextAlign(hdc, TA_LEFT);
 	}
 
-	//string_to_char
-	char* s2c(string str)
-	{
-		TCHAR tempName[128];
-		ZeroMemory(&tempName, sizeof(tempName));
-		wsprintf(tempName, "%s", str.c_str());
-
-		return tempName;
-	}
-
-	//int_to_char
-	char* i2c(int i)
-	{
-		char tempNum[128];
-		ZeroMemory(&tempNum, sizeof(tempNum));
-		sprintf(tempNum, "%d", i);
-
-		return tempNum;
-	}
 }

@@ -20,6 +20,7 @@
 #define COLOR_MAGENTA	RGB(255, 0, 255)
 
 #define SAVEFILENUM 4
+#define EFFECTVOLUME 0.5f
 
 enum CURSOR_TYPE
 {
@@ -47,8 +48,6 @@ enum SAVE_TYPE
 	SAVE_LOADGAME
 };
 
-
-
 struct tagPlayer
 {
 	image* img;             //플레이어 이미지
@@ -56,10 +55,43 @@ struct tagPlayer
 	int level;              //플레이어 레벨
 	int hp, maxHp;          //플레이어 체력
 	int mp, maxMp;          //플레이어 마력
-	TCHAR name[128];		//플레이어 이름
-	TCHAR job[128];			//플레이어 직업
+	TCHAR name[32];		//플레이어 이름
+	TCHAR job[32];			//플레이어 직업
 };	
 
+enum STAGE_SCENE
+{
+	STAGE_MENU,
+	STAGE_OPTION,
+	STAGE_OVERWORLD,
+	STAGE_VILLAGE,
+	STAGE_END
+};
+
+struct tagCurrentGameData
+{
+	TCHAR saveFileName[32];
+	TCHAR stage[32];
+	int fileNum;
+	int gil;
+	int playTime;
+	int steps;
+};
+
+enum MENU_SCENE
+{
+	MENU_TITLE,
+	MENU_NEWGAME,
+	MENU_LOADGAME,
+	MENU_OPTION,
+	MENU_ABILITY,
+	MENU_CONFIG,
+	MENU_EQUIP,
+	MENU_ITEM,
+	MENU_SAVE,
+	MENU_STATUS,
+	MENU_END
+};
 
 
 class menu : public gameNode
@@ -78,6 +110,7 @@ protected:
 
 	//======= saveLoad =======
 	bool _saveFileSelect;
+	int _saveFileNum;
 	//======= saveLoad =======
 
 	//======== button ========
@@ -87,12 +120,16 @@ protected:
 	//======== player ========
 	vPlayer   _vPlayer;
 	viPlayer  _viPlayer;
+	tagElements _playerElements;
 
 	tagPlayer _playerSlot;  //각 슬롯에 플레이어 정보 담을 구조체 변수
 	bool _fileLoadOk[4];    //세이브 파일 존재 유무판별
 	int _selectFileCount;   //파일 선택후 슬롯을 보여주기 위한 카운트 값 (바로 선택버튼으로 이동하지 않도록) 
 	//======== player ========
-
+	
+	//======= gameData =======
+	elements* _gameData;
+	//======= gameData =======
 
 	//====== BG 이미지 =======
 	image*    _bgImage;
@@ -121,6 +158,17 @@ public:
 
 	virtual void fileLoad(int fileNum);
 	//================================ player ===============================
+
+	//============================== save & load ============================
+	virtual tagElements saveTxtData(int fileNum, string cStage);
+	virtual void saveIniPlayerData(int fileNum, int playerNum, string cName, string job, int level, int hp, int maxHp, int mp, int maxMp);
+	virtual void saveIniSlotGameData(int fileNum, string stage, int gil, int playTime, int steps);
+	//============================== save & load ============================
+
+	//=============================== gameData ==============================
+	virtual void saveIniGameData(int fileNum, string currentScene = "");
+	virtual void gameDataRender(bool isNewGame);
+	//=============================== gameData ==============================
 
 
 

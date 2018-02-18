@@ -3,32 +3,22 @@
 #include <vector>
 #include <map>
 
-#define ELEMENTNUM 8 + 1
+#define ELEMENTNUM 2 + 1
 
 struct tagElements
 {
-	string characterName;
-	string currentHP;
-	string maxHP;
-	string currentMP;
-	string maxMP;
-	string steps;
-	string gil;
 	string currentScene;
+	string currentFile;
 };
 
 //elements == 속성들 
 class elements
 {
 public:
-	const char* characterName;
-	int currentHP;
-	int maxHP;
-	int currentMP;
-	int maxMP;
-	int steps;
-	int gil;
+	const char* currentFile;
 	const char* currentScene;
+
+
 
 	elements() {};
 	~elements() {};
@@ -59,13 +49,8 @@ public:
 	elements* getElementData(string str) { return _mTotalElement.find(str)->second; }
 
 	//설정자
-	void setElementDataCurrentHP(string str, float currentHp);
-	void setElementDataMaxHP(string str, float maxHp);
-	void setElementDataCurrentMP(string str, float currentMP);
-	void setElementDataMaxMP(string str, float maxMP);
-	void setElementDataSteps(string str, float steps);
-	void setElementDataGil(string str, float gil);
 	void setElementDataCurrentScene(string str, const char* currentScene);
+	void setElementDataCurrentFile(string str, const char* currentFile);
 
 
 	database();

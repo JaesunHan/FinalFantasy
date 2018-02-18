@@ -23,7 +23,37 @@ HRESULT newGame::init()
 
 	_saveFileNum = SAVEFILENUM;  //세이브파일 갯수
 
-	fileLoad(0);
+
+	//============================================================== 세이브 파일 로드
+	int tmpSaveFileNum = 0;
+	for (int i = 0; i < SAVEFILENUM; ++i)
+	{
+		char tmp[32];
+		ZeroMemory(&tmp, sizeof(tmp));
+		wsprintf(tmp, "saveFile%d", i);
+		if (INIDATA->loadDataInterger(tmp, "fileInfo", "num") != -1)
+		{
+			tmpSaveFileNum = i;
+			break;
+		}
+	}
+	
+	switch (tmpSaveFileNum)  //파일이 있는 최소 세이브 파일 로딩
+	{
+		case 0:
+			fileLoad(tmpSaveFileNum);
+		break;
+		case 1:
+			fileLoad(tmpSaveFileNum);
+		break;
+		case 2:
+			fileLoad(tmpSaveFileNum);
+		break;
+		case 3:
+			fileLoad(tmpSaveFileNum);
+		break;
+	}
+	//==============================================================
 
 
 	return S_OK;
@@ -59,32 +89,26 @@ void newGame::update()
 				sprintf(numTemp, "saveFile%d", i);
 				_saveFileNum = INIDATA->loadDataInterger(numTemp, "fileInfo", "num");
 
-				if (_saveFileNum != -1)
+				if (_saveFileNum != -1)  //세이브 데이터가 있으면
 				{
 					_saveFileNum = _saveFileNum + 1;
 					break;
 				}
-				else
+				else  //세이브 데이터가 없으면
 				{
 					_saveFileNum = 0;
 				}
 			}
 
-			//저장파일 생성
-			char saveFileNum[4];
-			sprintf(saveFileNum, "%d", _saveFileNum);
-			INIDATA->addData("fileInfo", "num", saveFileNum);
-			INIDATA->addData("player0", "name", "TINA");
-			INIDATA->addData("player0", "job", "Magician");
-			INIDATA->addData("player0", "level", "3");
-			INIDATA->addData("player0", "hp", "63");
-			INIDATA->addData("player0", "maxHp", "63");
-			INIDATA->addData("player0", "mp", "27");
-			INIDATA->addData("player0", "maxMp", "27");
+			//================================== 저장파일 생성 ================================== 
+			saveIniPlayerData(_saveFileNum, 0, "TINA",   "Magician",        3, 63, 63, 27, 27);
+			saveIniPlayerData(_saveFileNum, 1, "CELES",  "Rune Knight",     2, 56, 56, 21, 21);
+			saveIniPlayerData(_saveFileNum, 2, "LOCK",   "Treasure Hunter", 2, 68, 68, 0, 0);
+			saveIniPlayerData(_saveFileNum, 3, "SHADOW", "Assassin",        3, 72, 72, 0, 0);
 
-			char saveFileName[16];
-			sprintf(saveFileName, "saveFile%d", _saveFileNum);
-			INIDATA->iniSave(saveFileName);
+			saveIniSlotGameData(_saveFileNum, "OVER WORLD",3000 , 0, 0);  //게임데이터: 세이브파일에 저장
+			saveIniGameData(_saveFileNum, "OVER WORLD");                  //게임데이터: 데이터베이스에 저장
+			//================================== 저장파일 생성 ================================== 
 
 			//버튼삭제 
 			_button->buttonRemove();
@@ -116,7 +140,8 @@ void newGame::render()
 	_button->render();
 	cursorRender();
 
-	if (_fileLoadOk[0]) playerSlotRender();
+	if (_fileLoadOk[0]) playerSlotRender();  //플레이어 슬롯
+	gameDataRender(true);  //게임 데이터(플레이장소/플레이시간/돈)
 }
 
 

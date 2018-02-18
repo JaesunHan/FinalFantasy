@@ -32,15 +32,7 @@ HRESULT loadGame::init()
 	_selectFileCount = 2;
 
 	//세이브파일 로드 (file: 0)
-	fileLoad(0);
-
-
-	//playerSlotInit("TINA", 65, 102, 1, "Magician", 100, 100, 50, 50);
-	//playerSlotInit("CELES", 65, 240, 1, "Rune Knight", 100, 100, 50, 50);
-	//playerSlotInit("LOCK", 65, 375, 1, "Treasure Hunter", 100, 100, 50, 50);
-	//playerSlotInit("SHADOW", 65, 512, 1, "Assassin ", 100, 100, 50, 50);
-
-
+	if (INIDATA->loadDataInterger("saveFile0", "player0", "level") != -1) fileLoad(0);
 
 
 	_saveFileSelect = false;
@@ -87,6 +79,9 @@ void loadGame::update()
 				//선택버튼으로 이동
 				if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 				{
+					//게임데이터: 데이터베이스에 저장
+					saveIniGameData(0);                
+
 					//세이브파일 출력
 					fileLoad(0);
 					_selectFileCount--;
@@ -120,6 +115,10 @@ void loadGame::update()
 				//선택버튼으로 이동
 				if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 				{
+					//게임데이터: 데이터베이스에 저장
+					saveIniGameData(1);
+
+					//세이브파일 출력
 					fileLoad(1);
 					_selectFileCount--;
 
@@ -152,6 +151,10 @@ void loadGame::update()
 				//선택버튼으로 이동
 				if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 				{
+					//게임데이터: 데이터베이스에 저장
+					saveIniGameData(2);
+
+					//세이브파일 출력
 					fileLoad(2);
 					_selectFileCount--;
 
@@ -184,6 +187,10 @@ void loadGame::update()
 				//선택버튼으로 이동
 				if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 				{
+					//게임데이터: 데이터베이스에 저장
+					saveIniGameData(3);
+
+					//세이브파일 출력
 					fileLoad(3);
 					_selectFileCount--;
 
@@ -278,6 +285,7 @@ void loadGame::render()
 	cursorRender();
 
 	playerSlotRender();
+	gameDataRender(false);  //게임 데이터(플레이장소/플레이시간/돈)
 }
 
 
