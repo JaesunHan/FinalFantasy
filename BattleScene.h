@@ -68,6 +68,7 @@ private:
 	bool _sfx02 = false;							//이펙트 사운드 2번
 	bool _isDamaged = false;						//데미지 들어갈 때 참
 	bool _victory = false;							//승리했을때 참
+	bool _hit = false;								//명중시 참
 	HFONT newFont, oldFont;							//폰트
 	RECT _damageRC;									//데미지 렉트
 	playerManager* _pm;

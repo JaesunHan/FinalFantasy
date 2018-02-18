@@ -39,6 +39,7 @@ HRESULT BattleScene::init()
 	SOUNDMANAGER->addSound("battleMenuOpen", ".\\sound\\sfx\\battleMenuOpen.wav", false, false);
 	SOUNDMANAGER->addSound("menuSelectLow", ".\\sound\\sfx\\menuSelectLow.wav", false, false);
 	SOUNDMANAGER->addSound("monsterDeath", ".\\sound\\sfx\\monsterDeath.wav", false, false);
+	SOUNDMANAGER->addSound("miss", ".\\sound\\sfx\\miss.wav", false, false);
 	SOUNDMANAGER->play("battleBGM", CH_BGM, 1.0f);
 
 	tagBattleCharacters temp;
@@ -134,7 +135,7 @@ void BattleScene::update()
 		//SOUNDMANAGER->releaseAllSound();
 		//SOUNDMANAGER->getChannel(CH_BGM)->setPosition(30000, FMOD_TIMEUNIT_MS);
 		this->release();
-		SCENEMANAGER->changeScene("¿ùµå¸Ê¾À");
+		SCENEMANAGER->changeScene("¿ùµå¸Ê¾À", false);
 	}
 }
 
@@ -148,9 +149,6 @@ void BattleScene::render()
 	temporaryMessage(60);
 
 	EFFECTMANAGER->render();
-	char test[128];
-	wsprintf(test, "%d", _position);
-	TextOut(getMemDC(), 500, 0, test, strlen(test));
 }
 //¹èÆ² Å¸ÀÌ¸Ó µ¹¸®´Â ÇÔ¼ö
 void BattleScene::ATBGauzeTimer()
@@ -274,7 +272,7 @@ void BattleScene::playerMenuSelect()
 			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
 			for (int i = 0; i < _maxMonster; ++i)
 			{
-				if (_battleCharacters[_enemyNum].enemy->getCurHP() < 0)
+				if (_battleCharacters[_enemyNum].enemy->getCurHP() <= 0)
 				{
 					_enemyNum--;
 					if (_enemyNum < 4) _enemyNum = _maxMonster + 3;
@@ -301,7 +299,7 @@ void BattleScene::playerMenuSelect()
 			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
 			for (int i = 0; i < _maxMonster; ++i)
 			{
-				if (_battleCharacters[_enemyNum].enemy->getCurHP() < 0)
+				if (_battleCharacters[_enemyNum].enemy->getCurHP() <= 0)
 				{
 					_enemyNum++;
 					if (_enemyNum > _maxMonster + 3) _enemyNum = 4;
@@ -331,19 +329,6 @@ void BattleScene::playerMenuSelect()
 				_battleCharacters[_currentTurn].player->setStatus(BATTLE_PLAYER_ATTACK_STANDBY);
 				_battleCharacters[_currentTurn].selectAction = true;
 				_battleTurn.push(&_battleCharacters[_currentTurn]);
-				_enemyNum = 4;
-				for (int i = 0; i < _maxMonster; ++i)
-				{
-					if (_battleCharacters[_enemyNum].enemy->getCurHP() < 0)
-					{
-						_enemyNum++;
-						if (_enemyNum > _maxMonster + 3) _enemyNum = 4;
-					}
-					else
-					{
-						break;
-					}
-				}
 				_enemySelect = false;
 				_playerTurn = false;
 				break;
@@ -364,6 +349,19 @@ void BattleScene::playerMenuSelect()
 			{
 			case(BATTLE_ATTACK):
 				_enemySelect = true;
+				_enemyNum = 4;
+				for (int i = 0; i < _maxMonster; ++i)
+				{
+					if (_battleCharacters[_enemyNum].enemy->getCurHP() <= 0)
+					{
+						_enemyNum++;
+						if (_enemyNum > _maxMonster + 3) _enemyNum = 4;
+					}
+					else
+					{
+						break;
+					}
+				}
 				break;
 			case(BATTLE_MAGIC):
 				break;
@@ -604,19 +602,18 @@ void BattleScene::soundControl()
 
 void BattleScene::playerAttack()
 {
-	bool Hit;
 	float BlockValue = (255 - _battleTurn.front()->enemy->getMDef() * 2) + 1;
 	if (BlockValue > 255) BlockValue = 255;
 	if (BlockValue < 1) BlockValue = 1;
 	if ((_battleTurn.front()->player->getHitRate() * BlockValue / 256) > RND->getFromFloatTo(0, 0.99f))
 	{
-		Hit = true;
+		_hit = true;
 	}
 	else
 	{
-		Hit = false;
+		_hit = false;
 	}
-	if (Hit == true)
+	if (_hit == true)
 	{
 		float Vigor2 = _battleTurn.front()->player->getStrength() * 2;
 		if (Vigor2 > 255) Vigor2 = 255;
@@ -625,7 +622,7 @@ void BattleScene::playerAttack()
 		_damage = (_damage * (float)RND->getFromIntTo(224, 255) / 256) + 1;
 		_damage = (_damage * (255 - (float)_battleTurn.front()->enemy->getADef()) / 256) + 1;
 		_battleTurn.front()->enemy->setCurHP(_battleTurn.front()->enemy->getCurHP() - _damage);
-		_damageRC = { _battleTurn.front()->enemy->getX() - _battleTurn.front()->enemy->getImageWidth() / 2 - 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight(), _battleTurn.front()->enemy->getX() - _battleTurn.front()->enemy->getImageWidth() / 2 + 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() + 30 };
+		_damageRC = { _battleTurn.front()->enemy->getX() - 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() / 2, _battleTurn.front()->enemy->getX() + 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() / 2 + 30 };
 	}
 	_isDamaged = true;
 }
@@ -647,7 +644,15 @@ void BattleScene::temporaryMessage(int endPoint)
 		_messageCounter++;
 		char tempDamage[128];
 		wsprintf(tempDamage, "%d", (int)_damage);
-		drawText(30, tempDamage, _damageRC, DT_CENTER);
+		if (_hit == true) drawText(30, tempDamage, _damageRC, DT_CENTER);
+		else
+		{
+			if (_messageCounter < 2)
+			{
+				SOUNDMANAGER->play("miss", CH_SOKKONGGU, 1.0f);
+			}
+			drawText(30, "miss", _damageRC, DT_CENTER);
+		}
 		if (_messageCounter > endPoint)
 		{
 			_messageCounter = 0;
