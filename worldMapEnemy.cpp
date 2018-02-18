@@ -37,7 +37,7 @@ HRESULT worldMapEnemy::init(int enemyX, int enemyY)
 	_wp = new worldMapPlayer;
 
 	_isCollision = false;
-
+	_isDetect = false;
 
 	return S_OK;
 }
@@ -49,40 +49,43 @@ void worldMapEnemy::release()
 void worldMapEnemy::update()
 {
 	worldEnemyImageFrameControl();
-	if (_count % MAX_FIND_COUNTER == 0)//(KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
-	{
-		tile start;
-		tile end;
-		//_count = 0;
-
-		for (int i = 0; i < _worldMap->getWorldMapPOINT().x * _worldMap->getWorldMapPOINT().y; ++i)
+	if(_isDetect)
+	{ 
+		if (_count % MAX_FIND_COUNTER == 0)//(KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
 		{
-			//RECT temp = RectMakeCenter(_worldMap->getWorldMapTiles()[i].getCenterPt().x, _worldMap->getWorldMapTiles()[i].getCenterPt().y, TILE_SIZEX, TILE_SIZEY);
-			//if (PtInRect(&temp, PointMake(_enemy.x, _enemy.y)))
-			if ((_worldMap->getWorldMapTiles()[i].getCenterPt().x - TILE_SIZEX / 2) / TILE_SIZEX == _enemy.x / TILE_SIZEX &&
-				(_worldMap->getWorldMapTiles()[i].getCenterPt().y - TILE_SIZEY / 2) / TILE_SIZEY == (_enemy.y + 30) / TILE_SIZEY)
-			{
-				start = _worldMap->getWorldMapTiles()[i];
-				break;
-			}
-		}
+			tile start;
+			tile end;
+			//_count = 0;
 
-		for (int i = 0; i <_worldMap->getWorldMapPOINT().x * _worldMap->getWorldMapPOINT().y; ++i)
-		{
-			//RECT temp = RectMakeCenter(_worldMap->getWorldMapTiles()[i].getCenterPt().x, _worldMap->getWorldMapTiles()[i].getCenterPt().y, TILE_SIZEX, TILE_SIZEY);
-			//if (PtInRect(&temp, _wp->getWorldMapPlayerPoint()))
-			if ((_worldMap->getWorldMapTiles()[i].getCenterPt().x - TILE_SIZEX / 2) / TILE_SIZEX == _wp->getWorldMapPlayerPoint().x / TILE_SIZEX &&
-				(_worldMap->getWorldMapTiles()[i].getCenterPt().y - TILE_SIZEY / 2) / TILE_SIZEY == (_wp->getWorldMapPlayerPoint().y + 30) / TILE_SIZEY)
+			for (int i = 0; i < _worldMap->getWorldMapPOINT().x * _worldMap->getWorldMapPOINT().y; ++i)
 			{
-				//!isOpen이면 못가게
-				if (!_worldMap->getWorldMapTiles()[i].getIsOpen()) return;
-				end = _worldMap->getWorldMapTiles()[i];
-				break;
+				//RECT temp = RectMakeCenter(_worldMap->getWorldMapTiles()[i].getCenterPt().x, _worldMap->getWorldMapTiles()[i].getCenterPt().y, TILE_SIZEX, TILE_SIZEY);
+				//if (PtInRect(&temp, PointMake(_enemy.x, _enemy.y)))
+				if ((_worldMap->getWorldMapTiles()[i].getCenterPt().x - TILE_SIZEX / 2) / TILE_SIZEX == _enemy.x / TILE_SIZEX &&
+					(_worldMap->getWorldMapTiles()[i].getCenterPt().y - TILE_SIZEY / 2) / TILE_SIZEY == (_enemy.y + 30) / TILE_SIZEY)
+				{
+					start = _worldMap->getWorldMapTiles()[i];
+					break;
+				}
 			}
-		}
 
-		_ast->init(_worldMap->getWorldMapTiles(), _worldMap->getWorldMapPOINT().x, _worldMap->getWorldMapPOINT().y, start, end);
-		_vCloseList = _ast->pathFinder(start);
+			for (int i = 0; i < _worldMap->getWorldMapPOINT().x * _worldMap->getWorldMapPOINT().y; ++i)
+			{
+				//RECT temp = RectMakeCenter(_worldMap->getWorldMapTiles()[i].getCenterPt().x, _worldMap->getWorldMapTiles()[i].getCenterPt().y, TILE_SIZEX, TILE_SIZEY);
+				//if (PtInRect(&temp, _wp->getWorldMapPlayerPoint()))
+				if ((_worldMap->getWorldMapTiles()[i].getCenterPt().x - TILE_SIZEX / 2) / TILE_SIZEX == _wp->getWorldMapPlayerPoint().x / TILE_SIZEX &&
+					(_worldMap->getWorldMapTiles()[i].getCenterPt().y - TILE_SIZEY / 2) / TILE_SIZEY == (_wp->getWorldMapPlayerPoint().y + 30) / TILE_SIZEY)
+				{
+					//!isOpen이면 못가게
+					if (!_worldMap->getWorldMapTiles()[i].getIsOpen()) return;
+					end = _worldMap->getWorldMapTiles()[i];
+					break;
+				}
+			}
+
+			_ast->init(_worldMap->getWorldMapTiles(), _worldMap->getWorldMapPOINT().x, _worldMap->getWorldMapPOINT().y, start, end);
+			_vCloseList = _ast->pathFinder(start);
+		}
 	}
 
 	this->move();
@@ -96,6 +99,7 @@ void worldMapEnemy::update()
 	{
 		_enemyDirection = ENEMYDIRECTION_RIGHT;
 	}
+	worldEnemyDetect();
 
 }
 
@@ -251,3 +255,17 @@ BOOL operator==(RECT sour, RECT dest)
 
 	return FALSE;
 }
+
+
+void worldMapEnemy::worldEnemyDetect()
+{
+	if (getDistance(_enemy.x, _enemy.y, _wp->getWorldMapPlayerPoint().x, _wp->getWorldMapPlayerPoint().y) <TILE_SIZEX+100)
+	{
+		_isDetect = true;
+	}
+	else if (getDistance(_enemy.x, _enemy.y, _wp->getWorldMapPlayerPoint().x, _wp->getWorldMapPlayerPoint().y) > TILE_SIZEX + 200)
+	{
+		_isDetect = false;
+	}
+}
+

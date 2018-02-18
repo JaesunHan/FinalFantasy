@@ -5,6 +5,7 @@ class worldEnemyBear :
 	public worldMapEnemy
 {
 public:
+	int _bearCount;
 	worldEnemyBear();
 	~worldEnemyBear();
 

@@ -7,6 +7,7 @@ class worldMapEnemySamurai :
 {
 
 public:
+	int _samuraiCount;
 	worldMapEnemySamurai();
 	~worldMapEnemySamurai();
 

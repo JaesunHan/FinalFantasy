@@ -32,6 +32,7 @@ void worldMapEnemySamurai::release()
 void worldMapEnemySamurai::update()
 {
 	worldMapEnemy::update();
+	//this->move();
 }
 
 void worldMapEnemySamurai::render()
@@ -46,6 +47,37 @@ void worldMapEnemySamurai::render()
 
 void worldMapEnemySamurai::move()
 {
+	//if (!_isDetect)
+	//{
+	//	_samuraiCount++;
+	//	if (_samuraiCount > 0 && _samuraiCount < 30)
+	//	{
+	//		_enemy.x += 2;
+	//		_rc = RectMake(_enemy.x, _enemy.y + 30, TILE_SIZEX, TILE_SIZEY / 2);
+	//		//월드맵 타일속성을 받아서 만약 그 속성이 움직이지 못하는 속성이면 반대움직임값줘서 움직임 차감하자.
+	//		if (_worldMap->getWorldMapTiles()[tileNum(_rc.right, _rc.top + 3)].getTerrainAttr() == ATTR_UNMOVE ||
+	//			_worldMap->getWorldMapTiles()[tileNum(_rc.right, _rc.bottom - 3)].getTerrainAttr() == ATTR_UNMOVE)
+	//		{
+	//			_enemy.x -= 2;
+	//			_rc = RectMake(_enemy.x, _enemy.y + 30, TILE_SIZEX, TILE_SIZEY / 2);
+	//		}
+	//	}
+	//	if (_samuraiCount > 30 && _samuraiCount < 60)
+	//	{
+	//		_enemy.x -= 2;
+	//		_rc = RectMake(_enemy.x, _enemy.y + 30, TILE_SIZEX, TILE_SIZEY / 2);
+	//		if (_worldMap->getWorldMapTiles()[tileNum(_rc.right, _rc.top + 3)].getTerrainAttr() == ATTR_UNMOVE ||
+	//			_worldMap->getWorldMapTiles()[tileNum(_rc.right, _rc.bottom - 3)].getTerrainAttr() == ATTR_UNMOVE)
+	//		{
+	//			_enemy.x += 2;
+	//			_rc = RectMake(_enemy.x, _enemy.y + 30, TILE_SIZEX, TILE_SIZEY / 2);
+	//		}
+	//	}
+	//	if (_samuraiCount >= 65)
+	//	{
+	//		_samuraiCount = 0;
+	//	}
+	//}
 	worldMapEnemy::move();
 }
 

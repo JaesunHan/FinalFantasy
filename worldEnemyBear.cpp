@@ -22,6 +22,7 @@ HRESULT worldEnemyBear::init(int enemyX, int enemyY)
 
 	_enemyType = ENEMY_BEAR;
 
+	_bearCount = 0;
 	return S_OK;
 }
 
@@ -32,6 +33,7 @@ void worldEnemyBear::release()
 void worldEnemyBear::update()
 {
 	worldMapEnemy::update();
+	this->move();
 }
 
 void worldEnemyBear::render()
@@ -46,6 +48,37 @@ void worldEnemyBear::render()
 
 void worldEnemyBear::move()
 {
+	if (!_isDetect)
+	{
+		_bearCount++;
+			if (_bearCount > 0 && _bearCount < 30)
+			{
+				_enemy.x += 2;
+				_rc = RectMake(_enemy.x, _enemy.y + 30, TILE_SIZEX, TILE_SIZEY / 2);
+				//월드맵 타일속성을 받아서 만약 그 속성이 움직이지 못하는 속성이면 반대움직임값줘서 움직임 차감하자.
+				if (_worldMap->getWorldMapTiles()[tileNum(_rc.right, _rc.top + 3)].getTerrainAttr() == ATTR_UNMOVE ||
+					_worldMap->getWorldMapTiles()[tileNum(_rc.right, _rc.bottom - 3)].getTerrainAttr() == ATTR_UNMOVE)
+				{
+					_enemy.x -= 2;
+					_rc = RectMake(_enemy.x, _enemy.y + 30, TILE_SIZEX, TILE_SIZEY / 2);
+				}
+			}
+			if (_bearCount > 30 && _bearCount < 60)
+			{
+				_enemy.x -= 2;
+				_rc = RectMake(_enemy.x, _enemy.y + 30, TILE_SIZEX, TILE_SIZEY / 2);
+				if (_worldMap->getWorldMapTiles()[tileNum(_rc.right, _rc.top + 3)].getTerrainAttr() == ATTR_UNMOVE ||
+					_worldMap->getWorldMapTiles()[tileNum(_rc.right, _rc.bottom - 3)].getTerrainAttr() == ATTR_UNMOVE)
+				{
+					_enemy.x += 2;
+					_rc = RectMake(_enemy.x, _enemy.y + 30, TILE_SIZEX, TILE_SIZEY / 2);
+				}
+			}
+			if (_bearCount >= 65)
+			{
+				_bearCount = 0;
+			}
+	}
 	worldMapEnemy::move();
 }
 
@@ -68,4 +101,5 @@ void worldEnemyBear::worldEnemyImageControl()
 		break;
 	}
 }
+
 

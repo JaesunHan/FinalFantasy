@@ -67,6 +67,9 @@ public:
 	//a*
 	aStar* _ast;
 	vector<tile> _vCloseList;
+	bool _isDetect;
+	
+
 
 	worldMapEnemy();
 	~worldMapEnemy();
@@ -89,7 +92,8 @@ public:
 	//타일 인덱스 계산하는 함수
 	int tileNum(float x, float y);
 
-
+	//에너미 디텍트
+	void worldEnemyDetect();
 	//========겟셋 모음==================================/
 	RECT getWorldMapEnemyRect() { return _rc; }
 	void setWorldMapEnemyRect(RECT rc) { _rc = rc; }
