@@ -30,6 +30,12 @@ HRESULT tile::init(POINT center)
 	_terrainFramePos = PointMake(0, 0);
 	_objectFramePos = PointMake(0, 0);
 
+	for (int i = 0; i < DIR_END; i++)
+	{
+		_nearTileDif[i] = 0;
+	}
+	
+
 
 	return S_OK;
 }
@@ -193,4 +199,62 @@ void tile::updateObjectAttr(void)
 		|| _object == OBJ_WELL_BOTTOM || _object == OBJ_BRIDGE_BOTTOM || _object == OBJ_TREE_BOTTOM) _objectAttribute = ATTR_UNMOVE;
 	else if (_object == OBJ_HOUSE_TOP || _object == OBJ_WELL_TOP || _object == OBJ_TREE_TOP)
 		_objectAttribute = ATTR_AFTER_RENDER;
+}
+
+void tile::updateNearTileDif(TERRAIN upTile, TERRAIN downTile, TERRAIN leftTile, TERRAIN rightTile)
+{
+	int totalDifValue = 0;
+
+	if (_terrain != upTile) _nearTileDif[DIR_UP] = 1;
+	else _nearTileDif[DIR_UP] = 0;
+
+	if (_terrain != downTile) _nearTileDif[DIR_DOWN] = 1;
+	else _nearTileDif[DIR_DOWN] = 0;
+
+	if (_terrain != leftTile) _nearTileDif[DIR_LEFT] = 1;
+	else _nearTileDif[DIR_LEFT] = 0;
+
+	if (_terrain != rightTile) _nearTileDif[DIR_RIGHT] = 1;
+	else _nearTileDif[DIR_RIGHT] = 0;
+
+	for (int i = 0; i < DIR_END; i++)
+	{
+		totalDifValue += _nearTileDif[i];
+	}
+
+	if (_terrain == TR_WATER)
+	{
+		_terrainImageKey = "testTileSet2";
+
+		_terrainFramePos = PointMake(10, 1);
+
+		if ((totalDifValue >= 3) || (_nearTileDif[DIR_UP] == 1 && _nearTileDif[DIR_DOWN] == 1)
+			|| (_nearTileDif[DIR_LEFT] == 1 && _nearTileDif[DIR_RIGHT] == 1));
+		else
+		{
+			_terrainFramePos.y -= _nearTileDif[DIR_UP];
+			_terrainFramePos.y += _nearTileDif[DIR_DOWN];
+			_terrainFramePos.x -= _nearTileDif[DIR_LEFT];
+			_terrainFramePos.x += _nearTileDif[DIR_RIGHT];
+		}
+
+	}
+
+	if (_terrain == TR_DESERT)
+	{
+		_terrainImageKey = "testTileSet2";
+
+		_terrainFramePos = PointMake(1, 1);
+
+		if ((totalDifValue >= 3) || (_nearTileDif[DIR_UP] == 1 && _nearTileDif[DIR_DOWN] == 1)
+			|| (_nearTileDif[DIR_LEFT] == 1 && _nearTileDif[DIR_RIGHT] == 1));
+		else
+		{
+			_terrainFramePos.y -= _nearTileDif[DIR_UP];
+			_terrainFramePos.y += _nearTileDif[DIR_DOWN];
+			_terrainFramePos.x -= _nearTileDif[DIR_LEFT];
+			_terrainFramePos.x += _nearTileDif[DIR_RIGHT];
+		}
+
+	}
 }

@@ -87,6 +87,8 @@ public:
 	void objectTileSetInit();
 
 	void clickButton(void);
+	void setTerrainToMap(void);
+	TERRAIN* getNearTerrain(int curTileIndex);
 	void buttonDraw(void);						//버튼 그리는 함수
 
 //	void setTerrainTileSet(string tileSetKeyName, POINT tileSize);

@@ -7,6 +7,15 @@
 /* 작업자 : 이호형										*/
 /********************************************************/
 
+enum TILE_DIRECTION
+{
+	DIR_UP,
+	DIR_DOWN,
+	DIR_LEFT,
+	DIR_RIGHT,
+	DIR_END
+};
+
 class tile : public gameNode
 {
 private:
@@ -28,6 +37,9 @@ private:
 
 	POINT _terrainFramePos;
 	POINT _objectFramePos;
+
+private:
+	int _nearTileDif[4];			// 0 up 1 down 2 left 3 right
 
 	//===============A*를 위한 타일 FGH계산 변수 추가===============================//
 	//2018.2.10 한재환
@@ -65,6 +77,7 @@ public:
 
 	void updateTerrainAttr(void);
 	void updateObjectAttr(void);
+	void updateNearTileDif(TERRAIN upTile, TERRAIN downTile, TERRAIN leftTile, TERRAIN rightTile);
 
 	//======================= 설정자 & 접근자 =======================
 	inline void setCenterPt(POINT center) { _centerPt = center; }
@@ -102,6 +115,8 @@ public:
 
 	inline void setObjectFramePos(POINT framePos) { _objectFramePos = framePos; }
 	inline POINT getObjectFramePos(void) { return _objectFramePos; }
+
+	inline BOOL* getNearTileDif(void) { return _nearTileDif; }
 
 	//===========A*를 위한 접근 설정자 추가 ================//
 	//2018.2.10 한재환

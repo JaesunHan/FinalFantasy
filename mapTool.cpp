@@ -23,6 +23,9 @@ HRESULT mapTool::init(void)
 	IMAGEMANAGER->addFrameImage("townTerrain1", ".//tileSet//tileMap01.bmp", 256, 256, 8, 8, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("townTerrain2", ".//tileSet//tileMap02.bmp", 256, 256, 8, 8, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("townTerrain3", ".//tileSet//tileMap03.bmp", 256, 256, 8, 8, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("tempTile", ".//tileSet//tempTile.bmp", 576, 576, 18, 18, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("testTileSet", ".//tileSet//testTileSet.bmp", 128, 64, 4, 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("testTileSet2", ".//tileSet//testTileSet2.bmp", 480, 128, 15, 4, true, RGB(255, 0, 255));
 	//오브젝트 타일 이미지 추가
 	IMAGEMANAGER->addFrameImage("worldObject", ".//tileSet//worldMapObjectTileSet.bmp", 256, 128, 8, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("townHouse1", ".//tileSet//House1.bmp", 160, 224, 5, 7, true, RGB(255, 0, 255));
@@ -257,6 +260,16 @@ void mapTool::terrainTileSetInit()
 				_terrainTileSet[i].setTerrain(TR_GRASS);
 			}
 		}
+		else if (_terrainTileImageKey == "tempTile")
+		{
+			_terrainTileSet[i].setTerrain(TR_GRASS);
+		}
+		else if (_terrainTileImageKey == "testTileSet")
+		{
+			if (i == 0) _terrainTileSet[i].setTerrain(TR_DESERT);
+			if (i == 3) _terrainTileSet[i].setTerrain(TR_WATER);
+			if (i == 4) _terrainTileSet[i].setTerrain(TR_GRASS);
+		}
 		
 		// 지형 타입에 따른 속성 부여
 		_terrainTileSet[i].updateTerrainAttr();
@@ -422,26 +435,7 @@ void mapTool::clickButton(void)
 
 	if (_currentSelectMode == MODE_TERRAIN_SELECT)
 	{
-		for (int i = 0; i < _terrainTileSize.x * _terrainTileSize.y; i++)
-		{
-			if (PtInRect(&RectMakeCenter(_terrainTileSet[i].getCenterPt().x, _terrainTileSet[i].getCenterPt().y, TILE_SIZEX, TILE_SIZEY), _ptMouse))
-			{
-				_selectedTerrainTile.selectTerrain(_terrainTileSet[i]);
-				break;
-			}
-		}
-
-		if (PtInRect(&RectMake(0, 0, MAP_AREA - TILE_SIZEX * 2, MAP_AREA - TILE_SIZEY * 2), _ptMouse))
-		{
-			for (int i = 0; i < _mapSize.x * _mapSize.y; i++)
-			{
-				if (PtInRect(&RectMakeCenter(_mapTiles[i].getCenterPt().x, _mapTiles[i].getCenterPt().y, TILE_SIZEX, TILE_SIZEY), _ptMouse + _mapMove + PointMake(TILE_SIZEX, TILE_SIZEY)))
-				{
-					_mapTiles[i].setTerrain(_selectedTerrainTile);
-					break;
-				}
-			}
-		}
+		setTerrainToMap();
 	}
 	else if (_currentSelectMode == MODE_OBJECT_SELECT)
 	{
@@ -460,7 +454,7 @@ void mapTool::clickButton(void)
 			{
 				if (PtInRect(&RectMakeCenter(_mapTiles[i].getCenterPt().x, _mapTiles[i].getCenterPt().y, TILE_SIZEX, TILE_SIZEY), _ptMouse + _mapMove + PointMake(TILE_SIZEX, TILE_SIZEY)))
 				{
-					_mapTiles[i].setObject(_selectedObjectTile);
+					if (_mapTiles[i].getObject() == OBJ_NONE) _mapTiles[i].setObject(_selectedObjectTile);
 					break;
 				}
 			}
@@ -477,6 +471,65 @@ void mapTool::clickButton(void)
 			}
 		}
 	}
+}
+
+void mapTool::setTerrainToMap(void)
+{
+	for (int i = 0; i < _terrainTileSize.x * _terrainTileSize.y; i++)
+	{
+		if (PtInRect(&RectMakeCenter(_terrainTileSet[i].getCenterPt().x, _terrainTileSet[i].getCenterPt().y, TILE_SIZEX, TILE_SIZEY), _ptMouse))
+		{
+			_selectedTerrainTile.selectTerrain(_terrainTileSet[i]);
+			break;
+		}
+	}
+
+	if (PtInRect(&RectMake(0, 0, MAP_AREA - TILE_SIZEX * 2, MAP_AREA - TILE_SIZEY * 2), _ptMouse))
+	{
+		for (int i = 0; i < _mapSize.x * _mapSize.y; i++)
+		{
+			if (PtInRect(&RectMakeCenter(_mapTiles[i].getCenterPt().x, _mapTiles[i].getCenterPt().y, TILE_SIZEX, TILE_SIZEY), _ptMouse + _mapMove + PointMake(TILE_SIZEX, TILE_SIZEY)))
+			{
+				_mapTiles[i].setTerrain(_selectedTerrainTile);
+
+				for (int j = -1; j < 2; j++)
+				{
+					for (int k = -1; k < 2; k++)
+					{
+						if (k == -1 && i % _mapSize.x == 0) continue;
+						if (k == 1 && i % _mapSize.x == _mapSize.x - 1) continue;
+						if (i - j * _mapSize.x < 0) continue;
+						if (i + j * _mapSize.x > _mapSize.x * _mapSize.y) continue;
+
+						TERRAIN* nearTerrain = getNearTerrain(i + k + j * _mapSize.x);
+							//getNearTerrain(i + k + j * _mapSize.x);
+
+						_mapTiles[i + k + j * _mapSize.x].updateNearTileDif(nearTerrain[DIR_UP], nearTerrain[DIR_DOWN], nearTerrain[DIR_LEFT], nearTerrain[DIR_RIGHT]);
+					}
+				}
+				break;
+			}
+		}
+	}
+}
+
+TERRAIN* mapTool::getNearTerrain(int curTileIndex)
+{
+	TERRAIN nearTerrain[4];
+
+	if (curTileIndex % _mapSize.x == 0) nearTerrain[DIR_LEFT] = TR_GRASS;
+	else nearTerrain[DIR_LEFT] = _mapTiles[curTileIndex - 1].getTerrain();
+
+	if (curTileIndex % _mapSize.x == _mapSize.x - 1) nearTerrain[DIR_RIGHT] = TR_GRASS;
+	else nearTerrain[DIR_RIGHT] = _mapTiles[curTileIndex + 1].getTerrain();
+
+	if (curTileIndex - _mapSize.x < 0) nearTerrain[DIR_UP] = TR_GRASS;
+	else nearTerrain[DIR_UP] = _mapTiles[curTileIndex - _mapSize.x].getTerrain();
+
+	if (curTileIndex + _mapSize.x > _mapSize.x * _mapSize.y) nearTerrain[DIR_DOWN] = TR_GRASS;
+	else nearTerrain[DIR_DOWN] = _mapTiles[curTileIndex + _mapSize.x].getTerrain();
+
+	return nearTerrain;
 }
 
 void mapTool::buttonDraw(void)
