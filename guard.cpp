@@ -21,20 +21,20 @@ guard::guard()
 	_spellEffect = new effect;
 	_spellEffect->init(IMAGEMANAGER->findImage("guard스킬공격이미지"), 192, 192, 1.0f, 0.5f);
 
-	EFFECTMANAGER->addEffect("guard기본공격이펙트", ".\\image\\enemyEffect\\effect1.bmp", 1800, 130, 150, 130, 1.0f, 1.0f, 2);
-	EFFECTMANAGER->addEffect("guard스킬공격이펙트", ".\\image\\enemyEffect\\effect2.bmp", 1536, 192, 192, 192, 1.0f, 1.0f, 2);
+	EFFECTMANAGER->addEffect("guard기본공격", ".\\image\\enemyEffect\\effect1.bmp", 1800, 130, 150, 130, 1.0f, 1.0f, 2);
+	EFFECTMANAGER->addEffect("guard스킬공격", ".\\image\\enemyEffect\\effect2.bmp", 1536, 192, 192, 192, 1.0f, 1.0f, 2);
 	
 	//===========================================================================================================================
 	
 	//============================================== 기본공격 사운드 ==============================================
 
-	SOUNDMANAGER->addSound("guard기본공격sound", ".\\sound\\sfx\\2ESwordSlashLong.wav", true, false);
+	SOUNDMANAGER->addSound("guard기본공격", ".\\sound\\sfx\\2ESwordSlashLong.wav", true, false);
 
 	//============================================================================================================
 
 	//============================================== 스킬공격 사운드 ==============================================
 
-	SOUNDMANAGER->addSound("guard스킬공격sound", ".\\sound\\sfx\\BEDeathToll.wav", true, false);
+	SOUNDMANAGER->addSound("guard스킬공격", ".\\sound\\sfx\\BEDeathToll.wav", true, false);
 
 	//============================================================================================================
 
@@ -66,57 +66,9 @@ guard::~guard()
 
 void guard::update()
 {
-	if (_turnEnd == false)
-	{
-		//카운트 쁠쁠
-		_count++;
-
-		//_count가 21보다 작으면 반짝반짝
-		if (_count < 21) glitter();
-
-		//에너미의 상태가 공격 또는 스킬쓰는 상태를 랜덤으로 받음 
-		if (_state == ENEMY_NULL)
-		{
-			//_state = ENEMY_HIT;
-			_state = RND->getFromIntTo(ENEMY_HIT, ENEMY_SPELL);				//공격 or 스펠 상태
-			_rndNum = RND->getFromIntTo(0, 10);								//스킬확률을 조절하기 위한 랜덤값
-		}
-
-		//에너미 공격 상태면
-		if ((_state == ENEMY_HIT && _rndNum <= 7) || (_state == ENEMY_SPELL && _rndNum <= 7))
-		{
-			//_count가 80보다 커지면 공격 이펙트가 그려짐
-			if (_count > 80 && _effectFire == true)
-			{
-				EFFECTMANAGER->play("guard기본공격이펙트", 800, 320);
-				SOUNDMANAGER->play("guard기본공격sound", CH_EFFECT03, 1.0f);
-
-				_effectFire = false;
-			}
-		}
-		if ((_state == ENEMY_HIT && _rndNum > 7) || (_state == ENEMY_SPELL && _rndNum > 7))
-		{
-			//_count가 80보다 커지면 공격 이펙트가 그려짐
-			if (_count > 80 && _effectFire == true)
-			{
-				EFFECTMANAGER->play("guard스킬공격이펙트", 800, 320);
-				SOUNDMANAGER->play("guard스킬공격sound", CH_EFFECT03, 1.0f);
-
-				_effectFire = false;
-
-			}
-		}
-
-		//_count가 150보다 크면 턴을 플레이어에게 넘긴다
-		if (_count > 150)
-		{
-			_turnEnd = true;
-			_effectFire = true;
-			_state = ENEMY_NULL;
-			_glitterCount = 0;
-			_count = 0;
-		}
-	}
+	wsprintf(basicAttack, "guard기본공격");
+	wsprintf(skillAttack, "guard스킬공격");
+	Enemy::update();
 }
 
 void guard::render()

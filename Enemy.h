@@ -60,12 +60,16 @@ protected:
 
 	int _count = 0;
 
+	char basicAttack[128];
+	char skillAttack[128];
+
 	//============= 전방선언 =============
 
 	battlePlayerMother* _celes;
 	battlePlayerMother* _locke;
 	battlePlayerMother* _shadow;
 	battlePlayerMother* _tina;
+	battlePlayerMother* _target;
 
 	//===================================
 
@@ -89,6 +93,7 @@ public:
 	void setBattleLockeMemoryAddressLink(battlePlayerMother* locke) { _locke = locke; }
 	void setBattleShadowMemoryAddressLink(battlePlayerMother* shadow) { _shadow = shadow; }
 	void setBattleTinaMemoryAddressLink(battlePlayerMother* tina) { _tina = tina; }
+	void setTargetMemoryAddressLink(battlePlayerMother* target) { _target = target; }
 
 	//========================================================================================================
 
