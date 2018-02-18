@@ -402,15 +402,6 @@
     <ClInclude Include="dialogProc.h">
       <Filter>playGround\mapTool</Filter>
     </ClInclude>
-    <ClInclude Include="armor.h">
-      <Filter>playGround\Item\armor</Filter>
-    </ClInclude>
-    <ClInclude Include="head.h">
-      <Filter>playGround\Item\armor</Filter>
-    </ClInclude>
-    <ClInclude Include="shield.h">
-      <Filter>playGround\Item\armor</Filter>
-    </ClInclude>
     <ClInclude Include="expendablesItem.h">
       <Filter>playGround\Item\expendables</Filter>
     </ClInclude>
@@ -679,15 +670,6 @@
     </ClCompile>
     <ClCompile Include="itemManager.cpp">
       <Filter>playGround\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="armor.cpp">
-      <Filter>playGround\Item\armor</Filter>
-    </ClCompile>
-    <ClCompile Include="head.cpp">
-      <Filter>playGround\Item\armor</Filter>
-    </ClCompile>
-    <ClCompile Include="shield.cpp">
-      <Filter>playGround\Item\armor</Filter>
     </ClCompile>
     <ClCompile Include="expendablesItem.cpp">
       <Filter>playGround\Item\expendables</Filter>
