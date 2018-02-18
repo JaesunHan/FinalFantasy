@@ -94,7 +94,7 @@ void newGame::update()
 					_saveFileNum = _saveFileNum + 1;
 					break;
 				}
-				else  //세이브 데이터가 없으면
+				else  //세이브 데이터가 없으면 || 세이브 데이터가 Full이면
 				{
 					_saveFileNum = 0;
 				}

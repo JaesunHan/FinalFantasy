@@ -55,7 +55,7 @@ struct tagPlayer
 	int level;              //플레이어 레벨
 	int hp, maxHp;          //플레이어 체력
 	int mp, maxMp;          //플레이어 마력
-	TCHAR name[32];		//플레이어 이름
+	TCHAR name[32];		    //플레이어 이름
 	TCHAR job[32];			//플레이어 직업
 };	
 
