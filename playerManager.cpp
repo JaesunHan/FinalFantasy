@@ -7,6 +7,7 @@
 #include "battleTina.h"
 #include "weaponItem.h"
 #include "newGame.h"
+#include "loadGame.h"
 
 playerManager::playerManager()
 {
@@ -25,9 +26,29 @@ HRESULT playerManager::init()
 	_locke = new Locke;
 	_shadow = new shadow;
 	_tina = new Tina;
-	
-	
-	
+
+	_vPlayer.push_back(_celes);
+	_vPlayer.push_back(_locke);
+	_vPlayer.push_back(_shadow);
+	_vPlayer.push_back(_tina);
+
+	if (SCENEMANAGER->findScene("뉴게임"))
+	{
+		//만약 새 게임을 시작하면 새로운 데이터를 파일에 저장한다
+		if (SCENEMANAGER->getCurrentSceneName() == "뉴게임")
+		{
+			saveNewGameData();
+		}
+	}
+
+	if (SCENEMANAGER->findScene("로드게임"))
+	{
+		//원래 했던 게임을 로드하면 파일에서 데이터를 읽어온다.
+		if (SCENEMANAGER->getCurrentSceneName() == "로드게임")
+		{
+			loadGameData();
+		}
+	}
 
 	return S_OK;
 }
@@ -89,12 +110,26 @@ void playerManager::setPlayerInfoToBattlePlayer()
 }
 
 //새 게임을 시작하면 기본적으로 생성한 플레이어들의 정보를 파일에 저장한다.
-void playerManager::saveNewGame()
+void playerManager::saveNewGameData()
 {
+	//먼저 newGame 클래스르르 받아온다
 	newGame* ng = new newGame;
 	ng = (newGame*)SCENEMANAGER->findScene("뉴게임");
 	int saveFileNum = ng->getSaveFileNum();
+	
+	//반복문을 돌면서 벡터의 플레이어를 파일에 저장한다.
+	for (int i = 0; i < MAXPLAYERNUMBER; ++i)
+	{
 
+
+	}
 	
 
+}
+
+void playerManager::loadGameData()
+{
+	loadGame* lg = new loadGame;
+	lg = (loadGame*)SCENEMANAGER->findScene("로드게임");
+	int saveFileNum = lg->getSaveFileNum();
 }
