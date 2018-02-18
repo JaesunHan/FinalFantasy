@@ -115,7 +115,7 @@ void menu::cursorKeyControlX(float moveValueX, int moveNumber)
 
 	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
 	{
-		SOUNDMANAGER->play("menuSelectLow", CH_MENU_EFFECT, EFFECTVOLUME);
+		SOUNDMANAGER->play("menuSelectLow", CH_MENUSCENE, EFFECTVOLUME);
 
 		_cursor.x += moveValueX;
 		_cursor.startX += moveValueX;
@@ -133,7 +133,7 @@ void menu::cursorKeyControlX(float moveValueX, int moveNumber)
 
 	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
 	{
-		SOUNDMANAGER->play("menuSelectLow", CH_MENU_EFFECT, EFFECTVOLUME);
+		SOUNDMANAGER->play("menuSelectLow", CH_MENUSCENE, EFFECTVOLUME);
 
 		_cursor.x -= moveValueX;
 		_cursor.startX -= moveValueX;
@@ -166,7 +166,7 @@ void menu::cursorKeyControlY(float moveValueY, int downNumber)
 
 	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 	{
-		SOUNDMANAGER->play("menuSelectLow", CH_MENU_EFFECT, EFFECTVOLUME);
+		SOUNDMANAGER->play("menuSelectLow", CH_MENUSCENE, EFFECTVOLUME);
 
 		_cursor.y += moveValueY;
 		_cursor.currentYNum++;
@@ -182,7 +182,7 @@ void menu::cursorKeyControlY(float moveValueY, int downNumber)
 
 	if (KEYMANAGER->isOnceKeyDown(VK_UP))
 	{
-		SOUNDMANAGER->play("menuSelectLow", CH_MENU_EFFECT, EFFECTVOLUME);
+		SOUNDMANAGER->play("menuSelectLow", CH_MENUSCENE, EFFECTVOLUME);
 
 		_cursor.y -= moveValueY;
 		_cursor.currentYNum--;

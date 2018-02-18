@@ -75,7 +75,7 @@ void playGround::update(void)
 		SCENEMANAGER->changeScene("로딩");
 	}
 	//옵션메뉴
-	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE))
+	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE) && SCENEMANAGER->getCurrentSceneName() != "배틀씬")
 	{
 		SCENEMANAGER->changeScene("옵션");
 	}

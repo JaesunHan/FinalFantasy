@@ -18,7 +18,7 @@ HRESULT loadingScene::init()
 	_loading->init(RND->getInt(5));
 
 	//메뉴 이미지
-	_loading->loadImage("능력메뉴", ".//prevProjectResource//SceneImage//abilitiesMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	_loading->loadImage("능력메뉴", ".//prevProjectResource//SceneImage//menu_abilities.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	//_loading->loadImage("장비메뉴", ".//prevProjectResource//SceneImage//equipMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	//_loading->loadImage("아이템메뉴", ".//prevProjectResource//SceneImage//itemMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	//_loading->loadImage("메인메뉴", ".//prevProjectResource//SceneImage//mainMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
@@ -37,6 +37,7 @@ HRESULT loadingScene::init()
 	_loading->loadFrameImage("버튼", ".//prevProjectResource//SceneImage//button_empty.bmp", 317, 32, 2, 1, true, RGB(255, 0, 255));
 	_loading->loadFrameImage("버튼판타지", ".//prevProjectResource//SceneImage//button_fantasy.bmp", 338, 41, 2, 1, true, RGB(255, 0, 255));
 	_loading->loadFrameImage("버튼파일", ".//prevProjectResource//SceneImage//button_saveFile.bmp", 344, 49, 2, 1, true, RGB(255, 0, 255));
+	_loading->loadFrameImage("버튼네임", ".//prevProjectResource//SceneImage//button_name.bmp", 352, 63, 2, 1, true, RGB(255, 0, 255));
 
 
 	//플레이어 이미지

@@ -142,6 +142,8 @@ void newGame::render()
 
 	if (_fileLoadOk[0]) playerSlotRender();  //플레이어 슬롯
 	gameDataRender(true);  //게임 데이터(플레이장소/플레이시간/돈)
+
+	textPrint(getMemDC(), SCENEMANAGER->getCurrentSceneName().c_str(), 100, 100);
 }
 
 

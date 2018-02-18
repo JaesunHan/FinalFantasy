@@ -15,8 +15,15 @@ abilitiesMenu::~abilitiesMenu()
 
 HRESULT abilitiesMenu::init()
 {
-	_bgImage = IMAGEMANAGER->findImage("로드게임메뉴");
+	//백그라운드 이미지
+	_bgImage = IMAGEMANAGER->findImage("능력메뉴");
 
+	//선택한 세이브 파일 가져오기 
+	fileLoad(INIDATA->loadDataInterger("gameData", "gameData", "fileNum"));
+
+	//커서
+	cursorInit(CUSOR_RIGHT, 950, 60);
+	_cursorYNum = 6;
 
 
 	return S_OK;
@@ -41,7 +48,10 @@ void abilitiesMenu::update()
 
 void abilitiesMenu::render()
 {
-	_bgImage->render(getMemDC());
+	_bgImage->render(getMemDC());  //백그라운드 이미지
+
+	playerSlotRender();            //슬롯 데이터
+	gameDataRender(false);		   //게임 데이터(플레이장소/플레이시간/돈)
 
 }
 

@@ -195,3 +195,29 @@ gameNode* sceneManager::findScene(string sceneName)
 
 	return find->second;
 }
+
+//currentSceneÀÇ sceneName ¹ÝÈ¯ 
+string sceneManager::getCurrentSceneName()
+{
+	mapSceneIter miSceneList = _mSceneList.begin();
+
+	for (; miSceneList != _mSceneList.end();)
+	{
+		if (miSceneList->second != NULL)
+		{
+			if (miSceneList->second == _currentScene)
+			{
+				return miSceneList->first;
+				break;
+			}
+		}
+
+		if (miSceneList == _mSceneList.end())
+		{
+			return NULL;
+			break;
+		}
+
+		++miSceneList;
+	}	
+}
