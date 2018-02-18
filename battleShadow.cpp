@@ -127,7 +127,13 @@ void battleShadow::update()
 
 void battleShadow::draw()	
 {
+	//이겼을 때 위치 보정해야됨(프레임의 세로크기가 다르기 때문이당.)
+	if (_status == BATTLE_PLAYER_WIN)
+	{
+		_posY = 150 + _partyIdx * 100 -26;
+	}
 	battlePlayerMother::draw();
+	
 }
 
 void battleShadow::release()
