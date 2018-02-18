@@ -347,13 +347,11 @@ void menu::fileLoad(int fileNum)
 	}
 }
 
-
 //============================== player ==============================
 
 
 //============================ save & load ===========================
-
-//                           
+                   
 tagElements menu::saveTxtData(int fileNum, string cStage)
 {
 	char tmp[36];
@@ -373,7 +371,7 @@ void menu::saveIniPlayerData(int fileNum, int playerNum, string cName, string jo
 	TCHAR tmp[4];
 	ZeroMemory(&tmp, sizeof(tmp));
 	wsprintf(tmp, "%d", fileNum);
-	INIDATA->addData("fileInfo", "num",  tmp);
+	INIDATA->addData("fileInfo", "fileNum",  tmp);
 
 	//플레이어 넘버
 	TCHAR subjectNum[12];

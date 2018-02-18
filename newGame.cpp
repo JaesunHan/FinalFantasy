@@ -31,7 +31,7 @@ HRESULT newGame::init()
 		char tmp[32];
 		ZeroMemory(&tmp, sizeof(tmp));
 		wsprintf(tmp, "saveFile%d", i);
-		if (INIDATA->loadDataInterger(tmp, "fileInfo", "num") != -1)
+		if (INIDATA->loadDataInterger(tmp, "fileInfo", "fileNum") != -1)
 		{
 			tmpSaveFileNum = i;
 			break;
@@ -87,7 +87,7 @@ void newGame::update()
 			{
 				char numTemp[12];
 				sprintf(numTemp, "saveFile%d", i);
-				_saveFileNum = INIDATA->loadDataInterger(numTemp, "fileInfo", "num");
+				_saveFileNum = INIDATA->loadDataInterger(numTemp, "fileInfo", "fileNum");
 
 				if (_saveFileNum != -1)  //세이브 데이터가 있으면
 				{

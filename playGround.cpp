@@ -31,7 +31,7 @@ HRESULT playGround::init()
 	
 	((mapTool*)SCENEMANAGER->findScene("mapToolScene"))->createDefaultMap(PointMake(20, 20));
 
-	//=========================== 메뉴씬 ===========================
+	//=========================== 메뉴씬 =========================== by won
 	SCENEMANAGER->addScene("로딩", new loadingScene);
 	SCENEMANAGER->addScene("타이틀", new titleScene);
 	SCENEMANAGER->addScene("세이브로드", new saveLoadMenu);
@@ -68,7 +68,7 @@ void playGround::update(void)
 	//	_isBattle = false;
 	//}
 
-	//================================ 메뉴씬 ================================
+	//================================ 메뉴씬 ================================ by won
 	if (KEYMANAGER->isOnceKeyDown('W'))
 	{
 		SOUNDMANAGER->stop(CH_BGM);

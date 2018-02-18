@@ -35,5 +35,7 @@ public:
 
 	int loadDataInterger(const char* fileName, const char* subject, const char* title);
 
+	int loadDataBodyNum(int fileNum);
+
 };
 

@@ -101,7 +101,7 @@ gameNode* sceneManager::addLoadingScene(string loadingSceneName, gameNode* scene
 }
 
 //씬 변경
-HRESULT sceneManager::changeScene(string sceneName, bool initCall)
+HRESULT sceneManager::changeScene(string sceneName, bool initCall)  //iniCall by won
 {
 	//이터레이터에 찾고자하는 씬의 키 값을 대입
 	mapSceneIter find = _mSceneList.find(sceneName);
@@ -196,7 +196,7 @@ gameNode* sceneManager::findScene(string sceneName)
 	return find->second;
 }
 
-//currentScene의 sceneName 반환 
+//currentScene의 sceneName 반환 by won
 string sceneManager::getCurrentSceneName()
 {
 	mapSceneIter miSceneList = _mSceneList.begin();

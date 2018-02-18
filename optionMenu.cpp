@@ -14,12 +14,15 @@ optionMenu::~optionMenu()
 
 HRESULT optionMenu::init()
 {
+	//백그라운드 이미지
 	_bgImage = IMAGEMANAGER->findImage("옵션메뉴");
+
+	//커서
 	cursorInit(CUSOR_RIGHT, 950, 60);
 	_cursorYNum = 6;
 
+	//버튼
 	_button = new fButton;
-
 	_button->buttonSet("버튼판타지", 1000, 50, "Items", 30);
 	_button->buttonSet("버튼판타지", 1000, 100, "Abilities", 30);
 	_button->buttonSet("버튼판타지", 1000, 150, "Equips", 30);

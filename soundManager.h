@@ -24,7 +24,7 @@ enum CHANNELTYPE
 	CH_EFFECT06,
 	CH_EFFECT07,
 	CH_EFFECT08,
-	CH_MENUSCENE,       //MENU_SCENE  ====== WARINING ====== 
+	CH_MENUSCENE,       //MENU_SCENE  ====== WARINING ====== by won
 	CH_SOKKONGGU,		//아무도 건들지 마시오! 내 채널임!!!
 
 	MAX_CHANNEL

@@ -97,3 +97,27 @@ int iniDataManager::loadDataInterger(const char* fileName, const char* subject, 
 	return GetPrivateProfileInt(subject, title, -1, str); //반환값 수정 0 -> -1
 }
 
+//특정 subject의 갯수 반환 (player number 반환을 위한 / menuScen전용) by won
+int iniDataManager::loadDataBodyNum(int fileNum)
+{
+	TCHAR tmpFileName[32];
+	ZeroMemory(&tmpFileName, sizeof(tmpFileName));
+	wsprintf(tmpFileName, "saveFile%d", fileNum);
+
+	int playerNumCount = 0;
+
+	for (int i = 0; i < 4; ++i)
+	{
+		TCHAR tmpSubject[32];
+		ZeroMemory(&tmpSubject, sizeof(tmpSubject));
+		wsprintf(tmpSubject, "player%d", i);
+
+		if (this->loadDataInterger(tmpFileName, tmpSubject, "level") != -1)
+		{
+			playerNumCount++;
+		}
+	}
+
+	return playerNumCount;
+}
+
