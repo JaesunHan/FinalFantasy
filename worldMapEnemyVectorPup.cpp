@@ -1,42 +1,45 @@
 #include "stdafx.h"
-#include "worldMapEnemySamurai.h"
+#include "worldMapEnemyVectorPup.h"
 
 
-worldMapEnemySamurai::worldMapEnemySamurai()
+worldMapEnemyVectorPup::worldMapEnemyVectorPup()
 {
 }
 
 
-worldMapEnemySamurai::~worldMapEnemySamurai()
+worldMapEnemyVectorPup::~worldMapEnemyVectorPup()
 {
 }
 
-HRESULT worldMapEnemySamurai::init(int enemyX, int enemyY)
+HRESULT worldMapEnemyVectorPup::init(int enemyX, int enemyY)
 {
 	//¸¶´õ Å¬·¡½º Á¤º¸ °¡Á®¿À°í 
 	worldMapEnemy::init(enemyX, enemyY);
-	IMAGEMANAGER->addFrameImage("¿ùµå¸Ê»ç¹«¶óÀÌ¿ÞÂÊ", ".//image//enemyImg//worldEnemy_samurai_left.bmp", 192, 54, 4, 1, true, RGB(255, 0, 255));
-	_image = IMAGEMANAGER->addFrameImage("¿ùµå¸Ê»ç¹«¶óÀÌ", ".//image//enemyImg//worldEnemy_samurai.bmp", 190, 54, 4, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("º¤ÅÍÆà¿ÞÂÊ", ".//image//enemyImg//worldEnemy_VectorPup_left.bmp", 350, 46, 4, 1, true, RGB(255, 0, 255));
+	_image = IMAGEMANAGER->addFrameImage("º¤ÅÍÆà", ".//image//enemyImg//worldEnemy_VectorPup_right.bmp", 350, 46, 4, 1, true, RGB(255, 0, 255));
 
-	_enemyType = ENEMY_SKELETON;
+	_enemyType = ENEMY_VECTORPUP;
 
-	_samuraiCount = 0;
+	_vectorPupCount = 0;
 	return S_OK;
 
 
+
+
+	return S_OK;
 }
 
-void worldMapEnemySamurai::release()
+void worldMapEnemyVectorPup::release()
 {
 }
 
-void worldMapEnemySamurai::update()
+void worldMapEnemyVectorPup::update()
 {
 	worldMapEnemy::update();
 	this->move();
 }
 
-void worldMapEnemySamurai::render()
+void worldMapEnemyVectorPup::render()
 {
 	worldEnemyImageControl();
 
@@ -46,12 +49,12 @@ void worldMapEnemySamurai::render()
 	}
 }
 
-void worldMapEnemySamurai::move()
+void worldMapEnemyVectorPup::move()
 {
 	if (!_isDetect)
 	{
-		_samuraiCount++;
-		if (_samuraiCount > 0 && _samuraiCount < 30)
+		_vectorPupCount++;
+		if (_vectorPupCount > 0 && _vectorPupCount < 30)
 		{
 			_enemy.x += 2;
 
@@ -71,7 +74,7 @@ void worldMapEnemySamurai::move()
 				_rc = RectMake(_enemy.x, _enemy.y + 30, TILE_SIZEX, TILE_SIZEY / 2);
 			}
 		}
-		if (_samuraiCount > 30 && _samuraiCount < 60)
+		if (_vectorPupCount > 30 && _vectorPupCount < 60)
 		{
 			_enemy.x -= 2;
 			_rc = RectMake(_enemy.x, _enemy.y + 30, TILE_SIZEX, TILE_SIZEY / 2);
@@ -88,37 +91,30 @@ void worldMapEnemySamurai::move()
 				_rc = RectMake(_enemy.x, _enemy.y + 30, TILE_SIZEX, TILE_SIZEY / 2);
 			}
 		}
-		if (_samuraiCount >= 65)
+		if (_vectorPupCount >= 65)
 		{
-			_samuraiCount = 0;
+			_vectorPupCount = 0;
 		}
 	}
 	worldMapEnemy::move();
 }
 
-
-void worldMapEnemySamurai::worldEnemyImageFrameControl()
+void worldMapEnemyVectorPup::worldEnemyImageFrameControl()
 {
 	worldMapEnemy::worldEnemyImageFrameControl();
 }
 
-	void worldMapEnemySamurai::worldEnemyImageControl()
+void worldMapEnemyVectorPup::worldEnemyImageControl()
 {
-
 	//ÇÃ·¹ÀÌ¾î¿Í ¿¡³Ê¹ÌÀÇ À§Ä¡¿¡ µû¸¥ ¿¡³Ê¹Ì º¸´Â ¹æÇâ º¯°æ
 	switch (_enemyDirection)
 	{
-	case ENEMYDIRECTION_RIGHT: _image = IMAGEMANAGER->findImage("¿ùµå¸Ê»ç¹«¶óÀÌ");
+	case ENEMYDIRECTION_RIGHT: _image = IMAGEMANAGER->findImage("º¤ÅÍÆà¿ÞÂÊ");
 		_image->frameRender(getMemDC(), _enemy.x, _enemy.y, _enemyCurrentFrameX, 0);
 
 		break;
-	case ENEMYDIRECTION_LEFT: _image = IMAGEMANAGER->findImage("¿ùµå¸Ê»ç¹«¶óÀÌ¿ÞÂÊ");
+	case ENEMYDIRECTION_LEFT: _image = IMAGEMANAGER->findImage("º¤ÅÍÆà");
 		_image->frameRender(getMemDC(), _enemy.x, _enemy.y, _enemyCurrentFrameX, 0);
 		break;
 	}
 }
-
-	void worldMapEnemySamurai::worldEnemyCollision()
-	{
-		worldMapEnemy::worldEnemyCollision();
-	}

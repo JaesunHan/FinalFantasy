@@ -26,6 +26,7 @@ enum ENEMYTYPE
 {
 	ENEMY_BEAR,
 	ENEMY_SKELETON,
+	ENEMY_VECTORPUP,
 	ENEMY_END
 };
 
@@ -69,6 +70,8 @@ public:
 	vector<tile> _vCloseList;
 	bool _isDetect;
 	
+	char str[128];
+	char str1[128];
 
 
 	worldMapEnemy();
@@ -94,6 +97,9 @@ public:
 
 	//에너미 디텍트
 	void worldEnemyDetect();
+
+	//에너미 충돌
+	void worldEnemyCollision();
 	//========겟셋 모음==================================/
 	RECT getWorldMapEnemyRect() { return _rc; }
 	void setWorldMapEnemyRect(RECT rc) { _rc = rc; }
@@ -106,6 +112,9 @@ public:
 
 	void setEnemyAddressLinkWithWM(worldMap* wm) { _worldMap = wm; }
 	void setEnemyAddressLinkWihtPlayer(worldMapPlayer* wp) { _wp = wp; }
+
+	//콜리전 겟함수
+	bool getIsCollision() { return _isCollision; }
 
 
 };

@@ -50,7 +50,7 @@ void worldMapScene::update()
 	//플레이어 현재 좌표를 받아서 계속 npc매니저쪽으로 넣어준다.
 	_npcManager->setPlayerPos(_worldMapPlayer->getWorldMapPlayerPoint());
 
-
+	getCollision();
 }
 
 void worldMapScene::render()
@@ -65,6 +65,17 @@ void worldMapScene::render()
 	_npcManager->afterRender();
 
 
+}
+
+void worldMapScene::getCollision()
+{
+	for (int i = 0; i < WORLDMAPENEMY; ++i)
+	{
+		if (_wMEM->getVWME()[i]->getIsCollision())
+		{
+			SCENEMANAGER->changeScene("배틀씬");
+		}
+	}
 }
 
 //void worldMapScene::zOrderNpc1()

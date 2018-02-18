@@ -28,6 +28,10 @@ HRESULT worldMapEnemyManager::init()
 			_worldMapEnemy = new worldMapEnemySamurai;
 			_worldMapEnemy->init(400, 200);
 			break;
+		
+		case ENEMY_VECTORPUP:
+			_worldMapEnemy = new worldMapEnemyVectorPup;
+			_worldMapEnemy->init(800, 500);
 		}
 
 		_vWME.push_back(_worldMapEnemy);

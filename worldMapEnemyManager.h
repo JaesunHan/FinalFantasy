@@ -2,6 +2,7 @@
 #include "gameNode.h"
 #include "worldEnemyBear.h"
 #include "worldMapEnemySamurai.h"
+#include "worldMapEnemyVectorPup.h"
 #include <vector>
 
 //============월드에너미 매니저===============//
@@ -11,7 +12,7 @@
 //충돌은 겟디스턴스로 타일 한칸정도 길이에 충돌하면 배틀씬으로 넘어가게
 //에너미는 플레이어 추적할때 일정거리(디스턴스)를 넘어가면 그냥 다시 일반 패트롤로 가게 
 
-#define WORLDMAPENEMY 2
+#define WORLDMAPENEMY 3
 
 class worldMapEnemyManager : public gameNode
 {

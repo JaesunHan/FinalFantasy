@@ -34,5 +34,9 @@ public:
 	void update();
 	void render();
 
+	//콜리전을 가져온 후 배틀씬으로 체인지
+	void getCollision();
+
+
 
 };

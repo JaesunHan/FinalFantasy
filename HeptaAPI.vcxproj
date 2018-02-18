@@ -178,6 +178,7 @@
     <ClInclude Include="worldMapEnemy.h" />
     <ClInclude Include="worldMapEnemyManager.h" />
     <ClInclude Include="worldMapEnemySamurai.h" />
+    <ClInclude Include="worldMapEnemyVectorPup.h" />
     <ClInclude Include="worldMapPlayer.h" />
     <ClInclude Include="worldMapScene.h" />
   </ItemGroup>
@@ -276,6 +277,7 @@
     <ClCompile Include="worldMapEnemy.cpp" />
     <ClCompile Include="worldMapEnemyManager.cpp" />
     <ClCompile Include="worldMapEnemySamurai.cpp" />
+    <ClCompile Include="worldMapEnemyVectorPup.cpp" />
     <ClCompile Include="worldMapPlayer.cpp" />
     <ClCompile Include="worldMapScene.cpp" />
   </ItemGroup>

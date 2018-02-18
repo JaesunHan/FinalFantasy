@@ -100,12 +100,22 @@ void worldMapEnemy::update()
 		_enemyDirection = ENEMYDIRECTION_RIGHT;
 	}
 	worldEnemyDetect();
+	worldEnemyCollision();
 
 }
 
 void worldMapEnemy::render()
 {
-
+	if (_isCollision)
+	{
+		sprintf(str, "충돌했당");
+		TextOut(getMemDC(), 400, 400, str, strlen(str));
+	}
+	if (!_isCollision)
+	{
+		sprintf(str1, "충돌안했당");
+		TextOut(getMemDC(), 600, 600, str1, strlen(str1));
+	}
 }
 
 void worldMapEnemy::move()
@@ -266,6 +276,14 @@ void worldMapEnemy::worldEnemyDetect()
 	else if (getDistance(_enemy.x, _enemy.y, _wp->getWorldMapPlayerPoint().x, _wp->getWorldMapPlayerPoint().y) > TILE_SIZEX + 200)
 	{
 		_isDetect = false;
+	}
+}
+
+void worldMapEnemy::worldEnemyCollision()
+{
+	if (getDistance(_enemy.x, _enemy.y, _wp->getWorldMapPlayerPoint().x, _wp->getWorldMapPlayerPoint().y) <= TILE_SIZEX)
+	{
+		_isCollision = true;
 	}
 }
 
