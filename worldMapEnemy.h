@@ -37,12 +37,22 @@ enum ENEMYDIRECTION
 	ENEMYDIRECTION_END
 };
 
+enum ENEMYMOVEPATTERN
+{
+	ENEMYPATTERN_ONE,
+	ENEMYPATTERN_TWO,
+	ENEMYPATTERN_THREE,
+	ENEMYPATTERN_END
+};
+
 class worldMapEnemy : public gameNode
 {
 public:
 
 	ENEMYTYPE _enemyType;
 	ENEMYDIRECTION _enemyDirection;
+	ENEMYMOVEPATTERN _enemyMovePattern;
+
 
 	//월드맵 클래스
 	worldMap* _worldMap;
@@ -79,7 +89,7 @@ public:
 
 	//init에서 좌표값을 받는 이유는 씬이 바뀔때 해당씬에서 위치를 지정할수 있기 위함이다.
 	HRESULT init();
-	virtual HRESULT init(int enemyX, int enemyY);
+	virtual HRESULT init(int enemyX, int enemyY, ENEMYMOVEPATTERN enemyPattern);
 	void release();
 	void update();
 	void render();

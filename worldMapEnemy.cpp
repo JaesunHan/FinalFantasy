@@ -20,7 +20,7 @@ HRESULT worldMapEnemy::init()
 	return S_OK;
 }
 
-HRESULT worldMapEnemy::init(int enemyX, int enemyY)
+HRESULT worldMapEnemy::init(int enemyX, int enemyY, ENEMYMOVEPATTERN enemyPattern)
 {
 
 	_enemy.x = enemyX;
