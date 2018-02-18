@@ -56,6 +56,8 @@ VectorPup::VectorPup()
 	_evasion = 0;									//회피율
 	_hitRate = 100;									//명중률
 	_block = 0;										//방어율
+
+	_spellPower = _Lv;								//마법력
 }
 
 VectorPup::~VectorPup()
@@ -72,15 +74,15 @@ VectorPup::~VectorPup()
 
 void VectorPup::update()
 {
-	wsprintf(basicAttack, "VectorPup기본공격");
-	wsprintf(skillAttack, "VectorPup스킬공격");
 	Enemy::update();
+	wsprintf(basicAttack, "vectorPup기본공격");
+	wsprintf(skillAttack, "vectorPup스킬공격");
 }
 
 void VectorPup::render() 
 {
+	Enemy::render();
 	IMAGEMANAGER->findImage("vectorPup")->alphaFrameRender(getMemDC(), _x - _img->getFrameWidth() / 2, _y - _img->getFrameHeight() / 2, _frameX, 0, _alpha);
-	//IMAGEMANAGER->findImage("vectorPup")->frameRender(getMemDC(), _x, _y);
 }
 
 void VectorPup::vectorPupAttack()

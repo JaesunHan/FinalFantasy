@@ -56,6 +56,8 @@ DarkWind::DarkWind()
 	_evasion = 0;									//회피율
 	_hitRate = 100;									//명중률
 	_block = 0;										//방어율
+
+	_spellPower = _Lv;								//마법력
 }
 
 
@@ -73,15 +75,15 @@ DarkWind::~DarkWind()
 
 void DarkWind::update()
 {
+	Enemy::update();
 	wsprintf(basicAttack, "darkWind기본공격");
 	wsprintf(skillAttack, "darkWind스킬공격");
-	Enemy::update();
 }
 
 void DarkWind::render()
 {
+	Enemy::render();
 	IMAGEMANAGER->findImage("darkWind")->alphaFrameRender(getMemDC(), _x - _img->getFrameWidth() / 2, _y - _img->getFrameHeight() / 2, _frameX, 0, _alpha);
-	//IMAGEMANAGER->findImage("darkWind")->frameRender(getMemDC(), _x, _y);
 }
 
 void DarkWind::darkWindSkill()

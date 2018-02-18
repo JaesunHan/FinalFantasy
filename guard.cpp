@@ -56,7 +56,8 @@ guard::guard()
 	_evasion = 0;									//회피율
 	_hitRate = 100;									//명중률
 	_block = 0;										//방어율
-	_spellPower = 2;
+	
+	_spellPower = _Lv;								//마법력
 }
 
 
@@ -67,16 +68,15 @@ guard::~guard()
 
 void guard::update()
 {
+	Enemy::update();
 	wsprintf(basicAttack, "guard기본공격");
 	wsprintf(skillAttack, "guard스킬공격");
-	Enemy::update();
 }
 
 void guard::render()
 {
-	IMAGEMANAGER->findImage("guard")->alphaFrameRender(getMemDC(), _x - _img->getFrameWidth() / 2, _y - _img->getFrameHeight() / 2, _frameX, 0, _alpha);
 	Enemy::render();
-	//IMAGEMANAGER->findImage("guard")->frameRender(getMemDC(), _x, _y);
+	IMAGEMANAGER->findImage("guard")->alphaFrameRender(getMemDC(), _x - _img->getFrameWidth() / 2, _y - _img->getFrameHeight() / 2, _frameX, 0, _alpha);
 }
 
 

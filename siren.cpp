@@ -56,6 +56,8 @@ siren::siren()
 	_evasion = 0;									//회피율
 	_hitRate = 100;									//명중률
 	_block = 0;										//방어율
+
+	_spellPower = _Lv;								//마법력
 }
 
 
@@ -66,15 +68,15 @@ siren::~siren()
 
 void siren::update()
 {
+	Enemy::update();
 	wsprintf(basicAttack, "siren기본공격");
 	wsprintf(skillAttack, "siren스킬공격");
-	Enemy::update();
 }
 
 void siren::render()
 {
+	Enemy::render();
 	IMAGEMANAGER->findImage("siren")->alphaFrameRender(getMemDC(), _x - _img->getFrameWidth() / 2, _y - _img->getFrameHeight() / 2, _frameX, 0, _alpha);
-	//IMAGEMANAGER->findImage("siren")->frameRender(getMemDC(), _x, _y);
 }
 
 

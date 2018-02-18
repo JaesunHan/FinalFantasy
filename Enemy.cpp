@@ -52,11 +52,11 @@ void Enemy::update()
 		{
 			//_state = ENEMY_HIT;
 			_state = RND->getFromIntTo(ENEMY_HIT, ENEMY_SPELL);				//공격 or 스펠 상태
-			_rndNum = RND->getFromIntTo(0, 10);								//스킬확률을 조절하기 위한 랜덤값
+			_rndNum = RND->getFromIntTo(1, 10);								//스킬확률을 조절하기 위한 랜덤값
 		}
 
 		//에너미 공격 상태면
-		if ((_state == ENEMY_HIT && _rndNum <= 7) || (_state == ENEMY_SPELL && _rndNum <= 7))
+		if ((_state == ENEMY_HIT && _rndNum <= 8) || (_state == ENEMY_SPELL && _rndNum <= 8))
 		{
 			//_count가 80보다 커지면 공격 이펙트가 그려짐
 			if (_count > 80 && _effectFire == true)
@@ -68,7 +68,7 @@ void Enemy::update()
 			}
 			wsprintf(_damageNum, "%d", (int)_damage);
 		}
-		if ((_state == ENEMY_HIT && _rndNum > 7) || (_state == ENEMY_SPELL && _rndNum > 7))
+		if ((_state == ENEMY_HIT && _rndNum > 8) || (_state == ENEMY_SPELL && _rndNum > 8))
 		{
 			//_count가 80보다 커지면 공격 이펙트가 그려짐
 			if (_count > 80 && _effectFire == true)
@@ -98,14 +98,7 @@ void Enemy::render()
 {
 	if (_count > 100 && _count < 150)
 	{
-		//RECT rc = { _target->getPosX() - 50, _target->getPosY() + 30, _target->getPosX() + 150, _target->getPosY() };
-		//HFONT newFont = CreateFont(30, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
-		//HFONT oldFont = (HFONT)SelectObject(getMemDC(), newFont);
-		//DrawText(getMemDC(), _damageNum, -1, &rc, DT_CENTER | DT_WORDBREAK);
-		//SelectObject(getMemDC(), oldFont);
-		//DeleteObject(oldFont);
-		//DeleteObject(newFont);
-		TextOut(getMemDC(), _target->getPosX() + 20, _target->getPosY() - 30, _damageNum, strlen(_damageNum));
+		TextOut(getMemDC(), _target->getPosX() + 25, _target->getPosY() - 30, _damageNum, strlen(_damageNum));
 	}
 }
 
@@ -130,6 +123,7 @@ void Enemy::damageAlgorithm()
 		_damage = (float)_Lv * (float)_Lv * ((float)_attack * 4 + (float)Vigor) / 256;
 		_damage = (_damage * (float)RND->getFromIntTo(224, 255) / 256) + 1;
 		_damage = (_damage * (255 - (float)_target->getADef()) / 256) + 1;
+
 		_spellDamage = _spellPower * 4 + ((float)_Lv * ((float)_magic * 3 / 2) * _spellPower) / 32;
 	}
 	else

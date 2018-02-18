@@ -56,6 +56,8 @@ covert::covert()
 	_evasion = 50;									//회피율
 	_hitRate = 100;									//명중률
 	_block = 0;										//방어율
+
+	_spellPower = _Lv;								//마법력
 }
 
 
@@ -66,15 +68,15 @@ covert::~covert()
 
 void covert::update()
 {
+	Enemy::update();
 	wsprintf(basicAttack, "covert기본공격");
 	wsprintf(skillAttack, "covert스킬공격");
-	Enemy::update();
 }
 
 void covert::render()
 {
+	Enemy::render();
 	IMAGEMANAGER->findImage("covert")->alphaFrameRender(getMemDC(), _x - _img->getFrameWidth() / 2, _y - _img->getFrameHeight() / 2, _frameX, 0, _alpha);
-	//IMAGEMANAGER->findImage("covert")->frameRender(getMemDC(), _x, _y);
 }
 
 

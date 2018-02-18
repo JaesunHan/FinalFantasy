@@ -56,6 +56,8 @@ tornadoShark::tornadoShark()
 	_evasion = 0;									//회피율
 	_hitRate = 100;									//명중률
 	_block = 0;										//방어율
+
+	_spellPower = _Lv;								//마법력
 }
 
 
@@ -66,15 +68,15 @@ tornadoShark::~tornadoShark()
 
 void tornadoShark::update()
 {
+	Enemy::update();
 	wsprintf(basicAttack, "tornadoShark기본공격");
 	wsprintf(skillAttack, "tornadoShark스킬공격");
-	Enemy::update();
 }
 
 void tornadoShark::render()
 {
+	Enemy::render();
 	IMAGEMANAGER->findImage("tornadoShack")->alphaFrameRender(getMemDC(), _x - _img->getFrameWidth() / 2, _y - _img->getFrameHeight() / 2, _frameX, 0, _alpha);
-	//IMAGEMANAGER->findImage("tornadoShack")->frameRender(getMemDC(), _x, _y);
 }
 
 
