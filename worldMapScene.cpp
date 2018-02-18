@@ -76,7 +76,6 @@ void worldMapScene::getCollision()
 			SCENEMANAGER->changeScene("¹èÆ²¾À");
 			_wMEM->worldEmenyDelete(i);
 		}
-		
 	}
 
 }
