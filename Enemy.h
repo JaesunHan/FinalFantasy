@@ -29,8 +29,9 @@ protected:
 	unsigned int _attack;					//기본 데미지
 	unsigned int _magic;					//마법 데미지
 
-	unsigned int _damage;					//최종 데미지
-	unsigned int _spellDamage;				//스킬 데미지
+	float _damage;							//최종 데미지
+	float _spellDamage;						//스킬 최종 데미지
+	float _spellPower;						//스펠 데미지
 
 	unsigned int _rndNum;					//랜덤수를 담기 위한 변수
 	
@@ -62,6 +63,7 @@ protected:
 
 	char basicAttack[128];
 	char skillAttack[128];
+	char _damageNum[128];
 
 	//============= 전방선언 =============
 
@@ -82,7 +84,7 @@ public:
 	virtual void update();
 	virtual void render();
 
-	void enemyTurn(int damage);				//데미지 공식 함수
+	void damageAlgorithm();				//데미지 공식 함수
 
 	void glitter();							//에너미 턴일때 어떤 에너미의 턴인지 알기위한 함수 (반짝거림)
 
