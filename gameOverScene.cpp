@@ -16,22 +16,21 @@ HRESULT gameOverScene::init()
 {
 	IMAGEMANAGER->addImage("gameOver", ".\\image\\gameOver\\gameOver.bmp", 400,	240, true, RGB(255, 0, 255));
 	SOUNDMANAGER->addSound("gameOverBGM", ".\\sound\\gameOverSound\\gameOver.mp3", false, false);
+	SOUNDMANAGER->play("gameOverBGM", CH_BGM, 1.0f);
 	return S_OK;
 }
 
 void gameOverScene::release()
 {
-
+	IMAGEMANAGER->deleteImage("gameOver");
+	SOUNDMANAGER->releaseSingleSound("gameOverBGM");
 }
 
 void gameOverScene::update() 
 {
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{
-		SOUNDMANAGER->addSound("gameOverBGM", ".\\sound\\gameOverSound\\gameOver.mp3", false, false);
-		SOUNDMANAGER->play("gameOverBGM", CH_BGM, 1.0f);
-		//SOUNDMANAGER->releaseSingleSound("gameOverBGM");
-		//SCENEMANAGER->changeScene("로딩");
+		SCENEMANAGER->changeSceneType0("로딩");
 	}
 }
 

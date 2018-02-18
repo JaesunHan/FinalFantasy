@@ -94,7 +94,7 @@ void playGround::update(void)
 	if (KEYMANAGER->isOnceKeyDown('B'))
 	{
 		SOUNDMANAGER->stop(CH_BGM);
-		SCENEMANAGER->changeScene("πË∆≤æ¿");			//_isBattle = true;
+		SCENEMANAGER->changeSceneType0("πË∆≤æ¿");			//_isBattle = true;
 	}
 	//================================ πË∆≤æ¿ ================================
 

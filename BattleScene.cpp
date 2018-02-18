@@ -14,6 +14,22 @@ BattleScene::~BattleScene()
 
 HRESULT BattleScene::init()
 {
+	//수치들 초기화
+	_menuNum = 0;
+	_enemyNum = 4;
+	_messageCounter = 0;
+	_victoryCounter = 0;
+	_gameOver = 0;
+	_damage = 0;
+	_counterRoll = true;
+	_playerTurn = false;
+	_enemySelect = false;
+	_magicSelect = false;
+	_sfx01 = true;
+	_sfx02 = false;
+	_isDamaged = false;
+	_victory = false;
+	_hit = false;
 	//폰트 추가
 	AddFontResourceEx(
 		"SDMiSaeng.ttf", 	// font file name
@@ -130,15 +146,7 @@ void BattleScene::update()
 	playerFrameUpdate();
 	victoryCondition();
 	soundControl();
-	if (KEYMANAGER->isOnceKeyDown('R'))
-	{
-		//SOUNDMANAGER->releaseAllSound();
-		//SOUNDMANAGER->getChannel(CH_BGM)->setPosition(30000, FMOD_TIMEUNIT_MS);
-		this->release();
-		SCENEMANAGER->changeScene("게임오버", true);
-		//SCENEMANAGER->changeScene("월드맵씬", false);
-	}
-	//gameOverCondition();
+	gameOverCondition();
 }
 
 void BattleScene::render() 
@@ -737,9 +745,9 @@ void BattleScene::gameOverCondition()
 	{
 		_gameOver++;
 	}
-	if (_gameOver > 60)
+	if (_gameOver > 100)
 	{
 		this->release();
-		SCENEMANAGER->changeScene("게임오버");
+		SCENEMANAGER->changeSceneType0("게임오버");
 	}
 }
