@@ -78,3 +78,9 @@ void worldMapEnemyManager::afterRender()
 			_vWME[i]->render();
 	}
 }
+
+void worldMapEnemyManager::worldEmenyDelete(int arrNum)
+{
+	SAFE_DELETE(_vWME[arrNum]);
+	_vWME.erase(_vWME.begin() + arrNum);
+}

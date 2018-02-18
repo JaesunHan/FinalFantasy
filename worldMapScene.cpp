@@ -69,13 +69,16 @@ void worldMapScene::render()
 
 void worldMapScene::getCollision()
 {
-	for (int i = 0; i < WORLDMAPENEMY; ++i)
+	for (int i = 0; i < _wMEM->getVWME().size(); ++i)
 	{
 		if (_wMEM->getVWME()[i]->getIsCollision())
 		{
 			SCENEMANAGER->changeScene("¹èÆ²¾À");
+			_wMEM->worldEmenyDelete(i);
 		}
+		
 	}
+
 }
 
 //void worldMapScene::zOrderNpc1()

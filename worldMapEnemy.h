@@ -100,6 +100,9 @@ public:
 
 	//에너미 충돌
 	void worldEnemyCollision();
+
+
+
 	//========겟셋 모음==================================/
 	RECT getWorldMapEnemyRect() { return _rc; }
 	void setWorldMapEnemyRect(RECT rc) { _rc = rc; }

@@ -46,6 +46,10 @@ public:
 	void beforeRender();
 	void afterRender();
 
+	//에너미 삭제
+	void worldEmenyDelete(int arrNum);
+
+
 	void setPlayerPos(POINT pt) { _playerPos = pt; }
 
 	//========겟함수======= 
