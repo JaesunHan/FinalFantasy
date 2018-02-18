@@ -114,7 +114,6 @@
     <ClInclude Include="guard.h" />
     <ClInclude Include="fButton.h" />
     <ClInclude Include="head.h" />
-    <ClInclude Include="herbs.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
     <ClInclude Include="iniDataManager.h" />
@@ -216,7 +215,6 @@
     <ClCompile Include="guard.cpp" />
     <ClCompile Include="fButton.cpp" />
     <ClCompile Include="head.cpp" />
-    <ClCompile Include="herbs.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
     <ClCompile Include="iniDataManager.cpp" />

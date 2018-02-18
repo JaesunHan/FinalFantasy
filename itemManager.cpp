@@ -15,7 +15,7 @@ HRESULT itemManager::init()
 {
 	//======================================== 소모품 ========================================
 	
-	expendablesItem* ether = new expendablesItem;
+	posion* ether = new posion;
 	ether->init(ITEM_EXPENDABLE, "에테르", "플레이어 마력 150 회복", 2, 0, 150, false, false, false, false);
 	_vItem.push_back(ether);
 

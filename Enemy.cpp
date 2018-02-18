@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Enemy.h"
-#include "BattleScene.h"
 
 Enemy::Enemy()
 {

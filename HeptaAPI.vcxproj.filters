@@ -399,9 +399,6 @@
     <ClInclude Include="dialogProc.h">
       <Filter>playGround\mapTool</Filter>
     </ClInclude>
-    <ClInclude Include="herbs.h">
-      <Filter>playGround\Item\expendables</Filter>
-    </ClInclude>
     <ClInclude Include="posion.h">
       <Filter>playGround\Item\expendables</Filter>
     </ClInclude>
@@ -413,9 +410,6 @@
     </ClInclude>
     <ClInclude Include="shield.h">
       <Filter>playGround\Item\armor</Filter>
-    </ClInclude>
-    <ClInclude Include="shuriken.h">
-      <Filter>playGround\Item\expendables</Filter>
     </ClInclude>
     <ClInclude Include="expendablesItem.h">
       <Filter>playGround\Item\expendables</Filter>
@@ -431,6 +425,9 @@
     </ClInclude>
     <ClInclude Include="worldMapEnemyVectorPup.h">
       <Filter>playGround\MapScene\worldMapEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="shuriken.h">
+      <Filter>playGround\Item\weapon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -683,9 +680,6 @@
     <ClCompile Include="itemManager.cpp">
       <Filter>playGround\Item</Filter>
     </ClCompile>
-    <ClCompile Include="herbs.cpp">
-      <Filter>playGround\Item\expendables</Filter>
-    </ClCompile>
     <ClCompile Include="posion.cpp">
       <Filter>playGround\Item\expendables</Filter>
     </ClCompile>
@@ -697,9 +691,6 @@
     </ClCompile>
     <ClCompile Include="shield.cpp">
       <Filter>playGround\Item\armor</Filter>
-    </ClCompile>
-    <ClCompile Include="shuriken.cpp">
-      <Filter>playGround\Item\expendables</Filter>
     </ClCompile>
     <ClCompile Include="expendablesItem.cpp">
       <Filter>playGround\Item\expendables</Filter>
@@ -715,6 +706,9 @@
     </ClCompile>
     <ClCompile Include="worldMapEnemyVectorPup.cpp">
       <Filter>playGround\MapScene\worldMapEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="shuriken.cpp">
+      <Filter>playGround\Item\weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,7 @@
 #pragma once
-#include "expendablesItem.h"
+#include "weaponItem.h"
 
-class shuriken : public expendablesItem
+class shuriken : public weaponItem
 {
 public:
 	shuriken();

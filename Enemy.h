@@ -13,7 +13,6 @@ enum EnemyState
 
 //배틀플레이어 부모클래스 전방선언
 class battlePlayerMother;
-class BattleScene;
 
 class Enemy : public gameNode
 {
@@ -63,7 +62,10 @@ protected:
 
 	//============= 전방선언 =============
 
-	BattleScene* _battleScene;
+	battlePlayerMother* _celes;
+	battlePlayerMother* _locke;
+	battlePlayerMother* _shadow;
+	battlePlayerMother* _tina;
 
 	//===================================
 
@@ -83,7 +85,10 @@ public:
 
 	//======================================= 전방선언 ========================================================
 
-	void setBattleSceneMemoryAddressLink(BattleScene* bs) { _battleScene = bs; }
+	void setBattleCelesMemoryAddressLink(battlePlayerMother* celes) { _celes = celes; }
+	void setBattleLockeMemoryAddressLink(battlePlayerMother* locke) { _locke = locke; }
+	void setBattleShadowMemoryAddressLink(battlePlayerMother* shadow) { _shadow = shadow; }
+	void setBattleTinaMemoryAddressLink(battlePlayerMother* tina) { _tina = tina; }
 
 	//========================================================================================================
 
