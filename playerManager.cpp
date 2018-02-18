@@ -5,6 +5,7 @@
 #include "battleLocke.h"
 #include "battleShadow.h"
 #include "battleTina.h"
+#include "weaponItem.h"
 
 
 playerManager::playerManager()
@@ -56,15 +57,15 @@ void playerManager::setPlayerInfoToBattlePlayer()
 		_celes->getStrength(), _celes->getMagic(), _celes->getMDef(), _celes->getADef(), _celes->getAttack(), _celes->getEvasion(), _celes->getMEvasion(), _celes->getStamina());
 	bCeles->setPartyIdx(_celes->getPartyIdx());
 	bCeles->setPlayerDefaultPosition();
+	bCeles->setWeapon(_celes->getWeapon());
 	
-
 	battleLocke* bLocke = (battleLocke*)_battleScene->getLockeAddress();
 	bLocke->setAllBattlePlayerInfo(_locke->getLv(), _locke->getCurEXP(), _locke->getMaxEXP(),
 		_locke->getCurHP(), _locke->getMaxHP(), _locke->getCurMP(), _locke->getMaxMP(), _locke->getSpeed(),
 		_locke->getStrength(), _locke->getMagic(), _locke->getMDef(), _locke->getADef(), _locke->getAttack(), _locke->getEvasion(), _locke->getMEvasion(), _locke->getStamina());
 	bLocke->setPartyIdx(_locke->getPartyIdx());
 	bLocke->setPlayerDefaultPosition();
-	
+	bLocke->setWeapon(_locke->getWeapon());
 
 	battleShadow* bShadow = (battleShadow*)_battleScene->getShadowAddress();
 	bShadow->setAllBattlePlayerInfo(_shadow->getLv(), _shadow->getCurEXP(), _shadow->getMaxEXP(),
@@ -72,14 +73,15 @@ void playerManager::setPlayerInfoToBattlePlayer()
 		_shadow->getStrength(), _shadow->getMagic(), _shadow->getMDef(), _shadow->getADef(), _shadow->getAttack(), _shadow->getEvasion(), _shadow->getMEvasion(), _shadow->getStamina());
 	bShadow->setPartyIdx(_shadow->getPartyIdx());
 	bShadow->setPlayerDefaultPosition();
+	bShadow->setWeapon(_shadow->getWeapon());
 	
-
 	battleTina* bTina = (battleTina*)_battleScene->getTinaAddress();
 	bTina->setAllBattlePlayerInfo(_tina->getLv(), _tina->getCurEXP(), _tina->getMaxEXP(),
 		_tina->getCurHP(), _tina->getMaxHP(), _tina->getCurMP(), _tina->getMaxMP(), _tina->getSpeed(),
 		_tina->getStrength(), _tina->getMagic(), _tina->getMDef(), _tina->getADef(), _tina->getAttack(), _tina->getEvasion(), _tina->getMEvasion(), _tina->getStamina());
 	bTina->setPartyIdx(_tina->getPartyIdx());
 	bTina->setPlayerDefaultPosition();
+	bTina->setWeapon(_tina->getWeapon());
 	
 	//================================== End 그 배틀씬의 배틀플레이어들의 정보를 저장한다.====================================
 }

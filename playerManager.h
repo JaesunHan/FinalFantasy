@@ -10,6 +10,7 @@ class battleCeles;
 class battleLocke;
 class battleShadow;
 class battleTina;
+class weaponItem;
 class playerManager : public gameNode
 {
 private:

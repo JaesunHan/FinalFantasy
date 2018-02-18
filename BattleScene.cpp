@@ -80,7 +80,7 @@ HRESULT BattleScene::init()
 		int monsterType = RND->getInt(3);
 		temp.characterType = i + 4;
 		temp.ATBcounter = 0;
-		temp.enemy = new guard;
+		temp.enemy = new siren;
 		//switch (monsterType)
 		//{
 		//case(0):

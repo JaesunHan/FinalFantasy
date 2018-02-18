@@ -1,5 +1,6 @@
 #pragma once
 
+class weaponItem;
 class playerMother
 {
 protected:
@@ -21,6 +22,8 @@ protected:
 
 	int _partyIdx;					//파티에 종속되어 있다면 몇번째 파티원인가?!
 
+	weaponItem* _defaultWeapon;		//기본으로 장착한 무기(무기 장착 안했을 때의 기본 무기)
+	weaponItem* _myWeapon;			//내가 장착한 무기
 public:
 	playerMother();
 	~playerMother();
@@ -49,8 +52,13 @@ public:
 	image* getFaceImg() { return _faceImg; }
 
 	inline int getPartyIdx() { return _partyIdx; }	inline void setPartyIdx(int idx) { _partyIdx = idx; }
-	//============================== End 접근자 설정자 ======================================
+	//플레이어의 기본 장착 무기에 대한 게터세터
+	inline weaponItem* getDefaultWeapon() { return _defaultWeapon; }
+	inline void setDefaultWeapon(weaponItem* weapon) { _defaultWeapon = weapon; }
+	//플레이어의 현재 장착 무기에 대한 게터세터
+	inline weaponItem* getWeapon() { return _myWeapon; }	inline void setWeaponItem(weaponItem* weapon) { _myWeapon = weapon; }
 
+	//============================== End 접근자 설정자 ======================================
 
 };
 

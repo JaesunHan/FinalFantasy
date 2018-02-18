@@ -49,10 +49,10 @@ battleShadow::battleShadow()
 	_magicAtkStandbyAnim->setFPS(1);
 
 
-	_deadImg = IMAGEMANAGER->addFrameImage("shadowDead", "./image/playerImg/shadow/shadow_die.bmp", 186, 49, 2, 1, true, RGB(255, 0, 255));
+	_deadImg = IMAGEMANAGER->addFrameImage("shadowDead", "./image/playerImg/shadow/shadow_die.bmp", 186, 75, 2, 1, true, RGB(255, 0, 255));
 	_deadAnim = new animation;
 	_deadAnim->init(_deadImg->getWidth(), _deadImg->getHeight(), _deadImg->getFrameWidth(), _deadImg->getFrameHeight());
-	int deadArr[] = { 0,1 };
+	int deadArr[] = { 1,0 };
 	_deadAnim->setPlayFrame(deadArr, 2, false);
 	_deadAnim->setFPS(1);
 

@@ -64,6 +64,8 @@ HRESULT itemManager::init()
 	//======================================== 무기 =========================================
 
 	weaponItem* temp = new weaponItem;
+	//temp->init(ITEM_WEAPON, "DefaultWeapon", "맨주먹공격무기이다", 0, 10, 100);
+	//_vItem.push_back(temp);
 	temp->init(ITEM_WEAPON, "Mithril Knife", "...", 300, 30, 180);
 	_vItem.push_back(temp);
 	temp->init(ITEM_WEAPON, "Dirk", "...", 150, 26, 180);

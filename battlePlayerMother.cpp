@@ -257,7 +257,7 @@ void battlePlayerMother::animationFrameUpdate()
 			_deadAnim->start();
 			_playAnimList[BATTLE_PLAYER_DEAD] = true;
 		}
-		_deadAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 5);
+		_deadAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 1);
 		
 	}
 	//이기기 전에 한번만 재생되어야 하는 애니메이션 이다.

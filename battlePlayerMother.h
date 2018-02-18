@@ -21,6 +21,7 @@ enum baattlePlayerStatus
 
 class BattleScene;
 class Enemy;
+class weaponItem;
 class battlePlayerMother : public gameNode
 {
 protected:
@@ -99,7 +100,8 @@ protected:
 	string _atkEffectSoundKey;
 	string _atkEffectSoundFile;
 
-
+	//장착한 무기
+	weaponItem* _myWeapon;
 public:
 	battlePlayerMother();
 	~battlePlayerMother();
@@ -143,6 +145,11 @@ public:
 	//플레이어의 가로 세로 크기
 	inline int getWidth() { return _idleImg->getFrameWidth(); }
 	inline int getHeight() { return _idleImg->getFrameHeight(); }
+
+	//플레이어가 장착한 무기 세팅
+	inline weaponItem* getWeapon() { return _myWeapon; }
+	inline void setWeapon(weaponItem* weapon) { _myWeapon = weapon; }
+	
 	//====================================== End 접근자 설정자 ======================================
 
 	//배틀시작할 때 한꺼번에 모든 배틀플레이어를 세팅하자
@@ -161,5 +168,7 @@ public:
 	bool moveToTarget(int targetX, int targetY, int motionListIdx);
 
 	void setBattleScene(BattleScene* bs) { _BS = bs; }
+
+
 };
 

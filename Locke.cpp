@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Locke.h"
+#include "weaponItem.h"
 
 Locke::Locke()
 {
@@ -10,6 +11,11 @@ Locke::Locke()
 	_evasion = 15, _m_evasion = 2, _m_Def = 23;
 	_partyIdx = 1;
 	
+	//기본 무기 세팅
+	_defaultWeapon = new weaponItem;
+	_defaultWeapon->init(ITEM_WEAPON, "DefaultWeapon", "맨주먹공격무기이다", 0, 10, 100);
+	_myWeapon = new weaponItem;
+	_myWeapon = _defaultWeapon;
 }
 
 Locke::~Locke()

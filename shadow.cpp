@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "shadow.h"
-
+#include "weaponItem.h"
 
 shadow::shadow()
 {
@@ -10,6 +10,12 @@ shadow::shadow()
 	_magic = 33, _attack = 23, _a_Def = 47;
 	_evasion = 28, _m_Def = 25, _m_evasion = 9;
 	_partyIdx = 3;
+
+	//기본 무기 세팅
+	_defaultWeapon = new weaponItem;
+	_defaultWeapon->init(ITEM_WEAPON, "DefaultWeapon", "맨주먹공격무기이다", 0, 10, 100);
+	_myWeapon = new weaponItem;
+	_myWeapon = _defaultWeapon;
 }
 
 
