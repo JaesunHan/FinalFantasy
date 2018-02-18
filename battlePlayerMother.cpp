@@ -269,6 +269,10 @@ void battlePlayerMother::animationFrameUpdate()
 			_playAnimList[BATTLE_PLAYER_WIN_BEFORE] = true;
 		}
 		_winBeforeAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 7);
+		if (!_winBeforeAnim->isPlay())
+		{
+			_status = BATTLE_PLAYER_WIN;
+		}
 	}
 	if (_status == BATTLE_PLAYER_WIN)
 	{

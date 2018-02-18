@@ -55,7 +55,7 @@ battleLocke::battleLocke()
 	_deadAnim->setPlayFrame(deadArr, 2, false);
 	_deadAnim->setFPS(1);
 
-	_winImg = IMAGEMANAGER->addFrameImage("lockeWin", "./image/playerImg/locke/locke_win.bmp", 174, 201, 3, 3, true, RGB(255, 0, 255));
+	_winImg = IMAGEMANAGER->addFrameImage("lockeWin", "./image/playerImg/locke/locke_win.bmp", 228, 240, 3, 3, true, RGB(255, 0, 255));
 	_winAnim = new animation;
 	_winAnim->init(_winImg->getWidth(), _winImg->getHeight(), _winImg->getFrameWidth(), _winImg->getFrameHeight());
 	int winArr[] = { 0, 1, 2, 3, 4, 5, 6, 7 };

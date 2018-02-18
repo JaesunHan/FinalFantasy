@@ -139,6 +139,10 @@ public:
 	inline float getPosX() { return _posX; }	
 	inline float getPosY() { return _posY; }
 	inline float getHitRate() { return _hitRate; }
+
+	//플레이어의 가로 세로 크기
+	inline int getWidth() { return _idleImg->getFrameWidth(); }
+	inline int getHeight() { return _idleImg->getFrameHeight(); }
 	//====================================== End 접근자 설정자 ======================================
 
 	//배틀시작할 때 한꺼번에 모든 배틀플레이어를 세팅하자
