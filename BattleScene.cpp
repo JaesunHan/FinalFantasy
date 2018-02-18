@@ -236,11 +236,30 @@ void BattleScene::updateWhenCharacterTurn()
 			}
 			else
 			{
+				if (_battleTurn.front()->attackReady == false)
+				{
+					int targetPlayer = RND->getInt(4);
+					for (int i = 0; i < 4; ++i)
+					{
+						if (_battleCharacters[targetPlayer].player->getCurHP() <= 0)
+						{
+							targetPlayer++;
+							if (targetPlayer > 3) targetPlayer = 0;
+						}
+						else
+						{
+							break;
+						}
+					}
+					_battleTurn.front()->enemy->setTargetMemoryAddressLink(_battleCharacters[targetPlayer].player);
+					_battleTurn.front()->attackReady = true;
+				}
 				_battleTurn.front()->enemy->update();
 				if (_battleTurn.front()->enemy->getTurnEnd() == true)
 				{
 					_battleTurn.front()->ATBcounter = 0;
 					_battleTurn.front()->turnStart = false;
+					_battleTurn.front()->attackReady = false;
 					_battleTurn.pop();
 				}
 			}
@@ -625,6 +644,25 @@ void BattleScene::playerAttack()
 		_damageRC = { _battleTurn.front()->enemy->getX() - 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() / 2, _battleTurn.front()->enemy->getX() + 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() / 2 + 30 };
 	}
 	_isDamaged = true;
+}
+
+void BattleScene::monsterAttack()
+{
+	int selectPlayer = RND->getInt(4);
+	for (int i = 0; i < 4; ++i)
+	{
+		if (_battleCharacters[selectPlayer].player->getCurHP() <= 0)
+		{
+			selectPlayer++;
+			if (selectPlayer > 3) selectPlayer = 0;
+		}
+		else
+		{
+			break;
+		}
+	}
+	//Step 1a.Damage = Level * Level * (Battle Power * 4 + Vigor) / 256
+	//Note that vigor for each monster is randomly determined at the beginning of the battle as[56..63]
 }
 
 void BattleScene::drawText(int fontSize, char* str, RECT rc, int position, bool dialogue)

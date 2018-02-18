@@ -91,6 +91,7 @@ public:
 	void drawText(int fontSize, char* str, RECT rc, int position, bool dialogue = false);
 	void temporaryMessage(int endPoint);
 	void playerAttack();
+	void monsterAttack();
 	void victoryCondition();
 
 	inline battlePlayerMother* getTinaAddress() { return _battleCharacters[0].player; }
