@@ -61,10 +61,10 @@ void Enemy::update()
 		if ((_state == ENEMY_HIT && _rndNum <= 8) || (_state == ENEMY_SPELL && _rndNum <= 8))
 		{
 			//_count가 80보다 커지면 공격 이펙트가 그려짐
-			if (_count > 80 && _effectFire == true)
+			if (_count > 50 && _effectFire == true)
 			{
 				EFFECTMANAGER->play(basicAttack, _target->getPosX() + _target->getWidth() / 2, _target->getPosY() + _target->getHeight() / 2);
-				SOUNDMANAGER->play(basicAttack, CH_EFFECT03, 1.0f);
+				SOUNDMANAGER->play(basicAttack, 1.0f);
 				_target->setCurHP(_target->getCurHP() - _damage);
 				
 				if (_target->getCurHP() <= 0)
@@ -81,10 +81,10 @@ void Enemy::update()
 		if ((_state == ENEMY_HIT && _rndNum > 8) || (_state == ENEMY_SPELL && _rndNum > 8))
 		{
 			//_count가 80보다 커지면 공격 이펙트가 그려짐
-			if (_count > 80 && _effectFire == true)
+			if (_count > 50 && _effectFire == true)
 			{
 				EFFECTMANAGER->play(skillAttack, _target->getPosX() + _target->getWidth() / 2, _target->getPosY() + _target->getHeight() / 2);
-				SOUNDMANAGER->play(skillAttack, CH_EFFECT03, 1.0f);
+				SOUNDMANAGER->play(skillAttack, 1.0f);
 				_target->setCurHP(_target->getCurHP() - _spellDamage);
 
 				if (_target->getCurHP() <= 0)
@@ -112,7 +112,7 @@ void Enemy::update()
 void Enemy::render() 
 {
 	//데미지가 뜨는걸 랜더로 그려주자!!
-	if (_count > 100 && _count < 150)
+	if (_count > 80 && _count < 150)
 	{
 		TextOut(getMemDC(), _target->getPosX() + 25, _target->getPosY() - 30, _damageNum, strlen(_damageNum));
 	}

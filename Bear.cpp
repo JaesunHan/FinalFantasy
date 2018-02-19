@@ -58,6 +58,8 @@ Bear::Bear()
 	_block = 0;										//방어율
 
 	_spellPower = _Lv;								//마법력
+
+
 }
 
 Bear::~Bear()
