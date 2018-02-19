@@ -23,7 +23,7 @@ HRESULT worldMapPlayer::init(int playerX, int playerY)
 	_currentFrameX = 0;
 	_currentFrameY = 0;
 
-	_moveSpeed = 2.0f;
+	_moveSpeed = 4.0f;
 
 	_worldPlayerDirection = WPDOWN;
 
@@ -96,8 +96,6 @@ void worldMapPlayer::worldPlayerImageControl()
 			IMAGEMANAGER->findImage("월드맵플레이어")->frameRender(getMemDC(), _player.x, _player.y, _currentFrameX, _currentFrameY);
 		break;
 	}
-
-
 }
 
 void worldMapPlayer::worldPlayerKeyControl()
@@ -117,6 +115,12 @@ void worldMapPlayer::worldPlayerKeyControl()
 		{
 			_player.x += _moveSpeed;
 		}
+		else if (_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.top + 3)].getTerrainAttr() == ATTR_SLOW ||
+			_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.bottom - 3)].getTerrainAttr() == ATTR_SLOW)
+		{
+			_player.x += _moveSpeed/2;
+		
+		}
 		//오브젝트어트리뷰트도 추가해야한당
 		//오브젝트 속성 OBJ_MOUNTAIN, OBJ_CAVE, OBJ_TOWN, OBJ_CASTLE, OBJ_NPC, OBJ_ENEMY,
 	}
@@ -130,6 +134,12 @@ void worldMapPlayer::worldPlayerKeyControl()
 		{
 			_player.x -= _moveSpeed;
 		}
+		else if (_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.top + 3)].getTerrainAttr() == ATTR_SLOW ||
+			_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.bottom - 3)].getTerrainAttr() == ATTR_SLOW)
+		{
+			_player.x -= _moveSpeed/2;
+		
+		}
 	}
 	else if (KEYMANAGER->isStayKeyDown(VK_UP))
 	{
@@ -141,6 +151,12 @@ void worldMapPlayer::worldPlayerKeyControl()
 		{
 			_player.y += _moveSpeed;
 		}
+		else if (_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.top + 3)].getTerrainAttr() == ATTR_SLOW ||
+			_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.bottom - 3)].getTerrainAttr() == ATTR_SLOW)
+		{
+			_player.y += _moveSpeed/2;
+			
+		}
 	}
 	else if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 	{
@@ -151,6 +167,12 @@ void worldMapPlayer::worldPlayerKeyControl()
 			_worldMap->getWorldMapTiles()[tileNum(_rc.right-3, _rc.bottom)].getTerrainAttr() == ATTR_UNMOVE)
 		{
 			_player.y -= _moveSpeed;
+		}
+		else if (_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.top + 3)].getTerrainAttr() == ATTR_SLOW ||
+			_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.bottom - 3)].getTerrainAttr() == ATTR_SLOW)
+		{
+			_player.y -= _moveSpeed/2;
+			
 		}
 	}
 	

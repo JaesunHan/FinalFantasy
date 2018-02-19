@@ -127,6 +127,9 @@
     <Filter Include="playGround\gameMenu\menu\ability">
       <UniqueIdentifier>{fcfef6ad-ae5e-49a9-9c9b-80b2abbaf78b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\MapScene\store">
+      <UniqueIdentifier>{d2566c79-f4ce-465e-bcec-506683d5bf03}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -438,9 +441,6 @@
     <ClInclude Include="characterAbility.h">
       <Filter>playGround\gameMenu\menu\ability</Filter>
     </ClInclude>
-    <ClInclude Include="magic.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -724,9 +724,6 @@
     </ClCompile>
     <ClCompile Include="characterAbility.cpp">
       <Filter>playGround\gameMenu\menu\ability</Filter>
-    </ClCompile>
-    <ClCompile Include="magic.cpp">
-      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
