@@ -63,7 +63,7 @@ void playerManager::update()
 	//INIDATA->loadDataInterger(fileName, "gameData", "gameStart");
 	if (INIDATA->loadDataInterger(fileName, "gameData", "gameStart"))
 	{
-		loadGameData();
+		//loadGameData();
 		INIDATA->addData("gameData", "gameStart", 0);
 		INIDATA->iniSave(fileName);
 	}
