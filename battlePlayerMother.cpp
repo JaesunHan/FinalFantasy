@@ -69,7 +69,7 @@ void battlePlayerMother::update()
 			//공격 이펙트 사운드가 재생중이 아니면 재생한다.
 			if (!SOUNDMANAGER->isPlaySound(_atkEffectSoundKey))
 			{
-				SOUNDMANAGER->play(_atkEffectSoundKey, 1.0f);
+				SOUNDMANAGER->play(_atkEffectSoundKey, CH_SOKKONGGU, 1.0f);
 			}
 			//공격 모션일 때 
 			//만약 원거리 공격자라면 이미지 렌더 위치를 보정해줘야 한다
