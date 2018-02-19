@@ -34,9 +34,7 @@ HRESULT loadGame::init()
 	//세이브파일 로드 (file: 0)
 	if (INIDATA->loadDataInterger("saveFile0", "player0", "level") != -1) fileLoad(0);
 
-
 	_saveFileSelect = false;
-	_gameStart = false;  //플레이어 세이브파일 로드를 위한 신호값
 
 
 
@@ -245,7 +243,11 @@ void loadGame::update()
 					delete _button;
 
 					_saveFileSelect = false;
-					_gameStart = true;  //플레이어 세이브파일 로드를 위한 신호값
+
+					//플레이어 세이브파일 로드를 위한 신호값 
+					INIDATA->addData("gameData", "gameStart", "1");
+					INIDATA->iniSave("gameData");
+
 					SCENEMANAGER->changeScene("월드맵씬");
 				}
 			break;

@@ -56,8 +56,6 @@ HRESULT newGame::init()
 	//==============================================================
 
 
-	_gameStart = false;  //플레이어 세이브파일 로드를 위한 신호값
-
 
 	return S_OK;
 }
@@ -111,12 +109,12 @@ void newGame::update()
 			}
 
 			//================================== 저장파일 생성 ================================== 
-			saveIniPlayerData(_saveFileNum, 0, "TINA",   "Magician",        3, 63, 63, 27, 27);
-			saveIniPlayerData(_saveFileNum, 1, "CELES",  "Rune Knight",     2, 56, 56, 21, 21);
-			saveIniPlayerData(_saveFileNum, 2, "LOCK",   "Treasure Hunter", 2, 68, 68, 0, 0);
-			saveIniPlayerData(_saveFileNum, 3, "SHADOW", "Assassin",        3, 72, 72, 0, 0);
+			saveIniPlayerData(_saveFileNum, 0, "TINA",   "Magician",         3, 63, 63, 27, 27, 0, 96, 31, 33, 28, 39, 12, 42, 33, 5, 7, 0, true);
+			saveIniPlayerData(_saveFileNum, 1, "LOCKE", "Treasure Hunter",   3, 71, 71, 18, 18, 0, 96, 37, 40, 31, 28, 14, 46, 23, 15, 2, 1, true);
+			saveIniPlayerData(_saveFileNum, 2, "CELES",  "Rune Knight",      3, 67, 67, 26, 26, 0, 96, 34, 34, 31, 36, 16, 44, 31, 7, 9, 2, true);
+			saveIniPlayerData(_saveFileNum, 3, "SHADOW", "Assassin",         3, 74, 74, 17, 17, 0, 96, 39, 38, 30, 33, 23, 47, 25, 28, 9, 3, true);
 
-			saveIniSlotGameData(_saveFileNum, "OVER WORLD",3000 , 0, 0);  //게임데이터: 세이브파일에 저장
+			saveIniSlotGameData(_saveFileNum, "OVER WORLD",3000 , 0);     //게임데이터: 세이브파일에 저장
 			saveIniGameData(_saveFileNum, "OVER WORLD");                  //게임데이터: 데이터베이스에 저장
 			//================================== 저장파일 생성 ================================== 
 
@@ -124,7 +122,9 @@ void newGame::update()
 			_button->buttonRemove();
 			delete _button;
 
-			_gameStart = true;  //플레이어 세이브파일 로드를 위한 신호값
+			//플레이어 세이브파일 로드를 위한 신호값
+			INIDATA->addData("gameData", "gameStart", "1");
+			INIDATA->iniSave("gameData");
 
 			//씬이동
 			SCENEMANAGER->changeScene("월드맵씬");
@@ -155,8 +155,6 @@ void newGame::render()
 
 	if (_fileLoadOk[0]) playerSlotRender();  //플레이어 슬롯
 	gameDataRender(true);  //게임 데이터(플레이장소/플레이시간/돈)
-
-	textPrint(getMemDC(), SCENEMANAGER->getCurrentSceneName().c_str(), 100, 100);
 }
 
 

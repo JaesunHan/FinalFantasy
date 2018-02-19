@@ -379,81 +379,157 @@ tagElements menu::saveTxtData(int fileNum, string cStage)
 }
 
 
-void menu::saveIniPlayerData(int fileNum, int playerNum, string cName, string job, int level, int hp, int maxHp, int mp, int maxMp)
+void menu::saveIniPlayerData(int fileNum, int playerNum, string cName, string job, int level, int hp, int maxHp, int mp, int maxMp,
+	int exp, int maxExp, int strength, int speed, int stamina, int magic, int attack, int attackDefence, int magicDefence, int evation,
+	int magicEvation, int partyIdx, bool tmpSave)
 {
+	//템프파일 저장시
+	int saveNum;
+	if (tmpSave)
+	{
+		saveNum = 2;
+	}
+	else
+	{
+		saveNum = 1;
+	}
+
 	//파일정보 넘버
 	TCHAR tmp[4];
 	ZeroMemory(&tmp, sizeof(tmp));
 	wsprintf(tmp, "%d", fileNum);
 	INIDATA->addData("fileInfo", "fileNum",  tmp);
 
-	//플레이어 넘버
-	TCHAR subjectNum[12];
-	ZeroMemory(&subjectNum, sizeof(subjectNum));
-	wsprintf(subjectNum, "player%d", playerNum);
-	//플레이어 이름 & 직업
-	INIDATA->addData(subjectNum,  "name",  cName.c_str());
-	INIDATA->addData(subjectNum,  "job",   job.c_str());
-	//플레이어 레벨
-	TCHAR tmp1[4];
-	ZeroMemory(&tmp1, sizeof(tmp1));
-	wsprintf(tmp1, "%d", level);
-	INIDATA->addData(subjectNum,  "level", tmp1);
-	//플레이어 체력
-	TCHAR tmp2[4];
-	ZeroMemory(&tmp2, sizeof(tmp2));
-	wsprintf(tmp2, "%d", hp);
-	INIDATA->addData(subjectNum,  "hp", tmp2);
-	//플레이어 최대체력
-	TCHAR tmp3[4];
-	ZeroMemory(&tmp3, sizeof(tmp3));
-	wsprintf(tmp3, "%d", maxHp);
-	INIDATA->addData(subjectNum,  "maxHp", tmp3);
-	//플레이어 마력
-	TCHAR tmp4[4];
-	ZeroMemory(&tmp4, sizeof(tmp4));
-	wsprintf(tmp4, "%d", mp);
-	INIDATA->addData(subjectNum,  "mp", tmp4);
-	//플레이어 최대마력
-	TCHAR tmp5[4];
-	ZeroMemory(&tmp5, sizeof(tmp5));
-	wsprintf(tmp5, "%d", maxMp);
-	INIDATA->addData(subjectNum,  "maxMp", tmp5);
+	for (int i = 0; i < saveNum; ++i)
+	{
+		//플레이어 넘버
+		TCHAR subjectNum[12];
+		ZeroMemory(&subjectNum, sizeof(subjectNum));
+		wsprintf(subjectNum, "player%d", playerNum);
+		//플레이어 이름 & 직업
+		INIDATA->addData(subjectNum, "name", cName.c_str());
+		INIDATA->addData(subjectNum, "job", job.c_str());
+		//플레이어 레벨
+		TCHAR tmp1[4];
+		ZeroMemory(&tmp1, sizeof(tmp1));
+		wsprintf(tmp1, "%d", level);
+		INIDATA->addData(subjectNum, "level", tmp1);
+		//플레이어 체력
+		TCHAR tmp2[4];
+		ZeroMemory(&tmp2, sizeof(tmp2));
+		wsprintf(tmp2, "%d", hp);
+		INIDATA->addData(subjectNum, "hp", tmp2);
+		//플레이어 최대체력
+		TCHAR tmp3[4];
+		ZeroMemory(&tmp3, sizeof(tmp3));
+		wsprintf(tmp3, "%d", maxHp);
+		INIDATA->addData(subjectNum, "maxHp", tmp3);
+		//플레이어 마력
+		TCHAR tmp4[4];
+		ZeroMemory(&tmp4, sizeof(tmp4));
+		wsprintf(tmp4, "%d", mp);
+		INIDATA->addData(subjectNum, "mp", tmp4);
+		//플레이어 최대마력
+		TCHAR tmp5[4];
+		ZeroMemory(&tmp5, sizeof(tmp5));
+		wsprintf(tmp5, "%d", maxMp);
+		INIDATA->addData(subjectNum, "maxMp", tmp5);
+		//플레이어 경험치
+		TCHAR tmp6[4];
+		ZeroMemory(&tmp6, sizeof(tmp6));
+		wsprintf(tmp6, "%d", exp);
+		INIDATA->addData(subjectNum, "exp", tmp6);
+		//플레이어 최대경험치
+		TCHAR tmp7[4];
+		ZeroMemory(&tmp7, sizeof(tmp7));
+		wsprintf(tmp7, "%d", maxExp);
+		INIDATA->addData(subjectNum, "maxExp", tmp7);
+		//플레이어 힘
+		TCHAR tmp8[4];
+		ZeroMemory(&tmp8, sizeof(tmp8));
+		wsprintf(tmp8, "%d", strength);
+		INIDATA->addData(subjectNum, "strength", tmp8);
+		//플레이어 스피드
+		TCHAR tmp9[4];
+		ZeroMemory(&tmp9, sizeof(tmp9));
+		wsprintf(tmp9, "%d", speed);
+		INIDATA->addData(subjectNum, "speed", tmp9);
+		//플레이어 내구력
+		TCHAR tmp10[4];
+		ZeroMemory(&tmp10, sizeof(tmp10));
+		wsprintf(tmp10, "%d", stamina);
+		INIDATA->addData(subjectNum, "stamina", tmp10);
+		//플레이어 마법
+		TCHAR tmp11[4];
+		ZeroMemory(&tmp11, sizeof(tmp11));
+		wsprintf(tmp11, "%d", magic);
+		INIDATA->addData(subjectNum, "magic", tmp11);
+		//플레이어 공격력
+		TCHAR tmp12[4];
+		ZeroMemory(&tmp12, sizeof(tmp12));
+		wsprintf(tmp12, "%d", attack);
+		INIDATA->addData(subjectNum, "attack", tmp12);
+		//플레이어 공격방어력
+		TCHAR tmp13[4];
+		ZeroMemory(&tmp13, sizeof(tmp13));
+		wsprintf(tmp13, "%d", attackDefence);
+		INIDATA->addData(subjectNum, "attackDefence", tmp13);
+		//플레이어 마법방어력
+		TCHAR tmp14[4];
+		ZeroMemory(&tmp14, sizeof(tmp14));
+		wsprintf(tmp14, "%d", magicDefence);
+		INIDATA->addData(subjectNum, "magicDefence", tmp14);
+		//플레이어 공격회피
+		TCHAR tmp15[4];
+		ZeroMemory(&tmp15, sizeof(tmp15));
+		wsprintf(tmp15, "%d", evation);
+		INIDATA->addData(subjectNum, "evation", tmp15);
+		//플레이어 마법회피
+		TCHAR tmp16[4];
+		ZeroMemory(&tmp16, sizeof(tmp16));
+		wsprintf(tmp16, "%d", magicEvation);
+		INIDATA->addData(subjectNum, "magicEvation", tmp16);
+		//플레이어 파티원 넘버
+		TCHAR tmp17[4];
+		ZeroMemory(&tmp17, sizeof(tmp17));
+		wsprintf(tmp17, "%d", partyIdx);
+		INIDATA->addData(subjectNum, "partyIdx", tmp17);
 
-	//파일저장
-	TCHAR saveFileName[16];
-	wsprintf(saveFileName, "saveFile%d", fileNum);
-	INIDATA->iniSave(saveFileName);
+		if (i == 0)
+		{
+			//파일저장
+			TCHAR saveFileName[16];
+			wsprintf(saveFileName, "saveFile%d", fileNum);
+			INIDATA->iniSave(saveFileName);
+		}
+		if (i == 1)
+		{
+			//파일저장
+			INIDATA->iniSave("skgFile");
+		}
+	}
 }
 
-void menu::saveIniSlotGameData(int fileNum, string stage, int gil, int playTime, int steps)
+void menu::saveIniSlotGameData(int fileNum, string stage, int gil, int playTime)
 {
 	//스테이지
 	INIDATA->addData("gameData", "stage", stage.c_str());
-
 	//플레이어 돈
 	TCHAR tmp2[8];
 	ZeroMemory(&tmp2, sizeof(tmp2));
 	wsprintf(tmp2, "%d", gil);
 	INIDATA->addData("gameData", "gil", tmp2);
-
 	//플레이 시간
 	TCHAR tmp3[32];
 	ZeroMemory(&tmp3, sizeof(tmp3));
 	wsprintf(tmp3, "%d", playTime);
 	INIDATA->addData("gameData", "playTime", tmp3);
 
-	//플레이 스텝
-	TCHAR tmp4[32];
-	ZeroMemory(&tmp4, sizeof(tmp4));
-	wsprintf(tmp4, "%d", steps);
-	INIDATA->addData("gameData", "steps", tmp4);
 
 	//파일저장
 	TCHAR saveFileName[16];
 	wsprintf(saveFileName, "saveFile%d", fileNum);
 	INIDATA->iniSave(saveFileName);
-
 }
 
 //============================ save & load ===========================
@@ -474,7 +550,11 @@ void menu::saveIniGameData(int fileNum, string currentScene)
 	wsprintf(saveFileName, "saveFile%d", fileNum);;
 	INIDATA->addData("gameData", "saveFileName", saveFileName);
 
+	//현재 플레이어 위치
 	if (currentScene != "") INIDATA->addData("gameData", "currentScene", currentScene.c_str());
+
+	//게임스타트 불값 초기화
+	INIDATA->addData("gameData", "gameStart", "0");
 
 	//파일저장
 	INIDATA->iniSave("gameData");
@@ -489,7 +569,6 @@ void menu::gameDataRender(bool isNewGame)
 	wsprintf(tmpGD.stage, "%s", INIDATA->loadDataString(tmpGD.saveFileName, "gameData", "stage"));
 	tmpGD.playTime = INIDATA->loadDataInterger(tmpGD.saveFileName, "gameData", "playTime");
 	tmpGD.gil = INIDATA->loadDataInterger(tmpGD.saveFileName, "gameData", "gil");
-	tmpGD.steps = INIDATA->loadDataInterger(tmpGD.saveFileName, "gameData", "steps");
 
 	
 	if (isNewGame)
@@ -506,7 +585,6 @@ void menu::gameDataRender(bool isNewGame)
 				wsprintf(tmpGD.stage, "%s", INIDATA->loadDataString(tmpSaveFileNum, "gameData", "stage"));
 				tmpGD.playTime = INIDATA->loadDataInterger(tmpSaveFileNum, "gameData", "playTime");
 				tmpGD.gil = INIDATA->loadDataInterger(tmpSaveFileNum, "gameData", "gil");
-				tmpGD.steps = INIDATA->loadDataInterger(tmpSaveFileNum, "gameData", "steps");
 
 				if (tmpGD.playTime != -1) break;
 			}
@@ -520,8 +598,7 @@ void menu::gameDataRender(bool isNewGame)
 		char tmpBuff[32];
 		textPrint(getMemDC(), tmpGD.stage,					     1050, 392, 30, 30, "Stencil", COLOR_WHITE, true);
 		textPrint(getMemDC(), itoa(tmpGD.playTime, tmpBuff, 10), 1080, 462, 20, 20, "Stencil", COLOR_WHITE, true);
-		textPrint(getMemDC(), itoa(tmpGD.steps, tmpBuff, 10),    1080, 516, 20, 20, "Stencil", COLOR_WHITE, true);
-		textPrint(getMemDC(), itoa(tmpGD.gil, tmpBuff, 10),      1080, 570, 20, 20, "Stencil", COLOR_WHITE, true);
+		textPrint(getMemDC(), itoa(tmpGD.gil, tmpBuff, 10),    1080, 516, 20, 20, "Stencil", COLOR_WHITE, true);
 	}
 }
 

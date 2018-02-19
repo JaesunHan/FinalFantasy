@@ -162,8 +162,11 @@ public:
 
 	//============================== save & load ============================
 	virtual tagElements saveTxtData(int fileNum, string cStage);
-	virtual void saveIniPlayerData(int fileNum, int playerNum, string cName, string job, int level, int hp, int maxHp, int mp, int maxMp);
-	virtual void saveIniSlotGameData(int fileNum, string stage, int gil, int playTime, int steps);
+	virtual void saveIniPlayerData(int fileNum, int playerNum, string cName, string job, 
+		int level, int hp, int maxHp, int mp, int maxMp, int exp, int maxExp, int strength, 
+		int speed, int stamina, int magic, int attack, int attackDefence, int magicDefence, 
+		int evation, int magicEvation, int partyIdx, bool tmpSave = false);
+	virtual void saveIniSlotGameData(int fileNum, string stage, int gil, int playTime);
 	//============================== save & load ============================
 
 	//=============================== gameData ==============================

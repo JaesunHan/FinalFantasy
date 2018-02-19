@@ -16,6 +16,10 @@ HRESULT titleScene::init()
 	_bgImage = IMAGEMANAGER->findImage("타이틀메뉴");
 	cursorInit(CUSOR_RIGHT, 475, 402);
 
+	//플레이어 세이브파일 로드를 위한 신호값: 초기화
+	INIDATA->addData("gameData", "gameStart", "0");
+	INIDATA->iniSave("gameData");
+
 	return S_OK;
 }
 
