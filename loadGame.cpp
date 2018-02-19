@@ -36,6 +36,7 @@ HRESULT loadGame::init()
 
 
 	_saveFileSelect = false;
+	_gameStart = false;  //플레이어 세이브파일 로드를 위한 신호값
 
 
 
@@ -244,6 +245,7 @@ void loadGame::update()
 					delete _button;
 
 					_saveFileSelect = false;
+					_gameStart = true;  //플레이어 세이브파일 로드를 위한 신호값
 					SCENEMANAGER->changeScene("월드맵씬");
 				}
 			break;

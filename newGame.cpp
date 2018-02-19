@@ -56,6 +56,9 @@ HRESULT newGame::init()
 	//==============================================================
 
 
+	_gameStart = false;  //플레이어 세이브파일 로드를 위한 신호값
+
+
 	return S_OK;
 }
 
@@ -120,6 +123,9 @@ void newGame::update()
 			//버튼삭제 
 			_button->buttonRemove();
 			delete _button;
+
+			_gameStart = true;  //플레이어 세이브파일 로드를 위한 신호값
+
 			//씬이동
 			SCENEMANAGER->changeScene("월드맵씬");
 		}

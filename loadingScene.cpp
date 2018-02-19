@@ -41,9 +41,9 @@ HRESULT loadingScene::init()
 	_loading->loadFrameImage("버튼네임", ".//prevProjectResource//SceneImage//button_name.bmp", 352, 63, 2, 1, true, RGB(255, 0, 255));
 
 	//아이콘 이미지
-	_loading->loadFrameImage("아이콘힐", ".//prevProjectResource//SceneImage//icon_menu_ability_heal.bmp", 192, 48, 2, 1, true, RGB(255, 0, 255));
-	_loading->loadFrameImage("아이콘매직", ".//prevProjectResource//SceneImage//icon_menu_ability_magic.bmp", 192, 48, 2, 1, true, RGB(255, 0, 255));
-	_loading->loadFrameImage("아이콘레어", ".//prevProjectResource//SceneImage//icon_menu_ability_rare.bmp", 192, 48, 2, 1, true, RGB(255, 0, 255));
+	_loading->loadFrameImage("아이콘힐", ".//prevProjectResource//SceneImage//icon_menu_ability_heal.bmp", 400, 74, 2, 1, true, RGB(255, 0, 255));
+	_loading->loadFrameImage("아이콘공격", ".//prevProjectResource//SceneImage//icon_menu_ability_attack.bmp", 400, 74, 2, 1, true, RGB(255, 0, 255));
+	_loading->loadFrameImage("아이콘방어", ".//prevProjectResource//SceneImage//icon_menu_ability_defence.bmp", 400, 74, 2, 1, true, RGB(255, 0, 255));
 
 	//플레이어 이미지
 	_loading->loadImage("TINA", ".//prevProjectResource//SceneImage//player_tina.bmp", 112, 111, true, RGB(255, 0, 255));

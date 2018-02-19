@@ -24,19 +24,20 @@ HRESULT characterAbility::init()
 
 	//버튼
 	int buttonX, buttonY;
-	buttonX = 100;
-	buttonY = 25;
+	buttonX = 150;
+	buttonY = 10;
 	_button = new fButton;
 	for (int i = 0; i < 3; ++i)
 	{
-		if (i == 0) _button->buttonSet("아이콘힐", buttonX + (i * 150), buttonY);
-		if (i == 1) _button->buttonSet("아이콘매직", buttonX + (i * 150), buttonY);
-		if (i == 2) _button->buttonSet("아이콘레어", buttonX + (i * 150), buttonY);
+		if (i == 0) _button->buttonSet("아이콘힐", buttonX + (i * 210), buttonY);
+		if (i == 1) _button->buttonSet("아이콘공격", buttonX + (i * 210), buttonY);
+		if (i == 2) _button->buttonSet("아이콘방어", buttonX + (i * 210), buttonY);
 	}
 
 
 	//커서
-	cursorInit(CUSOR_RIGHT, buttonX - 50, buttonY + 10);
+	_cursorXNum = 3;
+	cursorInit(CUSOR_RIGHT, buttonX - 50, buttonY + 20);
 
 
 
@@ -54,7 +55,21 @@ void characterAbility::update()
 	cursorUpdate();
 
 	//커서 컨트롤X  
-	cursorKeyControlX(150, 3);
+	cursorKeyControlX(210, _cursorXNum);
+
+	//선택
+	switch (_cursor.currentXNum)
+	{
+		case 0:
+			buttonOnActive();
+		break;
+		case 1:
+			buttonOnActive();
+		break;
+		case 2:
+			buttonOnActive();
+		break;
+	}
 
 
 
@@ -71,8 +86,31 @@ void characterAbility::update()
 void characterAbility::render()	
 {
 	_bgImage->render(getMemDC());  //백그라운드 이미지
-	cursorRender();                //커서
 	_button->render();             //버튼
+	cursorRender();                //커서
 
 	playerSlotRender();            //슬롯 데이터
+}
+
+//버튼 에니메이션 시작
+void characterAbility::buttonOnActive()
+{
+	//버튼 에니메이션 활성화
+	_button->setVButtonAniStart(_cursor.currentXNum, true);
+	for (int i = 0; i < _cursorXNum; ++i)
+	{
+		if (i == _cursor.currentXNum) continue;
+		_button->setVButtonAniStart(i, false);
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+	{
+
+	}
+}
+
+//캐릭터별 스킬버튼 생성
+void characterAbility::skillButtonSet()
+{
+
 }

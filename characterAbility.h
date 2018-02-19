@@ -14,6 +14,8 @@ public:
 	virtual void update();
 	virtual void render();
 
+	void buttonOnActive();
+	void skillButtonSet();
 
 	characterAbility();
 	~characterAbility();
