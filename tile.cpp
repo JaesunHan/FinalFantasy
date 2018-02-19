@@ -34,8 +34,6 @@ HRESULT tile::init(POINT center)
 	{
 		_nearTileDif[i] = 0;
 	}
-	
-
 
 	return S_OK;
 }
@@ -183,9 +181,10 @@ void tile::eraseObject(void)
 //지형의 종류에 따라 타일 속성 적용
 void tile::updateTerrainAttr(void)
 {
-	if (_terrain == TR_GRASS || _terrain == TR_DIRT) _terrainAttribute = ATTR_MOVE;
+	if (_terrain == TR_GRASS || _terrain == TR_DIRT || _terrain == TR_GRAYSTONE || _terrain == TR_WHITESTONE
+		|| _terrain == TR_SOIL) _terrainAttribute = ATTR_MOVE;
 	else if (_terrain == TR_WATER || _terrain == TR_STUMP || _terrain == TR_WALL) _terrainAttribute = ATTR_UNMOVE;
-	else if (_terrain == TR_DESERT) _terrainAttribute = ATTR_SLOW;
+	else if (_terrain == TR_DESERT || _terrain == TR_SWAMP || _terrain == TR_MUD) _terrainAttribute = ATTR_SLOW;
 	else if (_terrain == TR_ROAD) _terrainAttribute = ATTR_FAST;
 }
 
@@ -224,35 +223,86 @@ void tile::updateNearTileDif(TERRAIN upTile, TERRAIN downTile, TERRAIN leftTile,
 
 	if (_terrain == TR_WATER)
 	{
-		_terrainImageKey = "testTileSet2";
-		_terrainFramePos = PointMake(10, 1);
-
-		autoTileSelect(totalDifValue);
+		if (_terrainImageKey == "testTileSet" || _terrainImageKey == "testTileSet2")
+		{
+			_terrainImageKey = "testTileSet2";
+			_terrainFramePos = PointMake(10, 1);
+			autoTileSelect(totalDifValue);
+		}
 	}
-
 	if (_terrain == TR_DESERT)
 	{
-		_terrainImageKey = "testTileSet2";
-		_terrainFramePos = PointMake(1, 1);
-
-		autoTileSelect(totalDifValue);
+		if (_terrainImageKey == "testTileSet" || _terrainImageKey == "testTileSet2")
+		{
+			_terrainImageKey = "testTileSet2";
+			_terrainFramePos = PointMake(1, 1);
+			autoTileSelect(totalDifValue);
+		}
 	}
-
 	if (_terrain == TR_SNOW)
 	{
-		_terrainImageKey = "testTileSet2";
-		_terrainFramePos = PointMake(4, 1);
-
-		autoTileSelect(totalDifValue);
+		if (_terrainImageKey == "testTileSet" || _terrainImageKey == "testTileSet2")
+		{
+			_terrainImageKey = "testTileSet2";
+			_terrainFramePos = PointMake(4, 1);
+			autoTileSelect(totalDifValue);
+		}
 	}
-
 	if (_terrain == TR_SWAMP)
 	{
-		_terrainImageKey = "testTileSet2";
-		_terrainFramePos = PointMake(7, 1);
-
-		autoTileSelect(totalDifValue);
+		if (_terrainImageKey == "testTileSet" || _terrainImageKey == "testTileSet2")
+		{
+			_terrainImageKey = "testTileSet2";
+			_terrainFramePos = PointMake(7, 1);
+			autoTileSelect(totalDifValue);
+		}
 	}
+
+	if (_terrain == TR_GRAYSTONE)
+	{
+		if (_terrainImageKey == "townTile" || _terrainImageKey == "townTileSample")
+		{
+			_terrainImageKey = "townTile";
+			_terrainFramePos = PointMake(1, 1);
+			autoTileSelect(totalDifValue);
+		}
+	}
+	if (_terrain == TR_WHITESTONE)
+	{
+		if (_terrainImageKey == "townTile" || _terrainImageKey == "townTileSample")
+		{
+			_terrainImageKey = "townTile";
+			_terrainFramePos = PointMake(4, 1);
+			autoTileSelect(totalDifValue);
+		}
+	}
+	if (_terrain == TR_SOIL)
+	{
+		if (_terrainImageKey == "townTile" || _terrainImageKey == "townTileSample")
+		{
+			_terrainImageKey = "townTile";
+			_terrainFramePos = PointMake(7, 1);
+			autoTileSelect(totalDifValue);
+		}
+	}
+	if (_terrain == TR_MUD)
+	{
+		if (_terrainImageKey == "townTile" || _terrainImageKey == "townTileSample")
+		{
+			_terrainImageKey = "townTile";
+			_terrainFramePos = PointMake(10, 1);
+			autoTileSelect(totalDifValue);
+		}
+	}
+	/*if (_terrain == TR_GRASS)
+	{
+		if (_terrainImageKey == "townTile" || _terrainImageKey == "townTileSample")
+		{
+			_terrainImageKey = "townTile";
+			_terrainFramePos = PointMake(13, 1);
+			autoTileSelect(totalDifValue);
+		}
+	}*/
 }
 
 void tile::autoTileSelect(int totalDifferentTile)

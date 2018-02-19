@@ -26,6 +26,8 @@ HRESULT mapTool::init(void)
 	IMAGEMANAGER->addFrameImage("tempTile", ".//tileSet//tempTile.bmp", 576, 576, 18, 18, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("testTileSet", ".//tileSet//testTileSet.bmp", 128, 64, 4, 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("testTileSet2", ".//tileSet//testTileSet2.bmp", 480, 128, 15, 4, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("townTile", ".//tileSet//townTileSet.bmp", 480, 320, 15, 10, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("townTileSample", ".//tileSet//townTileSample.bmp", 128, 64, 4, 2, true, RGB(255, 0, 255));
 	//오브젝트 타일 이미지 추가
 	//IMAGEMANAGER->addFrameImage("worldObject", ".//tileSet//worldMapObjectTileSet.bmp", 256, 128, 8, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("worldObject", ".//tileSet//worldMapObject2.bmp", 256, 192, 8, 6, true, RGB(255, 0, 255));
@@ -35,7 +37,8 @@ HRESULT mapTool::init(void)
 	IMAGEMANAGER->addFrameImage("townHouse4", ".//tileSet//House4.bmp", 320, 384, 10, 12, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("townHouse5", ".//tileSet//House5.bmp", 256, 384, 8, 12, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("townHouse6", ".//tileSet//House6.bmp", 224, 384, 7, 12, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("townObject1", ".//tileSet//townObject.bmp", 256, 384, 8, 12, true, RGB(255, 0, 255));
+	//IMAGEMANAGER->addFrameImage("townObject1", ".//tileSet//townObject.bmp", 256, 384, 8, 12, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addFrameImage("townObject1", ".//tileSet//townObject.bmp", 512, 256, 16, 8, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("townObject2", ".//tileSet//tileMap05.bmp", 256, 256, 8, 8, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("townObject3", ".//tileSet//tileMap06.bmp", 256, 256, 8, 8, true, RGB(255, 0, 255));
 
@@ -70,9 +73,6 @@ HRESULT mapTool::init(void)
 
 	_curMapFileName = "none";
 	_autoSaveTimer = TIMEMANAGER->getWorldTime();
-
-	
-	
 
 	return S_OK;
 }
@@ -273,6 +273,25 @@ void mapTool::terrainTileSetInit()
 			if (i == 3 || i == 7) _terrainTileSet[i].setTerrain(TR_WATER);
 			if (i == 4 || i == 5) _terrainTileSet[i].setTerrain(TR_GRASS);
 		}
+		else if (_terrainTileImageKey == "testTownTile")
+		{
+			_terrainTileSet[i].setTerrain(TR_GRASS);
+
+			if ((i >= 0 && i <= 2) || (i >= 15 && i <= 17) || (i >= 30 && i <= 32)) _terrainTileSet[i].setTerrain(TR_GRAYSTONE);
+			else if ((i >= 3 && i <= 5) || (i >= 18 && i <= 20) || (i >= 33 && i <= 35)) _terrainTileSet[i].setTerrain(TR_WHITESTONE);
+			else if ((i >= 6 && i <= 8) || (i >= 21 && i <= 23) || (i >= 36 && i <= 38)) _terrainTileSet[i].setTerrain(TR_SOIL);
+			else if ((i >= 9 && i <= 11) || (i >= 24 && i <= 26) || (i >= 39 && i <= 41)) _terrainTileSet[i].setTerrain(TR_MUD);
+			else if (i == 72) _terrainTileSet[i].setTerrain(TR_WATER);
+		}
+		else if (_terrainTileImageKey == "townTileSample")
+		{
+			if (i == 0) _terrainTileSet[i].setTerrain(TR_GRAYSTONE);
+			else if (i == 1) _terrainTileSet[i].setTerrain(TR_WHITESTONE);
+			else if (i == 2) _terrainTileSet[i].setTerrain(TR_SOIL);
+			else if (i == 3) _terrainTileSet[i].setTerrain(TR_MUD);
+			else if (i == 4) _terrainTileSet[i].setTerrain(TR_GRASS);
+			else if (i == 5) _terrainTileSet[i].setTerrain(TR_WATER);
+		}
 		
 		// 지형 타입에 따른 속성 부여
 		_terrainTileSet[i].updateTerrainAttr();
@@ -363,7 +382,7 @@ void mapTool::objectTileSetInit()
 			else if (i == 80) _objectTileSet[i].setObject(OBJ_HOUSE_BOT_PASS);
 			else if (i == 2 || (i >= 8 && i <= 10) || (i >= 14 && i <= 34)) _objectTileSet[i].setObject(OBJ_HOUSE_TOP);
 		}
-		else if (_objectTileImageKey == "townObject1")
+		/*else if (_objectTileImageKey == "townObject1")
 		{
 			_objectTileSet[i].setObject(OBJ_NONE);
 
@@ -377,6 +396,10 @@ void mapTool::objectTileSetInit()
 			else if ((i >= 5 && i <= 7) || (i >= 13 && i <= 15) || (i >= 21 && i <= 23) || (i >= 29 && i <= 31)
 				|| i == 38 || i == 39 || i == 46 || i == 47) _objectTileSet[i].setObject(OBJ_TREE_TOP);
 			else if (i == 37 || i == 54 || i == 55 || i == 62 || i == 63) _objectTileSet[i].setObject(OBJ_TREE_BOTTOM);
+		}*/
+		else if (_objectTileImageKey == "townObject1")
+		{
+
 		}
 		else if (_objectTileImageKey == "townObject2")
 		{

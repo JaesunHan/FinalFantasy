@@ -60,6 +60,7 @@ BOOL CALLBACK selectTerrainTileSetProc(HWND hDlg, UINT iMessage, WPARAM wParam, 
 		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"townTerrain3");
 		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"tempTile");
 		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"testTileSet");
+		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_ADDSTRING, 0, (LPARAM)"townTileSample");
 
 		selectPos = SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_FINDSTRINGEXACT, 0, (LPARAM)pThis->getTerrainTileImageKey().c_str());
 		SendMessage(GetDlgItem(hDlg, IDC_LIST1), LB_SETCURSEL, (WPARAM)selectPos, 0);
