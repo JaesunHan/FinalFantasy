@@ -111,6 +111,7 @@ protected:
 	//======= saveLoad =======
 	bool _saveFileSelect;
 	int _saveFileNum;
+	bool _gameStart;        //플레이어 세이브파일 로드를 위한 신호값
 	//======= saveLoad =======
 
 	//======== button ========
@@ -175,6 +176,7 @@ public:
 
 	//================================ getter ===============================
 	int getSaveFileNum() { return _saveFileNum; }
+	bool getIsGameStart() { return _gameStart; }
 	//================================ getter ===============================
 
 
