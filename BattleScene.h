@@ -72,6 +72,7 @@ private:
 	bool _victory = false;							//승리했을때 참
 	bool _hit = false;								//명중시 참
 	bool _dialogue = false;							//다이얼로그 돌아갈때 참
+	bool _changeScene = false;						//씬 변환시 참
 	HFONT newFont, oldFont;							//폰트
 	RECT _damageRC;									//데미지 렉트
 	playerManager* _pm;
@@ -97,10 +98,10 @@ public:
 	void playerAttack();
 	void victoryCondition();
 	void gameOverCondition();
+	void sceneChange();
 
 	inline battlePlayerMother* getTinaAddress() { return _battleCharacters[0].player; }
-	inline battlePlayerMother* getLockeAddress() {
-		return _battleCharacters[1].player; }
+	inline battlePlayerMother* getLockeAddress() { return _battleCharacters[1].player; }
 	inline battlePlayerMother* getCelesAddress() { return _battleCharacters[2].player; }
 	inline battlePlayerMother* getShadowAddress() { return _battleCharacters[3].player; }
 	inline void setPlayerManagerMemoryAddressLink(playerManager* pm) { _pm = pm; }

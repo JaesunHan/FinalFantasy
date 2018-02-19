@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "BattleScene.h"
 #include "playerManager.h"
+#include "worldMapScene.h"
 
 BattleScene::BattleScene()
 {
@@ -32,6 +33,7 @@ HRESULT BattleScene::init()
 	_victory = false;
 	_hit = false;
 	_dialogue = false;
+	_changeScene = false;
 	//폰트 추가
 	AddFontResourceEx(
 		"SDMiSaeng.ttf", 	// font file name
@@ -41,6 +43,7 @@ HRESULT BattleScene::init()
 	//UI이미지 추가
 	IMAGEMANAGER->addImage("battleBG", ".\\image\\battlebackground\\Plains.bmp", 1200, 640, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("battleUI", ".\\image\\userInterface\\menuBackground.bmp", 64, 64, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("battleUI2", ".\\image\\userInterface\\menuBackground(950x128).bmp", 950, 128, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("progressBarBottom", ".\\image\\userInterface\\progressBarBottom.bmp", 150, 17, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("progressBarTop", ".\\image\\userInterface\\progressBarTop.bmp", 170, 23, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("progressBarComplete", ".\\image\\userInterface\\progressBarComplete.bmp", 150, 17, true, RGB(255, 0, 255));
@@ -146,14 +149,14 @@ void BattleScene::update()
 	if (_victory == false)
 	{
 		ATBGauzeTimer();
-		playerMenuSelect();
 	}
+	playerMenuSelect();
 	updateWhenCharacterTurn();
 	playerFrameUpdate();
 	victoryCondition();
 	soundControl();
 	gameOverCondition();
-
+	sceneChange();
 }
 
 void BattleScene::render() 
@@ -291,106 +294,55 @@ void BattleScene::updateWhenCharacterTurn()
 
 void BattleScene::playerMenuSelect()
 {
-	//플레이어 ATB 카운터가 차면 플레이어 메뉴 선택
-	for (int i = 0; i < 4; ++i)
+	if (_victory == false)
 	{
-		if (_battleCharacters[i].selectAction == true) continue;
-		if (_battleCharacters[i].selectAction == false && _battleCharacters[i].ATBcounter > 65535) _battleCharacters[i].ATBcounter = 65536;
-		if (_battleCharacters[i].ATBcounter > 65535 && _playerTurn == false)
+		//플레이어 ATB 카운터가 차면 플레이어 메뉴 선택
+		for (int i = 0; i < 4; ++i)
 		{
-			_sfx01 = false;
-			_playerTurn = true;
-			_currentTurn = i;
-			_battleCharacters[i].player->setTurnEnd(false);
-		}
-	}
-	if (KEYMANAGER->isOnceKeyDown(VK_UP))
-	{
-		if (_enemySelect == true)
-		{
-			_enemyNum--;
-			if (_enemyNum < 4) _enemyNum = _maxMonster + 3;
-			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
-			for (int i = 0; i < _maxMonster; ++i)
+			if (_battleCharacters[i].selectAction == true) continue;
+			if (_battleCharacters[i].selectAction == false && _battleCharacters[i].ATBcounter > 65535) _battleCharacters[i].ATBcounter = 65536;
+			if (_battleCharacters[i].ATBcounter > 65535 && _playerTurn == false)
 			{
-				if (_battleCharacters[_enemyNum].enemy->getCurHP() <= 0)
-				{
-					_enemyNum--;
-					if (_enemyNum < 4) _enemyNum = _maxMonster + 3;
-				}
-				else
-				{
-					break;
-				}
+				_sfx01 = false;
+				_playerTurn = true;
+				_currentTurn = i;
+				_battleCharacters[i].player->setTurnEnd(false);
 			}
 		}
-		else if (_playerTurn == true)
+		if (KEYMANAGER->isOnceKeyDown(VK_UP))
 		{
-			_menuNum--;
-			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
-			if (_menuNum < 0) _menuNum = 4;
-		}
-	}
-	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
-	{
-		if (_enemySelect == true)
-		{
-			_enemyNum++;
-			if (_enemyNum > _maxMonster + 3) _enemyNum = 4;
-			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
-			for (int i = 0; i < _maxMonster; ++i)
+			if (_enemySelect == true)
 			{
-				if (_battleCharacters[_enemyNum].enemy->getCurHP() <= 0)
+				_enemyNum--;
+				if (_enemyNum < 4) _enemyNum = _maxMonster + 3;
+				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
+				for (int i = 0; i < _maxMonster; ++i)
 				{
-					_enemyNum++;
-					if (_enemyNum > _maxMonster + 3) _enemyNum = 4;
-				}
-				else
-				{
-					break;
+					if (_battleCharacters[_enemyNum].enemy->getCurHP() <= 0)
+					{
+						_enemyNum--;
+						if (_enemyNum < 4) _enemyNum = _maxMonster + 3;
+					}
+					else
+					{
+						break;
+					}
 				}
 			}
-		}
-		else if (_playerTurn == true)
-		{
-			_menuNum++;
-			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
-			if (_menuNum > 4) _menuNum = 0;
-		}
-	}
-	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
-	{
-		if (_enemySelect == true)
-		{
-			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
-			_battleCharacters[_currentTurn].enemy = _battleCharacters[_enemyNum].enemy;
-			switch (_menuNum)
+			else if (_playerTurn == true)
 			{
-			case(BATTLE_ATTACK):
-				_battleCharacters[_currentTurn].player->setStatus(BATTLE_PLAYER_ATTACK_STANDBY);
-				_battleCharacters[_currentTurn].selectAction = true;
-				_battleTurn.push(&_battleCharacters[_currentTurn]);
-				_enemySelect = false;
-				_playerTurn = false;
-				break;
-			case(BATTLE_MAGIC):
-				break;
-			case(BATTLE_SKILL):
-				break;
-			case(BATTLE_ITEM):
-				break;
-			case(BATTLE_ESCAPE):
-				break;
+				_menuNum--;
+				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
+				if (_menuNum < 0) _menuNum = 4;
 			}
 		}
-		else if (_playerTurn == true)
+		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 		{
-			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
-			switch (_menuNum)
+			if (_enemySelect == true)
 			{
-			case(BATTLE_ATTACK):
-				_enemySelect = true;
-				_enemyNum = 4;
+				_enemyNum++;
+				if (_enemyNum > _maxMonster + 3) _enemyNum = 4;
+				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
 				for (int i = 0; i < _maxMonster; ++i)
 				{
 					if (_battleCharacters[_enemyNum].enemy->getCurHP() <= 0)
@@ -403,66 +355,130 @@ void BattleScene::playerMenuSelect()
 						break;
 					}
 				}
-				break;
-			case(BATTLE_MAGIC):
-				break;
-			case(BATTLE_SKILL):
-				break;
-			case(BATTLE_ITEM):
-				break;
-			case(BATTLE_ESCAPE):
-				break;
+			}
+			else if (_playerTurn == true)
+			{
+				_menuNum++;
+				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
+				if (_menuNum > 4) _menuNum = 0;
 			}
 		}
-	}
-	if (KEYMANAGER->isOnceKeyDown(VK_BACK))
-	{
-		if (_enemySelect == true)
+		if (KEYMANAGER->isOnceKeyDown(VK_BACK))
 		{
-			_enemyNum = 4;
-			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
+			if (_enemySelect == true)
+			{
+				_enemyNum = 4;
+				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
+				_enemySelect = false;
+			}
+			else if (_playerTurn == true)
+			{
+				_menuNum = 0;
+				_sfx01 = false;
+				while (1)
+				{
+					_currentTurn++;
+					if (_currentTurn > 3) _currentTurn = 0;
+					if (_battleCharacters[_currentTurn].selectAction == true) continue;
+					if (_battleCharacters[_currentTurn].ATBcounter < 65535) continue;
+					else break;
+				}
+			}
+		}
+		if (KEYMANAGER->isOnceKeyDown(VK_TAB))
+		{
+			if (_playerTurn == true)
+			{
+				_menuNum = 0;
+				_sfx01 = false;
+				while (1)
+				{
+					_currentTurn++;
+					if (_currentTurn > 3) _currentTurn = 0;
+					if (_battleCharacters[_currentTurn].selectAction == true) continue;
+					if (_battleCharacters[_currentTurn].ATBcounter < 65535) continue;
+					else break;
+				}
+			}
+		}
+		if (_playerTurn == true && _battleCharacters[_currentTurn].player->getCurHP() <= 0)
+		{
+			_menuNum = 0;
 			_enemySelect = false;
+			_playerTurn = false;
 		}
-		else if (_playerTurn == true)
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+	{
+		if (_victory == false)
 		{
-			_menuNum = 0;
-			_sfx01 = false;
-			while (1)
+			if (_enemySelect == true)
 			{
-				_currentTurn++;
-				if (_currentTurn > 3) _currentTurn = 0;
-				if (_battleCharacters[_currentTurn].selectAction == true) continue;
-				if (_battleCharacters[_currentTurn].ATBcounter < 65535) continue;
-				else break;
+				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
+				_battleCharacters[_currentTurn].enemy = _battleCharacters[_enemyNum].enemy;
+				switch (_menuNum)
+				{
+				case(BATTLE_ATTACK):
+					_battleCharacters[_currentTurn].player->setStatus(BATTLE_PLAYER_ATTACK_STANDBY);
+					_battleCharacters[_currentTurn].selectAction = true;
+					_battleTurn.push(&_battleCharacters[_currentTurn]);
+					_enemySelect = false;
+					_playerTurn = false;
+					break;
+				case(BATTLE_MAGIC):
+					break;
+				case(BATTLE_SKILL):
+					break;
+				case(BATTLE_ITEM):
+					break;
+				case(BATTLE_ESCAPE):
+
+					break;
+				}
+			}
+			else if (_playerTurn == true)
+			{
+				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
+				switch (_menuNum)
+				{
+				case(BATTLE_ATTACK):
+					_enemySelect = true;
+					_enemyNum = 4;
+					for (int i = 0; i < _maxMonster; ++i)
+					{
+						if (_battleCharacters[_enemyNum].enemy->getCurHP() <= 0)
+						{
+							_enemyNum++;
+							if (_enemyNum > _maxMonster + 3) _enemyNum = 4;
+						}
+						else
+						{
+							break;
+						}
+					}
+					break;
+				case(BATTLE_MAGIC):
+					break;
+				case(BATTLE_SKILL):
+					break;
+				case(BATTLE_ITEM):
+					break;
+				case(BATTLE_ESCAPE):
+					break;
+				}
 			}
 		}
-	}
-	if (KEYMANAGER->isOnceKeyDown(VK_TAB))
-	{
-		if (_playerTurn == true)
+		else if (_victory == true)
 		{
-			_menuNum = 0;
-			_sfx01 = false;
-			while (1)
-			{
-				_currentTurn++;
-				if (_currentTurn > 3) _currentTurn = 0;
-				if (_battleCharacters[_currentTurn].selectAction == true) continue;
-				if (_battleCharacters[_currentTurn].ATBcounter < 65535) continue;
-				else break;
-			}
+			_dialogueCounter++;
+			_messageCounter = 0;
 		}
 	}
-	if (_playerTurn == true && _battleCharacters[_currentTurn].player->getCurHP() <= 0)
-	{
-		_menuNum = 0;
-		_enemySelect = false;
-		_playerTurn = false;
-	}
-	if (KEYMANAGER->isOnceKeyDown('R'))
-	{
-		SOUNDMANAGER->play("battleBGM", CH_BGM, 1.0f);
-	}
+	
+	//if (KEYMANAGER->isOnceKeyDown('R'))
+	//{
+	//	SOUNDMANAGER->play("battleBGM", CH_BGM, 1.0f);
+	//}
 	//if (KEYMANAGER->isOnceKeyDown('T'))
 	//{
 	//	SOUNDMANAGER->getChannel(CH_BGM)->setPosition(3900, FMOD_TIMEUNIT_MS);
@@ -700,7 +716,7 @@ void BattleScene::drawText(int fontSize, char* str, RECT rc, int position, bool 
 {
 	if (dialogue == true)
 	{
-		IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), rc.left - 25, rc.top - 25, rc.right - rc.left + 50, rc.bottom - rc.top + 50);
+		IMAGEMANAGER->findImage("battleUI2")->render(getMemDC(), 0, 0);
 	}
 	newFont = CreateFont(fontSize, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
 	oldFont = (HFONT)SelectObject(getMemDC(), newFont);
@@ -736,29 +752,50 @@ void BattleScene::renderDamage(int endPoint)
 
 void BattleScene::temporaryMessage()
 {
-	RECT tempDialogueRC = { WINSIZEX / 2 - 200, 25, WINSIZEX / 2 + 200, 55 };
-	if (_dialogue == true)
+	RECT tempDialogueRC = { 25, 48, WINSIZEX - 275, 80 };
+	if (_victoryCounter > 70 && _dialogueCounter < 10)
 	{
-		_messageCounter++;
-		drawText(30, "헤일 소꽁구!", tempDialogueRC, DT_CENTER, true);
-		if (_messageCounter > 120)
+		if (_dialogue == true)
 		{
-			_messageCounter = 0;
-			_dialogue = false;
+			_messageCounter++;
+			switch (_dialogueCounter)
+			{
+			case(1):
+				drawText(32, "팀 소꽁구 승리!", tempDialogueRC, DT_CENTER, true);
+				break;
+			case(2):
+				drawText(32, "소꽁구 만세!", tempDialogueRC, DT_CENTER, true);
+				break;
+			case(3):
+				drawText(32, "소지금이 늘 것 같은 기분이 든다.", tempDialogueRC, DT_CENTER, true);
+				break;
+			case(4):
+				drawText(32, "아이템을 얻은 것 같은 그런 느낌이다.", tempDialogueRC, DT_CENTER, true);
+				break;
+			case(5):
+				drawText(32, "경험치를 얻을 것만 같다.", tempDialogueRC, DT_CENTER, true);
+				break;
+			case(6):
+				drawText(32, "전투는 언제 끝날까?", tempDialogueRC, DT_CENTER, true);
+				break;
+			case(7):
+				drawText(32, "복끼리를 처치했다!!!", tempDialogueRC, DT_CENTER, true);
+				break;
+			case(8):
+				drawText(32, "복끼리는 울면서 도망갔다.", tempDialogueRC, DT_CENTER, true);
+				break;
+			case(9):
+				drawText(32, "게임이 끝날 것 같은 기분이 든다.", tempDialogueRC, DT_CENTER, true);
+				break;
+			}
+			if (_messageCounter > 180)
+			{
+				_messageCounter = 0;
+				_dialogueCounter++;
+				//_dialogue = false;
+			}
 		}
 	}
-	//if (_victoryCounter > 70)
-	//{
-	//	RECT tempDialogueRC = { WINSIZEX / 2 - 300, 20, WINSIZEX / 2 + 300, 50 };
-	//	switch (_dialogueCounter)
-	//	{
-	//	case(1):
-	//		
-	//		break;
-	//	case(2):
-	//		break;
-	//	}
-	//}
 }
 
 void BattleScene::victoryCondition()
@@ -789,6 +826,10 @@ void BattleScene::victoryCondition()
 		_dialogueCounter++;
 		_dialogue = true;
 	}
+	if (_dialogueCounter >= 10)
+	{
+		_changeScene = true;
+	}
 }
 
 void BattleScene::gameOverCondition()
@@ -817,5 +858,15 @@ void BattleScene::gameOverCondition()
 	{
 		this->release();
 		SCENEMANAGER->changeSceneType0("게임오버");
+	}
+}
+
+void BattleScene::sceneChange()
+{
+	if (_changeScene == true)
+	{
+		this->release();
+		//((worldMapScene*)SCENEMANAGER->findScene("월드맵씬"))->
+		SCENEMANAGER->changeScene("월드맵씬", false);
 	}
 }
