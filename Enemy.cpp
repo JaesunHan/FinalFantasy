@@ -33,6 +33,7 @@ HRESULT Enemy::init(int x, int y)
 
 	_turnEnd = false;
 	_effectFire = true;
+
 	return S_OK;
 }
 
@@ -40,7 +41,8 @@ void Enemy::update()
 {
 	if (_turnEnd == false)
 	{
-		if (_count == 0) damageAlgorithm();
+		if (_count == 0) damageAlgorithm();									//에너미 턴이 되면 데미지 공식 함수를 적용
+
 		//카운트 쁠쁠
 		_count++;
 
@@ -55,7 +57,7 @@ void Enemy::update()
 			_rndNum = RND->getFromIntTo(1, 10);								//스킬확률을 조절하기 위한 랜덤값
 		}
 
-		//에너미 공격 상태면
+		//에너미 기본 공격 상태
 		if ((_state == ENEMY_HIT && _rndNum <= 8) || (_state == ENEMY_SPELL && _rndNum <= 8))
 		{
 			//_count가 80보다 커지면 공격 이펙트가 그려짐
@@ -64,10 +66,18 @@ void Enemy::update()
 				EFFECTMANAGER->play(basicAttack, _target->getPosX() + _target->getWidth() / 2, _target->getPosY() + _target->getHeight() / 2);
 				SOUNDMANAGER->play(basicAttack, CH_EFFECT03, 1.0f);
 				_target->setCurHP(_target->getCurHP() - _damage);
+				
+				if (_target->getCurHP() <= 0)
+				{
+					_target->setCurHP(0);
+				}
+
 				_effectFire = false;
 			}
 			wsprintf(_damageNum, "%d", (int)_damage);
 		}
+
+		//에너미 스킬 공격 상태
 		if ((_state == ENEMY_HIT && _rndNum > 8) || (_state == ENEMY_SPELL && _rndNum > 8))
 		{
 			//_count가 80보다 커지면 공격 이펙트가 그려짐
@@ -76,12 +86,17 @@ void Enemy::update()
 				EFFECTMANAGER->play(skillAttack, _target->getPosX() + _target->getWidth() / 2, _target->getPosY() + _target->getHeight() / 2);
 				SOUNDMANAGER->play(skillAttack, CH_EFFECT03, 1.0f);
 				_target->setCurHP(_target->getCurHP() - _spellDamage);
+
+				if (_target->getCurHP() <= 0)
+				{
+					_target->setCurHP(0);
+				}
+
 				_effectFire = false;
 			}
 			wsprintf(_damageNum, "%d", (int)_spellDamage);
 		}
 		
-
 		//_count가 150보다 크면 턴을 플레이어에게 넘긴다
 		if (_count > 150)
 		{
@@ -96,6 +111,7 @@ void Enemy::update()
 
 void Enemy::render() 
 {
+	//데미지가 뜨는걸 랜더로 그려주자!!
 	if (_count > 100 && _count < 150)
 	{
 		TextOut(getMemDC(), _target->getPosX() + 25, _target->getPosY() - 30, _damageNum, strlen(_damageNum));
@@ -105,28 +121,29 @@ void Enemy::render()
 //몬스터 턴이 되면
 void Enemy::damageAlgorithm()
 {
-	bool _hit;
-	float BlockValue = (255 - _target->getMDef() * 2) + 1;
-	if (BlockValue > 255) BlockValue = 255;
-	if (BlockValue < 1) BlockValue = 1;
-	if (((float)_hitRate * BlockValue / 256) > RND->getFromFloatTo(0, 0.99f))
+	bool _hit;																								//맞았는지 빗나갔는지를 알기위한 불값
+	float BlockValue = (255 - _target->getMDef() * 2) + 1;													//회피율 공식 _target->getMDef() == 플레이어의 마법방어력 수치
+	if (BlockValue > 255) BlockValue = 255;																	//BlockValue가 255 보다 크면 BlockValue값은 255
+	if (BlockValue < 1) BlockValue = 1;																		//BlockValue가 1보다 작으면 BlockValue값은 1
+	if (((float)_hitRate * BlockValue / 256) > RND->getFromFloatTo(0, 0.99f))								
 	{
-		_hit = true;
+		_hit = true;																						//맞았다!
 	}
 	else
 	{
-		_hit = false;
+		_hit = false;																						//빗나감 ㅠㅠ
 	}
-	if (_hit == true)
-	{
-		int Vigor = RND->getInt(8) + 56;
-		_damage = (float)_Lv * (float)_Lv * ((float)_attack * 4 + (float)Vigor) / 256;
-		_damage = (_damage * (float)RND->getFromIntTo(224, 255) / 256) + 1;
-		_damage = (_damage * (255 - (float)_target->getADef()) / 256) + 1;
 
-		_spellDamage = _spellPower * 4 + ((float)_Lv * ((float)_magic * 3 / 2) * _spellPower) / 32;
+	if (_hit == true)																						//맞앗으면 데미지 공식 적용
+	{																										
+		int Vigor = RND->getInt(8) + 56;																	// Vigor는 56 ~ 63 랜덤값
+		_damage = (float)_Lv * (float)_Lv * ((float)_attack * 4 + (float)Vigor) / 256;						// 데미지 공식
+		_damage = (_damage * (float)RND->getFromIntTo(224, 255) / 256) + 1;									// 데미지에서 방어력을 빼는 공식
+		_damage = (_damage * (255 - (float)_target->getADef()) / 256) + 1;									// 데미지에서 방어력을 빼는 공식
+																											
+		_spellDamage = _spellPower * 4 + ((float)_Lv * ((float)_magic * 3 / 2) * _spellPower) / 32;			// 스킬 데미지 공식
 	}
-	else
+	else																									//빗나갔다 ㅠㅠ 데미지 스킬데미지 0
 	{
 		_damage = 0;
 		_spellDamage = 0;

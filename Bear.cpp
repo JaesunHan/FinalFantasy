@@ -75,8 +75,8 @@ Bear::~Bear()
 void Bear::update()
 {
 	Enemy::update();
-	wsprintf(basicAttack, "Bear기본공격");
-	wsprintf(skillAttack, "Bear스킬공격");
+	wsprintf(basicAttack, "bear기본공격");
+	wsprintf(skillAttack, "bear스킬공격");
 }
 
 void Bear::render()
