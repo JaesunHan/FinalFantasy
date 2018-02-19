@@ -67,7 +67,7 @@ void battlePlayerMother::update()
 		if (_atkMotionList[1])
 		{
 			//공격 이펙트 사운드가 재생중이 아니면 재생한다.
-			if (!SOUNDMANAGER->isPlaySound(_atkEffectSoundKey))
+			if (!SOUNDMANAGER->isPlaySound(CH_SOKKONGGU))
 			{
 				SOUNDMANAGER->play(_atkEffectSoundKey, CH_SOKKONGGU, 1.0f);
 			}

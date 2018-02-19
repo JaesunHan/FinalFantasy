@@ -137,27 +137,80 @@ void playerManager::saveNewGameData()
 	//반복문을 돌면서 벡터의 플레이어를 파일에 저장한다.
 	for (int i = 0; i < MAXPLAYERNUMBER; ++i)
 	{
+		TCHAR str[256];
 		TCHAR playerSubject[256];
 		wsprintf(playerSubject, "player%d", i);
 		INIDATA->addData(playerSubject, "name", _vPlayer[i]->getName());
 		INIDATA->addData(playerSubject, "job", _vPlayer[i]->getJob());
-		INIDATA->addData(playerSubject, "level", changeIntToTChar(_vPlayer[i]->getLv()));
-		INIDATA->addData(playerSubject, "hp", changeIntToTChar(_vPlayer[i]->getCurHP()));
-		INIDATA->addData(playerSubject, "maxHp", changeIntToTChar(_vPlayer[i]->getMaxHP()));
-		INIDATA->addData(playerSubject, "mp", changeIntToTChar(_vPlayer[i]->getCurMP()));
-		INIDATA->addData(playerSubject, "maxMp", changeIntToTChar(_vPlayer[i]->getMaxMP()));
-		INIDATA->addData(playerSubject, "exp", changeIntToTChar(_vPlayer[i]->getCurEXP()));
-		INIDATA->addData(playerSubject, "maxExp", changeIntToTChar(_vPlayer[i]->getMaxEXP()));
-		INIDATA->addData(playerSubject, "strength", changeIntToTChar(_vPlayer[i]->getStrength()));
-		INIDATA->addData(playerSubject, "speed", changeIntToTChar(_vPlayer[i]->getSpeed()));
-		INIDATA->addData(playerSubject, "stamina", changeIntToTChar(_vPlayer[i]->getStamina()));
-		INIDATA->addData(playerSubject, "magic", changeIntToTChar(_vPlayer[i]->getMagic()));
-		INIDATA->addData(playerSubject, "attack", changeIntToTChar(_vPlayer[i]->getAttack()));
-		INIDATA->addData(playerSubject, "attackDefence", changeIntToTChar(_vPlayer[i]->getADef()));
-		INIDATA->addData(playerSubject, "magicDefence", changeIntToTChar(_vPlayer[i]->getMDef()));
-		INIDATA->addData(playerSubject, "evasion", changeIntToTChar(_vPlayer[i]->getEvasion()));
-		INIDATA->addData(playerSubject, "magicEvasion", changeIntToTChar(_vPlayer[i]->getMEvasion()));
-		INIDATA->addData(playerSubject, "partyIdx", changeIntToTChar(_vPlayer[i]->getPartyIdx()));
+
+		ZeroMemory(str, sizeof(str));
+		wsprintf(str, "%d", _vPlayer[i]->getLv());
+		INIDATA->addData(playerSubject, "level", str);
+
+		ZeroMemory(str, sizeof(str));
+		wsprintf(str, "%d", _vPlayer[i]->getCurHP());
+		INIDATA->addData(playerSubject, "hp", str);
+
+		ZeroMemory(str, sizeof(str));
+		wsprintf(str, "%d", _vPlayer[i]->getMaxHP());
+		INIDATA->addData(playerSubject, "maxHp", str);
+
+		ZeroMemory(str, sizeof(str));
+		wsprintf(str, "%d", _vPlayer[i]->getCurMP());
+		INIDATA->addData(playerSubject, "mp", str);
+
+		ZeroMemory(str, sizeof(str));
+		wsprintf(str, "%d", _vPlayer[i]->getMaxMP());
+		INIDATA->addData(playerSubject, "maxMp", str);
+
+		ZeroMemory(str, sizeof(str));
+		wsprintf(str, "%d", _vPlayer[i]->getCurEXP());
+		INIDATA->addData(playerSubject, "exp", str);
+
+		ZeroMemory(str, sizeof(str));
+		wsprintf(str, "%d", _vPlayer[i]->getMaxEXP());
+		INIDATA->addData(playerSubject, "maxExp", str);
+
+		ZeroMemory(str, sizeof(str));
+		wsprintf(str, "%d", _vPlayer[i]->getStrength());
+		INIDATA->addData(playerSubject, "strength", str);
+
+		ZeroMemory(str, sizeof(str));
+		wsprintf(str, "%d", _vPlayer[i]->getSpeed());
+		INIDATA->addData(playerSubject, "speed", str);
+
+		ZeroMemory(str, sizeof(str));
+		wsprintf(str, "%d", _vPlayer[i]->getStamina());
+		INIDATA->addData(playerSubject, "stamina", str);
+
+		ZeroMemory(str, sizeof(str));
+		wsprintf(str, "%d", _vPlayer[i]->getMagic());
+		INIDATA->addData(playerSubject, "magic", str);
+
+		ZeroMemory(str, sizeof(str));
+		wsprintf(str, "%d", _vPlayer[i]->getAttack());
+		INIDATA->addData(playerSubject, "attack", str);
+
+		ZeroMemory(str, sizeof(str));
+		wsprintf(str, "%d", _vPlayer[i]->getADef());
+		INIDATA->addData(playerSubject, "attackDefence", str);
+
+		ZeroMemory(str, sizeof(str));
+		wsprintf(str, "%d", _vPlayer[i]->getMDef());
+		INIDATA->addData(playerSubject, "magicDefence", str);
+
+		ZeroMemory(str, sizeof(str));
+		wsprintf(str, "%d", _vPlayer[i]->getEvasion());
+		INIDATA->addData(playerSubject, "evasion", str);
+
+		ZeroMemory(str, sizeof(str));
+		wsprintf(str, "%d", _vPlayer[i]->getMEvasion());
+		INIDATA->addData(playerSubject, "magicEvasion", str);
+
+		ZeroMemory(str, sizeof(str));
+		wsprintf(str, "%d", _vPlayer[i]->getPartyIdx());
+		INIDATA->addData(playerSubject, "partyIdx", str);
+
 		INIDATA->iniSave(gameSaveFileName);
 
 	}
