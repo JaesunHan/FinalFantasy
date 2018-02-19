@@ -56,7 +56,7 @@ HRESULT BattleScene::init()
 	SOUNDMANAGER->addSound("menuSelectLow", ".\\sound\\sfx\\menuSelectLow.wav", false, false);
 	SOUNDMANAGER->addSound("monsterDeath", ".\\sound\\sfx\\monsterDeath.wav", false, false);
 	SOUNDMANAGER->addSound("miss", ".\\sound\\sfx\\miss.wav", false, false);
-	SOUNDMANAGER->play("battleBGM", 1.0f);
+	SOUNDMANAGER->play("battleBGM", CH_BGM, 1.0f);
 
 	tagBattleCharacters temp;
 	//플레이어 동적 할당 후 벡터에 담기
@@ -96,7 +96,7 @@ HRESULT BattleScene::init()
 		int monsterType = RND->getInt(3);
 		temp.characterType = i + 4;
 		temp.ATBcounter = 0;
-		temp.enemy = new siren;
+		temp.enemy = new guard;
 		//switch (monsterType)
 		//{
 		//case(0):
@@ -307,7 +307,7 @@ void BattleScene::playerMenuSelect()
 		{
 			_enemyNum--;
 			if (_enemyNum < 4) _enemyNum = _maxMonster + 3;
-			SOUNDMANAGER->play("menuSelectLow", 1.0f);
+			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
 			for (int i = 0; i < _maxMonster; ++i)
 			{
 				if (_battleCharacters[_enemyNum].enemy->getCurHP() <= 0)
@@ -324,7 +324,7 @@ void BattleScene::playerMenuSelect()
 		else if (_playerTurn == true)
 		{
 			_menuNum--;
-			SOUNDMANAGER->play("menuSelectLow", 1.0f);
+			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
 			if (_menuNum < 0) _menuNum = 4;
 		}
 	}
@@ -334,7 +334,7 @@ void BattleScene::playerMenuSelect()
 		{
 			_enemyNum++;
 			if (_enemyNum > _maxMonster + 3) _enemyNum = 4;
-			SOUNDMANAGER->play("menuSelectLow", 1.0f);
+			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
 			for (int i = 0; i < _maxMonster; ++i)
 			{
 				if (_battleCharacters[_enemyNum].enemy->getCurHP() <= 0)
@@ -351,7 +351,7 @@ void BattleScene::playerMenuSelect()
 		else if (_playerTurn == true)
 		{
 			_menuNum++;
-			SOUNDMANAGER->play("menuSelectLow", 1.0f);
+			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
 			if (_menuNum > 4) _menuNum = 0;
 		}
 	}
@@ -359,7 +359,7 @@ void BattleScene::playerMenuSelect()
 	{
 		if (_enemySelect == true)
 		{
-			SOUNDMANAGER->play("menuSelectLow", 1.0f);
+			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
 			_battleCharacters[_currentTurn].enemy = _battleCharacters[_enemyNum].enemy;
 			switch (_menuNum)
 			{
@@ -382,7 +382,7 @@ void BattleScene::playerMenuSelect()
 		}
 		else if (_playerTurn == true)
 		{
-			SOUNDMANAGER->play("menuSelectLow", 1.0f);
+			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
 			switch (_menuNum)
 			{
 			case(BATTLE_ATTACK):
@@ -417,7 +417,7 @@ void BattleScene::playerMenuSelect()
 		if (_enemySelect == true)
 		{
 			_enemyNum = 4;
-			SOUNDMANAGER->play("menuSelectLow", 1.0f);
+			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
 			_enemySelect = false;
 		}
 		else if (_playerTurn == true)
@@ -477,7 +477,7 @@ void BattleScene::characterDraw()
 			{
 				if (_battleCharacters[i].enemy->getAlpha() == 255)
 				{
-					SOUNDMANAGER->play("monsterDeath", 1.0f);
+					SOUNDMANAGER->play("monsterDeath", CH_EFFECT02, 1.0f);
 				}
 				_battleCharacters[i].enemy->setAlpha(_battleCharacters[i].enemy->getAlpha() - 15);
 				if (_battleCharacters[i].enemy->getAlpha() <= 5)
@@ -612,6 +612,9 @@ void BattleScene::drawUI()
 			IMAGEMANAGER->findImage("fingerArrowRt")->render(getMemDC(), WINSIZEX - 240, 160 * i + 5 + (_menuNum * 30));
 		}
 	}
+	char test[128];
+	wsprintf(test, "%d", _position);
+	TextOut(getMemDC(), 500, 0, test, strlen(test));
 }
 
 void BattleScene::playerFrameUpdate()
@@ -625,9 +628,25 @@ void BattleScene::playerFrameUpdate()
 
 void BattleScene::soundControl()
 {
+	//if (_victory == false)
+	//{
+	//	SOUNDMANAGER->findChannel("battleBGM")->getPosition(&_position, FMOD_TIMEUNIT_MS);
+	//	if (_position >= 56800)
+	//	{
+	//		SOUNDMANAGER->findChannel("battleBGM")->setPosition(4000, FMOD_TIMEUNIT_MS);
+	//	}
+	//}
+	//if (_victory == true)
+	//{
+	//	SOUNDMANAGER->findChannel("fanfareBGM")->getPosition(&_position, FMOD_TIMEUNIT_MS);
+	//	if (_victoryCounter >= 100 && _position >= 32500)
+	//	{
+	//		SOUNDMANAGER->findChannel("battleBGM")->setPosition(3900, FMOD_TIMEUNIT_MS);
+	//	}
+	//}
+	SOUNDMANAGER->getChannel(CH_BGM)->getPosition(&_position, FMOD_TIMEUNIT_MS);
 	if (_victory == false)
 	{
-		SOUNDMANAGER->findChannel("battleBGM")->getPosition(&_position, FMOD_TIMEUNIT_MS);
 		if (_position >= 56800)
 		{
 			SOUNDMANAGER->getChannel(CH_BGM)->setPosition(4000, FMOD_TIMEUNIT_MS);
@@ -635,7 +654,6 @@ void BattleScene::soundControl()
 	}
 	if (_victory == true)
 	{
-		SOUNDMANAGER->findChannel("fanfareBGM")->getPosition(&_position, FMOD_TIMEUNIT_MS);
 		if (_victoryCounter >= 100 && _position >= 32500)
 		{
 			SOUNDMANAGER->getChannel(CH_BGM)->setPosition(3900, FMOD_TIMEUNIT_MS);
@@ -643,7 +661,7 @@ void BattleScene::soundControl()
 	}
 	if (_sfx01 == false)
 	{
-		SOUNDMANAGER->play("battleMenuOpen", CH_EFFECT01, 1.0f);
+		SOUNDMANAGER->play("battleMenuOpen", CH_EFFECT03, 1.0f);
 		_sfx01 = true;
 	}
 }
@@ -697,7 +715,7 @@ void BattleScene::temporaryMessage(int endPoint)
 		{
 			if (_messageCounter < 2)
 			{
-				SOUNDMANAGER->play("miss", 1.0f);
+				SOUNDMANAGER->play("miss", CH_EFFECT04, 1.0f);
 			}
 			drawText(30, "miss", _damageRC, DT_CENTER);
 		}
@@ -726,7 +744,8 @@ void BattleScene::victoryCondition()
 	}
 	if (_victoryCounter == 50)
 	{
-		SOUNDMANAGER->play("fanfareBGM", 1.0f);
+		//SOUNDMANAGER->stop("battleBGM");
+		SOUNDMANAGER->play("fanfareBGM", CH_BGM, 1.0f);
 		for (int i = 0; i < 4; ++i)
 		{
 			if (_battleCharacters[i].player->getCurHP() > 0)
@@ -752,7 +771,7 @@ void BattleScene::gameOverCondition()
 		if (deathCount == 4 && _gameOver == 0)
 		{
 			_gameOver = 1;
-			SOUNDMANAGER->stop("battleBGM");
+			//SOUNDMANAGER->stop(CH_BGM);
 		}
 	}
 	if (_gameOver > 0)

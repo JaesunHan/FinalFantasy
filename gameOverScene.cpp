@@ -16,7 +16,7 @@ HRESULT gameOverScene::init()
 {
 	IMAGEMANAGER->addImage("gameOver", ".\\image\\gameOver\\gameOver.bmp", 400,	240, true, RGB(255, 0, 255));
 	SOUNDMANAGER->addSound("gameOverBGM", ".\\sound\\gameOverSound\\gameOver.mp3", true, false);
-	SOUNDMANAGER->play("gameOverBGM", 1.0f);
+	SOUNDMANAGER->play("gameOverBGM", CH_BGM, 1.0f);
 	return S_OK;
 }
 

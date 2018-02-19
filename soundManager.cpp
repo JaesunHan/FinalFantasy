@@ -137,6 +137,7 @@ void soundManager::play(string keyName, float volume)
 	{
 		if (keyName == iter->first)
 		{
+			_channel[count]->stop();
 			_system->playSound(FMOD_CHANNEL_REUSE, *iter->second, false, &_channel[count]);
 
 			_channel[count]->setVolume(volume);
@@ -147,7 +148,7 @@ void soundManager::play(string keyName, float volume)
 
 void soundManager::play(string keyName, CHANNELTYPE channel, float volume)
 {
-	//_channel[channel]->stop();
+	_channel[channel]->stop();
 
 	arrSoundsIter iter = _mTotalSounds.begin();
 
@@ -366,9 +367,8 @@ Channel* soundManager::findChannel(string keyName)
 	{
 		if (keyName == iter->first)
 		{
-			return _channel[count];
+			break;
 		}
 	}
-
-	return NULL;
+	return _channel[count];
 }
