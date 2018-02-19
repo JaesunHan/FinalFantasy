@@ -48,5 +48,7 @@ public:
 	virtual	HRESULT init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price);
 	virtual void release();
 	virtual void update();
+
+	inline char* getItemName() { return _name; }
 };
 

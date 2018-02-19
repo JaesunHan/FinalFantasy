@@ -130,6 +130,7 @@
     <ClInclude Include="loading.h" />
     <ClInclude Include="loadingScene.h" />
     <ClInclude Include="Locke.h" />
+    <ClInclude Include="magic.h" />
     <ClInclude Include="mapTool.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="newGame.h" />
@@ -232,6 +233,7 @@
     <ClCompile Include="loading.cpp" />
     <ClCompile Include="loadingScene.cpp" />
     <ClCompile Include="Locke.cpp" />
+    <ClCompile Include="magic.cpp" />
     <ClCompile Include="mapTool.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="newGame.cpp" />

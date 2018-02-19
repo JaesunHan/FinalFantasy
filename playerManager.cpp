@@ -27,29 +27,29 @@ HRESULT playerManager::init()
 	_shadow = new shadow;
 	_tina = new Tina;
 
-	_vPlayer.push_back(_celes);
-	_vPlayer.push_back(_locke);
-	_vPlayer.push_back(_shadow);
-	_vPlayer.push_back(_tina);
-	_isNewGame = false;
+	//_vPlayer.push_back(_celes);
+	//_vPlayer.push_back(_locke);
+	//_vPlayer.push_back(_shadow);
+	//_vPlayer.push_back(_tina);
+	//_isNewGame = false;
 
-	if (SCENEMANAGER->findScene("뉴게임"))
-	{
-		//만약 새 게임을 시작하면 새로운 데이터를 파일에 저장한다
-		if (SCENEMANAGER->getCurrentSceneName() == "뉴게임")
-		{
-			saveNewGameData();
-		}
-	}
-
-	if (SCENEMANAGER->findScene("로드게임"))
-	{
-		//원래 했던 게임을 로드하면 파일에서 데이터를 읽어온다.
-		if (SCENEMANAGER->getCurrentSceneName() == "로드게임")
-		{
-			loadGameData();
-		}
-	}
+	//if (SCENEMANAGER->findScene("뉴게임"))
+	//{
+	//	//만약 새 게임을 시작하면 새로운 데이터를 파일에 저장한다
+	//	if (SCENEMANAGER->getCurrentSceneName() == "뉴게임")
+	//	{
+	//		//saveNewGameData();
+	//	}
+	//}
+	//
+	//if (SCENEMANAGER->findScene("로드게임"))
+	//{
+	//	//원래 했던 게임을 로드하면 파일에서 데이터를 읽어온다.
+	//	if (SCENEMANAGER->getCurrentSceneName() == "로드게임")
+	//	{
+	//		//loadGameData();
+	//	}
+	//}
 
 	return S_OK;
 }
@@ -58,10 +58,11 @@ void playerManager::update()
 	// 새 게임 시작하면 saveGameData()호출
 	if (SCENEMANAGER->getCurrentSceneName() == "뉴게임")
 	{
-		if (!_isNewGame)
+		newGame* ng = (newGame*)SCENEMANAGER->findScene("뉴게임");
+		//새게임을 시작했다는 신호이다
+		if (ng->getIsGameStart())
 		{
-			saveNewGameData();
-			_isNewGame = true;
+			loadNewGameData();
 		}
 	}
 }
@@ -211,15 +212,46 @@ void playerManager::saveNewGameData()
 		wsprintf(str, "%d", _vPlayer[i]->getPartyIdx());
 		INIDATA->addData(playerSubject, "partyIdx", str);
 
+		INIDATA->addData(playerSubject, "myWeapon", _vPlayer[i]->getWeapon()->getItemName());
+
 		INIDATA->iniSave(gameSaveFileName);
 
 	}
 	
 }
 
-void playerManager::loadGameData()
+void playerManager::loadNewGameData()
 {
-	loadGame* lg = new loadGame;
-	lg = (loadGame*)SCENEMANAGER->findScene("로드게임");
-	int saveFileNum = lg->getSaveFileNum();
+	TCHAR gameFileName[256];
+	wsprintf(gameFileName, "tempFile");
+
+	for (int i = 0; i < MAXPLAYERNUMBER; ++i)
+	{
+		playerMother* tempPlayer = new playerMother;
+		TCHAR playerSubject[256];
+		wsprintf(playerSubject, "player%d", i);
+		TCHAR str[256];
+		//wsprintf(str, "%s", INIDATA->loadDataString(gameFileName, playerSubject, "name");
+		tempPlayer->setName(INIDATA->loadDataString(gameFileName, playerSubject, "name"));
+		tempPlayer->setJob(INIDATA->loadDataString(gameFileName, playerSubject, "job"));
+		tempPlayer->setCurEXP(INIDATA->loadDataInterger(gameFileName, playerSubject, "curExp"));
+		tempPlayer->setCurHP(INIDATA->loadDataInterger(gameFileName, playerSubject, "curHp"));
+		tempPlayer->setCurMP(INIDATA->loadDataInterger(gameFileName, playerSubject, "curMp"));
+		tempPlayer->setLv(INIDATA->loadDataInterger(gameFileName, playerSubject, "level"));
+		tempPlayer->setMaxEXP(INIDATA->loadDataInterger(gameFileName, playerSubject, "maxExp"));
+		tempPlayer->setMaxHP(INIDATA->loadDataInterger(gameFileName, playerSubject, "maxHp"));
+		tempPlayer->setMaxMP(INIDATA->loadDataInterger(gameFileName, playerSubject, "maxMp"));
+		tempPlayer->setPartyIdx(INIDATA->loadDataInterger(gameFileName, playerSubject, "partyIdx"));
+		tempPlayer->setADef(INIDATA->loadDataInterger(gameFileName, playerSubject, "attackDefence"));
+		tempPlayer->setMDef(INIDATA->loadDataInterger(gameFileName, playerSubject, "magicDefence"));
+		tempPlayer->setAttack(INIDATA->loadDataInterger(gameFileName, playerSubject, "attack"));
+		tempPlayer->setEvasion(INIDATA->loadDataInterger(gameFileName, playerSubject, "evasion"));
+		tempPlayer->setMagic(INIDATA->loadDataInterger(gameFileName, playerSubject, "magic"));
+		tempPlayer->setMEvasion(INIDATA->loadDataInterger(gameFileName, playerSubject, "magicEvasion"));
+		tempPlayer->setSpeed(INIDATA->loadDataInterger(gameFileName, playerSubject, "speed"));
+		tempPlayer->setStamina(INIDATA->loadDataInterger(gameFileName, playerSubject, "stamina"));
+		tempPlayer->setStrength(INIDATA->loadDataInterger(gameFileName, playerSubject, "strength"));
+		_vPlayer.push_back(tempPlayer);
+	}
+
 }
