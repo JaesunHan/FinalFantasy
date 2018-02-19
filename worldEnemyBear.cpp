@@ -185,8 +185,6 @@ void worldEnemyBear::move()
 			{
 				_bearCount = 0;
 			}
-
-
 			break;
 		}
 			

@@ -106,16 +106,7 @@ void worldMapEnemy::update()
 
 void worldMapEnemy::render()
 {
-	if (_isCollision)
-	{
-		sprintf(str, "충돌했당");
-		TextOut(getMemDC(), 400, 400, str, strlen(str));
-	}
-	if (!_isCollision)
-	{
-		sprintf(str1, "충돌안했당");
-		TextOut(getMemDC(), 600, 600, str1, strlen(str1));
-	}
+
 }
 
 void worldMapEnemy::move()
