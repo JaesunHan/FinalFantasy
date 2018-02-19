@@ -77,13 +77,13 @@ HRESULT BattleScene::init()
 	temp.player = new battleCeles;
 	_battleCharacters.push_back(temp);
 	//플레이어 인덱스 순서에 맞게 조정
-	for (int j = 1; j < 4; ++j)
+	for (int j = 0; j < 4; ++j)
 	{
 		for (int i = j; i < 4; ++i)
 		{
-			if (_battleCharacters[i].player->getPartyIdx() == j - 1)
+			if (_battleCharacters[i].player->getPartyIdx() == j)
 			{
-				swap(_battleCharacters[j - 1], _battleCharacters[i]);
+				swap(_battleCharacters[j], _battleCharacters[i]);
 				break;
 			}
 		}
