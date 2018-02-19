@@ -5,6 +5,9 @@
 #include "npc3.h"
 #include "npc4.h"
 #include "npc5.h"
+#include "armourStore.h"
+#include "potionStore.h"
+#include "weaponStore.h"
 #include <vector>
 
 class npcManager : public gameNode

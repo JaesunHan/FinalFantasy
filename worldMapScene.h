@@ -15,6 +15,8 @@
 class worldMapScene : public gameNode
 {
 public:
+	//µµ¸Á°¬´Ì
+	bool _isEscape;
 
 	worldMap * _worldMap;
 	worldMapPlayer* _worldMapPlayer;

@@ -1,12 +1,12 @@
 #pragma once
 #include "gameNode.h"
-//=======무기 상점===========//
+//=======포션 상점===========//
 
-class weaponStore : public gameNode
+class potionStore :public gameNode
 {
 public:
-	weaponStore();
-	~weaponStore();
+	potionStore();
+	~potionStore();
 
 	HRESULT init();
 	void release();

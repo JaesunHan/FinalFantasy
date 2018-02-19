@@ -1,6 +1,7 @@
 #pragma once
 #include "gameNode.h"
 #include "worldMap.h"
+#include "worldMapPlayer.h"
 
 enum NPCTYPE
 {
@@ -20,6 +21,9 @@ public:
 
 	//월드맵 클래스
 	worldMap* _worldMap;
+
+	//월드플레이어 클래스
+	worldMapPlayer* _wp;
 
 
 	//NPC이미지 제어용
@@ -60,6 +64,10 @@ public:
 
 	//zorder를 위한 y위치 게터
 	POINT getNpcPoint() { return _npc; }
+
+
+	//콜리전 했늬? 안했늬? 
+	bool getNpcCollison() { return _isCollision; }
 
 };
 

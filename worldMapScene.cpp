@@ -25,6 +25,8 @@ HRESULT worldMapScene::init()
 	_wMEM = new worldMapEnemyManager;
 	_wMEM->init();
 
+	_isEscape = false;
+
 
 	for (int i = 0; i < WORLDMAPENEMY; ++i)
 	{
