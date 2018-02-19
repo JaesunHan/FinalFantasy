@@ -124,6 +124,9 @@
     <Filter Include="playGround\gameOver">
       <UniqueIdentifier>{f30130bc-7182-4bd3-8e2c-1fe11e513fef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\gameMenu\menu\ability">
+      <UniqueIdentifier>{fcfef6ad-ae5e-49a9-9c9b-80b2abbaf78b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -420,6 +423,21 @@
     <ClInclude Include="gameOverScene.h">
       <Filter>playGround\gameOver</Filter>
     </ClInclude>
+    <ClInclude Include="abilityShadow.h">
+      <Filter>playGround\gameMenu\menu\ability</Filter>
+    </ClInclude>
+    <ClInclude Include="abilityTina.h">
+      <Filter>playGround\gameMenu\menu\ability</Filter>
+    </ClInclude>
+    <ClInclude Include="abilityCeles.h">
+      <Filter>playGround\gameMenu\menu\ability</Filter>
+    </ClInclude>
+    <ClInclude Include="abilityLock.h">
+      <Filter>playGround\gameMenu\menu\ability</Filter>
+    </ClInclude>
+    <ClInclude Include="characterAbility.h">
+      <Filter>playGround\gameMenu\menu\ability</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -688,6 +706,21 @@
     </ClCompile>
     <ClCompile Include="gameOverScene.cpp">
       <Filter>playGround\gameOver</Filter>
+    </ClCompile>
+    <ClCompile Include="abilityShadow.cpp">
+      <Filter>playGround\gameMenu\menu\ability</Filter>
+    </ClCompile>
+    <ClCompile Include="abilityTina.cpp">
+      <Filter>playGround\gameMenu\menu\ability</Filter>
+    </ClCompile>
+    <ClCompile Include="abilityCeles.cpp">
+      <Filter>playGround\gameMenu\menu\ability</Filter>
+    </ClCompile>
+    <ClCompile Include="abilityLock.cpp">
+      <Filter>playGround\gameMenu\menu\ability</Filter>
+    </ClCompile>
+    <ClCompile Include="characterAbility.cpp">
+      <Filter>playGround\gameMenu\menu\ability</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

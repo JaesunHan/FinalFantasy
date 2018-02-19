@@ -49,6 +49,7 @@ public:
 	vButton getVButton() { return _vButton; }
 	void setVButtonAniStart(int num, bool aniStart) { _vButton[num].aniStart = aniStart; }
 	int getButtonNum() { return _buttonNum; }
+	char* getButtonText(int num) { return _vButton[num].text; }
 	//=========================== getter & setter ===========================
 
 	fButton();

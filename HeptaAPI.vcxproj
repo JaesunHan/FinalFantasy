@@ -80,6 +80,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="abilitiesMenu.h" />
+    <ClInclude Include="abilityCeles.h" />
+    <ClInclude Include="abilityLock.h" />
+    <ClInclude Include="abilityShadow.h" />
+    <ClInclude Include="abilityTina.h" />
     <ClInclude Include="action.h" />
     <ClInclude Include="animation.h" />
     <ClInclude Include="armorItem.h" />
@@ -94,6 +98,7 @@
     <ClInclude Include="bossAtma.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="celes.h" />
+    <ClInclude Include="characterAbility.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="configMenu.h" />
@@ -179,6 +184,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="abilitiesMenu.cpp" />
+    <ClCompile Include="abilityCeles.cpp" />
+    <ClCompile Include="abilityLock.cpp" />
+    <ClCompile Include="abilityShadow.cpp" />
+    <ClCompile Include="abilityTina.cpp" />
     <ClCompile Include="action.cpp" />
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="armorItem.cpp" />
@@ -193,6 +202,7 @@
     <ClCompile Include="bossAtma.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="celes.cpp" />
+    <ClCompile Include="characterAbility.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="configMenu.cpp" />
     <ClCompile Include="covert.cpp" />

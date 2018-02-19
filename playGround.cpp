@@ -44,6 +44,7 @@ HRESULT playGround::init()
 	SCENEMANAGER->addScene("장비", new equipMenu);
 	SCENEMANAGER->addScene("아이템", new itemMenu);
 	SCENEMANAGER->addScene("상태", new statusMenu);
+	SCENEMANAGER->addScene("캐릭터능력", new characterAbility);
 	//=========================== 메뉴씬 ===========================
 	
 	SCENEMANAGER->changeScene("로딩");

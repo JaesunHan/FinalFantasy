@@ -19,6 +19,7 @@ HRESULT loadingScene::init()
 
 	//메뉴 이미지
 	_loading->loadImage("능력메뉴", ".//prevProjectResource//SceneImage//menu_abilities.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	_loading->loadImage("캐릭터능력메뉴", ".//prevProjectResource//SceneImage//menu_abilitiCharacter.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	//_loading->loadImage("장비메뉴", ".//prevProjectResource//SceneImage//equipMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	//_loading->loadImage("아이템메뉴", ".//prevProjectResource//SceneImage//itemMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	//_loading->loadImage("메인메뉴", ".//prevProjectResource//SceneImage//mainMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));

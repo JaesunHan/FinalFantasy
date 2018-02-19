@@ -19,7 +19,7 @@
 #define COLOR_BLUE		RGB(0, 0, 255)
 #define COLOR_MAGENTA	RGB(255, 0, 255)
 
-#define SAVEFILENUM 4
+#define SAVEFILENUM 3
 #define EFFECTVOLUME 0.5f
 
 enum CURSOR_TYPE
@@ -156,7 +156,7 @@ public:
 	virtual void playerSlotRender();
 	virtual void playerSlotRemove();
 
-	virtual void fileLoad(int fileNum);
+	virtual void fileLoad(int fileNum, int playerNum = -1);
 	//================================ player ===============================
 
 	//============================== save & load ============================

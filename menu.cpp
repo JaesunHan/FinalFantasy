@@ -307,13 +307,14 @@ void menu::playerSlotRemove()
 	_vPlayer.clear();
 }
 
-//플레이어 세이브 파일 로드
-void menu::fileLoad(int fileNum)
+//플레이어 세이브 파일 로드      ↓플레이어 슬롯넘버(특정 캐릭터 슬롯 하나만 띄울경우)
+void menu::fileLoad(int fileNum, int playerNumber)
 {
 	//슬롯 초기화
 	playerSlotRemove();
-	if (!_fileLoadOk[fileNum]) _selectFileCount = 2;
+	if (!_fileLoadOk[fileNum]) _selectFileCount = 2;  //버튼선택 초기화
 
+	//세이브파일 넘버
 	char saveFileNum[32];
 	ZeroMemory(&saveFileNum, sizeof(saveFileNum));
 	wsprintf(saveFileNum, "saveFile%d", fileNum);
@@ -321,10 +322,19 @@ void menu::fileLoad(int fileNum)
 
 	for (int i = 0; i < 4; ++i)
 	{
-		//플레이어 번호
+		//플레이어 번호 담을 변수
 		char playerNum[16];
 		ZeroMemory(&playerNum, sizeof(playerNum));
-		wsprintf(playerNum, "player%d", i);
+
+		if (playerNumber != -1)  //특정 캐릭터 슬롯 선택시
+		{
+			wsprintf(playerNum, "player%d", playerNumber);
+			i = 0;
+		}
+		else
+		{
+			wsprintf(playerNum, "player%d", i);
+		}
 
 		//플레이어 정보담기
 		ZeroMemory(&_playerSlot, sizeof(_playerSlot));
@@ -342,9 +352,13 @@ void menu::fileLoad(int fileNum)
 		playerSlotInit(_playerSlot.name, 65, 102 + (i * 137), _playerSlot.level, _playerSlot.job, _playerSlot.hp,
 			_playerSlot.maxHp, _playerSlot.mp, _playerSlot.maxMp);
 
+
 		//정보가 담겨있으면...
 		_fileLoadOk[fileNum] = true;
+
+		if (playerNumber != -1) break;
 	}
+
 }
 
 //============================== player ==============================

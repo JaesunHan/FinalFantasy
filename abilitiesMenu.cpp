@@ -21,7 +21,7 @@ HRESULT abilitiesMenu::init()
 	//선택한 세이브 파일 가져오기 
 	int saveFileNum = INIDATA->loadDataInterger("gameData", "gameData", "fileNum");
 	fileLoad(saveFileNum);
-	int playerNum = INIDATA->loadDataBodyNum(saveFileNum);
+	int playerNum = INIDATA->loadDataBodyNum(saveFileNum);  //플레이어 인원수
 
 	//버튼
 	int buttonX, buttonY;
@@ -52,13 +52,9 @@ HRESULT abilitiesMenu::init()
 	}
 
 
-
 	//커서
 	_cursorYNum = playerNum;
 	cursorInit(CUSOR_RIGHT, buttonX - 50, buttonY + 20);
-
-
-
 
 
 	return S_OK;
@@ -82,68 +78,16 @@ void abilitiesMenu::update()
 	switch (_cursor.currentYNum)
 	{
 		case 0:
-			//버튼 에니메이션 활성화
-			_button->setVButtonAniStart(_cursor.currentYNum, true);
-			for (int i = 0; i < _cursorYNum; ++i)
-			{
-				if (i == _cursor.currentYNum) continue;
-				_button->setVButtonAniStart(i, false);
-			}
-
-			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
-			{
-				_button->buttonRemove();
-				delete _button;
-				SCENEMANAGER->changeScene("아이템");
-			}
+			buttonOnActive();
 		break;
 		case 1:
-			//버튼 에니메이션 활성화
-			_button->setVButtonAniStart(_cursor.currentYNum, true);
-			for (int i = 0; i < _cursorYNum; ++i)
-			{
-				if (i == _cursor.currentYNum) continue;
-				_button->setVButtonAniStart(i, false);
-			}
-
-			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
-			{
-				_button->buttonRemove();
-				delete _button;
-				SCENEMANAGER->changeScene("아이템");
-			}
+			buttonOnActive();
 		break;
 		case 2:
-			//버튼 에니메이션 활성화
-			_button->setVButtonAniStart(_cursor.currentYNum, true);
-			for (int i = 0; i < _cursorYNum; ++i)
-			{
-				if (i == _cursor.currentYNum) continue;
-				_button->setVButtonAniStart(i, false);
-			}
-
-			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
-			{
-				_button->buttonRemove();
-				delete _button;
-				SCENEMANAGER->changeScene("아이템");
-			}
-			break;
+			buttonOnActive();
+		break;
 		case 3:
-			//버튼 에니메이션 활성화
-			_button->setVButtonAniStart(_cursor.currentYNum, true);
-			for (int i = 0; i < _cursorYNum; ++i)
-			{
-				if (i == _cursor.currentYNum) continue;
-				_button->setVButtonAniStart(i, false);
-			}
-
-			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
-			{
-				_button->buttonRemove();
-				delete _button;
-				SCENEMANAGER->changeScene("아이템");
-			}
+			buttonOnActive();
 		break;
 	}
 
@@ -170,3 +114,28 @@ void abilitiesMenu::render()
 }
 
 
+void abilitiesMenu::buttonOnActive()
+{
+	//버튼 에니메이션 활성화
+	_button->setVButtonAniStart(_cursor.currentYNum, true);
+	for (int i = 0; i < _cursorYNum; ++i)
+	{
+		if (i == _cursor.currentYNum) continue;
+		_button->setVButtonAniStart(i, false);
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+	{
+		char charBuff[4];
+		//내부 데이터베이스에 저장: 선택한 캐릭터 정보 
+		INIDATA->addData("inventory", "selectChar", itoa(_cursor.currentYNum, charBuff, 10));
+		INIDATA->iniSave("gameData");
+
+		//버튼 벡터에서 삭제
+		_button->buttonRemove();
+		delete _button;
+
+		//씬전환
+		SCENEMANAGER->changeScene("캐릭터능력");
+	}
+}

@@ -14,7 +14,7 @@ public:
 	void update();
 	void render();
 
-
+	void buttonOnActive();
 
 	abilitiesMenu();
 	~abilitiesMenu();

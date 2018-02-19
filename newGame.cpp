@@ -85,10 +85,17 @@ void newGame::update()
 			//세이브파일이 없다면 saveFile0.ini && 파일이 있다면 saveFile1 ~ 3.ini 순차적 생성 
 			for (int i = SAVEFILENUM; i >= 0; --i)
 			{
+
 				char numTemp[12];
 				sprintf(numTemp, "saveFile%d", i);
 				_saveFileNum = INIDATA->loadDataInterger(numTemp, "fileInfo", "fileNum");
 
+				//예외처리: 세이브파일이 4개일 경우 -> file0번에 저장
+				if (_saveFileNum >= 3)
+				{
+					_saveFileNum = 0;
+					break;  
+				}
 				if (_saveFileNum != -1)  //세이브 데이터가 있으면
 				{
 					_saveFileNum = _saveFileNum + 1;

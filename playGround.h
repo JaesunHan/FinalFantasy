@@ -17,6 +17,7 @@
 #include "statusMenu.h"
 #include "itemManager.h"
 #include "gameOverScene.h"
+#include "characterAbility.h"
 
 
 class playGround : public gameNode
