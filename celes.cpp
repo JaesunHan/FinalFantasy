@@ -4,7 +4,7 @@
 
 celes::celes()
 {
-	wsprintf(_name, "Celes");
+	wsprintf(_name, "CELES");
 	wsprintf(_job, "Rune Knight");
 	_Lv = 3, _curEXP = 0; _maxEXP = 96;
 	_curHP = 44 + 23, _maxHP = 44 + 23, _curMP = 15 + 11, _maxMP = 15 + 11;

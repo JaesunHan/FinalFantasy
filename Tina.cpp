@@ -4,7 +4,7 @@
 
 Tina::Tina()
 {
-	wsprintf(_name, "Tina");
+	wsprintf(_name, "TINA");
 	wsprintf(_job, "Magician");
 	_Lv = 3, _curEXP = 0; _maxEXP = 96;
 	_curHP = 40 + 23, _maxHP = 40 + 23, _curMP = 16 + 11, _maxMP = 16 + 11;

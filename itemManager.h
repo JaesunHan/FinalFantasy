@@ -16,5 +16,7 @@ public:
 	~itemManager();
 
 	HRESULT init();
+
+	vector<itemMother*> getVItem() { return _vItem; }
 };
 

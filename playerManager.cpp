@@ -5,9 +5,10 @@
 #include "battleLocke.h"
 #include "battleShadow.h"
 #include "battleTina.h"
-#include "weaponItem.h"
-#include "newGame.h"
-#include "loadGame.h"
+#include "itemManager.h"
+//#include "weaponItem.h"
+//#include "newGame.h"
+//#include "loadGame.h"
 
 playerManager::playerManager()
 {
@@ -55,16 +56,27 @@ HRESULT playerManager::init()
 }
 void playerManager::update() 
 {
-	// 새 게임 시작하면 saveGameData()호출
-	if (SCENEMANAGER->getCurrentSceneName() == "뉴게임")
+	//else return;
+	char fileName[128];
+	wsprintf(fileName, "gameData");
+	//게임 시작 신호 받아오기
+	//INIDATA->loadDataInterger(fileName, "gameData", "gameStart");
+	if (INIDATA->loadDataInterger(fileName, "gameData", "gameStart"))
 	{
-		newGame* ng = (newGame*)SCENEMANAGER->findScene("뉴게임");
-		//새게임을 시작했다는 신호이다
-		if (ng->getIsGameStart())
-		{
-			loadNewGameData();
-		}
+		loadGameData();
+		INIDATA->addData("gameData", "gameStart", 0);
+		INIDATA->iniSave(fileName);
 	}
+	// 새 게임 시작하면 saveGameData()호출
+	//if (SCENEMANAGER->getCurrentSceneName() == "뉴게임")
+	//{
+	//	newGame* ng = (newGame*)SCENEMANAGER->findScene("뉴게임");
+	//	//새게임을 시작했다는 신호이다
+	//	if (ng->getIsGameStart())
+	//	{
+	//		loadNewGameData();
+	//	}
+	//}
 }
 void playerManager::render() 
 {
@@ -80,6 +92,10 @@ void playerManager::release()
 }
 void playerManager::setPlayerInfoToBattlePlayer()
 {
+	//지금은 테스트용으로, 그냥 기본 정보로 넘기지만 
+	//나중에 실제 게임모드로 들어갈거면 이 부분을 _vPlayer 의 정보로 대입해야 된다
+	//ex) bCels	->setAllBattlePlayerInfo(_vPlayer[i(????)]->getLov(), _vPlayer[i]->getCurExp(), .........);
+	//요런식으로
 	//먼저 현재 씬매니저에 등록되어 있는 배틀씬을 가져온다
 	_battleScene = (BattleScene*)SCENEMANAGER->findScene("배틀씬");
 
@@ -220,7 +236,7 @@ void playerManager::saveNewGameData()
 	
 }
 
-void playerManager::loadNewGameData()
+void playerManager::loadGameData()
 {
 	TCHAR gameFileName[256];
 	wsprintf(gameFileName, "tempFile");
@@ -251,6 +267,24 @@ void playerManager::loadNewGameData()
 		tempPlayer->setSpeed(INIDATA->loadDataInterger(gameFileName, playerSubject, "speed"));
 		tempPlayer->setStamina(INIDATA->loadDataInterger(gameFileName, playerSubject, "stamina"));
 		tempPlayer->setStrength(INIDATA->loadDataInterger(gameFileName, playerSubject, "strength"));
+		TCHAR weaponName[256];
+		wsprintf(weaponName,"%s", INIDATA->loadDataInterger(gameFileName, playerSubject, "strength"));
+		if (strcmp(weaponName, "DefaultWeapon"))
+		{
+			weaponItem* temWeapon = new weaponItem;
+			temWeapon->init(ITEM_WEAPON, "DefaultWeapon", "맨주먹공격무기이다", 0, 10, 100);
+			tempPlayer->setWeaponItem(temWeapon);
+		}
+		else
+		{
+			for (int i = 0; i < _itemManager->getVItem().size(); ++i)
+			{
+				if (strcmp(weaponName, _itemManager->getVItem()[i]->getItemName()))
+				{
+
+				}
+			}
+		}
 		_vPlayer.push_back(tempPlayer);
 	}
 

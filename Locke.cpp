@@ -4,7 +4,7 @@
 
 Locke::Locke()
 {
-	wsprintf(_name, "Locke");
+	wsprintf(_name, "LOCKE");
 	wsprintf(_job, "Treasure Hunter");
 	_Lv = 3, _curEXP = 0; _maxEXP = 96;
 	_curHP = 48 + 23, _maxHP = 48 + 23, _curMP = 7 + 11, _maxMP = 7 + 11;
