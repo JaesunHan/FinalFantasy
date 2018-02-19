@@ -64,7 +64,7 @@ void Enemy::update()
 			if (_count > 50 && _effectFire == true)
 			{
 				EFFECTMANAGER->play(basicAttack, _target->getPosX() + _target->getWidth() / 2, _target->getPosY() + _target->getHeight() / 2);
-				SOUNDMANAGER->play(basicAttack, 1.0f);
+				SOUNDMANAGER->play(basicAttack, CH_EFFECT05, 1.0f);
 				_target->setCurHP(_target->getCurHP() - _damage);
 				
 				if (_target->getCurHP() <= 0)
@@ -84,7 +84,7 @@ void Enemy::update()
 			if (_count > 50 && _effectFire == true)
 			{
 				EFFECTMANAGER->play(skillAttack, _target->getPosX() + _target->getWidth() / 2, _target->getPosY() + _target->getHeight() / 2);
-				SOUNDMANAGER->play(skillAttack, 1.0f);
+				SOUNDMANAGER->play(skillAttack, CH_EFFECT05, 1.0f);
 				_target->setCurHP(_target->getCurHP() - _spellDamage);
 
 				if (_target->getCurHP() <= 0)
