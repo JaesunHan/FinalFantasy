@@ -67,9 +67,9 @@ void battlePlayerMother::update()
 		if (_atkMotionList[1])
 		{
 			//공격 이펙트 사운드가 재생중이 아니면 재생한다.
-			if (!SOUNDMANAGER->isPlaySound(CH_SOKKONGGU))
+			if (!SOUNDMANAGER->isPlaySound(_atkEffectSoundKey))
 			{
-				SOUNDMANAGER->play(_atkEffectSoundKey, CH_SOKKONGGU, 1.0f);
+				SOUNDMANAGER->play(_atkEffectSoundKey, 1.0f);
 			}
 			//공격 모션일 때 
 			//만약 원거리 공격자라면 이미지 렌더 위치를 보정해줘야 한다
@@ -161,7 +161,7 @@ void battlePlayerMother::draw()
 	//마법 공격 스탠바이를 재생하고 그 다음에 마법 공격 모션을 한다.
 	if (_status == BATTLE_PLAYER_MAGIC_ATTACK_STANDBY)
 	{
-
+	
 		//_magicAtkStandbyImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _magicAtkStandbyAnim);
 		_magicAtkStandbyImg->aniRender(getMemDC(),_posX, _posY, _magicAtkStandbyAnim);
 	}
@@ -172,7 +172,7 @@ void battlePlayerMother::draw()
 		//_magicAtkImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _magicAtkAnim);
 		_magicAtkImg->aniRender(getMemDC(), _posX, _posY, _magicAtkAnim);
 	}
-
+	
 	if (_status == BATTLE_PLAYER_DEAD)
 	{
 		
@@ -189,6 +189,7 @@ void battlePlayerMother::draw()
 		//_winImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _winAnim);
 		_winImg->aniRender(getMemDC(), _posX, _posY, _winAnim);
 	}
+	//_idleImg->aniRender(getMemDC(), _posX, _posY, _idleAnim);
 	//================== End 상태에 따라 다른 애니메이션을 출력한다. =======================
 }
 void battlePlayerMother::release()

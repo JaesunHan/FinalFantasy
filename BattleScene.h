@@ -96,7 +96,8 @@ public:
 	void gameOverCondition();
 
 	inline battlePlayerMother* getTinaAddress() { return _battleCharacters[0].player; }
-	inline battlePlayerMother* getLockeAddress() { return _battleCharacters[1].player; }
+	inline battlePlayerMother* getLockeAddress() {
+		return _battleCharacters[1].player; }
 	inline battlePlayerMother* getCelesAddress() { return _battleCharacters[2].player; }
 	inline battlePlayerMother* getShadowAddress() { return _battleCharacters[3].player; }
 	inline void setPlayerManagerMemoryAddressLink(playerManager* pm) { _pm = pm; }

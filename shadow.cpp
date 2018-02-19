@@ -4,6 +4,7 @@
 
 shadow::shadow()
 {
+	wsprintf(_name, "Shadow");
 	_Lv = 3, _curEXP = 0; _maxEXP = 96;
 	_curHP = 51 + 23, _maxHP = 51 + 23, _curMP = 6 + 11, _maxMP = 6 + 11;
 	_strength = 39, _speed = 38, _stamina = 30;

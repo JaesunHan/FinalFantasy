@@ -110,6 +110,7 @@ void playGround::update(void)
 	}
 	//========================================================================
 
+	_pm->update();
 
 	SCENEMANAGER->update();
 }

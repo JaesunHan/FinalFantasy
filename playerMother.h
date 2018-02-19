@@ -4,6 +4,8 @@ class weaponItem;
 class playerMother
 {
 protected:
+	TCHAR _name[256];				//플레이어 이름
+	TCHAR _job[256];				//플레이어 직업
 	unsigned int _Lv;
 	unsigned int _curEXP, _maxEXP;
 	unsigned int _curHP, _maxHP;
@@ -57,6 +59,9 @@ public:
 	inline void setDefaultWeapon(weaponItem* weapon) { _defaultWeapon = weapon; }
 	//플레이어의 현재 장착 무기에 대한 게터세터
 	inline weaponItem* getWeapon() { return _myWeapon; }	inline void setWeaponItem(weaponItem* weapon) { _myWeapon = weapon; }
+
+	inline TCHAR* getName() { return _name; }
+	inline TCHAR* getJob() { return _job; }
 
 	//============================== End 접근자 설정자 ======================================
 

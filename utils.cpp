@@ -51,5 +51,18 @@ namespace HEPTA_UTIL
 		SetTextColor(hdc, RGB(0, 0, 0));
 		SetTextAlign(hdc, TA_LEFT);
 	}
-
+	//숫자를 TCHAR 로 반환!		=> ex) 5 -> "5"
+	TCHAR* changeIntToTChar(int num)
+	{
+		TCHAR str[512];
+		wsprintf(str, "%d", num);
+		return str;
+	}
+	//문자와 숫자를 조합하여 문자열로 변환 => ex) "Player", 2 -> "Player2"
+	TCHAR* changeIntToTChar(char strChange[512], int num)
+	{
+		TCHAR str[512];
+		wsprintf(str, "%s%d", strChange, num);
+		return str;
+	}
 }

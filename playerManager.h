@@ -29,6 +29,7 @@ private:
 
 	BattleScene* _battleScene;
 
+	bool _isNewGame;
 public:
 	playerManager();
 	~playerManager();
@@ -45,5 +46,6 @@ public:
 
 	//========================== 배틀씬으로 전환되면 플레이어 매니저의 이 함수를 호출하여 배틀플레이어의 정보를 전달한다 ==================
 	void setPlayerInfoToBattlePlayer();
+
 };
 

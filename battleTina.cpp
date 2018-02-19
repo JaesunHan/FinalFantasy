@@ -120,7 +120,8 @@ void battleTina::update()
 {
 	_count++;
 	battlePlayerMother::update();
-	if (_count % 120==0)
+	
+	if (_count % 220==0)
 	{
 		//티나의 turnEnd 를 true 로 반환
 		_count = 0;
