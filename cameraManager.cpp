@@ -15,7 +15,7 @@ HRESULT cameraManager::init(HDC hdc)
 {
 	_memBuffer = NULL;
 
-	_mapTileNum = PointMake(0, 0);
+	_mapTotalSize = PointMake(0, 0);
 	_tileSize = PointMake(0, 0);
 	_dcTileNum = PointMake(0, 0);
 	_move = PointMake(0, 0);

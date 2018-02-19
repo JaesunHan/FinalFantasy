@@ -125,6 +125,7 @@ void worldMap::mapLoad(void)
 
 	}
 
+	CAMERAMANAGER->setMapTotalSize(PointMake(_worldMap.x * TILE_SIZEX, _worldMap.y * TILE_SIZEY));
 
 	CloseHandle(file);
 }

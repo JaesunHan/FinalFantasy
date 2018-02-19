@@ -8,7 +8,7 @@ class cameraManager : public singletonBase<cameraManager>
 private:
 	image* _memBuffer;
 
-	POINT _mapTileNum;
+	POINT _mapTotalSize;
 
 	POINT _tileSize;
 	POINT _dcTileNum;
@@ -34,5 +34,8 @@ public:
 	inline int getDcHeight(void) { return _tileSize.y * _dcTileNum.y; }
 
 	inline HDC getCameraDC(void) { return _memBuffer->getMemDC(); }
+
+	inline void setMapTotalSize(POINT totalSize) { _mapTotalSize = totalSize; }
+	inline POINT getMapTotalSize(void) { return _mapTotalSize; }
 };
 

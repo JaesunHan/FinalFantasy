@@ -13,6 +13,9 @@ worldMapScene::~worldMapScene()
 
 HRESULT worldMapScene::init()
 {
+	CAMERAMANAGER->init(getMemDC());
+	CAMERAMANAGER->createDC(PointMake(TILE_SIZEX, TILE_SIZEY), PointMake(20, 20));
+
 	_worldMap = new worldMap;
 	_worldMap->init();
 
@@ -33,9 +36,6 @@ HRESULT worldMapScene::init()
 		_wMEM->getVWME()[i]->setEnemyAddressLinkWithWM(_worldMap);
 		_wMEM->getVWME()[i]->setEnemyAddressLinkWihtPlayer(_worldMapPlayer);
 	}
-
-	CAMERAMANAGER->init(getMemDC());
-	CAMERAMANAGER->createDC(PointMake(TILE_SIZEX, TILE_SIZEY), PointMake(20, 20));
 
 	return S_OK;
 }
