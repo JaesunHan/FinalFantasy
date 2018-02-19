@@ -44,7 +44,6 @@ private:
 	Channel** _channel;
 
 	arrSounds _mTotalSounds;
-
 public:
 	soundManager();
 	~soundManager();
@@ -69,6 +68,7 @@ public:
 	void releaseSound(int num);
 	void releaseSingleSound(string keyName);
 	void releaseAllSound();
+	Channel* findChannel(string keyName);
 
 	bool isPlaySound(string keyName);
 	bool isPlaySound(CHANNELTYPE channel);

@@ -194,9 +194,10 @@ HRESULT sceneManager::changeSceneType0(string sceneName)
 	if (find == _mSceneList.end()) return E_FAIL;
 	if (find->second == _currentScene) return S_OK;
 
-	if (_currentScene) _currentScene->release();
-	if (SUCCEEDED(find->second->init()))
+	if (SUCCEEDED(0))
 	{
+		if (_currentScene) _currentScene->release();
+		find->second->init();
 		_currentScene = find->second;
 		return S_OK;
 	}

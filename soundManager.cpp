@@ -23,10 +23,10 @@ HRESULT soundManager::init()
 	_system->init(TOTALSOUNDBUFFER, FMOD_INIT_NORMAL, NULL);
 
 	_sound = new Sound*[TOTALSOUNDBUFFER];
-	_channel = new Channel*[MAX_CHANNEL];
+	_channel = new Channel*[TOTALSOUNDBUFFER];
 
-	ZeroMemory(_sound, sizeof(_sound));
-	ZeroMemory(_channel, sizeof(_channel));
+	//ZeroMemory(_sound, sizeof(_sound));
+	//ZeroMemory(_channel, sizeof(_channel));
 
 
 	return S_OK;
@@ -50,7 +50,7 @@ void soundManager::release()
 	//}
 	//
 
-	for (int i = 0; i < MAX_CHANNEL; ++i)
+	for (int i = 0; i < TOTALSOUNDBUFFER; ++i)
 	{
 		_channel[i]->stop();
 	}
@@ -82,7 +82,6 @@ void soundManager::release()
 		_system->release();
 		_system->close();		//셧더 내립니다
 	}
-	
 }
 
 void soundManager::update()	
@@ -97,6 +96,9 @@ void soundManager::update()
 //사운드 추가 함수
 void soundManager::addSound(string keyName, string soundName, bool bgm, bool loop)
 {
+	arrSoundsIter iter = _mTotalSounds.find(keyName);
+	if (iter != _mTotalSounds.end()) return;
+
 	if (loop)
 	{
 		if (bgm)
@@ -145,7 +147,7 @@ void soundManager::play(string keyName, float volume)
 
 void soundManager::play(string keyName, CHANNELTYPE channel, float volume)
 {
-	_channel[channel]->stop();
+	//_channel[channel]->stop();
 
 	arrSoundsIter iter = _mTotalSounds.begin();
 
@@ -340,7 +342,7 @@ void soundManager::releaseAllSound()
 {
 	if (_channel != NULL)
 	{
-		for (int i = 0; i < MAX_CHANNEL; ++i)
+		for (int i = 0; i < TOTALSOUNDBUFFER; ++i)
 		{
 			_channel[i]->stop();
 		}
@@ -348,6 +350,25 @@ void soundManager::releaseAllSound()
 	int tempSize = _mTotalSounds.size();
 	for (int i = 0; i < tempSize; ++i)
 	{
+		//_sound[i]->release();
 		releaseSound(0);
 	}
+	_mTotalSounds.clear();
+}
+
+Channel* soundManager::findChannel(string keyName)
+{
+	arrSoundsIter iter = _mTotalSounds.begin();
+
+	int count = 0;
+
+	for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+	{
+		if (keyName == iter->first)
+		{
+			return _channel[count];
+		}
+	}
+
+	return NULL;
 }

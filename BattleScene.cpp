@@ -30,8 +30,6 @@ HRESULT BattleScene::init()
 	_isDamaged = false;
 	_victory = false;
 	_hit = false;
-	//벡터 초기화
-	//SAFE_DELETE(_battleCharacters);
 	//폰트 추가
 	AddFontResourceEx(
 		"SDMiSaeng.ttf", 	// font file name
@@ -52,13 +50,13 @@ HRESULT BattleScene::init()
 	IMAGEMANAGER->addImage("celesFace00", ".\\image\\playerImg\\celes\\celes_face.bmp", 56, 38, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("shadowFace00", ".\\image\\playerImg\\shadow\\shadow_face.bmp", 56, 38, true, RGB(255, 0, 255));
 	//음악 추가
-	SOUNDMANAGER->addSound("battleBGM", ".\\sound\\battleSound\\05 - Battle Theme.mp3", false, true);
-	SOUNDMANAGER->addSound("fanfareBGM", ".\\sound\\battleSound\\06 - Fanfare.mp3", false, true);
+	SOUNDMANAGER->addSound("battleBGM", ".\\sound\\battleSound\\05 - Battle Theme.mp3", true, true);
+	SOUNDMANAGER->addSound("fanfareBGM", ".\\sound\\battleSound\\06 - Fanfare.mp3", true, true);
 	SOUNDMANAGER->addSound("battleMenuOpen", ".\\sound\\sfx\\battleMenuOpen.wav", false, false);
 	SOUNDMANAGER->addSound("menuSelectLow", ".\\sound\\sfx\\menuSelectLow.wav", false, false);
 	SOUNDMANAGER->addSound("monsterDeath", ".\\sound\\sfx\\monsterDeath.wav", false, false);
 	SOUNDMANAGER->addSound("miss", ".\\sound\\sfx\\miss.wav", false, false);
-	SOUNDMANAGER->play("battleBGM", CH_BGM, 1.0f);
+	SOUNDMANAGER->play("battleBGM", 1.0f);
 
 	tagBattleCharacters temp;
 	//플레이어 동적 할당 후 벡터에 담기
@@ -91,7 +89,7 @@ HRESULT BattleScene::init()
 		}
 	}
 	//최대 몬스터 랜덤 지정
-	_maxMonster = RND->getInt(3) + 1;		
+	_maxMonster = 3;// RND->getInt(3) + 1;
 	//에너미 동적할당 후 벡터에 담기
 	for (int i = 0; i < _maxMonster; ++i)
 	{
@@ -134,6 +132,10 @@ void BattleScene::release()
 {
 	SOUNDMANAGER->releaseAllSound();
 	EFFECTMANAGER->release();
+	for (int i = 0; i < _battleTurn.size(); ++i)
+	{
+		_battleTurn.pop();
+	}
 	_battleCharacters.clear();
 }
 
@@ -149,6 +151,7 @@ void BattleScene::update()
 	victoryCondition();
 	soundControl();
 	gameOverCondition();
+
 }
 
 void BattleScene::render() 
@@ -201,6 +204,10 @@ void BattleScene::updateWhenCharacterTurn()
 	{
 		if (_battleTurn.front()->characterType <= 3)
 		{
+			if (_battleTurn.front()->player->getCurHP() <= 0)
+			{
+				_battleTurn.pop();
+			}
 			if (_battleTurn.front()->attackReady == false)
 			{ 
 				//플레이어에 선택한 에너미 주소 할당
@@ -300,7 +307,7 @@ void BattleScene::playerMenuSelect()
 		{
 			_enemyNum--;
 			if (_enemyNum < 4) _enemyNum = _maxMonster + 3;
-			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
+			SOUNDMANAGER->play("menuSelectLow", 1.0f);
 			for (int i = 0; i < _maxMonster; ++i)
 			{
 				if (_battleCharacters[_enemyNum].enemy->getCurHP() <= 0)
@@ -317,7 +324,7 @@ void BattleScene::playerMenuSelect()
 		else if (_playerTurn == true)
 		{
 			_menuNum--;
-			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
+			SOUNDMANAGER->play("menuSelectLow", 1.0f);
 			if (_menuNum < 0) _menuNum = 4;
 		}
 	}
@@ -327,7 +334,7 @@ void BattleScene::playerMenuSelect()
 		{
 			_enemyNum++;
 			if (_enemyNum > _maxMonster + 3) _enemyNum = 4;
-			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
+			SOUNDMANAGER->play("menuSelectLow", 1.0f);
 			for (int i = 0; i < _maxMonster; ++i)
 			{
 				if (_battleCharacters[_enemyNum].enemy->getCurHP() <= 0)
@@ -344,7 +351,7 @@ void BattleScene::playerMenuSelect()
 		else if (_playerTurn == true)
 		{
 			_menuNum++;
-			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
+			SOUNDMANAGER->play("menuSelectLow", 1.0f);
 			if (_menuNum > 4) _menuNum = 0;
 		}
 	}
@@ -352,7 +359,7 @@ void BattleScene::playerMenuSelect()
 	{
 		if (_enemySelect == true)
 		{
-			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
+			SOUNDMANAGER->play("menuSelectLow", 1.0f);
 			_battleCharacters[_currentTurn].enemy = _battleCharacters[_enemyNum].enemy;
 			switch (_menuNum)
 			{
@@ -375,7 +382,7 @@ void BattleScene::playerMenuSelect()
 		}
 		else if (_playerTurn == true)
 		{
-			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
+			SOUNDMANAGER->play("menuSelectLow", 1.0f);
 			switch (_menuNum)
 			{
 			case(BATTLE_ATTACK):
@@ -410,7 +417,7 @@ void BattleScene::playerMenuSelect()
 		if (_enemySelect == true)
 		{
 			_enemyNum = 4;
-			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT02, 1.0f);
+			SOUNDMANAGER->play("menuSelectLow", 1.0f);
 			_enemySelect = false;
 		}
 		else if (_playerTurn == true)
@@ -449,12 +456,10 @@ void BattleScene::playerMenuSelect()
 		_enemySelect = false;
 		_playerTurn = false;
 	}
-	//if (KEYMANAGER->isOnceKeyDown('R'))
-	//{
-	//	//SOUNDMANAGER->getChannel(CH_BGM)->setPosition(30000, FMOD_TIMEUNIT_MS);
-	//	this->release();
-	//	SCENEMANAGER->changeScene("월드맵씬");
-	//}
+	if (KEYMANAGER->isOnceKeyDown('R'))
+	{
+		SOUNDMANAGER->play("battleBGM", CH_BGM, 1.0f);
+	}
 	//if (KEYMANAGER->isOnceKeyDown('T'))
 	//{
 	//	SOUNDMANAGER->getChannel(CH_BGM)->setPosition(3900, FMOD_TIMEUNIT_MS);
@@ -472,7 +477,7 @@ void BattleScene::characterDraw()
 			{
 				if (_battleCharacters[i].enemy->getAlpha() == 255)
 				{
-					SOUNDMANAGER->play("monsterDeath", CH_EFFECT04, 1.0f);
+					SOUNDMANAGER->play("monsterDeath", 1.0f);
 				}
 				_battleCharacters[i].enemy->setAlpha(_battleCharacters[i].enemy->getAlpha() - 15);
 				if (_battleCharacters[i].enemy->getAlpha() <= 5)
@@ -620,14 +625,21 @@ void BattleScene::playerFrameUpdate()
 
 void BattleScene::soundControl()
 {
-	SOUNDMANAGER->getChannel(CH_BGM)->getPosition(&_position, FMOD_TIMEUNIT_MS);
-	if (_victory == false && _position >= 56800)
+	if (_victory == false)
 	{
-		SOUNDMANAGER->getChannel(CH_BGM)->setPosition(4000, FMOD_TIMEUNIT_MS);
+		SOUNDMANAGER->findChannel("battleBGM")->getPosition(&_position, FMOD_TIMEUNIT_MS);
+		if (_position >= 56800)
+		{
+			SOUNDMANAGER->getChannel(CH_BGM)->setPosition(4000, FMOD_TIMEUNIT_MS);
+		}
 	}
-	if (_victory == true && _victoryCounter >= 100 && _position >= 32500)
+	if (_victory == true)
 	{
-		SOUNDMANAGER->getChannel(CH_BGM)->setPosition(3900, FMOD_TIMEUNIT_MS);
+		SOUNDMANAGER->findChannel("fanfareBGM")->getPosition(&_position, FMOD_TIMEUNIT_MS);
+		if (_victoryCounter >= 100 && _position >= 32500)
+		{
+			SOUNDMANAGER->getChannel(CH_BGM)->setPosition(3900, FMOD_TIMEUNIT_MS);
+		}
 	}
 	if (_sfx01 == false)
 	{
@@ -685,7 +697,7 @@ void BattleScene::temporaryMessage(int endPoint)
 		{
 			if (_messageCounter < 2)
 			{
-				SOUNDMANAGER->play("miss", CH_SOKKONGGU, 1.0f);
+				SOUNDMANAGER->play("miss", 1.0f);
 			}
 			drawText(30, "miss", _damageRC, DT_CENTER);
 		}
@@ -714,7 +726,7 @@ void BattleScene::victoryCondition()
 	}
 	if (_victoryCounter == 50)
 	{
-		SOUNDMANAGER->play("fanfareBGM", CH_BGM, 1.0f);
+		SOUNDMANAGER->play("fanfareBGM", 1.0f);
 		for (int i = 0; i < 4; ++i)
 		{
 			if (_battleCharacters[i].player->getCurHP() > 0)
@@ -740,7 +752,7 @@ void BattleScene::gameOverCondition()
 		if (deathCount == 4 && _gameOver == 0)
 		{
 			_gameOver = 1;
-			SOUNDMANAGER->stop(CH_BGM);
+			SOUNDMANAGER->stop("battleBGM");
 		}
 	}
 	if (_gameOver > 0)
