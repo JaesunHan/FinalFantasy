@@ -57,7 +57,7 @@ guard::guard()
 	_hitRate = 100;									//명중률
 	_block = 0;										//방어율
 	
-	_spellPower = _Lv;								//마법력
+	_spellPower = _Lv - 2;							//마법력
 }
 
 
