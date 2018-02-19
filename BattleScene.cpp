@@ -19,6 +19,7 @@ HRESULT BattleScene::init()
 	_enemyNum = 4;
 	_messageCounter = 0;
 	_victoryCounter = 0;
+	_dialogueCounter = 0;
 	_gameOver = 0;
 	_damage = 0;
 	_counterRoll = true;
@@ -30,6 +31,7 @@ HRESULT BattleScene::init()
 	_isDamaged = false;
 	_victory = false;
 	_hit = false;
+	_dialogue = false;
 	//폰트 추가
 	AddFontResourceEx(
 		"SDMiSaeng.ttf", 	// font file name
@@ -89,7 +91,7 @@ HRESULT BattleScene::init()
 		}
 	}
 	//최대 몬스터 랜덤 지정
-	_maxMonster = 3;// RND->getInt(3) + 1;
+	_maxMonster = 1;// RND->getInt(3) + 1;
 	//에너미 동적할당 후 벡터에 담기
 	for (int i = 0; i < _maxMonster; ++i)
 	{
@@ -161,7 +163,8 @@ void BattleScene::render()
 
 	characterDraw();
 	drawUI(); 
-	temporaryMessage(60);
+	renderDamage(60);
+	temporaryMessage();
 
 	EFFECTMANAGER->render();
 }
@@ -695,6 +698,10 @@ void BattleScene::playerAttack()
 
 void BattleScene::drawText(int fontSize, char* str, RECT rc, int position, bool dialogue)
 {
+	if (dialogue == true)
+	{
+		IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), rc.left - 25, rc.top - 25, rc.right - rc.left + 50, rc.bottom - rc.top + 50);
+	}
 	newFont = CreateFont(fontSize, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
 	oldFont = (HFONT)SelectObject(getMemDC(), newFont);
 	DrawText(getMemDC(), str, -1, &rc, position | DT_WORDBREAK);
@@ -703,7 +710,7 @@ void BattleScene::drawText(int fontSize, char* str, RECT rc, int position, bool 
 	DeleteObject(newFont);
 }
 
-void BattleScene::temporaryMessage(int endPoint)
+void BattleScene::renderDamage(int endPoint)
 {
 	if (_isDamaged == true)
 	{
@@ -727,6 +734,33 @@ void BattleScene::temporaryMessage(int endPoint)
 	}
 }
 
+void BattleScene::temporaryMessage()
+{
+	RECT tempDialogueRC = { WINSIZEX / 2 - 200, 25, WINSIZEX / 2 + 200, 55 };
+	if (_dialogue == true)
+	{
+		_messageCounter++;
+		drawText(30, "헤일 소꽁구!", tempDialogueRC, DT_CENTER, true);
+		if (_messageCounter > 120)
+		{
+			_messageCounter = 0;
+			_dialogue = false;
+		}
+	}
+	//if (_victoryCounter > 70)
+	//{
+	//	RECT tempDialogueRC = { WINSIZEX / 2 - 300, 20, WINSIZEX / 2 + 300, 50 };
+	//	switch (_dialogueCounter)
+	//	{
+	//	case(1):
+	//		
+	//		break;
+	//	case(2):
+	//		break;
+	//	}
+	//}
+}
+
 void BattleScene::victoryCondition()
 {
 	for (int i = 0; i < _maxMonster; ++i)
@@ -744,7 +778,6 @@ void BattleScene::victoryCondition()
 	}
 	if (_victoryCounter == 50)
 	{
-		//SOUNDMANAGER->stop("battleBGM");
 		SOUNDMANAGER->play("fanfareBGM", CH_BGM, 1.0f);
 		for (int i = 0; i < 4; ++i)
 		{
@@ -753,6 +786,8 @@ void BattleScene::victoryCondition()
 				_battleCharacters[i].player->setStatus(BATTLE_PLAYER_WIN_BEFORE);
 			}
 		}
+		_dialogueCounter++;
+		_dialogue = true;
 	}
 }
 

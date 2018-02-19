@@ -58,6 +58,7 @@ private:
 	int _enemyNum = 4;								//적 선택 번호 (4번이 첫번째 적)
 	int _messageCounter = 0;						//메시지 표시 카운터
 	int _victoryCounter = 0;						//승리 카운터
+	int _dialogueCounter = 0;						//다이얼로그 카운터
 	int _gameOver = 0;								//게임 오버니?
 	float _damage = 0;								//상호 주고 받는 데미지를 입력받는 변수
 	unsigned int _position;							//사운드 포지션			
@@ -70,6 +71,7 @@ private:
 	bool _isDamaged = false;						//데미지 들어갈 때 참
 	bool _victory = false;							//승리했을때 참
 	bool _hit = false;								//명중시 참
+	bool _dialogue = false;							//다이얼로그 돌아갈때 참
 	HFONT newFont, oldFont;							//폰트
 	RECT _damageRC;									//데미지 렉트
 	playerManager* _pm;
@@ -90,7 +92,8 @@ public:
 	void playerFrameUpdate();
 	void soundControl();
 	void drawText(int fontSize, char* str, RECT rc, int position, bool dialogue = false);
-	void temporaryMessage(int endPoint);
+	void renderDamage(int endPoint);
+	void temporaryMessage();
 	void playerAttack();
 	void victoryCondition();
 	void gameOverCondition();
