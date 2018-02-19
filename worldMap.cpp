@@ -47,12 +47,55 @@ void worldMap::update()
 {
 }
 
-void worldMap::render()
+void worldMap::render(HDC hdc)
 {
-	for (int i = 0; i < _worldMap.x * _worldMap.y; ++i)
-	{	//아일랜드.map 크기만큼 그려준다.
-		_worldMapTiles[i].render(getMemDC(), 0, 0);
+	if (_worldMapTiles != NULL)
+	{
+		int renderX = _worldMap.x;
+		int renderY = _worldMap.y;
+		int indexX = 0;
+		int indexY = 0;
+
+		if (renderX > 23)
+			renderX = 22;
+		else if (renderX == 22);
+		else ++renderX;
+
+		if (renderY > 23)
+			renderY = 22;
+		else if (renderY == 22);
+		else ++renderY;
+
+		for (int i = indexY; i < renderY; ++i)
+		{
+			for (int j = indexX; j < renderX; ++j)
+			{
+				if (CAMERAMANAGER->getMovePt().x / TILE_SIZEX + j + (CAMERAMANAGER->getMovePt().y / TILE_SIZEY + i) * _worldMap.x < 0) continue;
+				if (CAMERAMANAGER->getMovePt().x / TILE_SIZEX + j + (CAMERAMANAGER->getMovePt().y / TILE_SIZEY + i) * _worldMap.x >= _worldMap.x * _worldMap.y)
+					continue;
+
+				_worldMapTiles[CAMERAMANAGER->getMovePt().x / TILE_SIZEX + j + (CAMERAMANAGER->getMovePt().y / TILE_SIZEY + i) * _worldMap.x].render(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt().x, CAMERAMANAGER->getMovePt().y);
+			}
+		}
+
+		/*//나중에 랜더해야할 오브젝트
+		for (int i = indexY; i < renderY; ++i)
+		{
+			for (int j = indexX; j < renderX; ++j)
+			{
+				if (_mapMove.x / TILE_SIZEX + j + (_mapMove.y / TILE_SIZEY + i) * _mapSize.x < 0) continue;
+				if (_mapMove.x / TILE_SIZEX + j + (_mapMove.y / TILE_SIZEY + i) * _mapSize.x >= _mapSize.x * _mapSize.y)
+					continue;
+
+				_mapTiles[_mapMove.x / TILE_SIZEX + j + (_mapMove.y / TILE_SIZEY + i) * _mapSize.x].afterObjectRender(tileMapDC->getMemDC(), _mapMove.x, _mapMove.y);
+			}
+		}*/
 	}
+
+	//for (int i = 0; i < _worldMap.x * _worldMap.y; ++i)
+	//{	//아일랜드.map 크기만큼 그려준다.
+	//	_worldMapTiles[i].render(hdc, 0, 0);
+	//}
 }
 
 

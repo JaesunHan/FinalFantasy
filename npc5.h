@@ -10,7 +10,7 @@ public:
 	virtual HRESULT init(int npcX, int npcY);
 	void release();
 	void update();
-	void render();
+	virtual void render(HDC hdc, POINT movePt);
 
 	void worldNpcImageFrameControl();
 

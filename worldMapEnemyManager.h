@@ -40,11 +40,11 @@ public:
 	HRESULT init();
 	void release();
 	void update();
-	void render();
+	void render(HDC hdc, POINT movePt);
 
 	//zorder를 위한 렌더 두개 추가 
-	void beforeRender();
-	void afterRender();
+	void beforeRender(HDC hdc, POINT movePt);
+	void afterRender(HDC hdc, POINT movePt);
 
 	//에너미 삭제
 	void worldEmenyDelete(int arrNum);

@@ -37,11 +37,11 @@ public:
 	HRESULT init();
 	void release();
 	void update();
-	void render();
+	void render(HDC hdc, POINT movePt);
 	
 	//zorder를 위한 렌더 두개 추가 
-	void beforeRender();
-	void afterRender();
+	void beforeRender(HDC hdc, POINT movePt);
+	void afterRender(HDC hdc, POINT movePt);
 
 	void setPlayerPos(POINT pt) { _playerPos = pt; }
 

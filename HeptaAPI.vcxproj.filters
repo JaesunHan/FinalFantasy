@@ -127,8 +127,11 @@
     <Filter Include="playGround\gameMenu\menu\ability">
       <UniqueIdentifier>{fcfef6ad-ae5e-49a9-9c9b-80b2abbaf78b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\MapScene\cameraManager">
+      <UniqueIdentifier>{58e846c3-022b-4407-b652-88b22be0d4ba}</UniqueIdentifier>
+    </Filter>
     <Filter Include="playGround\MapScene\store">
-      <UniqueIdentifier>{d2566c79-f4ce-465e-bcec-506683d5bf03}</UniqueIdentifier>
+      <UniqueIdentifier>{fc97796b-7865-4d21-8f31-cd6524fbd1a3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -441,6 +444,12 @@
     <ClInclude Include="characterAbility.h">
       <Filter>playGround\gameMenu\menu\ability</Filter>
     </ClInclude>
+    <ClInclude Include="cameraManager.h">
+      <Filter>playGround\MapScene\cameraManager</Filter>
+    </ClInclude>
+    <ClInclude Include="magic.h">
+      <Filter>playGround\player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -724,6 +733,12 @@
     </ClCompile>
     <ClCompile Include="characterAbility.cpp">
       <Filter>playGround\gameMenu\menu\ability</Filter>
+    </ClCompile>
+    <ClCompile Include="cameraManager.cpp">
+      <Filter>playGround\MapScene\cameraManager</Filter>
+    </ClCompile>
+    <ClCompile Include="magic.cpp">
+      <Filter>playGround\player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

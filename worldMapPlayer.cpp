@@ -23,7 +23,7 @@ HRESULT worldMapPlayer::init(int playerX, int playerY)
 	_currentFrameX = 0;
 	_currentFrameY = 0;
 
-	_moveSpeed = 4.0f;
+	_moveSpeed = 2.0f;
 
 	_worldPlayerDirection = WPDOWN;
 
@@ -49,13 +49,13 @@ void worldMapPlayer::update()
 
 }
 
-void worldMapPlayer::render()
+void worldMapPlayer::render(HDC hdc, POINT movePt)
 {
-	worldPlayerImageControl();
+	worldPlayerImageControl(hdc, movePt);
 	//렉트 체크용
 	if (_isDebug)
 	{
-		Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
+		Rectangle(hdc, _rc.left, _rc.top, _rc.right, _rc.bottom);
 	}
 	//IMAGEMANAGER->findImage("월드맵플레이어")->frameRender(getMemDC(),_player.x, _player.y, _currentFrameX, _currentFrameY);
 }
@@ -76,26 +76,28 @@ void worldMapPlayer::worldPlayerImageFrameControl()
 	}
 }
 
-void worldMapPlayer::worldPlayerImageControl()
+void worldMapPlayer::worldPlayerImageControl(HDC hdc, POINT movePt)
 {
 	switch (_worldPlayerDirection)
 	{
 		case WPRIGHT: _currentFrameY = 3;
-			IMAGEMANAGER->findImage("월드맵플레이어")->frameRender(getMemDC(), _player.x, _player.y, _currentFrameX, _currentFrameY);
+			IMAGEMANAGER->findImage("월드맵플레이어")->frameRender(hdc, _player.x - movePt.x, _player.y - movePt.y, _currentFrameX, _currentFrameY);
 		break;
 
 		case WPLEFT: _currentFrameY = 2;
-			IMAGEMANAGER->findImage("월드맵플레이어")->frameRender(getMemDC(), _player.x, _player.y, _currentFrameX, _currentFrameY);
+			IMAGEMANAGER->findImage("월드맵플레이어")->frameRender(hdc, _player.x - movePt.x, _player.y - movePt.y, _currentFrameX, _currentFrameY);
 		break;
 
 		case WPUP: _currentFrameY = 1;
-			IMAGEMANAGER->findImage("월드맵플레이어")->frameRender(getMemDC(), _player.x, _player.y, _currentFrameX, _currentFrameY);
+			IMAGEMANAGER->findImage("월드맵플레이어")->frameRender(hdc, _player.x - movePt.x, _player.y - movePt.y, _currentFrameX, _currentFrameY);
 		break;
 				
 		case WPDOWN: _currentFrameY = 0;
-			IMAGEMANAGER->findImage("월드맵플레이어")->frameRender(getMemDC(), _player.x, _player.y, _currentFrameX, _currentFrameY);
+			IMAGEMANAGER->findImage("월드맵플레이어")->frameRender(hdc, _player.x - movePt.x, _player.y - movePt.y, _currentFrameX, _currentFrameY);
 		break;
 	}
+
+
 }
 
 void worldMapPlayer::worldPlayerKeyControl()
@@ -115,12 +117,6 @@ void worldMapPlayer::worldPlayerKeyControl()
 		{
 			_player.x += _moveSpeed;
 		}
-		else if (_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.top + 3)].getTerrainAttr() == ATTR_SLOW ||
-			_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.bottom - 3)].getTerrainAttr() == ATTR_SLOW)
-		{
-			_player.x += _moveSpeed/2;
-		
-		}
 		//오브젝트어트리뷰트도 추가해야한당
 		//오브젝트 속성 OBJ_MOUNTAIN, OBJ_CAVE, OBJ_TOWN, OBJ_CASTLE, OBJ_NPC, OBJ_ENEMY,
 	}
@@ -134,12 +130,6 @@ void worldMapPlayer::worldPlayerKeyControl()
 		{
 			_player.x -= _moveSpeed;
 		}
-		else if (_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.top + 3)].getTerrainAttr() == ATTR_SLOW ||
-			_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.bottom - 3)].getTerrainAttr() == ATTR_SLOW)
-		{
-			_player.x -= _moveSpeed/2;
-		
-		}
 	}
 	else if (KEYMANAGER->isStayKeyDown(VK_UP))
 	{
@@ -150,12 +140,6 @@ void worldMapPlayer::worldPlayerKeyControl()
 			_worldMap->getWorldMapTiles()[tileNum(_rc.right - 3, _rc.top)].getTerrainAttr() == ATTR_UNMOVE)
 		{
 			_player.y += _moveSpeed;
-		}
-		else if (_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.top + 3)].getTerrainAttr() == ATTR_SLOW ||
-			_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.bottom - 3)].getTerrainAttr() == ATTR_SLOW)
-		{
-			_player.y += _moveSpeed/2;
-			
 		}
 	}
 	else if (KEYMANAGER->isStayKeyDown(VK_DOWN))
@@ -168,16 +152,16 @@ void worldMapPlayer::worldPlayerKeyControl()
 		{
 			_player.y -= _moveSpeed;
 		}
-		else if (_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.top + 3)].getTerrainAttr() == ATTR_SLOW ||
-			_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.bottom - 3)].getTerrainAttr() == ATTR_SLOW)
-		{
-			_player.y -= _moveSpeed/2;
-			
-		}
 	}
 	
-	
-
+	if (_player.x > CAMERAMANAGER->getDcWidth() / 2)
+	{
+		CAMERAMANAGER->setMovePt(PointMake(_player.x - CAMERAMANAGER->getDcWidth() / 2, CAMERAMANAGER->getMovePt().y));
+	}
+	if (_player.y > CAMERAMANAGER->getDcHeight() / 2)
+	{
+		CAMERAMANAGER->setMovePt(PointMake(CAMERAMANAGER->getMovePt().x, _player.y - CAMERAMANAGER->getDcHeight() / 2));
+	}
 
 	switch (_worldPlayerDirection)
 	{

@@ -13,14 +13,14 @@ public:
 	virtual HRESULT init(int enemyX, int enemyY, ENEMYMOVEPATTERN enemyPattern);
 	virtual void release();
 	virtual void update();
-	virtual void render();
+	virtual void render(HDC hdc, POINT movePt);
 	virtual void move();
 
 	//월드에너미 이미지 프레임 컨트롤
 	void worldEnemyImageFrameControl();
 
 	//월드플레이어 이미지 컨트롤
-	void worldEnemyImageControl();
+	void worldEnemyImageControl(HDC hdc, POINT movePt);
 
 };
 

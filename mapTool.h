@@ -41,7 +41,7 @@ private:
 	tile* _terrainTileSet;			// 현재 지형 타일셋의 정보
 	tile* _objectTileSet;			// 현재 오브젝트 타일셋의 정보
 
-	POINT _mapSize;					// 작업중인 맴의 크기
+	POINT _mapSize;					// 작업중인 맵의 크기
 	POINT _mapMove;					// 맵의 카메라 이동을 위한 변수
 	POINT _terrainTileSize;			// 현재 지형 타일셋의 크기
 	POINT _objectTileSize;			// 현재 오브젝트 타일셋의 크기

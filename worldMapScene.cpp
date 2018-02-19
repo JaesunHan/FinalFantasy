@@ -31,6 +31,10 @@ HRESULT worldMapScene::init()
 		_wMEM->getVWME()[i]->setEnemyAddressLinkWithWM(_worldMap);
 		_wMEM->getVWME()[i]->setEnemyAddressLinkWihtPlayer(_worldMapPlayer);
 	}
+
+	CAMERAMANAGER->init(getMemDC());
+	CAMERAMANAGER->createDC(PointMake(TILE_SIZEX, TILE_SIZEY), PointMake(20, 20));
+
 	return S_OK;
 }
 
@@ -55,16 +59,26 @@ void worldMapScene::update()
 
 void worldMapScene::render()
 {
-	_worldMap->render();
-
-	_wMEM->render();
+	_worldMap->render(CAMERAMANAGER->getCameraDC());
+	
+	_wMEM->render(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
 	//업데이트에서 받은 플레이어의 실시간 좌표를 NPC와 비교하여 
 	//플레이어보다 먼저 그려주는 이미지 -> 플레이어 이미지 -> 플레이어보다 다음에 그려주는 이미지 순으로 랜더를 한다.
-	_npcManager->beforeRender();
-	_worldMapPlayer->render();
-	_npcManager->afterRender();
+	_npcManager->beforeRender(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
+	_worldMapPlayer->render(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
+	_npcManager->afterRender(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
 
+	CAMERAMANAGER->render(getMemDC());
 
+	
+	//_worldMap->render(getMemDC());
+	//
+	//_wMEM->render(getMemDC());
+	////업데이트에서 받은 플레이어의 실시간 좌표를 NPC와 비교하여 
+	////플레이어보다 먼저 그려주는 이미지 -> 플레이어 이미지 -> 플레이어보다 다음에 그려주는 이미지 순으로 랜더를 한다.
+	//_npcManager->beforeRender(getMemDC());
+	//_worldMapPlayer->render(getMemDC());
+	//_npcManager->afterRender(getMemDC());
 }
 
 void worldMapScene::getCollision()

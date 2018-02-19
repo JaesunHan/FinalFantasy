@@ -65,35 +65,35 @@ void npcManager::update()
 	
 }
 
-void npcManager::render()
+void npcManager::render(HDC hdc, POINT movePt)
 {
 	for (int i = 0; i < _vNpc.size(); i++)
 	{
-		_vNpc[i]->render();
+		_vNpc[i]->render(hdc, movePt);
 	}
 
 
 
 }
 
-void npcManager::beforeRender()
+void npcManager::beforeRender(HDC hdc, POINT movePt)
 {
 	for (int i = 0; i < _vNpc.size(); i++)
 	{
 		if (_vNpc[i]->getNpcPoint().y <= _playerPos.y)
 		{
-			_vNpc[i]->render();
+			_vNpc[i]->render(hdc, movePt);
 		}
 	}
 }
 
-void npcManager::afterRender()
+void npcManager::afterRender(HDC hdc, POINT movePt)
 {
 	for (int i = 0; i < _vNpc.size(); i++)
 	{
 		if (_vNpc[i]->getNpcPoint().y > _playerPos.y)
 		{
-			_vNpc[i]->render();
+			_vNpc[i]->render(hdc, movePt);
 		}
 	}
 }

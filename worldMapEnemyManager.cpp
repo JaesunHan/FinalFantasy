@@ -53,29 +53,29 @@ void worldMapEnemyManager::update()
 	}
 }
 
-void worldMapEnemyManager::render()
+void worldMapEnemyManager::render(HDC hdc, POINT movePt)
 {
 	for (int i = 0; i < _vWME.size(); ++i)
 	{
-		_vWME[i]->render();
+		_vWME[i]->render(hdc, movePt);
 	}
 }
 
-void worldMapEnemyManager::beforeRender()
+void worldMapEnemyManager::beforeRender(HDC hdc, POINT movePt)
 {
 	for (int i = 0; i < _vWME.size(); ++i)
 	{
 		if (_vWME[i]->getWorldMapEnemyPoint().y <= _playerPos.y)
-			_vWME[i]->render();
+			_vWME[i]->render(hdc, movePt);
 	}
 }
 
-void worldMapEnemyManager::afterRender()
+void worldMapEnemyManager::afterRender(HDC hdc, POINT movePt)
 {
 	for (int i = 0; i < _vWME.size(); ++i)
 	{
 		if (_vWME[i]->getWorldMapEnemyPoint().y > _playerPos.y)
-			_vWME[i]->render();
+			_vWME[i]->render(hdc, movePt);
 	}
 }
 

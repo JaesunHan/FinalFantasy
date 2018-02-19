@@ -38,13 +38,13 @@ void worldMapEnemySamurai::update()
 	this->move();
 }
 
-void worldMapEnemySamurai::render()
+void worldMapEnemySamurai::render(HDC hdc, POINT movePt)
 {
-	worldEnemyImageControl();
+	worldEnemyImageControl(hdc, movePt);
 
 	if (_isDebug)
 	{
-		Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
+		Rectangle(hdc, _rc.left - movePt.x, _rc.top - movePt.y, _rc.right - movePt.x, _rc.bottom - movePt.y);
 	}
 }
 
@@ -276,18 +276,18 @@ void worldMapEnemySamurai::worldEnemyImageFrameControl()
 	worldMapEnemy::worldEnemyImageFrameControl();
 }
 
-	void worldMapEnemySamurai::worldEnemyImageControl()
+	void worldMapEnemySamurai::worldEnemyImageControl(HDC hdc, POINT movePt)
 {
 
 	//플레이어와 에너미의 위치에 따른 에너미 보는 방향 변경
 	switch (_enemyDirection)
 	{
 	case ENEMYDIRECTION_RIGHT: _image = IMAGEMANAGER->findImage("월드맵사무라이");
-		_image->frameRender(getMemDC(), _enemy.x, _enemy.y, _enemyCurrentFrameX, 0);
+		_image->frameRender(hdc, _enemy.x - movePt.x, _enemy.y - movePt.y, _enemyCurrentFrameX, 0);
 
 		break;
 	case ENEMYDIRECTION_LEFT: _image = IMAGEMANAGER->findImage("월드맵사무라이왼쪽");
-		_image->frameRender(getMemDC(), _enemy.x, _enemy.y, _enemyCurrentFrameX, 0);
+		_image->frameRender(hdc, _enemy.x - movePt.x, _enemy.y - movePt.y, _enemyCurrentFrameX, 0);
 		break;
 	}
 }

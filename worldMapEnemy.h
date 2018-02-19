@@ -92,7 +92,7 @@ public:
 	virtual HRESULT init(int enemyX, int enemyY, ENEMYMOVEPATTERN enemyPattern);
 	void release();
 	void update();
-	void render();
+	virtual void render(HDC hdc, POINT movePt);
 	//a*용
 	void move();
 
@@ -100,7 +100,7 @@ public:
 	void worldEnemyImageFrameControl();
 
 	//월드에너미 이미지 컨트롤
-	virtual void worldEnemyImageControl();
+	virtual void worldEnemyImageControl(HDC hdc, POINT movePt);
 
 	//타일 인덱스 계산하는 함수
 	int tileNum(float x, float y);

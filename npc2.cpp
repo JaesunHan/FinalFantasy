@@ -38,12 +38,12 @@ void npc2::update()
 	worldNpcImageFrameControl();
 }
 
-void npc2::render()
+void npc2::render(HDC hdc, POINT movePt)
 {
-	IMAGEMANAGER->findImage("2¹ønpc")->frameRender(getMemDC(), _npc.x, _npc.y, _npcCurrentFrameX, 0);
+	IMAGEMANAGER->findImage("2¹ønpc")->frameRender(hdc, _npc.x - movePt.x, _npc.y - movePt.y, _npcCurrentFrameX, 0);
 	if (_isDebug)
 	{
-		Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
+		Rectangle(hdc, _rc.left - movePt.x, _rc.top - movePt.y, _rc.right - movePt.x, _rc.bottom - movePt.y);
 	}
 }
 

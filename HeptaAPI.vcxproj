@@ -97,6 +97,7 @@
     <ClInclude Include="Bear.h" />
     <ClInclude Include="bossAtma.h" />
     <ClInclude Include="button.h" />
+    <ClInclude Include="cameraManager.h" />
     <ClInclude Include="celes.h" />
     <ClInclude Include="characterAbility.h" />
     <ClInclude Include="collision.h" />
@@ -202,6 +203,7 @@
     <ClCompile Include="Bear.cpp" />
     <ClCompile Include="bossAtma.cpp" />
     <ClCompile Include="button.cpp" />
+    <ClCompile Include="cameraManager.cpp" />
     <ClCompile Include="celes.cpp" />
     <ClCompile Include="characterAbility.cpp" />
     <ClCompile Include="collision.cpp" />

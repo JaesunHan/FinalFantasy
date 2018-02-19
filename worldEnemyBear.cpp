@@ -38,13 +38,13 @@ void worldEnemyBear::update()
 	this->move();
 }
 
-void worldEnemyBear::render()
+void worldEnemyBear::render(HDC hdc, POINT movePt)
 {
-	worldEnemyImageControl();
+	worldEnemyImageControl(hdc, movePt);
 
 	if (_isDebug)
 	{
-		Rectangle(getMemDC(), _rc.left, _rc.top, _rc.right, _rc.bottom);
+		Rectangle(hdc, _rc.left - movePt.x, _rc.top - movePt.y, _rc.right - movePt.x, _rc.bottom - movePt.y);
 	}
 }
 
@@ -269,17 +269,17 @@ void worldEnemyBear::worldEnemyImageFrameControl()
 	worldMapEnemy::worldEnemyImageFrameControl();
 }
 
-void worldEnemyBear::worldEnemyImageControl()
+void worldEnemyBear::worldEnemyImageControl(HDC hdc, POINT movePt)
 {
 	//ÇÃ·¹ÀÌ¾î¿Í ¿¡³Ê¹ÌÀÇ À§Ä¡¿¡ µû¸¥ ¿¡³Ê¹Ì º¸´Â ¹æÇâ º¯°æ
 	switch (_enemyDirection)
 	{
 	case ENEMYDIRECTION_RIGHT: _image = IMAGEMANAGER->findImage("¿ùµå¸Ê°õÅÊÀÌ");
-		_image->frameRender(getMemDC(), _enemy.x, _enemy.y, _enemyCurrentFrameX, 0);
+		_image->frameRender(hdc, _enemy.x - movePt.x, _enemy.y - movePt.y, _enemyCurrentFrameX, 0);
 
 		break;
 	case ENEMYDIRECTION_LEFT: _image = IMAGEMANAGER->findImage("¿ùµå¸Ê°õÅÊÀÌ¿ÞÂÊ");
-		_image->frameRender(getMemDC(), _enemy.x, _enemy.y, _enemyCurrentFrameX, 0);
+		_image->frameRender(hdc, _enemy.x - movePt.x, _enemy.y - movePt.y, _enemyCurrentFrameX, 0);
 		break;
 	}
 }

@@ -52,13 +52,13 @@ public:
 	HRESULT init(int playerX, int PlayerY);
 	void release();
 	void update();
-	void render();
+	void render(HDC hdc, POINT movePt);
 
 	//월드플레이어 이미지 프레임 컨트롤
 	void worldPlayerImageFrameControl();
 	
 	//월드플레이어 이미지 컨트롤
-	void worldPlayerImageControl();
+	void worldPlayerImageControl(HDC hdc, POINT movePt);
 
 	//월드플에이어 키 컨트롤
 	void worldPlayerKeyControl();

@@ -23,7 +23,7 @@ public:
 	HRESULT init();
 	void release();
 	void update();
-	void render();
+	void render(HDC hdc);
 
 	//맵 로드용 함수
 	void mapLoad(void);

@@ -104,7 +104,7 @@ void worldMapEnemy::update()
 
 }
 
-void worldMapEnemy::render()
+void worldMapEnemy::render(HDC hdc, POINT movePt)
 {
 
 }
@@ -260,7 +260,7 @@ void worldMapEnemy::worldEnemyImageFrameControl()
 	}
 }
 
-void worldMapEnemy::worldEnemyImageControl()
+void worldMapEnemy::worldEnemyImageControl(HDC hdc, POINT movePt)
 {
 }
 

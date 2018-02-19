@@ -30,7 +30,7 @@ void npcMother::update()
 	worldNpcImageFrameControl();
 }
 
-void npcMother::render()
+void npcMother::render(HDC hdc, POINT movePt)
 {
 }
 
