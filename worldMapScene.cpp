@@ -18,11 +18,12 @@ HRESULT worldMapScene::init()
 	CAMERAMANAGER->init(getMemDC());
 	CAMERAMANAGER->createDC(PointMake(TILE_SIZEX, TILE_SIZEY), PointMake(30, 20));
 
-	_worldMap = new worldMap;
-	_worldMap->init();
+	_worldMap = new generalMap;
+	_worldMap->init(".//50X50.map");
 
 	_worldMapPlayer = new worldMapPlayer;
 	_worldMapPlayer->init(200, 150);
+	_worldMapPlayer->setCurMapAddressLink(_worldMap);
 
 	_npcManager = new npcManager;
 	_npcManager->init();

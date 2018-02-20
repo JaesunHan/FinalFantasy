@@ -1,5 +1,6 @@
 #pragma once
 #include "gameNode.h"
+#include "generalMap.h"
 #include "worldMap.h"
 #include "worldMapPlayer.h"
 #include "npcManager.h"
@@ -24,7 +25,7 @@ public:
 	//µµ¸Á°¬´Ì
 	bool _isEscape;
 
-	worldMap * _worldMap;
+	generalMap* _worldMap;
 	worldMapPlayer* _worldMapPlayer;
 
 	//NPCµîÀå¿ë

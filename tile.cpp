@@ -182,9 +182,9 @@ void tile::eraseObject(void)
 void tile::updateTerrainAttr(void)
 {
 	if (_terrain == TR_GRASS || _terrain == TR_DIRT || _terrain == TR_GRAYSTONE || _terrain == TR_WHITESTONE
-		|| _terrain == TR_SOIL) _terrainAttribute = ATTR_MOVE;
+		|| _terrain == TR_SOIL || _terrain == TR_MUD) _terrainAttribute = ATTR_MOVE;
 	else if (_terrain == TR_WATER || _terrain == TR_STUMP || _terrain == TR_WALL) _terrainAttribute = ATTR_UNMOVE;
-	else if (_terrain == TR_DESERT || _terrain == TR_SWAMP || _terrain == TR_MUD) _terrainAttribute = ATTR_SLOW;
+	else if (_terrain == TR_DESERT || _terrain == TR_SWAMP) _terrainAttribute = ATTR_SLOW;
 	else if (_terrain == TR_ROAD || _terrain == TR_SNOW) _terrainAttribute = ATTR_FAST;
 }
 

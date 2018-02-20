@@ -103,14 +103,14 @@ void townMap::objectRender()
 	//나중에 랜더해야할 오브젝트
 	for (int i = indexY; i < renderY; ++i)
 	{
-	for (int j = indexX; j < renderX; ++j)
-	{
-	if (CAMERAMANAGER->getMovePt().x / TILE_SIZEX + j + (CAMERAMANAGER->getMovePt().y / TILE_SIZEY + i) * _townMap.x < 0) continue;
-	if (CAMERAMANAGER->getMovePt().x / TILE_SIZEX + j + (CAMERAMANAGER->getMovePt().y / TILE_SIZEY + i) * _townMap.x >= _townMap.x * _townMap.y)
-	continue;
+		for (int j = indexX; j < renderX; ++j)
+		{
+		if (CAMERAMANAGER->getMovePt().x / TILE_SIZEX + j + (CAMERAMANAGER->getMovePt().y / TILE_SIZEY + i) * _townMap.x < 0) continue;
+		if (CAMERAMANAGER->getMovePt().x / TILE_SIZEX + j + (CAMERAMANAGER->getMovePt().y / TILE_SIZEY + i) * _townMap.x >= _townMap.x * _townMap.y)
+		continue;
 
-	//_townTiles[_townMap.x / TILE_SIZEX + j + (CAMERAMANAGER->getMovePt().y / TILE_SIZEY + i) * _townMap.x].afterObjectRender(tileMapDC->getMemDC(), _townMap.x, _townMap.y);
-	}
+		//_townTiles[_townMap.x / TILE_SIZEX + j + (CAMERAMANAGER->getMovePt().y / TILE_SIZEY + i) * _townMap.x].afterObjectRender(tileMapDC->getMemDC(), _townMap.x, _townMap.y);
+		}
 	}
 
 }

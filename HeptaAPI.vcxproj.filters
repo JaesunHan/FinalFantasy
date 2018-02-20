@@ -450,6 +450,9 @@
     <ClInclude Include="characterStatus.h">
       <Filter>playGround\gameMenu\menu\character</Filter>
     </ClInclude>
+    <ClInclude Include="generalMap.h">
+      <Filter>playGround\MapScene\map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -742,6 +745,9 @@
     </ClCompile>
     <ClCompile Include="playerImproveInfo.cpp">
       <Filter>playGround\player</Filter>
+    </ClCompile>
+    <ClCompile Include="generalMap.cpp">
+      <Filter>playGround\MapScene\map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

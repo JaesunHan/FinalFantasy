@@ -17,6 +17,8 @@ enum WORLDPLAYERDIRECTION
 	WPEND
 };
 
+class generalMap;
+
 
 class worldMapPlayer : public gameNode
 {
@@ -28,7 +30,8 @@ public:
 	tile* _tile;
 
 	//월드맵클래스
-	worldMap* _worldMap;
+	generalMap* _curMap;
+	
 
 	//플레이어 좌표
 	POINT _player;
@@ -83,6 +86,8 @@ public:
 	
 	bool getWorldMapPlayerCollision() { return _isCollision; }
 	void setWorldMapPlayerCollision(bool collision) { _isCollision = collision; }
+
+	void setCurMapAddressLink(generalMap* curMap) { _curMap = curMap; }
 
 };
 

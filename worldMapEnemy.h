@@ -1,5 +1,6 @@
 #pragma once
 #include "gameNode.h"
+#include "generalMap.h"
 #include "worldMap.h"
 #include "aStar.h"
 #include "tile.h"
@@ -55,7 +56,7 @@ public:
 
 
 	//월드맵 클래스
-	worldMap* _worldMap;
+	generalMap* _worldMap;
 
 	//월드맵 플레이어 정보 
 	worldMapPlayer* _wp;
@@ -123,7 +124,7 @@ public:
 	bool getWorldMapEnemyCollision() { return _isCollision; }
 	void setWorldMapEnemyCollision(bool collision) { _isCollision = collision; }
 
-	void setEnemyAddressLinkWithWM(worldMap* wm) { _worldMap = wm; }
+	void setEnemyAddressLinkWithWM(generalMap* wm) { _worldMap = wm; }
 	void setEnemyAddressLinkWihtPlayer(worldMapPlayer* wp) { _wp = wp; }
 
 	//콜리전 겟함수

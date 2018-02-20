@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "worldMapPlayer.h"
-
+#include "generalMap.h"
 
 worldMapPlayer::worldMapPlayer()
 {
@@ -30,9 +30,6 @@ HRESULT worldMapPlayer::init(int playerX, int playerY)
 	_isCollision = false;
 	_checkRc = false;
 	_isEscapeSuccess = false;
-
-	_worldMap = new worldMap;
-	_worldMap->init();
 
 
 	return S_OK;
@@ -112,23 +109,23 @@ void worldMapPlayer::worldPlayerKeyControl()
 		//worldMap클래스에서 타일포인터로 로드되어있는 세이브되어진 타일의 속성을 받아서
 		//타일인덱스를 받는 함수를 통해 현재위치와 주변의 타일속성을 검출하여
 		//만약 그 속성이 못움직이는 녀석이면 움직이는 속도와 반대로 준다.
-		if (_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.top + 3)].getTerrainAttr() == ATTR_UNMOVE ||
-			_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.bottom - 3)].getTerrainAttr() == ATTR_UNMOVE)
+		if (_curMap->getMapTile()[tileNum(_rc.left, _rc.top + 3)].getTerrainAttr() == ATTR_UNMOVE ||
+			_curMap->getMapTile()[tileNum(_rc.left, _rc.bottom - 3)].getTerrainAttr() == ATTR_UNMOVE)
 		{
 			_player.x += _moveSpeed;
 		}
-		else if (_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.top + 3)].getTerrainAttr() == ATTR_SLOW ||
-			_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.bottom - 3)].getTerrainAttr() == ATTR_SLOW)
+		else if (_curMap->getMapTile()[tileNum(_rc.left, _rc.top + 3)].getTerrainAttr() == ATTR_SLOW ||
+			_curMap->getMapTile()[tileNum(_rc.left, _rc.bottom - 3)].getTerrainAttr() == ATTR_SLOW)
 		{
 			_player.x += _moveSpeed/2;
 		}
-		else if (_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.top + 3)].getTerrainAttr() == ATTR_FAST ||
-			_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.bottom - 3)].getTerrainAttr() == ATTR_FAST)
+		else if (_curMap->getMapTile()[tileNum(_rc.left, _rc.top + 3)].getTerrainAttr() == ATTR_FAST ||
+			_curMap->getMapTile()[tileNum(_rc.left, _rc.bottom - 3)].getTerrainAttr() == ATTR_FAST)
 		{
 			_player.x -= _moveSpeed*2;
 		}
-		if (_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.top + 3)].getObjectAttr() == ATTR_UNMOVE ||
-			_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.bottom - 3)].getObjectAttr() == ATTR_UNMOVE)
+		if (_curMap->getMapTile()[tileNum(_rc.left, _rc.top + 3)].getObjectAttr() == ATTR_UNMOVE ||
+			_curMap->getMapTile()[tileNum(_rc.left, _rc.bottom - 3)].getObjectAttr() == ATTR_UNMOVE)
 		{
 			_player.x += _moveSpeed;
 		}
@@ -141,28 +138,28 @@ void worldMapPlayer::worldPlayerKeyControl()
 		_worldPlayerDirection = WPRIGHT;
 		_player.x += _moveSpeed;
 		_rc = RectMake(_player.x, _player.y + 30, TILE_SIZEX, TILE_SIZEY / 2);
-		if (_worldMap->getWorldMapTiles()[tileNum(_rc.right, _rc.top + 3)].getTerrainAttr() == ATTR_UNMOVE ||
-			_worldMap->getWorldMapTiles()[tileNum(_rc.right, _rc.bottom - 3)].getTerrainAttr() == ATTR_UNMOVE)
+		if (_curMap->getMapTile()[tileNum(_rc.right, _rc.top + 3)].getTerrainAttr() == ATTR_UNMOVE ||
+			_curMap->getMapTile()[tileNum(_rc.right, _rc.bottom - 3)].getTerrainAttr() == ATTR_UNMOVE)
 		{
 			_player.x -= _moveSpeed;
 		}
-		else if (_worldMap->getWorldMapTiles()[tileNum(_rc.right, _rc.top + 3)].getTerrainAttr() == ATTR_SLOW ||
-			_worldMap->getWorldMapTiles()[tileNum(_rc.right, _rc.bottom - 3)].getTerrainAttr() == ATTR_SLOW)
+		else if (_curMap->getMapTile()[tileNum(_rc.right, _rc.top + 3)].getTerrainAttr() == ATTR_SLOW ||
+			_curMap->getMapTile()[tileNum(_rc.right, _rc.bottom - 3)].getTerrainAttr() == ATTR_SLOW)
 		{
 			_player.x -= _moveSpeed/2;
 		}
-		else if (_worldMap->getWorldMapTiles()[tileNum(_rc.right, _rc.top + 3)].getTerrainAttr() == ATTR_FAST ||
-			_worldMap->getWorldMapTiles()[tileNum(_rc.right, _rc.bottom - 3)].getTerrainAttr() == ATTR_FAST)
+		else if (_curMap->getMapTile()[tileNum(_rc.right, _rc.top + 3)].getTerrainAttr() == ATTR_FAST ||
+			_curMap->getMapTile()[tileNum(_rc.right, _rc.bottom - 3)].getTerrainAttr() == ATTR_FAST)
 		{
 			_player.x += _moveSpeed *2;
 		}
-		else if (_worldMap->getWorldMapTiles()[tileNum(_rc.right, _rc.top + 3)].getTerrainAttr() == ATTR_FAST ||
-			_worldMap->getWorldMapTiles()[tileNum(_rc.right, _rc.bottom - 3)].getTerrainAttr() == ATTR_FAST)
+		else if (_curMap->getMapTile()[tileNum(_rc.right, _rc.top + 3)].getTerrainAttr() == ATTR_FAST ||
+			_curMap->getMapTile()[tileNum(_rc.right, _rc.bottom - 3)].getTerrainAttr() == ATTR_FAST)
 		{
 			_player.x += _moveSpeed *2;
 		}
-		if (_worldMap->getWorldMapTiles()[tileNum(_rc.right, _rc.top + 3)].getObjectAttr() == ATTR_UNMOVE ||
-			_worldMap->getWorldMapTiles()[tileNum(_rc.right, _rc.bottom - 3)].getObjectAttr() == ATTR_UNMOVE)
+		if (_curMap->getMapTile()[tileNum(_rc.right, _rc.top + 3)].getObjectAttr() == ATTR_UNMOVE ||
+			_curMap->getMapTile()[tileNum(_rc.right, _rc.bottom - 3)].getObjectAttr() == ATTR_UNMOVE)
 		{
 			_player.x -= _moveSpeed;
 		}
@@ -173,23 +170,23 @@ void worldMapPlayer::worldPlayerKeyControl()
 		_worldPlayerDirection = WPUP;
 		_player.y -= _moveSpeed;
 		_rc = RectMake(_player.x, _player.y + 30, TILE_SIZEX, TILE_SIZEY / 2);
-		if (_worldMap->getWorldMapTiles()[tileNum(_rc.left + 3, _rc.top)].getTerrainAttr() == ATTR_UNMOVE ||
-			_worldMap->getWorldMapTiles()[tileNum(_rc.right - 3, _rc.top)].getTerrainAttr() == ATTR_UNMOVE)
+		if (_curMap->getMapTile()[tileNum(_rc.left + 3, _rc.top)].getTerrainAttr() == ATTR_UNMOVE ||
+			_curMap->getMapTile()[tileNum(_rc.right - 3, _rc.top)].getTerrainAttr() == ATTR_UNMOVE)
 		{
 			_player.y += _moveSpeed;
 		}
-		else if (_worldMap->getWorldMapTiles()[tileNum(_rc.left + 3, _rc.top)].getTerrainAttr() == ATTR_SLOW ||
-			_worldMap->getWorldMapTiles()[tileNum(_rc.right - 3, _rc.top)].getTerrainAttr() == ATTR_SLOW)
+		else if (_curMap->getMapTile()[tileNum(_rc.left + 3, _rc.top)].getTerrainAttr() == ATTR_SLOW ||
+			_curMap->getMapTile()[tileNum(_rc.right - 3, _rc.top)].getTerrainAttr() == ATTR_SLOW)
 		{
 			_player.y += _moveSpeed/2;
 		}
-		else if (_worldMap->getWorldMapTiles()[tileNum(_rc.left + 3, _rc.top)].getTerrainAttr() == ATTR_FAST ||
-			_worldMap->getWorldMapTiles()[tileNum(_rc.right - 3, _rc.top)].getTerrainAttr() == ATTR_FAST)
+		else if (_curMap->getMapTile()[tileNum(_rc.left + 3, _rc.top)].getTerrainAttr() == ATTR_FAST ||
+			_curMap->getMapTile()[tileNum(_rc.right - 3, _rc.top)].getTerrainAttr() == ATTR_FAST)
 		{
 			_player.y -= _moveSpeed * 2;
 		}
-		if (_worldMap->getWorldMapTiles()[tileNum(_rc.left + 3, _rc.top)].getObjectAttr() == ATTR_UNMOVE ||
-			_worldMap->getWorldMapTiles()[tileNum(_rc.right - 3, _rc.top)].getObjectAttr() == ATTR_UNMOVE)
+		if (_curMap->getMapTile()[tileNum(_rc.left + 3, _rc.top)].getObjectAttr() == ATTR_UNMOVE ||
+			_curMap->getMapTile()[tileNum(_rc.right - 3, _rc.top)].getObjectAttr() == ATTR_UNMOVE)
 		{
 			_player.y += _moveSpeed;
 		}
@@ -199,23 +196,23 @@ void worldMapPlayer::worldPlayerKeyControl()
 		_worldPlayerDirection = WPDOWN;
 		_player.y += _moveSpeed;
 		_rc = RectMake(_player.x, _player.y + 30, TILE_SIZEX, TILE_SIZEY / 2);
-		if (_worldMap->getWorldMapTiles()[tileNum(_rc.left+3, _rc.bottom)].getTerrainAttr() == ATTR_UNMOVE ||
-			_worldMap->getWorldMapTiles()[tileNum(_rc.right-3, _rc.bottom)].getTerrainAttr() == ATTR_UNMOVE)
+		if (_curMap->getMapTile()[tileNum(_rc.left+3, _rc.bottom)].getTerrainAttr() == ATTR_UNMOVE ||
+			_curMap->getMapTile()[tileNum(_rc.right-3, _rc.bottom)].getTerrainAttr() == ATTR_UNMOVE)
 		{
 			_player.y -= _moveSpeed;
 		}
-		else if (_worldMap->getWorldMapTiles()[tileNum(_rc.left + 3, _rc.bottom)].getTerrainAttr() == ATTR_SLOW ||
-			_worldMap->getWorldMapTiles()[tileNum(_rc.right - 3, _rc.bottom)].getTerrainAttr() == ATTR_SLOW)
+		else if (_curMap->getMapTile()[tileNum(_rc.left + 3, _rc.bottom)].getTerrainAttr() == ATTR_SLOW ||
+			_curMap->getMapTile()[tileNum(_rc.right - 3, _rc.bottom)].getTerrainAttr() == ATTR_SLOW)
 		{
 			_player.y -= _moveSpeed/2;
 		}
-		else if (_worldMap->getWorldMapTiles()[tileNum(_rc.left + 3, _rc.bottom)].getTerrainAttr() == ATTR_FAST ||
-			_worldMap->getWorldMapTiles()[tileNum(_rc.right - 3, _rc.bottom)].getTerrainAttr() == ATTR_FAST)
+		else if (_curMap->getMapTile()[tileNum(_rc.left + 3, _rc.bottom)].getTerrainAttr() == ATTR_FAST ||
+			_curMap->getMapTile()[tileNum(_rc.right - 3, _rc.bottom)].getTerrainAttr() == ATTR_FAST)
 		{
 			_player.y += _moveSpeed * 2;
 		}
-		if (_worldMap->getWorldMapTiles()[tileNum(_rc.left + 3, _rc.bottom)].getObjectAttr() == ATTR_UNMOVE ||
-			_worldMap->getWorldMapTiles()[tileNum(_rc.right - 3, _rc.bottom)].getObjectAttr() == ATTR_UNMOVE)
+		if (_curMap->getMapTile()[tileNum(_rc.left + 3, _rc.bottom)].getObjectAttr() == ATTR_UNMOVE ||
+			_curMap->getMapTile()[tileNum(_rc.right - 3, _rc.bottom)].getObjectAttr() == ATTR_UNMOVE)
 		{
 			_player.y -= _moveSpeed;
 		}
@@ -237,8 +234,8 @@ void worldMapPlayer::worldPlayerKeyControl()
 	case WPRIGHT: //_tile->getTerrainAttr()[tileNum(_rc.left)]
 		break;
 
-	case WPLEFT: //if (_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.top + 3)].getTerrainAttr() == ATTR_UNMOVE ||
-		//_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.bottom - 3)].getTerrainAttr() == ATTR_UNMOVE)
+	case WPLEFT: //if (_curMap->getMapTile()[tileNum(_rc.left, _rc.top + 3)].getTerrainAttr() == ATTR_UNMOVE ||
+		//_curMap->getMapTile()[tileNum(_rc.left, _rc.bottom - 3)].getTerrainAttr() == ATTR_UNMOVE)
 	//{
 	//	_player.x += _moveSpeed;
 	//}
@@ -270,7 +267,7 @@ int worldMapPlayer::tileNum(float x, float y)
 	//타일y 곱하기 x타일갯수를 하면 0부터 몇번째 Y번째 타일까지인지 계산이되고 
 	//그 다음 타일X를 더하면 몇번째 X타일인지가 나온다.
 	//월드맵에 저장된 맵 크기의 x값을 받아오고 
-	tileNum = tileY * _worldMap->getWorldMapPOINT().x + tileX;
+	tileNum = tileY * _curMap->getMapTileNum().x + tileX;
 
 	return tileNum;
 }

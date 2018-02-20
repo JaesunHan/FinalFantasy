@@ -2,6 +2,7 @@
 #include "gameNode.h"
 #include "worldMapPlayer.h"
 #include "npcManager.h"
+#include "generalMap.h"
 #include "townMap.h"
 
 
@@ -16,7 +17,7 @@ public:
 	npcManager* _npcManager;
 
 	//Å¸¿î¸Ê¿ë
-	townMap * _townMap;
+	generalMap* _townMap;
 
 
 	townScene();
