@@ -53,26 +53,39 @@ enum SAVE_TYPE
 
 struct tagPlayer
 {
-	image* img;             //플레이어 이미지
-	float x, y;             //플레이어 이미지 위치
+	image* img;						//플레이어 이미지
+	float x, y;						//플레이어 이미지 위치
 
-	TCHAR name[32];		    //플레이어 이름
-	TCHAR job[32];			//플레이어 직업
-	int level;              //플레이어 레벨
-	int hp, maxHp;          //플레이어 체력
-	int mp, maxMp;          //플레이어 마력
-	int exp, maxExp;        //플레이어 경험치
-	int strength;		    //플레이어 힘
-	int speed;				//플레이어 스피드
-	int stamina;			//플레이어 내구력
-	int magic;				//플레이어 마법력
-	int attack;				//플레이어 공격력
-	int attackDefence;      //플레이어 공격디펜스
-	int magicDefence;       //플레이어 마법디펜스
-	int evation;			//플레이어 공격회피
-	int magicEvation;       //플레이어 마법회피
-	int partyIdx;           //플레이어 파티원 넘버
+	TCHAR name[CHARBUFFSHORT];		//플레이어 이름
+	TCHAR job[CHARBUFFSHORT];		//플레이어 직업
+	int level;						//플레이어 레벨
+	int hp, maxHp;					//플레이어 체력
+	int mp, maxMp;					//플레이어 마력
+	int exp, maxExp;				//플레이어 경험치
+	int strength;					//플레이어 힘
+	int speed;						//플레이어 스피드
+	int stamina;					//플레이어 내구력
+	int magic;						//플레이어 마법력
+	int attack;						//플레이어 공격력
+	int attackDefence;				//플레이어 공격디펜스
+	int magicDefence;				//플레이어 마법디펜스
+	int evation;					//플레이어 공격회피
+	int magicEvation;				//플레이어 마법회피
+	int partyIdx;					//플레이어 파티원 넘버
+	TCHAR weapon[CHARBUFFSHORT];	//플레이어 무기
+	TCHAR armor[CHARBUFFSHORT];		//플레이어 갑옷 
+	TCHAR helmet[CHARBUFFSHORT];	//플레이어 투구  
+	TCHAR subWeapon[CHARBUFFSHORT];	//플레이어 보조무기
 };	
+
+struct tagSaveData
+{
+	int fileNum;
+	tagPlayer playerInfo;
+	TCHAR stage[CHARBUFFSHORT];	
+	int gil;
+	int playTime;
+};
 
 enum STAGE_SCENE
 {
@@ -85,8 +98,8 @@ enum STAGE_SCENE
 
 struct tagCurrentGameData
 {
-	TCHAR saveFileName[32];
-	TCHAR stage[32];
+	TCHAR saveFileName[CHARBUFFSHORT];
+	TCHAR stage[CHARBUFFSHORT];
 	int fileNum;
 	int gil;
 	int playTime;
@@ -162,14 +175,15 @@ public:
 	virtual void cursorInit(CURSOR_TYPE type, float startX, float startY);
 	virtual void cursorUpdate();
 	virtual void cursorRender();
-	virtual void cursorKeyControlX(float moveValueX, int downNumber);
+	virtual void cursorKeyControlX(float moveValueX, int downNumber, bool leftMove = false);
 	virtual void cursorKeyControlY(float moveValueY, int downNumber);
 	virtual void cursorResetXY(float cursorX, float cursorY);
 	//================================ cusor ================================
 
 	//================================ player ===============================
 	//--------------------------------  slot  -------------------------------
-	virtual void playerSlotInit(string keyName, float x, float y, int level, char* job, int hp, int maxHp, int mp, int maxMp, int exp, int maxExp);
+	virtual void playerSlotInit(string keyName, float x, float y, int level, char* job, 
+		int hp, int maxHp, int mp, int maxMp, int exp, int maxExp, int partyIdX);
 	virtual void playerSlotUpdate();
 	virtual void playerSlotKeyControl(float slotValueY, int slotNum = 137);
 	virtual void playerSlotRender();
@@ -181,6 +195,8 @@ public:
 	virtual void playerStatusRemove();
 	//------------------------------  fileLoad  -----------------------------
 	virtual void fileLoad(int fileNum, int playerNum = -1);
+	//------------------------------  fileCopy  -----------------------------
+	virtual void fileCopyTmpFile(int fileNum);
 	//================================ player ===============================
 
 	//============================== save & load ============================
@@ -189,8 +205,9 @@ public:
 		int level, int hp, int maxHp, int mp, int maxMp, int exp, int maxExp, int strength, 
 		int speed, int stamina, int magic, int attack, int attackDefence, int magicDefence, 
 		int evation, int magicEvation, int partyIdx, string myWeapon, string myArmor,
-		string myHelmet, string mySubWeapon, bool tmpSave = false);
-	virtual void saveIniSlotGameData(int fileNum, string stage, int gil, int playTime);
+		string myHelmet, string mySubWeapon, bool tmpSave = false, bool saveFile = false);
+	virtual void saveIniSlotGameData(int fileNum, string stage, int gil, int playTime, bool tmpSave = false);
+	virtual tagSaveData loadIniPlayerData(int fileNum, int playerNum);
 	//============================== save & load ============================
 
 	//=============================== gameData ==============================

@@ -101,12 +101,20 @@ void  menu::cursorUpdate()
 }
 
 //                           커서X축 이동값    이동횟수
-void menu::cursorKeyControlX(float moveValueX, int moveNumber)
+void menu::cursorKeyControlX(float moveValueX, int moveNumber, bool leftMove)
 {
 	if (!_cursor.cursorOn)
 	{
-		_cursor.minX = _cursor.x;
-		_cursor.maxX = _cursor.x + (moveValueX * (moveNumber - 1));
+		if (!leftMove)
+		{
+			_cursor.minX = _cursor.x;
+			_cursor.maxX = _cursor.x + (moveValueX * (moveNumber - 1));
+		}
+		else
+		{
+			_cursor.minX = _cursor.x - (moveValueX * (moveNumber - 1));
+			_cursor.maxX = _cursor.x;
+		}
 
 		_cursor.currentXNum = 0;
 		_cursor.cursorOn = true;
@@ -128,7 +136,6 @@ void menu::cursorKeyControlX(float moveValueX, int moveNumber)
 			_cursor.startX = _cursor.minX;
 			_cursor.currentXNum = 0;
 		}
-
 	}
 
 	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
@@ -146,6 +153,7 @@ void menu::cursorKeyControlX(float moveValueX, int moveNumber)
 			_cursor.startX = _cursor.maxX;
 			_cursor.currentXNum = (moveNumber - 1);
 		}
+
 	}
 
 
@@ -223,7 +231,7 @@ void menu::cursorResetXY(float cursorX, float cursorY)
 
 //------------------------------  slot  ------------------------------ 
 //slot                    이미지키값      이미지위치XY      레벨	   직업	       체력    최대체력   마력    최대마력
-void menu::playerSlotInit(string keyName, float x, float y, int level, char* job, int hp, int maxHp, int mp, int maxMp, int exp, int maxExp)
+void menu::playerSlotInit(string keyName, float x, float y, int level, char* job, int hp, int maxHp, int mp, int maxMp, int exp, int maxExp, int partyIdx)
 {
 	tagPlayer player;
 	ZeroMemory(&player, sizeof(player));
@@ -239,6 +247,7 @@ void menu::playerSlotInit(string keyName, float x, float y, int level, char* job
 	player.maxMp = maxMp;
 	player.exp = exp;
 	player.maxExp = maxExp;
+	player.partyIdx = partyIdx;
 	wsprintf(player.job, "%s", job);
 
 	_vPlayer.push_back(player);
@@ -248,7 +257,7 @@ void menu::playerSlotUpdate()
 {
 	for (int i = 0; i < _vPlayer.size(); ++i)
 	{
-		
+		//_vPlayer[i].partyIdx
 	}
 }
 
@@ -290,9 +299,6 @@ void menu::playerSlotRender()
 		textPrint(getMemDC(), strHp,			_vPlayer[i].x + 200, _vPlayer[i].y + 50, 15, 15, "HY견고딕", COLOR_BLACK, false);		//체력
 		textPrint(getMemDC(), "MP",				_vPlayer[i].x + 150, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLUE, false);		//"MP"
 		textPrint(getMemDC(), strMp,			_vPlayer[i].x + 200, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLACK, false);		//마력
-
-		//textPrint(getMemDC(), "EXP",				_vPlayer[i].x + 150, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLUE, false);	//"exp"
-		//textPrint(getMemDC(), strMp,				_vPlayer[i].x + 200, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLACK, false);	//경험치
 		textPrint(getMemDC(), "For Next Level",		_vPlayer[i].x + 150, _vPlayer[i].y + 90, 15, 15, "HY견고딕", COLOR_BLUE, false);	//"레벨업 남은 경험치"
 		textPrint(getMemDC(), strExp,				_vPlayer[i].x + 300, _vPlayer[i].y + 90, 15, 15, "HY견고딕", COLOR_BLACK, false);	//다음레벨 경험치 - 현재 경험치
 	}
@@ -485,7 +491,7 @@ void menu::fileLoad(int fileNum, int playerNumber)
 
 		//플레이어 슬롯 출력정보 담기
 		playerSlotInit(_playerSlot.name, 65, _playerSlot.y, _playerSlot.level, _playerSlot.job, _playerSlot.hp,
-			_playerSlot.maxHp, _playerSlot.mp, _playerSlot.maxMp, _playerSlot.exp, _playerSlot.maxExp);
+			_playerSlot.maxHp, _playerSlot.mp, _playerSlot.maxMp, _playerSlot.exp, _playerSlot.maxExp, _playerSlot.partyIdx);
 
 		//플레이어 상태 출력정보 담기
 		playerStatusInit(_playerSlot.strength, _playerSlot.speed, _playerSlot.stamina, _playerSlot.magic, _playerSlot.attack,
@@ -519,7 +525,7 @@ tagElements menu::saveTxtData(int fileNum, string cStage)
 
 void menu::saveIniPlayerData(int fileNum, int playerNum, string cName, string job, int level, int hp, int maxHp, int mp, int maxMp,
 	int exp, int maxExp, int strength, int speed, int stamina, int magic, int attack, int attackDefence, int magicDefence, int evation,
-	int magicEvation, int partyIdx, string myWeapon, string myArmor, string myHelmet, string mySubWeapon, bool tmpSave)
+	int magicEvation, int partyIdx, string myWeapon, string myArmor, string myHelmet, string mySubWeapon, bool tmpSave, bool saveFile)
 {
 	//템프파일 저장시
 	int saveNum;
@@ -643,10 +649,13 @@ void menu::saveIniPlayerData(int fileNum, int playerNum, string cName, string jo
 
 		if (i == 0)
 		{
-			//파일저장: saveFile
-			TCHAR saveFileName[16];
-			wsprintf(saveFileName, "saveFile%d", fileNum);
-			INIDATA->iniSave(saveFileName);
+			if (!saveFile)
+			{
+				//파일저장: saveFile
+				TCHAR saveFileName[16];
+				wsprintf(saveFileName, "saveFile%d", fileNum);
+				INIDATA->iniSave(saveFileName);
+			}
 		}
 		if (i == 1)
 		{
@@ -656,26 +665,135 @@ void menu::saveIniPlayerData(int fileNum, int playerNum, string cName, string jo
 	}
 }
 
-void menu::saveIniSlotGameData(int fileNum, string stage, int gil, int playTime)
+void menu::saveIniSlotGameData(int fileNum, string stage, int gil, int playTime, bool tmpSave)
 {
-	//스테이지
-	INIDATA->addData("gameData", "stage", stage.c_str());
-	//플레이어 돈
-	TCHAR tmp2[8];
-	ZeroMemory(&tmp2, sizeof(tmp2));
-	wsprintf(tmp2, "%d", gil);
-	INIDATA->addData("gameData", "gil", tmp2);
-	//플레이 시간
-	TCHAR tmp3[32];
-	ZeroMemory(&tmp3, sizeof(tmp3));
-	wsprintf(tmp3, "%d", playTime);
-	INIDATA->addData("gameData", "playTime", tmp3);
+	int saveFileNum;
+	if (tmpSave)
+	{
+		saveFileNum = 2;
+	}
+	else
+	{
+		saveFileNum = 1;
+	}
+
+	for (int i = 0; i < saveFileNum; ++i)
+	{
+		//스테이지
+		INIDATA->addData("gameData", "stage", stage.c_str());
+		//플레이어 돈
+		TCHAR tmp2[8];
+		ZeroMemory(&tmp2, sizeof(tmp2));
+		wsprintf(tmp2, "%d", gil);
+		INIDATA->addData("gameData", "gil", tmp2);
+		//플레이 시간
+		TCHAR tmp3[32];
+		ZeroMemory(&tmp3, sizeof(tmp3));
+		wsprintf(tmp3, "%d", playTime);
+		INIDATA->addData("gameData", "playTime", tmp3);
 
 
-	//파일저장
-	TCHAR saveFileName[16];
-	wsprintf(saveFileName, "saveFile%d", fileNum);
-	INIDATA->iniSave(saveFileName);
+		//파일저장
+		if (i == 0)
+		{
+			TCHAR saveFileName[16];
+			wsprintf(saveFileName, "saveFile%d", fileNum);
+			INIDATA->iniSave(saveFileName);
+		}
+		if (i == 1)
+		{
+			INIDATA->iniSave("skgFile");
+		}
+
+	}
+}
+
+void menu::fileCopyTmpFile(int fileNum)
+{
+	//플레이어 정보로드
+	tagSaveData tmpPlayrInfo;
+
+	for (int i = 0; i < 4; ++i)
+	{
+		ZeroMemory(&tmpPlayrInfo, sizeof(tmpPlayrInfo));
+		tmpPlayrInfo = loadIniPlayerData(fileNum, i);
+
+		saveIniPlayerData(tmpPlayrInfo.fileNum, i, tmpPlayrInfo.playerInfo.name, tmpPlayrInfo.playerInfo.job, tmpPlayrInfo.playerInfo.level,
+			tmpPlayrInfo.playerInfo.hp, tmpPlayrInfo.playerInfo.maxHp, tmpPlayrInfo.playerInfo.mp, tmpPlayrInfo.playerInfo.maxMp,
+			tmpPlayrInfo.playerInfo.exp, tmpPlayrInfo.playerInfo.maxExp, tmpPlayrInfo.playerInfo.strength, tmpPlayrInfo.playerInfo.speed,
+			tmpPlayrInfo.playerInfo.stamina, tmpPlayrInfo.playerInfo.magic, tmpPlayrInfo.playerInfo.attack, tmpPlayrInfo.playerInfo.attackDefence,
+			tmpPlayrInfo.playerInfo.magicDefence, tmpPlayrInfo.playerInfo.evation, tmpPlayrInfo.playerInfo.magicEvation, tmpPlayrInfo.playerInfo.partyIdx,
+			tmpPlayrInfo.playerInfo.weapon, tmpPlayrInfo.playerInfo.armor, tmpPlayrInfo.playerInfo.helmet, tmpPlayrInfo.playerInfo.subWeapon,
+			true, true);
+
+		INIDATA->iniSave("skgFile");
+
+		if (i == 3)
+		{
+			char tmpGil[16];
+			ZeroMemory(&tmpGil, sizeof(tmpGil));
+			sprintf(tmpGil, "%d", tmpPlayrInfo.gil);
+
+			char tmpTime[16];
+			ZeroMemory(&tmpTime, sizeof(tmpTime));
+			sprintf(tmpTime, "%d", tmpPlayrInfo.playTime);
+
+			INIDATA->addData("gameData", "stage", tmpPlayrInfo.stage);
+			INIDATA->addData("gameData", "gil", tmpGil);
+			INIDATA->addData("gameData", "playTime", tmpTime);
+
+			INIDATA->iniSave("skgFile");
+		}
+	}
+}
+
+tagSaveData menu::loadIniPlayerData(int fileNum, int playerNumber)
+{
+	//세이브파일 넘버
+	char saveFileNum[32];
+	ZeroMemory(&saveFileNum, sizeof(saveFileNum));
+	wsprintf(saveFileNum, "saveFile%d", fileNum);
+
+	//플레이어 번호 담을 변수
+	char playerNum[16];
+	ZeroMemory(&playerNum, sizeof(playerNum));
+	wsprintf(playerNum, "player%d", playerNumber);
+
+	//플레이어 정보로드
+	tagSaveData tmpPlayrInfo;
+	ZeroMemory(&tmpPlayrInfo, sizeof(tmpPlayrInfo));
+
+	tmpPlayrInfo.fileNum = INIDATA->loadDataInterger(saveFileNum, "fileInfo", "fileNum");                               //파일넘버   
+	
+	wsprintf(tmpPlayrInfo.playerInfo.name, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "name"));				//이름
+	wsprintf(tmpPlayrInfo.playerInfo.job, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "job"));				//직업
+	tmpPlayrInfo.playerInfo.level = INIDATA->loadDataInterger(saveFileNum, playerNum, "level");							//레벨   
+	tmpPlayrInfo.playerInfo.hp = INIDATA->loadDataInterger(saveFileNum, playerNum, "hp");								//체력     
+	tmpPlayrInfo.playerInfo.maxHp = INIDATA->loadDataInterger(saveFileNum, playerNum, "maxHp");							//최대체력         
+	tmpPlayrInfo.playerInfo.mp = INIDATA->loadDataInterger(saveFileNum, playerNum, "mp");								//마력    
+	tmpPlayrInfo.playerInfo.maxMp = INIDATA->loadDataInterger(saveFileNum, playerNum, "maxMp");							//최대마력             
+	tmpPlayrInfo.playerInfo.exp = INIDATA->loadDataInterger(saveFileNum, playerNum, "exp");								//경험치        
+	tmpPlayrInfo.playerInfo.maxExp = INIDATA->loadDataInterger(saveFileNum, playerNum, "maxExp");						//다음레벨 경험치         
+	tmpPlayrInfo.playerInfo.strength = INIDATA->loadDataInterger(saveFileNum, playerNum, "strength");					//힘             
+	tmpPlayrInfo.playerInfo.speed = INIDATA->loadDataInterger(saveFileNum, playerNum, "speed");							//스피드      
+	tmpPlayrInfo.playerInfo.stamina = INIDATA->loadDataInterger(saveFileNum, playerNum, "stamina");						//내구력         
+	tmpPlayrInfo.playerInfo.magic = INIDATA->loadDataInterger(saveFileNum, playerNum, "magic");							//마법력    
+	tmpPlayrInfo.playerInfo.attack = INIDATA->loadDataInterger(saveFileNum, playerNum, "attack");						//공격력            
+	tmpPlayrInfo.playerInfo.attackDefence = INIDATA->loadDataInterger(saveFileNum, playerNum, "attackDefence");			//공격방어력               
+	tmpPlayrInfo.playerInfo.magicDefence = INIDATA->loadDataInterger(saveFileNum, playerNum, "magicDefence");			//마법방어력       
+	tmpPlayrInfo.playerInfo.evation = INIDATA->loadDataInterger(saveFileNum, playerNum, "evation");						//공격회피           
+	tmpPlayrInfo.playerInfo.magicEvation = INIDATA->loadDataInterger(saveFileNum, playerNum, "magicEvation");			//마법회피               
+	tmpPlayrInfo.playerInfo.partyIdx = INIDATA->loadDataInterger(saveFileNum, playerNum, "partyIdx");					//파티원넘버
+	wsprintf(tmpPlayrInfo.playerInfo.weapon, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "myWeapon"));		//무기
+	wsprintf(tmpPlayrInfo.playerInfo.armor, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "myArmor"));			//갑옷 
+	wsprintf(tmpPlayrInfo.playerInfo.helmet, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "myHelmet"));		//투구  
+	wsprintf(tmpPlayrInfo.playerInfo.subWeapon, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "mySubWeapon"));	//보조무기 
+
+	wsprintf(tmpPlayrInfo.stage, "%s", INIDATA->loadDataString(saveFileNum, "gameData", "stage"));                      //스테이지  
+	tmpPlayrInfo.gil = INIDATA->loadDataInterger(saveFileNum, "gameData", "gil");										//돈  
+	tmpPlayrInfo.playTime = INIDATA->loadDataInterger(saveFileNum, "gameData", "playTime");								//플레이시간  
+
+	return tmpPlayrInfo;
 }
 
 //============================ save & load ===========================

@@ -49,6 +49,10 @@ void optionMenu::update()
 	cursorUpdate();
 	_button->update();
 
+	//커서 컨트롤X  
+	cursorKeyControlX(190, _cursorXNum, true);
+
+
 	cursorKeyControlY(50, _cursorYNum);
 
 	//선택

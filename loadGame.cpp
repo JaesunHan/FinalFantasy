@@ -248,6 +248,9 @@ void loadGame::update()
 					INIDATA->addData("gameData", "gameStart", "1");
 					INIDATA->iniSave("gameData");
 
+					//템프파일에 로드된 파일 복사
+					fileCopyTmpFile(_cursor.currentXNum);
+
 					SCENEMANAGER->changeScene("월드맵씬");
 				}
 			break;
