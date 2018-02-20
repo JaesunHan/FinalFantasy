@@ -64,8 +64,8 @@ void playerManager::update()
 	if (INIDATA->loadDataInterger(fileName, "gameData", "gameStart"))
 	{
 		//loadGameData();
-		//INIDATA->addData("gameData", "gameStart", 0);
-		//INIDATA->iniSave(fileName);
+		INIDATA->addData("gameData", "gameStart", "0");
+		INIDATA->iniSave(fileName);
 	}
 	// 새 게임 시작하면 saveGameData()호출
 	//if (SCENEMANAGER->getCurrentSceneName() == "뉴게임")
