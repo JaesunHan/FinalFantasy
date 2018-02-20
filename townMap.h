@@ -16,7 +16,10 @@ public:
 	HRESULT init();
 	void release();
 	void update();
-	void render();
+	void render(HDC hdc);
+
+	void terrianRender();
+	void objectRender();
 
 	//맵 로드용 함수
 	void mapLoad(void);

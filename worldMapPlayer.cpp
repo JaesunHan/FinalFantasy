@@ -127,6 +127,12 @@ void worldMapPlayer::worldPlayerKeyControl()
 		{
 			_player.x -= _moveSpeed*2;
 		}
+		if (_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.top + 3)].getObjectAttr() == ATTR_UNMOVE ||
+			_worldMap->getWorldMapTiles()[tileNum(_rc.left, _rc.bottom - 3)].getObjectAttr() == ATTR_UNMOVE)
+		{
+			_player.x += _moveSpeed;
+		}
+
 		//오브젝트어트리뷰트도 추가해야한당
 		//오브젝트 속성 OBJ_MOUNTAIN, OBJ_CAVE, OBJ_TOWN, OBJ_CASTLE, OBJ_NPC, OBJ_ENEMY,
 	}
@@ -150,6 +156,16 @@ void worldMapPlayer::worldPlayerKeyControl()
 		{
 			_player.x += _moveSpeed *2;
 		}
+		else if (_worldMap->getWorldMapTiles()[tileNum(_rc.right, _rc.top + 3)].getTerrainAttr() == ATTR_FAST ||
+			_worldMap->getWorldMapTiles()[tileNum(_rc.right, _rc.bottom - 3)].getTerrainAttr() == ATTR_FAST)
+		{
+			_player.x += _moveSpeed *2;
+		}
+		if (_worldMap->getWorldMapTiles()[tileNum(_rc.right, _rc.top + 3)].getObjectAttr() == ATTR_UNMOVE ||
+			_worldMap->getWorldMapTiles()[tileNum(_rc.right, _rc.bottom - 3)].getObjectAttr() == ATTR_UNMOVE)
+		{
+			_player.x -= _moveSpeed;
+		}
 
 	}
 	else if (KEYMANAGER->isStayKeyDown(VK_UP))
@@ -172,6 +188,11 @@ void worldMapPlayer::worldPlayerKeyControl()
 		{
 			_player.y -= _moveSpeed * 2;
 		}
+		if (_worldMap->getWorldMapTiles()[tileNum(_rc.left + 3, _rc.top)].getObjectAttr() == ATTR_UNMOVE ||
+			_worldMap->getWorldMapTiles()[tileNum(_rc.right - 3, _rc.top)].getObjectAttr() == ATTR_UNMOVE)
+		{
+			_player.y += _moveSpeed;
+		}
 	}
 	else if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 	{
@@ -192,6 +213,11 @@ void worldMapPlayer::worldPlayerKeyControl()
 			_worldMap->getWorldMapTiles()[tileNum(_rc.right - 3, _rc.bottom)].getTerrainAttr() == ATTR_FAST)
 		{
 			_player.y += _moveSpeed * 2;
+		}
+		if (_worldMap->getWorldMapTiles()[tileNum(_rc.left + 3, _rc.bottom)].getObjectAttr() == ATTR_UNMOVE ||
+			_worldMap->getWorldMapTiles()[tileNum(_rc.right - 3, _rc.bottom)].getObjectAttr() == ATTR_UNMOVE)
+		{
+			_player.y -= _moveSpeed;
 		}
 	}
 

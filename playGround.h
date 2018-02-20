@@ -8,6 +8,7 @@
 #include "saveLoadMenu.h"
 #include "optionMenu.h"
 #include "worldMapScene.h"
+#include "townScene.h"
 #include "newGame.h"
 #include "loadGame.h"
 #include "abilitiesMenu.h"
