@@ -56,14 +56,14 @@ void worldMap::render(HDC hdc)
 		int indexX = 0;
 		int indexY = 0;
 
-		if (renderX > 23)
-			renderX = 22;
-		else if (renderX == 22);
+		if (renderX > CAMERAMANAGER->getDcTileNum().x + 3)
+			renderX = CAMERAMANAGER->getDcTileNum().x + 2;
+		else if (renderX == CAMERAMANAGER->getDcTileNum().x + 2);
 		else ++renderX;
 
-		if (renderY > 23)
-			renderY = 22;
-		else if (renderY == 22);
+		if (renderY > CAMERAMANAGER->getDcTileNum().y + 3)
+			renderY = CAMERAMANAGER->getDcTileNum().y + 2;
+		else if (renderY == CAMERAMANAGER->getDcTileNum().y + 2);
 		else ++renderY;
 
 		for (int i = indexY; i < renderY; ++i)

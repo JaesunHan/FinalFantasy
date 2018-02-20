@@ -33,6 +33,8 @@ public:
 	inline int getDcWidth(void) { return _tileSize.x * _dcTileNum.x; }
 	inline int getDcHeight(void) { return _tileSize.y * _dcTileNum.y; }
 
+	inline POINT getDcTileNum(void) { return _dcTileNum; }
+
 	inline HDC getCameraDC(void) { return _memBuffer->getMemDC(); }
 
 	inline void setMapTotalSize(POINT totalSize) { _mapTotalSize = totalSize; }

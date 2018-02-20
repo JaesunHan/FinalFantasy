@@ -49,6 +49,8 @@ void cameraManager::createDC(POINT tileSize, POINT tileNum)
 {
 	//if (_memBuffer != NULL) delete _memBuffer;
 
+	this->release();
+
 	_tileSize = tileSize;
 	_dcTileNum = tileNum;
 
