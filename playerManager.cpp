@@ -271,6 +271,8 @@ void playerManager::loadGameData()
 		int helmetNum = INIDATA->loadDataInterger(gameFileName, playerSubject, "myHelmet");
 		int subWeaponNum = INIDATA->loadDataInterger(gameFileName, playerSubject, "mySubWeapon");
 
+		searchPlayerItem(weaponNum, armorNum, helmetNum, subWeaponNum, tempPlayer);
+
 		//무기 이름에 따라서 무기로딩하기
 		TCHAR weaponName[256];
 		wsprintf(weaponName,"%s", INIDATA->loadDataString(gameFileName, playerSubject, "myWeapon"));
@@ -347,10 +349,8 @@ void playerManager::searchPlayerItem(int weaponNum, int armorNum, int helmetNum,
 		{
 			weaponItem* tempItem = (weaponItem*)_itemManager->getVItem()[i];
 			
-			//아니면 해당 무기로 저장한다.
-			else {
-				tempPlayer->setWeaponItem((weaponItem*)tempItem);
-			}
+			tempPlayer->setWeaponItem((weaponItem*)tempItem);
+			
 		}
 
 	}
