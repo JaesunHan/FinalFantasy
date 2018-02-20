@@ -51,7 +51,8 @@ HRESULT playerManager::init()
 	//		//loadGameData();
 	//	}
 	//}
-	
+
+	int a = maxExpValue[0];
 
 	return S_OK;
 }

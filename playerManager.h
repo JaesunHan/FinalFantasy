@@ -32,7 +32,7 @@ private:
 	BattleScene* _battleScene;
 	itemManager* _itemManager;
 
-	bool _gameStart;
+	
 public:
 	playerManager();
 	~playerManager();
