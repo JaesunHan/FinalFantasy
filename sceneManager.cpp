@@ -187,20 +187,33 @@ HRESULT sceneManager::changeScene(string sceneName, string loadingSceneName)
 	return E_FAIL;
 }
 
-HRESULT sceneManager::changeSceneType0(string sceneName)
+HRESULT sceneManager::changeSceneType0(string sceneName, bool initCall)
 {
 	mapSceneIter find = _mSceneList.find(sceneName);
 
 	if (find == _mSceneList.end()) return E_FAIL;
 	if (find->second == _currentScene) return S_OK;
 
-	if (SUCCEEDED(0))
+	if (initCall)
 	{
-		if (_currentScene) _currentScene->release();
-		find->second->init();
-		_currentScene = find->second;
-		return S_OK;
+		if (SUCCEEDED(0))
+		{
+			if (_currentScene) _currentScene->release();
+			find->second->init();
+			_currentScene = find->second;
+			return S_OK;
+		}
 	}
+	else
+	{
+		if (SUCCEEDED(0))
+		{
+			if (_currentScene) _currentScene->release();
+			_currentScene = find->second;
+			return S_OK;
+		}
+	}
+	
 
 	return E_FAIL;
 }

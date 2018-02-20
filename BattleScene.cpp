@@ -2,6 +2,7 @@
 #include "BattleScene.h"
 #include "playerManager.h"
 #include "worldMapScene.h"
+#include "playerImproveInfo.h"
 
 BattleScene::BattleScene()
 {
@@ -833,9 +834,47 @@ void BattleScene::temporaryMessage()
 		switch (_dialogueCounter)
 		{
 		case(1):
+			if (_dialogue == true)
+			{
+				for (int j = 0; j < 4; ++j)
+				{
+					for (int i = 0; i < 4; ++i)
+					{
+						if (j == 0 && _battleCharacters[i].characterType != TINA) continue;
+						if (j == 1 && _battleCharacters[i].characterType != LOCKE) continue;
+						if (j == 2 && _battleCharacters[i].characterType != CELES) continue;
+						if (j == 3 && _battleCharacters[i].characterType != SHADOW) continue;
+						char playerNum[128];
+						char body[128];
+						wsprintf(playerNum, "player%d", j);
+						wsprintf(body, "%d", _battleCharacters[i].player->getCurHP());
+						INIDATA->addData(playerNum, "hp", body);
+						break;
+					}
+				}
+			}
 			drawText(32, "ÆÀ ¼Ò²Ç±¸ ½Â¸®!", tempDialogueRC, DT_CENTER, true);
 			break;
 		case(2):
+			if (_dialogue == true)
+			{
+				for (int j = 0; j < 4; ++j)
+				{
+					for (int i = 0; i < 4; ++i)
+					{
+						if (j == 0 && _battleCharacters[i].characterType != TINA) continue;
+						if (j == 1 && _battleCharacters[i].characterType != LOCKE) continue;
+						if (j == 2 && _battleCharacters[i].characterType != CELES) continue;
+						if (j == 3 && _battleCharacters[i].characterType != SHADOW) continue;
+						char playerNum[128];
+						char body[128];
+						wsprintf(playerNum, "player%d", j);
+						wsprintf(body, "%d", _battleCharacters[i].player->getCurMP());
+						INIDATA->addData(playerNum, "mp", body);
+						break;
+					}
+				}
+			}
 			drawText(32, "¼Ò²Ç±¸ ¸¸¼¼!", tempDialogueRC, DT_CENTER, true);
 			break;
 		case(3):
@@ -847,14 +886,22 @@ void BattleScene::temporaryMessage()
 			}
 			if (_dialogue == true)
 			{
-				for (int i = 0; i < 4; ++i)
+				for (int j = 0; j < 4; ++j)
 				{
-					_battleCharacters[i].player->setCurEXP(_battleCharacters[i].player->getCurEXP() + exp);
-					char playerNum[128];
-					char body[128];
-					wsprintf(playerNum, "player%d", i);
-					wsprintf(body, "%d", _battleCharacters[i].player->getCurEXP() + exp);
-					INIDATA->addData(playerNum, "exp", body);
+					for (int i = 0; i < 4; ++i)
+					{
+						if (j == 0 && _battleCharacters[i].characterType != TINA) continue;
+						if (j == 1 && _battleCharacters[i].characterType != LOCKE) continue;
+						if (j == 2 && _battleCharacters[i].characterType != CELES) continue;
+						if (j == 3 && _battleCharacters[i].characterType != SHADOW) continue;
+						_battleCharacters[i].player->setCurEXP(_battleCharacters[i].player->getCurEXP() + exp);
+						char playerNum[128];
+						char body[128];
+						wsprintf(playerNum, "player%d", j);
+						wsprintf(body, "%d", _battleCharacters[i].player->getCurEXP() + exp);
+						INIDATA->addData(playerNum, "exp", body);
+						break;
+					}
 				}
 				_dialogue = false;
 			}
@@ -862,6 +909,7 @@ void BattleScene::temporaryMessage()
 			drawText(32, _message, tempDialogueRC, DT_CENTER, true);
 			break;
 		case(4):
+			//maxExpValue[MAXLV]
 			break;
 		case(5):
 			drawText(32, "¼ÒÁö±ÝÀÌ ´Ã °Í °°Àº ±âºÐÀÌ µç´Ù.", tempDialogueRC, DT_CENTER, true);
@@ -959,6 +1007,6 @@ void BattleScene::sceneChange()
 	if (_changeScene == true)
 	{
 		this->release();
-		SCENEMANAGER->changeScene("¿ùµå¸Ê¾À", false);
+		SCENEMANAGER->changeSceneType0("¿ùµå¸Ê¾À", false);
 	}
 }
