@@ -57,6 +57,9 @@ void characterAbility::update()
 	//커서 컨트롤X  
 	cursorKeyControlX(210, _cursorXNum);
 
+	//버튼
+	_button->update();
+
 	//선택
 	switch (_cursor.currentXNum)
 	{
@@ -105,12 +108,14 @@ void characterAbility::buttonOnActive()
 
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{
-
+		skillButtonSet();
 	}
 }
 
 //캐릭터별 스킬버튼 생성
 void characterAbility::skillButtonSet()
 {
+
+
 
 }

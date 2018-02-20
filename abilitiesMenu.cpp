@@ -45,8 +45,8 @@ HRESULT abilitiesMenu::init()
 			_button->buttonSet("버튼네임", buttonX, buttonY + (i * 65), "TINA", 30);
 		else if (!strcmp(INIDATA->loadDataString(fileName, playerNum, "name"), "CELES"))
 			_button->buttonSet("버튼네임", buttonX, buttonY + (i * 65), "CELES", 30);
-		else if (!strcmp(INIDATA->loadDataString(fileName, playerNum, "name"), "LOCK"))
-			_button->buttonSet("버튼네임", buttonX, buttonY + (i * 65), "LOCK", 30);
+		else if (!strcmp(INIDATA->loadDataString(fileName, playerNum, "name"), "LOCKE"))
+			_button->buttonSet("버튼네임", buttonX, buttonY + (i * 65), "LOCKE", 30);
 		else if (!strcmp(INIDATA->loadDataString(fileName, playerNum, "name"), "SHADOW"))
 			_button->buttonSet("버튼네임", buttonX, buttonY + (i * 65), "SHADOW", 30);
 	}

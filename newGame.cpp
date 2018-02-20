@@ -109,10 +109,10 @@ void newGame::update()
 			}
 
 			//================================== 저장파일 생성 ================================== 
-			saveIniPlayerData(_saveFileNum, 0, "TINA",   "Magician",         3, 63, 63, 27, 27, 0, 96, 31, 33, 28, 39, 12, 42, 33, 5, 7, 0, true);
-			saveIniPlayerData(_saveFileNum, 1, "LOCKE", "Treasure Hunter",   3, 71, 71, 18, 18, 0, 96, 37, 40, 31, 28, 14, 46, 23, 15, 2, 1, true);
-			saveIniPlayerData(_saveFileNum, 2, "CELES",  "Rune Knight",      3, 67, 67, 26, 26, 0, 96, 34, 34, 31, 36, 16, 44, 31, 7, 9, 2, true);
-			saveIniPlayerData(_saveFileNum, 3, "SHADOW", "Assassin",         3, 74, 74, 17, 17, 0, 96, 39, 38, 30, 33, 23, 47, 25, 28, 9, 3, true);
+			saveIniPlayerData(_saveFileNum, 0, "TINA",   "Magician",         3, 63, 63, 27, 27, 0, 96, 31, 33, 28, 39, 12, 42, 33, 5, 7, 0, "DefaultWeapon", true);
+			saveIniPlayerData(_saveFileNum, 1, "LOCKE", "Treasure Hunter",   3, 71, 71, 18, 18, 0, 96, 37, 40, 31, 28, 14, 46, 23, 15, 2, 1, "DefaultWeapon", true);
+			saveIniPlayerData(_saveFileNum, 2, "CELES",  "Rune Knight",      3, 67, 67, 26, 26, 0, 96, 34, 34, 31, 36, 16, 44, 31, 7, 9, 2, "DefaultWeapon", true);
+			saveIniPlayerData(_saveFileNum, 3, "SHADOW", "Assassin",         3, 74, 74, 17, 17, 0, 96, 39, 38, 30, 33, 23, 47, 25, 28, 9, 3, "DefaultWeapon",  true);
 
 			saveIniSlotGameData(_saveFileNum, "OVER WORLD",3000 , 0);     //게임데이터: 세이브파일에 저장
 			saveIniGameData(_saveFileNum, "OVER WORLD");                  //게임데이터: 데이터베이스에 저장

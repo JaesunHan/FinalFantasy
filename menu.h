@@ -19,8 +19,11 @@
 #define COLOR_BLUE		RGB(0, 0, 255)
 #define COLOR_MAGENTA	RGB(255, 0, 255)
 
-#define SAVEFILENUM 3
-#define EFFECTVOLUME 0.5f
+#define SAVEFILENUM		3
+#define EFFECTVOLUME	0.5f
+#define INTCHARBUFF		16
+#define CHARBUFFSHORT	32
+#define CHARBUFFLONG	64
 
 enum CURSOR_TYPE
 {
@@ -52,11 +55,23 @@ struct tagPlayer
 {
 	image* img;             //플레이어 이미지
 	float x, y;             //플레이어 이미지 위치
+
+	TCHAR name[32];		    //플레이어 이름
+	TCHAR job[32];			//플레이어 직업
 	int level;              //플레이어 레벨
 	int hp, maxHp;          //플레이어 체력
 	int mp, maxMp;          //플레이어 마력
-	TCHAR name[32];		    //플레이어 이름
-	TCHAR job[32];			//플레이어 직업
+	int exp, maxExp;        //플레이어 경험치
+	int strength;		    //플레이어 힘
+	int speed;				//플레이어 스피드
+	int stamina;			//플레이어 내구력
+	int magic;				//플레이어 마법력
+	int attack;				//플레이어 공격력
+	int attackDefence;      //플레이어 공격디펜스
+	int magicDefence;       //플레이어 마법디펜스
+	int evation;			//플레이어 공격회피
+	int magicEvation;       //플레이어 마법회피
+	int partyIdx;           //플레이어 파티원 넘버
 };	
 
 enum STAGE_SCENE
@@ -110,8 +125,7 @@ protected:
 
 	//======= saveLoad =======
 	bool _saveFileSelect;
-	int _saveFileNum;
-	bool _gameStart;        //플레이어 세이브파일 로드를 위한 신호값
+	int  _saveFileNum;
 	//======= saveLoad =======
 
 	//======== button ========
@@ -119,13 +133,16 @@ protected:
 	//======== button ========
 
 	//======== player ========
-	vPlayer   _vPlayer;
+	vPlayer   _vPlayer;          //플레이어 슬롯정보
 	viPlayer  _viPlayer;
 	tagElements _playerElements;
 
-	tagPlayer _playerSlot;  //각 슬롯에 플레이어 정보 담을 구조체 변수
-	bool _fileLoadOk[4];    //세이브 파일 존재 유무판별
-	int _selectFileCount;   //파일 선택후 슬롯을 보여주기 위한 카운트 값 (바로 선택버튼으로 이동하지 않도록) 
+	vPlayer   _vPlayerStatus;    //플레이어 상태정보
+	viPlayer  _viPlayerStatus;   
+
+	tagPlayer _playerSlot;		 //각 슬롯에 플레이어 정보 담을 구조체 변수
+	bool _fileLoadOk[4];		 //세이브 파일 존재 유무판별
+	int _selectFileCount;		 //파일 선택후 슬롯을 보여주기 위한 카운트 값 (바로 선택버튼으로 이동하지 않도록) 
 	//======== player ========
 	
 	//======= gameData =======
@@ -151,12 +168,18 @@ public:
 	//================================ cusor ================================
 
 	//================================ player ===============================
-	virtual void playerSlotInit(string keyName, float x, float y, int level, char* job, int hp, int maxHp, int mp, int maxMp);
+	//--------------------------------  slot  -------------------------------
+	virtual void playerSlotInit(string keyName, float x, float y, int level, char* job, int hp, int maxHp, int mp, int maxMp, int exp, int maxExp);
 	virtual void playerSlotUpdate();
 	virtual void playerSlotKeyControl(float slotValueY, int slotNum);
 	virtual void playerSlotRender();
 	virtual void playerSlotRemove();
-
+	//-------------------------------  status  ------------------------------
+	virtual void playerStatusInit(int strength, int speed, int stamina, int magic, int attack,
+		int attackDefence, int magicDefence, int evation, int magicEvation, int partyIdx);
+	virtual void playerStatusRender();
+	virtual void playerStatusRemove();
+	//------------------------------  fileLoad  -----------------------------
 	virtual void fileLoad(int fileNum, int playerNum = -1);
 	//================================ player ===============================
 
@@ -165,7 +188,7 @@ public:
 	virtual void saveIniPlayerData(int fileNum, int playerNum, string cName, string job, 
 		int level, int hp, int maxHp, int mp, int maxMp, int exp, int maxExp, int strength, 
 		int speed, int stamina, int magic, int attack, int attackDefence, int magicDefence, 
-		int evation, int magicEvation, int partyIdx, bool tmpSave = false);
+		int evation, int magicEvation, int partyIdx, string myWeapon, bool tmpSave = false);
 	virtual void saveIniSlotGameData(int fileNum, string stage, int gil, int playTime);
 	//============================== save & load ============================
 
@@ -179,7 +202,6 @@ public:
 
 	//================================ getter ===============================
 	int getSaveFileNum() { return _saveFileNum; }
-	bool getIsGameStart() { return _gameStart; }
 	//================================ getter ===============================
 
 

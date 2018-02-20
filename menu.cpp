@@ -221,8 +221,9 @@ void menu::cursorResetXY(float cursorX, float cursorY)
 
 //============================== player ==============================
 
-//                        이미지키값      이미지위치XY      레벨	   직업	       체력    최대체력   마력    최대마력
-void menu::playerSlotInit(string keyName, float x, float y, int level, char* job, int hp, int maxHp, int mp, int maxMp)
+//------------------------------  slot  ------------------------------ 
+//slot                    이미지키값      이미지위치XY      레벨	   직업	       체력    최대체력   마력    최대마력
+void menu::playerSlotInit(string keyName, float x, float y, int level, char* job, int hp, int maxHp, int mp, int maxMp, int exp, int maxExp)
 {
 	tagPlayer player;
 	ZeroMemory(&player, sizeof(player));
@@ -236,6 +237,8 @@ void menu::playerSlotInit(string keyName, float x, float y, int level, char* job
 	player.maxHp = maxHp;
 	player.mp = mp;
 	player.maxMp = maxMp;
+	player.exp = exp;
+	player.maxExp = maxExp;
 	wsprintf(player.job, "%s", job);
 
 	_vPlayer.push_back(player);
@@ -268,11 +271,11 @@ void menu::playerSlotRender()
 		_vPlayer[i].img->render(getMemDC(), _vPlayer[i].x, _vPlayer[i].y);
 
 		//int -> string 형변환
-		char strLevel[128];
+		char strLevel[INTCHARBUFF];
 		sprintf(strLevel, "%d", _vPlayer[i].level);	
-		char strHp[128];
+		char strHp[INTCHARBUFF];
 		sprintf(strHp, "%d / %d", _vPlayer[i].hp, _vPlayer[i].maxHp);
-		char strMp[128];
+		char strMp[INTCHARBUFF];
 		sprintf(strMp, "%d / %d", _vPlayer[i].mp, _vPlayer[i].maxMp);
 
 		//텍스트 출력
@@ -285,6 +288,11 @@ void menu::playerSlotRender()
 		if (_vPlayer[i].mp == -1) continue;  //예외처리: MP가 없으면 건너띄기
 		textPrint(getMemDC(), "MP",				_vPlayer[i].x + 150, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLUE, false);	//"MP"
 		textPrint(getMemDC(), strMp,			_vPlayer[i].x + 200, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLACK, false);	//마력
+
+		//textPrint(getMemDC(), "MP",				_vPlayer[i].x + 150, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLUE, false);	//"exp"
+		//textPrint(getMemDC(), strMp,				_vPlayer[i].x + 200, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLACK, false);	//경험치
+		//textPrint(getMemDC(), "for Next Level",	_vPlayer[i].x + 150, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLUE, false);	//"레벨업 남은 경험치"
+		//textPrint(getMemDC(), strMp,				_vPlayer[i].x + 200, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLACK, false);	//다음레벨 경험치 - 현재 경험치
 	}
 
 	if (_vPlayer.size() == 0)
@@ -306,7 +314,95 @@ void menu::playerSlotRemove()
 
 	_vPlayer.clear();
 }
+//------------------------------  slot  ------------------------------ 
 
+
+//-----------------------------  status  ----------------------------- 
+           
+void menu::playerStatusInit(int strength, int speed, int stamina, int magic, int attack,
+	int attackDefence, int magicDefence, int evation, int magicEvation, int partyIdx)
+{
+	tagPlayer player;
+	ZeroMemory(&player, sizeof(player));
+
+	player.strength = strength;
+	player.speed = speed;
+	player.stamina = stamina;
+	player.magic = magic;
+	player.attack = attack;
+	player.attackDefence = attackDefence;
+	player.magicDefence = magicDefence;
+	player.evation = evation;
+	player.magicEvation = magicEvation;
+	player.partyIdx = partyIdx;
+
+	_vPlayerStatus.push_back(player);
+}
+
+void menu::playerStatusRender()
+{
+	for (int i = 0; i < _vPlayerStatus.size(); ++i)
+	{
+		//int -> string 형변환
+		char strStrength[INTCHARBUFF];
+		sprintf(strStrength, "%d", _vPlayerStatus[i].strength);
+		char strSpeed[INTCHARBUFF];
+		sprintf(strSpeed, "%d", _vPlayerStatus[i].speed);
+		char strStamina[INTCHARBUFF];
+		sprintf(strStamina, "%d", _vPlayerStatus[i].stamina);
+		char strMagic[INTCHARBUFF];
+		sprintf(strMagic, "%d", _vPlayerStatus[i].magic);
+		char strAttack[INTCHARBUFF];
+		sprintf(strAttack, "%d", _vPlayerStatus[i].attack);
+		char strAttackD[INTCHARBUFF];
+		sprintf(strAttackD, "%d", _vPlayerStatus[i].attackDefence);
+		char strMagicD[INTCHARBUFF];
+		sprintf(strMagicD, "%d", _vPlayerStatus[i].magicDefence);
+		char strEvation[INTCHARBUFF];
+		sprintf(strEvation, "%d", _vPlayerStatus[i].evation);
+		char strMagicE[INTCHARBUFF];
+		sprintf(strMagicE, "%d", _vPlayerStatus[i].magicEvation);
+
+
+		//텍스트 출력
+		textPrint(getMemDC(), "Strength",		_vPlayer[i].x + 150, _vPlayer[i].y + 30, 15, 15, "HY견고딕", COLOR_BLUE, false);		//"Strength"
+		textPrint(getMemDC(), strStrength,		_vPlayer[i].x + 200, _vPlayer[i].y + 30, 15, 15, "HY견고딕", COLOR_BLACK, false);		//힘
+		textPrint(getMemDC(), "Speed",			_vPlayer[i].x + 150, _vPlayer[i].y + 50, 15, 15, "HY견고딕", COLOR_BLUE, false);		//"Speed"
+		textPrint(getMemDC(), strSpeed,			_vPlayer[i].x + 200, _vPlayer[i].y + 50, 15, 15, "HY견고딕", COLOR_BLACK, false);		//스피드
+		textPrint(getMemDC(), "Stamina",		_vPlayer[i].x + 150, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLUE, false);		//"Stamina"
+		textPrint(getMemDC(), strStamina,		_vPlayer[i].x + 200, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLACK, false);		//내구력
+		textPrint(getMemDC(), "Magic",			_vPlayer[i].x + 150, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLUE, false);		//"Magic"
+		textPrint(getMemDC(), strMagic,			_vPlayer[i].x + 200, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLACK, false);		//마법
+		textPrint(getMemDC(), "Attack",			_vPlayer[i].x + 150, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLUE, false);		//"Attack"
+		textPrint(getMemDC(), strAttack,		_vPlayer[i].x + 200, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLACK, false);		//공격력
+		textPrint(getMemDC(), "AttackDefence",	_vPlayer[i].x + 150, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLUE, false);		//"AttackDefence"
+		textPrint(getMemDC(), strAttackD,		_vPlayer[i].x + 200, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLACK, false);		//공격디펜스
+		textPrint(getMemDC(), "MagicDefence",	_vPlayer[i].x + 150, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLUE, false);		//"MagicDefence"
+		textPrint(getMemDC(), strMagicD,		_vPlayer[i].x + 200, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLACK, false);		//마법디펜스
+		textPrint(getMemDC(), "Evation",		_vPlayer[i].x + 150, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLUE, false);		//"Evation"
+		textPrint(getMemDC(), strEvation,		_vPlayer[i].x + 200, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLACK, false);		//공격회피
+		textPrint(getMemDC(), "MagicEvation",	_vPlayer[i].x + 150, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLUE, false);		//"MagicEvation"
+		textPrint(getMemDC(), strMagicE,		_vPlayer[i].x + 200, _vPlayer[i].y + 70, 15, 15, "HY견고딕", COLOR_BLACK, false);		//마법회피
+	}
+
+}
+
+void menu::playerStatusRemove()
+{
+	if (_vPlayerStatus.size() != 0)
+	{
+		for (int i = 0; i < _vPlayerStatus.size(); ++i)
+		{
+			_vPlayerStatus.erase(_vPlayer.begin() + i);
+		}
+	}
+
+	_vPlayerStatus.clear();
+}
+//-----------------------------  status  ----------------------------- 
+
+
+//----------------------------  fileLoad  ---------------------------- 
 //플레이어 세이브 파일 로드      ↓플레이어 슬롯넘버(특정 캐릭터 슬롯 하나만 띄울경우)
 void menu::fileLoad(int fileNum, int playerNumber)
 {
@@ -338,20 +434,39 @@ void menu::fileLoad(int fileNum, int playerNumber)
 
 		//플레이어 정보담기
 		ZeroMemory(&_playerSlot, sizeof(_playerSlot));
-		wsprintf(_playerSlot.name, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "name"));
+
+		wsprintf(_playerSlot.name, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "name"));			//이름
 		_playerSlot.img = IMAGEMANAGER->findImage(_playerSlot.name);
-		wsprintf(_playerSlot.job, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "job"));
-		_playerSlot.level = INIDATA->loadDataInterger(saveFileNum, playerNum, "level");
+		wsprintf(_playerSlot.job, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "job"));			//직업
+		_playerSlot.level = INIDATA->loadDataInterger(saveFileNum, playerNum, "level");						//레벨
 		if (_playerSlot.level == -1) continue; //예외처리: 정보가 없으면 다음으로...
-		_playerSlot.hp = INIDATA->loadDataInterger(saveFileNum, playerNum, "hp");
-		_playerSlot.maxHp = INIDATA->loadDataInterger(saveFileNum, playerNum, "maxHp");
-		_playerSlot.mp = INIDATA->loadDataInterger(saveFileNum, playerNum, "mp");
-		_playerSlot.maxMp = INIDATA->loadDataInterger(saveFileNum, playerNum, "maxMp");
+		_playerSlot.hp = INIDATA->loadDataInterger(saveFileNum, playerNum, "hp");							//체력
+		_playerSlot.maxHp = INIDATA->loadDataInterger(saveFileNum, playerNum, "maxHp");						//최대 체력
+		_playerSlot.mp = INIDATA->loadDataInterger(saveFileNum, playerNum, "mp");							//마력
+		_playerSlot.maxMp = INIDATA->loadDataInterger(saveFileNum, playerNum, "maxMp");						//최대 마력
+		_playerSlot.exp = INIDATA->loadDataInterger(saveFileNum, playerNum, "exp");							//경험치
+		_playerSlot.maxExp = INIDATA->loadDataInterger(saveFileNum, playerNum, "maxExp");					//최대 경험치
 
-		//플레이어 출력정보 담기
+		_playerSlot.strength = INIDATA->loadDataInterger(saveFileNum, playerNum, "strength");				//힘
+		_playerSlot.speed = INIDATA->loadDataInterger(saveFileNum, playerNum, "speed");						//스피드
+		_playerSlot.stamina = INIDATA->loadDataInterger(saveFileNum, playerNum, "stamina");					//내구력
+		_playerSlot.magic = INIDATA->loadDataInterger(saveFileNum, playerNum, "magic");						//마법력
+		_playerSlot.attack = INIDATA->loadDataInterger(saveFileNum, playerNum, "attack");					//공격력
+		_playerSlot.attackDefence = INIDATA->loadDataInterger(saveFileNum, playerNum, "attackDefence");		//공격디펜스
+		_playerSlot.magicDefence = INIDATA->loadDataInterger(saveFileNum, playerNum, "magicDefence");       //마법디펜스
+		_playerSlot.evation = INIDATA->loadDataInterger(saveFileNum, playerNum, "evation");					//공격회피
+		_playerSlot.magicEvation = INIDATA->loadDataInterger(saveFileNum, playerNum, "magicEvation");       //마법회피
+		_playerSlot.partyIdx = INIDATA->loadDataInterger(saveFileNum, playerNum, "partyIdx");				//파티원넘버
+
+
+
+		//플레이어 슬롯 출력정보 담기
 		playerSlotInit(_playerSlot.name, 65, 102 + (i * 137), _playerSlot.level, _playerSlot.job, _playerSlot.hp,
-			_playerSlot.maxHp, _playerSlot.mp, _playerSlot.maxMp);
+			_playerSlot.maxHp, _playerSlot.mp, _playerSlot.maxMp, _playerSlot.exp, _playerSlot.maxExp);
 
+		//플레이어 상태 출력정보 담기
+		playerStatusInit(_playerSlot.strength, _playerSlot.speed, _playerSlot.stamina, _playerSlot.magic, _playerSlot.attack,
+			_playerSlot.attackDefence, _playerSlot.magicDefence, _playerSlot.evation, _playerSlot.magicEvation, _playerSlot.partyIdx);
 
 		//정보가 담겨있으면...
 		_fileLoadOk[fileNum] = true;
@@ -381,7 +496,7 @@ tagElements menu::saveTxtData(int fileNum, string cStage)
 
 void menu::saveIniPlayerData(int fileNum, int playerNum, string cName, string job, int level, int hp, int maxHp, int mp, int maxMp,
 	int exp, int maxExp, int strength, int speed, int stamina, int magic, int attack, int attackDefence, int magicDefence, int evation,
-	int magicEvation, int partyIdx, bool tmpSave)
+	int magicEvation, int partyIdx, string myWeapon, bool tmpSave)
 {
 	//템프파일 저장시
 	int saveNum;
@@ -494,17 +609,19 @@ void menu::saveIniPlayerData(int fileNum, int playerNum, string cName, string jo
 		ZeroMemory(&tmp17, sizeof(tmp17));
 		wsprintf(tmp17, "%d", partyIdx);
 		INIDATA->addData(subjectNum, "partyIdx", tmp17);
+		//플레이어 스킬
+		INIDATA->addData(subjectNum, "myWeapon", myWeapon.c_str());
 
 		if (i == 0)
 		{
-			//파일저장
+			//파일저장: saveFile
 			TCHAR saveFileName[16];
 			wsprintf(saveFileName, "saveFile%d", fileNum);
 			INIDATA->iniSave(saveFileName);
 		}
 		if (i == 1)
 		{
-			//파일저장
+			//파일저장: tmpFile
 			INIDATA->iniSave("skgFile");
 		}
 	}
