@@ -13,6 +13,9 @@ townScene::~townScene()
 
 HRESULT townScene::init()
 {
+	SOUNDMANAGER->addSound("townMapBGM", ".//sound//worldMapSound//07. Edgar \& Mash.mp3", true, true);
+	SOUNDMANAGER->play("townMapBGM", CH_BGM, 1.0f);
+
 	CAMERAMANAGER->init(getMemDC());
 	CAMERAMANAGER->createDC(PointMake(TILE_SIZEX, TILE_SIZEY), PointMake(30, 20));
 
@@ -35,6 +38,12 @@ void townScene::release()
 
 void townScene::update()
 {
+	if (SOUNDMANAGER->isPlaySound("townMapBGM"))
+	{
+		SOUNDMANAGER->addSound("townMapBGM", ".//sound//worldMapSound//07. Edgar \& Mash", true, true);
+		SOUNDMANAGER->play("townMapBGM", CH_BGM, 1.0f);
+	}
+	
 	_townMap->update();
 	_worldMapPlayer->update();
 	_npcManager->update();
