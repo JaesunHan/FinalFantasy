@@ -47,6 +47,9 @@ public:
 	//마을 입장용
 	bool _isEnter;
 
+	//월드맵 입장용
+	bool _isWorldMapEnter;
+
 	//충돌검출용
 	float _moveSpeed;
 	bool _isCollision;
@@ -78,8 +81,11 @@ public:
 	//도망 성공시
 	void successEscape();
 
+	//타운입장
 	void enterTown();
 
+	//월드맵 입장
+	void enterWorldMap();
 
 	//========겟셋 모음==================================/
 	RECT getWorldMapPlayerRect() { return _rc; }

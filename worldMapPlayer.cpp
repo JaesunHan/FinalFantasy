@@ -31,7 +31,7 @@ HRESULT worldMapPlayer::init(int playerX, int playerY)
 	_checkRc = false;
 	_isEscapeSuccess = false;
 	_isEnter = false;
-
+	_isWorldMapEnter = false;
 
 	return S_OK;
 }
@@ -45,7 +45,7 @@ void worldMapPlayer::update()
 	worldPlayerImageFrameControl();
 	worldPlayerKeyControl();
 	enterTown();
-
+	enterWorldMap();
 }
 
 void worldMapPlayer::render(HDC hdc, POINT movePt)
@@ -130,9 +130,19 @@ void worldMapPlayer::worldPlayerKeyControl()
 			_curMap->getMapTile()[tileNum(_rc.left, _rc.bottom - 3)].getObjectAttr() == ATTR_UNMOVE)
 		{
 			_player.x += _moveSpeed;
+		}
+		if (_curMap->getMapTile()[tileNum(_rc.left, _rc.top + 3)].getObject() == OBJ_TOWN ||
+			_curMap->getMapTile()[tileNum(_rc.left, _rc.bottom - 3)].getObject() == OBJ_TOWN)
+		{
+			_player.x =  _player.x - 15;
 			_isEnter = true;
 		}
-
+		if (_curMap->getMapTile()[tileNum(_rc.left, _rc.top + 3)].getObject() == OBJ_WORLD_MAP ||
+			_curMap->getMapTile()[tileNum(_rc.left, _rc.bottom - 3)].getObject() == OBJ_WORLD_MAP)
+		{
+			_player.x = _player.x - 15;
+			_isWorldMapEnter = true;
+		}
 		//오브젝트어트리뷰트도 추가해야한당
 		//오브젝트 속성 OBJ_MOUNTAIN, OBJ_CAVE, OBJ_TOWN, OBJ_CASTLE, OBJ_NPC, OBJ_ENEMY,
 	}
@@ -160,7 +170,18 @@ void worldMapPlayer::worldPlayerKeyControl()
 			_curMap->getMapTile()[tileNum(_rc.right, _rc.bottom - 3)].getObjectAttr() == ATTR_UNMOVE)
 		{
 			_player.x -= _moveSpeed;
+		}
+		if (_curMap->getMapTile()[tileNum(_rc.right, _rc.top + 3)].getObject() == OBJ_TOWN ||
+			_curMap->getMapTile()[tileNum(_rc.right, _rc.bottom - 3)].getObject() == OBJ_TOWN)
+		{
+			_player.x = _player.x + 15;
 			_isEnter = true;
+		}
+		if (_curMap->getMapTile()[tileNum(_rc.right, _rc.top + 3)].getObject() == OBJ_WORLD_MAP ||
+			_curMap->getMapTile()[tileNum(_rc.right, _rc.bottom - 3)].getObject() == OBJ_WORLD_MAP)
+		{
+			_player.x = _player.x + 15;
+			_isWorldMapEnter = true;
 		}
 
 	}
@@ -188,7 +209,18 @@ void worldMapPlayer::worldPlayerKeyControl()
 			_curMap->getMapTile()[tileNum(_rc.right - 3, _rc.top)].getObjectAttr() == ATTR_UNMOVE)
 		{
 			_player.y += _moveSpeed;
+		}
+		if (_curMap->getMapTile()[tileNum(_rc.left + 3, _rc.top)].getObject() == OBJ_TOWN ||
+			_curMap->getMapTile()[tileNum(_rc.right - 3, _rc.top)].getObject() == OBJ_TOWN)
+		{
+			_player.y = _player.y + 15;
 			_isEnter = true;
+		}
+		if (_curMap->getMapTile()[tileNum(_rc.left + 3, _rc.top)].getObject() == OBJ_WORLD_MAP ||
+			_curMap->getMapTile()[tileNum(_rc.right - 3, _rc.top)].getObject() == OBJ_WORLD_MAP)
+		{
+			_player.y = _player.y + 15;
+			_isWorldMapEnter = true;
 		}
 	}
 	else if (KEYMANAGER->isStayKeyDown(VK_DOWN))
@@ -215,7 +247,18 @@ void worldMapPlayer::worldPlayerKeyControl()
 			_curMap->getMapTile()[tileNum(_rc.right - 3, _rc.bottom)].getObjectAttr() == ATTR_UNMOVE)
 		{
 			_player.y -= _moveSpeed;
+		}
+		if (_curMap->getMapTile()[tileNum(_rc.left + 3, _rc.bottom)].getObject() == OBJ_TOWN ||
+			_curMap->getMapTile()[tileNum(_rc.right - 3, _rc.bottom)].getObject() == OBJ_TOWN)
+		{
+			_player.y = _player.y - 15;
 			_isEnter = true;
+		}
+		if (_curMap->getMapTile()[tileNum(_rc.left + 3, _rc.bottom)].getObject() == OBJ_WORLD_MAP ||
+			_curMap->getMapTile()[tileNum(_rc.right - 3, _rc.bottom)].getObject() == OBJ_WORLD_MAP)
+		{
+			_player.y = _player.y - 15;
+			_isWorldMapEnter = true;
 		}
 	}
 
@@ -285,8 +328,22 @@ void worldMapPlayer::successEscape()
 void worldMapPlayer::enterTown()
 {
 	if (_isEnter)
-	{
-		SCENEMANAGER->changeScene("타운맵씬");
+	{	//부딪친 오브젝트가 월드맵에서 타운 속성을 가졌으면
+		SCENEMANAGER->changeSceneType0("타운맵씬");
 	}
+	//부딪친 오브젝트가 타운에서 타운 속성을 가졌으면
+	//"월드맵씬" 전환
 	_isEnter = false;
+}
+
+void worldMapPlayer::enterWorldMap()
+{
+	if (_isWorldMapEnter)
+	{	
+		//부딪친 오브젝트가 월드맵에서 타운 속성을 가졌으면
+		SCENEMANAGER->changeSceneType0("월드맵씬");
+	}
+	//부딪친 오브젝트가 타운에서 타운 속성을 가졌으면
+	//"월드맵씬" 전환
+	_isWorldMapEnter = false;
 }

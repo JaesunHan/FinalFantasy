@@ -430,6 +430,10 @@ void mapTool::objectTileSetInit()
 			{
 				_objectTileSet[i].setObject(OBJ_VASE);
 			}
+			else if (i == 15)
+			{
+				_objectTileSet[i].setObject(OBJ_WORLD_MAP);
+			}
 			else
 			{
 				_objectTileSet[i].setObject(OBJ_NONE);

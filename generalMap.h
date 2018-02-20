@@ -2,6 +2,13 @@
 #include "gameNode.h"
 #include "tile.h"
 
+enum MAPTYPE
+{
+	MAP_WORLD,
+	MAP_TOWN,
+	MAP_END
+};
+
 class generalMap : public gameNode
 {
 protected:
@@ -9,6 +16,10 @@ protected:
 	tile* _mapTile;				//월드맵 타일
 
 public:
+
+	//맵타입 구분을 위한 이넘문
+	MAPTYPE _mapType;
+
 	generalMap();
 	~generalMap();
 

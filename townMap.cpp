@@ -37,6 +37,8 @@ HRESULT townMap::init()
 	IMAGEMANAGER->addFrameImage("townObject2", ".//tileSet//tileMap05.bmp", 256, 256, 8, 8, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("townObject3", ".//tileSet//tileMap06.bmp", 256, 256, 8, 8, true, RGB(255, 0, 255));
 	
+	//_mapType = MAP_TOWN;
+
 	mapLoad();
 
 
