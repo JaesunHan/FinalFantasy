@@ -192,11 +192,12 @@ void tile::updateTerrainAttr(void)
 void tile::updateObjectAttr(void)
 {
 	if (_object == OBJ_NONE || _object == OBJ_TREE || _object == OBJ_CAVE || _object == OBJ_CASTLE || _object == OBJ_TOWN
-		|| _object == OBJ_HOUSE_BOT_PASS || _object == OBJ_PLANT || _object == OBJ_BRIDGE_TOP)
+		|| _object == OBJ_HOUSE_BOT_PASS || _object == OBJ_PLANT || _object == OBJ_BRIDGE_TOP || _object == OBJ_STALL_BOTTOM)
 		_objectAttribute = ATTR_MOVE;
 	else if (_object == OBJ_MOUNTAIN || _object == OBJ_HOUSE_BOTTOM || _object == OBJ_SIGNBOARD || _object == OBJ_TOMBSTONE
-		|| _object == OBJ_WELL_BOTTOM || _object == OBJ_BRIDGE_BOTTOM || _object == OBJ_TREE_BOTTOM) _objectAttribute = ATTR_UNMOVE;
-	else if (_object == OBJ_HOUSE_TOP || _object == OBJ_WELL_TOP || _object == OBJ_TREE_TOP)
+		|| _object == OBJ_WELL_BOTTOM || _object == OBJ_BRIDGE_BOTTOM || _object == OBJ_TREE_BOTTOM || _object == OBJ_STALL_TOP
+		|| _object == OBJ_FIREWOOD || _object == OBJ_SACK || _object == OBJ_VASE) _objectAttribute = ATTR_UNMOVE;
+	else if (_object == OBJ_HOUSE_TOP || _object == OBJ_WELL_TOP || _object == OBJ_TREE_TOP || _object == OBJ_TENT)
 		_objectAttribute = ATTR_AFTER_RENDER;
 }
 

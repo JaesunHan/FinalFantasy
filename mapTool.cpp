@@ -399,7 +399,34 @@ void mapTool::objectTileSetInit()
 		}*/
 		else if (_objectTileImageKey == "townObject1")
 		{
-
+			if ((i >= 7 && i <= 10) || (i >= 16 && i <= 19) || (i >= 32 && i <= 35) || (i >= 39 && i <= 42))
+			{
+				_objectTileSet[i].setObject(OBJ_STALL_TOP);
+			}
+			else if ((i >= 23 && i <= 26) || (i >= 55 && i <= 58))
+			{
+				_objectTileSet[i].setObject(OBJ_STALL_BOTTOM);
+			}
+			else if ((i >= 0 && i <= 6) || (i >= 20 && i <= 22) || (i >= 36 && i <= 38))
+			{
+				_objectTileSet[i].setObject(OBJ_TENT);
+			}
+			else if (i == 51 || i == 67 || i == 71 || i == 72 || i == 87 || i == 88 || (i >= 112 && i <= 114))
+			{
+				_objectTileSet[i].setObject(OBJ_FIREWOOD);
+			}
+			else if ((i >= 84 && i <= 86) || i == 100 || i == 101 || i == 115 || i == 116)
+			{
+				_objectTileSet[i].setObject(OBJ_SACK);
+			}
+			else if (i == 102 || i == 103 || i == 117 || i == 119)
+			{
+				_objectTileSet[i].setObject(OBJ_VASE);
+			}
+			else
+			{
+				_objectTileSet[i].setObject(OBJ_NONE);
+			}
 		}
 		else if (_objectTileImageKey == "townObject2")
 		{
