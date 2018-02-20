@@ -75,6 +75,7 @@ private:
 	bool _hit = false;								//명중시 참
 	bool _dialogue = false;							//다이얼로그 돌아갈때 참
 	bool _changeScene = false;						//씬 변환시 참
+	char _message[256];								//메시지 저장소
 	HFONT newFont, oldFont;							//폰트
 	RECT _damageRC;									//데미지 렉트
 	playerManager* _pm;

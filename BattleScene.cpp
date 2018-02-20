@@ -108,7 +108,7 @@ HRESULT BattleScene::init()
 		}
 	}
 	//최대 몬스터 랜덤 지정
-	_maxMonster = 1;// RND->getInt(3) + 1;
+	_maxMonster = RND->getInt(3) + 1;
 	//에너미 동적할당 후 벡터에 담기
 	for (int i = 0; i < _maxMonster; ++i)
 	{
@@ -145,6 +145,7 @@ HRESULT BattleScene::init()
 		_battleCharacters[i].player->setBattleScene(this);
 	}
 	//배틀 플레이어에 플레이어 데이터 복사
+	_pm->loadGameData();
 	_pm->setPlayerInfoToBattlePlayer();
 	return S_OK;
 }
@@ -223,96 +224,97 @@ void BattleScene::updateWhenCharacterTurn()
 {
 	if (_battleTurn.size() > 0 && _battleTurn.front()->characterType <= 3)
 	{
-		//플레이어가 죽었으면 턴을 넘김
-		if (_battleTurn.front()->player->getCurHP() <= 0)
+		for (int i = 0; i < 1; ++i)
 		{
-			_battleTurn.front()->ATBcounter = 0;
-			_battleTurn.front()->turnStart = false;
-			_battleTurn.front()->selectAction = false;
-			_battleTurn.front()->attackReady = false;
-			_battleTurn.front()->menuSelect = BATTLE_NULL;
-			_battleTurn.pop();
-		}
-	}
-	if (_battleTurn.size() > 0 && _battleTurn.front()->characterType <= 3)
-	{
-		//플레이어 선택이 도망일 경우
-		if (_battleTurn.front()->menuSelect == BATTLE_ESCAPE)
-		{
-			if (RND->getInt(3) == 0)	//도망 성공
+			//플레이어가 죽었으면 턴을 넘김
+			if (_battleTurn.front()->player->getCurHP() <= 0)
 			{
-				SOUNDMANAGER->play("runAway", CH_EFFECT05, 1.0f);
-				while (1)
-				{
-					if (SOUNDMANAGER->isPlaySound(CH_EFFECT05) == false)
-					{
-						break;
-					}
-				}
-				((worldMapScene*)SCENEMANAGER->findScene("월드맵씬"))->setIsEscape(true);
-				_changeScene = true;
-			}
-			else						//도망 실패
-			{
-				_menuNum = 0;
-				_battleTurn.front()->player->setStatus(BATTLE_PLAYER_IDLE);
 				_battleTurn.front()->ATBcounter = 0;
 				_battleTurn.front()->turnStart = false;
 				_battleTurn.front()->selectAction = false;
 				_battleTurn.front()->attackReady = false;
 				_battleTurn.front()->menuSelect = BATTLE_NULL;
 				_battleTurn.pop();
+				break;
 			}
-		}
-	}
-	if (_battleTurn.size() > 0 && _battleTurn.front()->characterType <= 3)
-	{
-		//플레이어 선택이 공격일 경우
-		if (_battleTurn.front()->menuSelect == BATTLE_ATTACK)
-		{
-			//플레이어 공격 전 에너미 선택 처리
-			if (_battleTurn.front()->attackReady == false)
+			//플레이어 선택이 공격일 경우
+			if (_battleTurn.front()->menuSelect == BATTLE_ATTACK)
 			{
-				//플레이어에 선택한 에너미 주소 할당
-				//해당 에너미가 죽었을 경우엔 살아있는애로 할당
-				if (_battleTurn.front()->enemy != NULL)
+				//플레이어 공격 전 에너미 선택 처리
+				if (_battleTurn.front()->attackReady == false)
 				{
-					if (_battleTurn.front()->enemy->getCurHP() > 0)
+					//플레이어에 선택한 에너미 주소 할당
+					//해당 에너미가 죽었을 경우엔 살아있는애로 할당
+					if (_battleTurn.front()->enemy != NULL)
 					{
-						_battleTurn.front()->player->setTargetEnemy(_battleTurn.front()->enemy);
-					}
-					else
-					{
-						for (int i = 0; i < _maxMonster; ++i)
+						if (_battleTurn.front()->enemy->getCurHP() > 0)
 						{
-							if (_battleCharacters[i + 4].enemy->getCurHP() > 0)
+							_battleTurn.front()->player->setTargetEnemy(_battleTurn.front()->enemy);
+						}
+						else
+						{
+							for (int i = 0; i < _maxMonster; ++i)
 							{
-								_battleTurn.front()->enemy = _battleCharacters[i + 4].enemy;
-								_battleTurn.front()->player->setTargetEnemy(_battleCharacters[i + 4].enemy);
-								break;
+								if (_battleCharacters[i + 4].enemy->getCurHP() > 0)
+								{
+									_battleTurn.front()->enemy = _battleCharacters[i + 4].enemy;
+									_battleTurn.front()->player->setTargetEnemy(_battleCharacters[i + 4].enemy);
+									break;
+								}
 							}
 						}
 					}
+					//플레이어 상태를 어택으로
+					if (_battleTurn.front()->player->getStatus() == BATTLE_PLAYER_ATTACK_STANDBY) _battleTurn.front()->player->setStatus(BATTLE_PLAYER_ATTACK);
+					if (_battleTurn.front()->player->getStatus() == BATTLE_PLAYER_MAGIC_ATTACK_STANDBY) _battleTurn.front()->player->setStatus(BATTLE_PLAYER_MAGIC_ATTACK);
+					//플레이어 공격 준비 완료
+					_battleTurn.front()->attackReady = true;
 				}
-				//플레이어 상태를 어택으로
-				if (_battleTurn.front()->player->getStatus() == BATTLE_PLAYER_ATTACK_STANDBY) _battleTurn.front()->player->setStatus(BATTLE_PLAYER_ATTACK);
-				if (_battleTurn.front()->player->getStatus() == BATTLE_PLAYER_MAGIC_ATTACK_STANDBY) _battleTurn.front()->player->setStatus(BATTLE_PLAYER_MAGIC_ATTACK);
-				//플레이어 공격 준비 완료
-				_battleTurn.front()->attackReady = true;
+				_battleTurn.front()->player->update();
+				//턴 종료시 큐에서 삭제
+				if (_battleTurn.front()->player->getTurnEnd() == true)
+				{
+					_battleTurn.front()->ATBcounter = 0;
+					_battleTurn.front()->turnStart = false;
+					_battleTurn.front()->selectAction = false;
+					_battleTurn.front()->attackReady = false;
+					_battleTurn.front()->menuSelect = BATTLE_NULL;
+					if (_victory == false) _battleTurn.pop();
+				}
+				break;
 			}
-			_battleTurn.front()->player->update();
-			//턴 종료시 큐에서 삭제
-			if (_battleTurn.front()->player->getTurnEnd() == true)
+			//플레이어 선택이 도망일 경우
+			if (_battleTurn.front()->menuSelect == BATTLE_ESCAPE)
 			{
-				_battleTurn.front()->ATBcounter = 0;
-				_battleTurn.front()->turnStart = false;
-				_battleTurn.front()->selectAction = false;
-				_battleTurn.front()->attackReady = false;
-				_battleTurn.front()->menuSelect = BATTLE_NULL;
-				if (_victory == false) _battleTurn.pop();
+				if (RND->getInt(3) == 0)	//도망 성공
+				{
+					SOUNDMANAGER->play("runAway", CH_EFFECT05, 1.0f);
+					while (1)
+					{
+						if (SOUNDMANAGER->isPlaySound(CH_EFFECT05) == false)
+						{
+							break;
+						}
+					}
+					((worldMapScene*)SCENEMANAGER->findScene("월드맵씬"))->setIsEscape(true);
+					_changeScene = true;
+				}
+				else						//도망 실패
+				{
+					_menuNum = 0;
+					_battleTurn.front()->player->setStatus(BATTLE_PLAYER_IDLE);
+					_battleTurn.front()->ATBcounter = 0;
+					_battleTurn.front()->turnStart = false;
+					_battleTurn.front()->selectAction = false;
+					_battleTurn.front()->attackReady = false;
+					_battleTurn.front()->menuSelect = BATTLE_NULL;
+					_battleTurn.pop();
+				}
+				break;
 			}
 		}
 	}
+	//적의 턴일 때
 	if (_battleTurn.size() > 0 && _battleTurn.front()->characterType > 3)
 	{
 		//적이 죽었으면 턴을 넘김
@@ -827,45 +829,62 @@ void BattleScene::temporaryMessage()
 	RECT tempDialogueRC = { 25, 48, WINSIZEX - 275, 80 };
 	if (_victoryCounter > 70 && _dialogueCounter < 10)
 	{
-		if (_dialogue == true)
+		_messageCounter++;
+		switch (_dialogueCounter)
 		{
-			_messageCounter++;
-			switch (_dialogueCounter)
+		case(1):
+			drawText(32, "팀 소꽁구 승리!", tempDialogueRC, DT_CENTER, true);
+			break;
+		case(2):
+			drawText(32, "소꽁구 만세!", tempDialogueRC, DT_CENTER, true);
+			break;
+		case(3):
+			int exp;
+			exp = 0;
+			for (int i = 0; i < _maxMonster; ++i)
 			{
-			case(1):
-				drawText(32, "팀 소꽁구 승리!", tempDialogueRC, DT_CENTER, true);
-				break;
-			case(2):
-				drawText(32, "소꽁구 만세!", tempDialogueRC, DT_CENTER, true);
-				break;
-			case(3):
-				drawText(32, "소지금이 늘 것 같은 기분이 든다.", tempDialogueRC, DT_CENTER, true);
-				break;
-			case(4):
-				drawText(32, "아이템을 얻은 것 같은 그런 느낌이다.", tempDialogueRC, DT_CENTER, true);
-				break;
-			case(5):
-				drawText(32, "경험치를 얻을 것만 같다.", tempDialogueRC, DT_CENTER, true);
-				break;
-			case(6):
-				drawText(32, "전투는 언제 끝날까?", tempDialogueRC, DT_CENTER, true);
-				break;
-			case(7):
-				drawText(32, "복끼리를 처치했다!!!", tempDialogueRC, DT_CENTER, true);
-				break;
-			case(8):
-				drawText(32, "복끼리는 울면서 도망갔다.", tempDialogueRC, DT_CENTER, true);
-				break;
-			case(9):
-				drawText(32, "게임이 끝날 것 같은 기분이 든다.", tempDialogueRC, DT_CENTER, true);
-				break;
+				exp += _battleCharacters[i + 4].enemy->getMaxEXP();
 			}
-			if (_messageCounter > 120)
+			if (_dialogue == true)
 			{
-				_messageCounter = 0;
-				_dialogueCounter++;
-				//_dialogue = false;
+				for (int i = 0; i < 4; ++i)
+				{
+					_battleCharacters[i].player->setCurEXP(_battleCharacters[i].player->getCurEXP() + exp);
+					char playerNum[128];
+					char body[128];
+					wsprintf(playerNum, "player%d", i);
+					wsprintf(body, "%d", _battleCharacters[i].player->getCurEXP() + exp);
+					INIDATA->addData(playerNum, "exp", body);
+				}
+				_dialogue = false;
 			}
+			wsprintf(_message, "경험치를 %d 만큼 얻었다.", exp);
+			drawText(32, _message, tempDialogueRC, DT_CENTER, true);
+			break;
+		case(4):
+			break;
+		case(5):
+			drawText(32, "소지금이 늘 것 같은 기분이 든다.", tempDialogueRC, DT_CENTER, true);
+			break;
+		case(6):
+			drawText(32, "전투는 언제 끝날까?", tempDialogueRC, DT_CENTER, true);
+			break;
+		case(7):
+			drawText(32, "아이템을 얻은 것 같은 그런 느낌이다.", tempDialogueRC, DT_CENTER, true);
+			drawText(32, "복끼리를 처치했다!!!", tempDialogueRC, DT_CENTER, true);
+			break;
+		case(8):
+			drawText(32, "복끼리는 울면서 도망갔다.", tempDialogueRC, DT_CENTER, true);
+			break;
+		case(9):
+			drawText(32, "게임이 끝날 것 같은 기분이 든다.", tempDialogueRC, DT_CENTER, true);
+			break;
+		}
+		if (_messageCounter > 120)
+		{
+			_messageCounter = 0;
+			_dialogueCounter++;
+			_dialogue = true;
 		}
 	}
 }
