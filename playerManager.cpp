@@ -326,10 +326,19 @@ void playerManager::loadGameData()
 		}
 	}
 }
-/*
+
 void playerManager::searchPlayerItem(int weaponNum, int armorNum, int helmetNum, int subWeapon, playerMother* tempPlayer)
 {
-	for (int i = 0; i < _itemManager->getVItem().size; ++i)
+	//그 아이템 번호가 0이면 기본무기로 저장하고
+	if (weaponNum == 0)
+	{
+		//기본무기 아이템을 생성해서
+		weaponItem* temWeapon = new weaponItem;
+		temWeapon->init(0, ITEM_WEAPON, "DefaultWeapon", "맨주먹공격무기이다", 0, 10, 100);
+		tempPlayer->setDefaultWeapon(temWeapon);
+	}
+
+	for (int i = 0; i < _itemManager->getVItem().size(); ++i)
 	{
 		//================= 무기 아이템 ===================
 		//itemMother * tempItem = (itemMother*)_itemManager->getVItem()[i];
@@ -337,14 +346,7 @@ void playerManager::searchPlayerItem(int weaponNum, int armorNum, int helmetNum,
 		if (_itemManager->getVItem()[i]->getItemNumber() == weaponNum)
 		{
 			weaponItem* tempItem = (weaponItem*)_itemManager->getVItem()[i];
-			//그 아이템 번호가 0이면 기본무기로 저장하고
-			if (weaponNum == 0)
-			{
-				//기본무기 아이템을 생성해서
-				weaponItem* temWeapon = new weaponItem;
-				temWeapon->init(0, ITEM_WEAPON, "DefaultWeapon", "맨주먹공격무기이다", 0, 10, 100);
-				tempPlayer->setDefaultWeapon(temWeapon);
-			}
+			
 			//아니면 해당 무기로 저장한다.
 			else {
 				tempPlayer->setWeaponItem((weaponItem*)tempItem);
@@ -355,4 +357,3 @@ void playerManager::searchPlayerItem(int weaponNum, int armorNum, int helmetNum,
 
 
 }
-*/
