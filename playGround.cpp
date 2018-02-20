@@ -46,6 +46,7 @@ HRESULT playGround::init()
 	SCENEMANAGER->addScene("아이템", new itemMenu);
 	SCENEMANAGER->addScene("상태", new statusMenu);
 	SCENEMANAGER->addScene("캐릭터능력", new characterAbility);
+	SCENEMANAGER->addScene("캐릭터상태", new characterStatus);
 	//=========================== 메뉴씬 ===========================
 	
 	SCENEMANAGER->changeScene("로딩");
@@ -78,7 +79,7 @@ void playGround::update(void)
 		SCENEMANAGER->changeScene("로딩");
 	}
 	//옵션메뉴
-	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE) && SCENEMANAGER->getCurrentSceneName() != "배틀씬")
+	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE) && SCENEMANAGER->getCurrentSceneName() == "월드맵씬")
 	{
 		SCENEMANAGER->changeScene("옵션");
 	}

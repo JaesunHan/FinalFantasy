@@ -124,14 +124,14 @@
     <Filter Include="playGround\gameOver">
       <UniqueIdentifier>{f30130bc-7182-4bd3-8e2c-1fe11e513fef}</UniqueIdentifier>
     </Filter>
-    <Filter Include="playGround\gameMenu\menu\ability">
-      <UniqueIdentifier>{fcfef6ad-ae5e-49a9-9c9b-80b2abbaf78b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="playGround\MapScene\cameraManager">
       <UniqueIdentifier>{58e846c3-022b-4407-b652-88b22be0d4ba}</UniqueIdentifier>
     </Filter>
     <Filter Include="playGround\MapScene\store">
       <UniqueIdentifier>{fc97796b-7865-4d21-8f31-cd6524fbd1a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playGround\gameMenu\menu\character">
+      <UniqueIdentifier>{fcfef6ad-ae5e-49a9-9c9b-80b2abbaf78b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -429,21 +429,6 @@
     <ClInclude Include="gameOverScene.h">
       <Filter>playGround\gameOver</Filter>
     </ClInclude>
-    <ClInclude Include="abilityShadow.h">
-      <Filter>playGround\gameMenu\menu\ability</Filter>
-    </ClInclude>
-    <ClInclude Include="abilityTina.h">
-      <Filter>playGround\gameMenu\menu\ability</Filter>
-    </ClInclude>
-    <ClInclude Include="abilityCeles.h">
-      <Filter>playGround\gameMenu\menu\ability</Filter>
-    </ClInclude>
-    <ClInclude Include="abilityLock.h">
-      <Filter>playGround\gameMenu\menu\ability</Filter>
-    </ClInclude>
-    <ClInclude Include="characterAbility.h">
-      <Filter>playGround\gameMenu\menu\ability</Filter>
-    </ClInclude>
     <ClInclude Include="cameraManager.h">
       <Filter>playGround\MapScene\cameraManager</Filter>
     </ClInclude>
@@ -458,6 +443,12 @@
     </ClInclude>
     <ClInclude Include="potionStore.h">
       <Filter>playGround\MapScene\store</Filter>
+    </ClInclude>
+    <ClInclude Include="characterAbility.h">
+      <Filter>playGround\gameMenu\menu\character</Filter>
+    </ClInclude>
+    <ClInclude Include="characterStatus.h">
+      <Filter>playGround\gameMenu\menu\character</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -728,21 +719,6 @@
     <ClCompile Include="gameOverScene.cpp">
       <Filter>playGround\gameOver</Filter>
     </ClCompile>
-    <ClCompile Include="abilityShadow.cpp">
-      <Filter>playGround\gameMenu\menu\ability</Filter>
-    </ClCompile>
-    <ClCompile Include="abilityTina.cpp">
-      <Filter>playGround\gameMenu\menu\ability</Filter>
-    </ClCompile>
-    <ClCompile Include="abilityCeles.cpp">
-      <Filter>playGround\gameMenu\menu\ability</Filter>
-    </ClCompile>
-    <ClCompile Include="abilityLock.cpp">
-      <Filter>playGround\gameMenu\menu\ability</Filter>
-    </ClCompile>
-    <ClCompile Include="characterAbility.cpp">
-      <Filter>playGround\gameMenu\menu\ability</Filter>
-    </ClCompile>
     <ClCompile Include="cameraManager.cpp">
       <Filter>playGround\MapScene\cameraManager</Filter>
     </ClCompile>
@@ -757,6 +733,12 @@
     </ClCompile>
     <ClCompile Include="potionStore.cpp">
       <Filter>playGround\MapScene\store</Filter>
+    </ClCompile>
+    <ClCompile Include="characterAbility.cpp">
+      <Filter>playGround\gameMenu\menu\character</Filter>
+    </ClCompile>
+    <ClCompile Include="characterStatus.cpp">
+      <Filter>playGround\gameMenu\menu\character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
