@@ -82,3 +82,7 @@ BattleScene.cpp
 gameData.ini
 gameData.ini
 *.ini
+saveFile0.ini
+skgFile.ini
+*.ini
+skgFile.ini

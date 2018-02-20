@@ -80,12 +80,12 @@ HRESULT BattleScene::init()
 			temp.player = new battleLocke;
 			break;
 		case(2):
-			temp.characterType = SHADOW;
-			temp.player = new battleShadow;
-			break;
-		case(3):
 			temp.characterType = CELES;
 			temp.player = new battleCeles;
+			break;
+		case(3):
+			temp.characterType = SHADOW;
+			temp.player = new battleShadow;
 			break;
 		}
 		temp.ATBcounter = 25000 + RND->getInt(10000);
@@ -96,12 +96,15 @@ HRESULT BattleScene::init()
 		temp.isDead = false;
 		_battleCharacters.push_back(temp);
 	}
+	//배틀 플레이어에 플레이어 데이터 복사
+	_pm->loadGameData();
+	_pm->setPlayerInfoToBattlePlayer();
 	//플레이어 인덱스 순서에 맞게 조정
 	for (int j = 0; j < 4; ++j)
 	{
 		for (int i = j; i < 4; ++i)
 		{
-			if (_battleCharacters[i].player->getPartyIdx() == j)
+			if (i != j && _battleCharacters[i].player->getPartyIdx() == j)
 			{
 				swap(_battleCharacters[j], _battleCharacters[i]);
 				break;
@@ -145,9 +148,6 @@ HRESULT BattleScene::init()
 	{
 		_battleCharacters[i].player->setBattleScene(this);
 	}
-	//배틀 플레이어에 플레이어 데이터 복사
-	_pm->loadGameData();
-	_pm->setPlayerInfoToBattlePlayer();
 	return S_OK;
 }
 
@@ -830,6 +830,8 @@ void BattleScene::temporaryMessage()
 	RECT tempDialogueRC = { 25, 48, WINSIZEX - 275, 80 };
 	if (_victoryCounter > 70 && _dialogueCounter < 10)
 	{
+		bool skip;
+		skip = false;
 		_messageCounter++;
 		switch (_dialogueCounter)
 		{
@@ -849,9 +851,11 @@ void BattleScene::temporaryMessage()
 						wsprintf(playerNum, "player%d", j);
 						wsprintf(body, "%d", _battleCharacters[i].player->getCurHP());
 						INIDATA->addData(playerNum, "hp", body);
+						INIDATA->iniSave("skgFile");
 						break;
 					}
 				}
+				_dialogue = false;
 			}
 			drawText(32, "팀 소꽁구 승리!", tempDialogueRC, DT_CENTER, true);
 			break;
@@ -871,9 +875,11 @@ void BattleScene::temporaryMessage()
 						wsprintf(playerNum, "player%d", j);
 						wsprintf(body, "%d", _battleCharacters[i].player->getCurMP());
 						INIDATA->addData(playerNum, "mp", body);
+						INIDATA->iniSave("skgFile");
 						break;
 					}
 				}
+				_dialogue = false;
 			}
 			drawText(32, "소꽁구 만세!", tempDialogueRC, DT_CENTER, true);
 			break;
@@ -894,39 +900,82 @@ void BattleScene::temporaryMessage()
 						if (j == 1 && _battleCharacters[i].characterType != LOCKE) continue;
 						if (j == 2 && _battleCharacters[i].characterType != CELES) continue;
 						if (j == 3 && _battleCharacters[i].characterType != SHADOW) continue;
+						exp = _battleCharacters[i].player->getCurEXP();
 						_battleCharacters[i].player->setCurEXP(_battleCharacters[i].player->getCurEXP() + exp);
 						char playerNum[128];
 						char body[128];
 						wsprintf(playerNum, "player%d", j);
 						wsprintf(body, "%d", _battleCharacters[i].player->getCurEXP() + exp);
 						INIDATA->addData(playerNum, "exp", body);
+						INIDATA->iniSave("skgFile");
 						break;
 					}
 				}
 				_dialogue = false;
 			}
-			wsprintf(_message, "경험치를 %d 만큼 얻었다.", exp);
-			drawText(32, _message, tempDialogueRC, DT_CENTER, true);
+			wsprintf(_message0, "경험치를 %d 만큼 얻었다.", exp);
+			drawText(32, _message0, tempDialogueRC, DT_CENTER, true);
 			break;
 		case(4):
-			//maxExpValue[MAXLV]
+			if (_dialogue == true)
+			{
+				for (int i = 0; i < 4; ++i)
+				{
+					if (_battleCharacters[i].characterType != TINA) continue;
+					for (int j = _battleCharacters[i].player->getLv(); j < MAXLV; ++j)
+					{
+						if (_battleCharacters[i].player->getCurEXP() >= maxExpValue[j] && _battleCharacters[i].player->getCurEXP() < maxExpValue[j + 1])
+						{
+							wsprintf(_message0, "소꽁구는 레벨이 %d 올랐다!", j + 1 - _battleCharacters[i].player->getLv());
+							int tempIncreasedHP;
+							int tempIncreasedMP;
+							tempIncreasedHP = 0;
+							tempIncreasedMP = 0;
+							for (int k = _battleCharacters[i].player->getLv(); k < j + 1; ++k)
+							{
+								tempIncreasedHP += improveHPValue[k];
+								tempIncreasedMP += improveMPValue[k];
+							}
+							wsprintf(_message1, "소꽁구는 HP가 %d 상승했다.", tempIncreasedHP);
+							wsprintf(_message2, "소꽁구는 MP가 %d 상승했다.", tempIncreasedMP);
+							break;
+						}
+						if (_battleCharacters[i].player->getCurEXP() < maxExpValue[j])
+						{
+							skip = true;
+							break;
+						}
+					}
+					break;
+				}
+				_dialogue = false;
+			}
+			drawText(32, _message0, tempDialogueRC, DT_CENTER, true);
 			break;
 		case(5):
-			drawText(32, "소지금이 늘 것 같은 기분이 든다.", tempDialogueRC, DT_CENTER, true);
+			drawText(32, _message1, tempDialogueRC, DT_CENTER, true);
 			break;
 		case(6):
-			drawText(32, "전투는 언제 끝날까?", tempDialogueRC, DT_CENTER, true);
+			drawText(32, _message2, tempDialogueRC, DT_CENTER, true);
 			break;
 		case(7):
-			drawText(32, "아이템을 얻은 것 같은 그런 느낌이다.", tempDialogueRC, DT_CENTER, true);
-			drawText(32, "복끼리를 처치했다!!!", tempDialogueRC, DT_CENTER, true);
 			break;
 		case(8):
-			drawText(32, "복끼리는 울면서 도망갔다.", tempDialogueRC, DT_CENTER, true);
 			break;
 		case(9):
+			drawText(32, "아이템을 얻은 것 같은 그런 느낌이다.", tempDialogueRC, DT_CENTER, true);
+			drawText(32, "복끼리를 처치했다!!!", tempDialogueRC, DT_CENTER, true);
+			drawText(32, "복끼리는 울면서 도망갔다.", tempDialogueRC, DT_CENTER, true);
+			drawText(32, "전투는 언제 끝날까?", tempDialogueRC, DT_CENTER, true);
+			drawText(32, "소지금이 늘 것 같은 기분이 든다.", tempDialogueRC, DT_CENTER, true);
 			drawText(32, "게임이 끝날 것 같은 기분이 든다.", tempDialogueRC, DT_CENTER, true);
 			break;
+		}
+		if (skip == true)
+		{
+			_messageCounter = 0;
+			_dialogueCounter++;
+			_dialogue = true;
 		}
 		if (_messageCounter > 120)
 		{
