@@ -21,27 +21,27 @@ HRESULT npcManager::init()
 		{
 		case NPC_POTION:
 			npc = new npc1;
-			npc->init(30, 60);
+			npc->init(320, 370);
 			break;
 
 		case NPC_WEAPON:
 			npc = new npc2;
-			npc->init(100, 80);
+			npc->init(320, 750);
 			break;
 
 		case NPC_MAGIC:
 			npc = new npc3;
-			npc->init(300, 120);
+			npc->init(750, 370);
 			break;
 
 		case NPC_DEFENCE:
 			npc = new npc4;
-			npc->init(120, 500);
+			npc->init(730, 750);
 			break;
 
 		case NPC_INN:
 			npc = new npc5;
-			npc->init(500, 300);
+			npc->init(200, 200);
 			break;
 		}
 		_vNpc.push_back(npc);
