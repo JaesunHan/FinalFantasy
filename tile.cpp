@@ -185,7 +185,7 @@ void tile::updateTerrainAttr(void)
 		|| _terrain == TR_SOIL) _terrainAttribute = ATTR_MOVE;
 	else if (_terrain == TR_WATER || _terrain == TR_STUMP || _terrain == TR_WALL) _terrainAttribute = ATTR_UNMOVE;
 	else if (_terrain == TR_DESERT || _terrain == TR_SWAMP || _terrain == TR_MUD) _terrainAttribute = ATTR_SLOW;
-	else if (_terrain == TR_ROAD) _terrainAttribute = ATTR_FAST;
+	else if (_terrain == TR_ROAD || _terrain == TR_SNOW) _terrainAttribute = ATTR_FAST;
 }
 
 //오브젝트의 종류에 따라 타일 속성 적용
