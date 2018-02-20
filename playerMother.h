@@ -59,7 +59,10 @@ public:
 	inline weaponItem* getDefaultWeapon() { return _defaultWeapon; }
 	inline void setDefaultWeapon(weaponItem* weapon) { _defaultWeapon = weapon; }
 	//플레이어의 현재 장착 무기에 대한 게터세터
-	inline weaponItem* getWeapon() { return _myWeapon; }	inline void setWeaponItem(weaponItem* weapon) { _myWeapon = weapon; }
+	inline weaponItem* getWeapon() { return _myWeapon; }	
+	inline void setWeaponItem(weaponItem* weapon) { 
+		_myWeapon = weapon; 
+	}
 
 	inline TCHAR* getName() { return _name; }	inline void setName(char str[256]) { wsprintf(_name, "%s", str); }
 	inline TCHAR* getJob() { return _job; }		inline void setJob(char str[256]) { wsprintf(_job, "%s", str); }

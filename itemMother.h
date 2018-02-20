@@ -50,5 +50,8 @@ public:
 	virtual void update();
 
 	inline char* getItemName() { return _name; }
+	inline itemKind getItmeKind() { return _itemKind; }
+	inline char* getItemDescription() {		return _description;	}
+	inline int getPrice() { return _price; }
 };
 

@@ -60,23 +60,13 @@ void playerManager::update()
 	char fileName[128];
 	wsprintf(fileName, "gameData");
 	//게임 시작 신호 받아오기
-	//INIDATA->loadDataInterger(fileName, "gameData", "gameStart");
 	if (INIDATA->loadDataInterger(fileName, "gameData", "gameStart"))
 	{
-		//loadGameData();
+		loadGameData();
 		INIDATA->addData("gameData", "gameStart", "0");
 		INIDATA->iniSave(fileName);
 	}
-	// 새 게임 시작하면 saveGameData()호출
-	//if (SCENEMANAGER->getCurrentSceneName() == "뉴게임")
-	//{
-	//	newGame* ng = (newGame*)SCENEMANAGER->findScene("뉴게임");
-	//	//새게임을 시작했다는 신호이다
-	//	if (ng->getIsGameStart())
-	//	{
-	//		loadNewGameData();
-	//	}
-	//}
+	
 }
 void playerManager::render() 
 {
@@ -101,6 +91,7 @@ void playerManager::setPlayerInfoToBattlePlayer()
 
 	//================================== Start 그 배틀씬의 배틀플레이어들의 정보를 저장한다.====================================
 	battleCeles* bCeles = (battleCeles*)_battleScene->getCelesAddress();
+	
 	bCeles->setAllBattlePlayerInfo(_celes->getLv(), _celes->getCurEXP(), _celes->getMaxEXP(),
 		_celes->getCurHP(), _celes->getMaxHP(), _celes->getCurMP(), _celes->getMaxMP(), _celes->getSpeed(),
 		_celes->getStrength(), _celes->getMagic(), _celes->getMDef(), _celes->getADef(), _celes->getAttack(), _celes->getEvasion(), _celes->getMEvasion(), _celes->getStamina());
@@ -138,7 +129,7 @@ void playerManager::setPlayerInfoToBattlePlayer()
 //새 게임을 시작하면 기본적으로 생성한 플레이어들의 정보를 파일에 저장한다.
 void playerManager::saveNewGameData()
 {
-	////먼저 newGame 클래스르르 받아온다
+	////먼저 newGame 클래스를 받아온다
 	//newGame* ng = new newGame;
 	//ng = (newGame*)SCENEMANAGER->findScene("뉴게임");
 	//int saveFileNum = ng->getSaveFileNum();
@@ -239,20 +230,20 @@ void playerManager::saveNewGameData()
 void playerManager::loadGameData()
 {
 	TCHAR gameFileName[256];
-	wsprintf(gameFileName, "tempFile");
+	wsprintf(gameFileName, "skgFile");
 
+	//tempFile 에서 데이터 읽어오기
 	for (int i = 0; i < MAXPLAYERNUMBER; ++i)
 	{
 		playerMother* tempPlayer = new playerMother;
 		TCHAR playerSubject[256];
 		wsprintf(playerSubject, "player%d", i);
 		TCHAR str[256];
-		//wsprintf(str, "%s", INIDATA->loadDataString(gameFileName, playerSubject, "name");
 		tempPlayer->setName(INIDATA->loadDataString(gameFileName, playerSubject, "name"));
 		tempPlayer->setJob(INIDATA->loadDataString(gameFileName, playerSubject, "job"));
-		tempPlayer->setCurEXP(INIDATA->loadDataInterger(gameFileName, playerSubject, "curExp"));
-		tempPlayer->setCurHP(INIDATA->loadDataInterger(gameFileName, playerSubject, "curHp"));
-		tempPlayer->setCurMP(INIDATA->loadDataInterger(gameFileName, playerSubject, "curMp"));
+		tempPlayer->setCurEXP(INIDATA->loadDataInterger(gameFileName, playerSubject, "exp"));
+		tempPlayer->setCurHP(INIDATA->loadDataInterger(gameFileName, playerSubject, "hp"));
+		tempPlayer->setCurMP(INIDATA->loadDataInterger(gameFileName, playerSubject, "mp"));
 		tempPlayer->setLv(INIDATA->loadDataInterger(gameFileName, playerSubject, "level"));
 		tempPlayer->setMaxEXP(INIDATA->loadDataInterger(gameFileName, playerSubject, "maxExp"));
 		tempPlayer->setMaxHP(INIDATA->loadDataInterger(gameFileName, playerSubject, "maxHp"));
@@ -261,31 +252,65 @@ void playerManager::loadGameData()
 		tempPlayer->setADef(INIDATA->loadDataInterger(gameFileName, playerSubject, "attackDefence"));
 		tempPlayer->setMDef(INIDATA->loadDataInterger(gameFileName, playerSubject, "magicDefence"));
 		tempPlayer->setAttack(INIDATA->loadDataInterger(gameFileName, playerSubject, "attack"));
-		tempPlayer->setEvasion(INIDATA->loadDataInterger(gameFileName, playerSubject, "evasion"));
+		tempPlayer->setEvasion(INIDATA->loadDataInterger(gameFileName, playerSubject, "evation"));
 		tempPlayer->setMagic(INIDATA->loadDataInterger(gameFileName, playerSubject, "magic"));
-		tempPlayer->setMEvasion(INIDATA->loadDataInterger(gameFileName, playerSubject, "magicEvasion"));
+		tempPlayer->setMEvasion(INIDATA->loadDataInterger(gameFileName, playerSubject, "magicEvation"));
 		tempPlayer->setSpeed(INIDATA->loadDataInterger(gameFileName, playerSubject, "speed"));
 		tempPlayer->setStamina(INIDATA->loadDataInterger(gameFileName, playerSubject, "stamina"));
 		tempPlayer->setStrength(INIDATA->loadDataInterger(gameFileName, playerSubject, "strength"));
+		//무기 이름에 따라서 무기로딩하기
 		TCHAR weaponName[256];
-		wsprintf(weaponName,"%s", INIDATA->loadDataInterger(gameFileName, playerSubject, "strength"));
-		if (strcmp(weaponName, "DefaultWeapon"))
+		wsprintf(weaponName,"%s", INIDATA->loadDataString(gameFileName, playerSubject, "myWeapon"));
+		//만약 읽어온 이름이 기본무기 이면 
+		if (!strcmp("DefaultWeapon", weaponName))
 		{
+			//기본무기 아이템을 생성해서
 			weaponItem* temWeapon = new weaponItem;
 			temWeapon->init(ITEM_WEAPON, "DefaultWeapon", "맨주먹공격무기이다", 0, 10, 100);
+			//플레이어의 무기에 세팅하기
+			tempPlayer->setDefaultWeapon(temWeapon);
 			tempPlayer->setWeaponItem(temWeapon);
 		}
+		//기본무기가 아니라면
 		else
 		{
+			//아이템 매니저에 있는 무기벡터를 탐색해서 같은 이름의 무기를 찾는다
 			for (int i = 0; i < _itemManager->getVItem().size(); ++i)
 			{
+				//아이템 벡터의 현재 인덱스가 가리키는 아이템이 무기종류가 아니면 탐색을 계속한다.
+				if (_itemManager->getVItem()[i]->getItmeKind() != ITEM_WEAPON)	continue;
+				//만약 INI 데이터에서 읽어온 데이터가 현재 이 아이템의 이름과 일치하면
 				if (strcmp(weaponName, _itemManager->getVItem()[i]->getItemName()))
 				{
-
+					weaponItem* vWeapon = (weaponItem*)_itemManager->getVItem()[i];
+					//이 무기 아이템을 생성해서 
+					weaponItem* tempWeapon = new weaponItem;
+					tempWeapon->init(vWeapon->getItmeKind(), vWeapon->getItemName(), vWeapon->getItemDescription(), vWeapon->getPrice(), vWeapon->getAttack(), vWeapon->getHitRate());
+					//플레이어의 무기에 세팅한다.
+					tempPlayer->setWeaponItem(tempWeapon);
 				}
 			}
 		}
 		_vPlayer.push_back(tempPlayer);
+
+		//개발 초반에, 배틀씬에 플레이어 정보를 넘길 때 전역변수로 생성한 플레이어들을 이용해서 넘기는 걸로 해놔서....
+		//어쩔수 없이 이런 방법으로...
+		if (!strcmp("TINA", tempPlayer->getName()))
+		{
+			_tina = (Tina*)tempPlayer;
+		}
+		else if (!strcmp("LOCKE", tempPlayer->getName()))
+		{
+			_locke = (Locke*)tempPlayer;
+		}
+		else if (!strcmp("CELES", tempPlayer->getName()))
+		{
+			_celes = (celes*)tempPlayer;
+		}
+		else if (!strcmp("SHADOW", tempPlayer->getName()))
+		{
+			_shadow = (shadow*)tempPlayer;
+		}
 	}
 
 }

@@ -39,7 +39,7 @@ using namespace PLAYER_IMPROVE_INFO;
 // ## 윈도우 설정 디파인 ## 2017.11.08 ##
 //=======================================================
 
-#define WINNAME		(LPTSTR)TEXT("Final SoGgongGu VI")
+#define WINNAME		(LPTSTR)TEXT("Final SoKkongGu VI")
 #define WINSTARTX	0		//윈도우 시작좌표 X
 #define WINSTARTY	0		//윈도우 시작좌표 Y
 #define WINSIZEX	1200	//윈도우 가로크기
