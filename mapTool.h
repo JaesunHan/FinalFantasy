@@ -47,32 +47,32 @@ private:
 	POINT _objectTileSize;			// 현재 오브젝트 타일셋의 크기
 
 private:
-	image* _terrainTileImage;
-	image* _objectTileImage;
+	image* _terrainTileImage;		// 선택한 지형 타일셋 이미지
+	image* _objectTileImage;		// 선택한 오브젝트 타일셋 이미지
 
-	string _terrainTileImageKey;
-	string _objectTileImageKey;
-
-private:
-	SELECTMODE _currentSelectMode;
-	tile _selectedTerrainTile;
-	tile _selectedObjectTile;
+	string _terrainTileImageKey;	// 선택한 지형 타일셋 이미지
+	string _objectTileImageKey;		// 선택한 오브젝트 타일셋 이미지
 
 private:
+	SELECTMODE _currentSelectMode;	// 현재 작업 모드
+	tile _selectedTerrainTile;		// 선택한 지형 타일
+	tile _selectedObjectTile;		// 선택한 오브젝트 타일
+
+private:							// 버튼의 사각형 영역
 	RECT _newBtn;
 	RECT _saveBtn, _loadBtn;
 	RECT _terrainBtn, _objectBtn, _eraserBtn;
 	RECT _changeGameModeBtn, _changeMapEditModeBtn;
 
 private:
-	WPARAM _wParam;
-	HWND _hDlgNewTile;
-	HWND _hSelectTerrain;
-	HWND _hSelectObject;
+	WPARAM _wParam;					// 미사용 변수(원래는 winproc에서 wParam값 받기위해 만들었음)
+	HWND _hDlgNewTile;				// 새로운 맵 생성 다이얼로그 박스 핸들 
+	HWND _hSelectTerrain;			// 지형 타일셋 선택 다이얼로그 박스 핸들
+	HWND _hSelectObject;			// 오브젝트 타일셋 선택 다이얼로그 박스 핸들
 
 private:
-	string _curMapFileName;
-	float _autoSaveTimer;
+	string _curMapFileName;			// 자동 저장을 위한 현재 작업중인 파일 이름 
+	float _autoSaveTimer;			// 자동 저장 간격을 위한 타이머
 
 public:
 	mapTool();
@@ -83,22 +83,22 @@ public:
 	void update(void);
 	void render(void);
 
-	void terrainTileSetInit();
-	void objectTileSetInit();
+	void terrainTileSetInit();		// 지형 타일셋 선택시 타일셋 이미지와 속성을 샘플이미지에 부여
+	void objectTileSetInit();		// 오브젝트 타일셋 선택시 타일셋 이미지와 속성을 샘플이미지에 부여
 
-	void clickButton(void);
-	void setTerrainToMap(void);
-	TERRAIN* getNearTerrain(int curTileIndex);
-	void buttonDraw(void);						//버튼 그리는 함수
+	void clickButton(void);			// 원래는 버튼 클릭만 처리 할려고 했는데 모든 클릭 처리를 여기서 함
+	void setTerrainToMap(void);		// 맵에 지형 설정하는 함수
+	TERRAIN* getNearTerrain(int curTileIndex);	// 매개변수로 받은 인덱스 타일의 상하좌우 타일의 속성을 받아옴
+	void buttonDraw(void);						// 버튼 그리는 함수
 
 //	void setTerrainTileSet(string tileSetKeyName, POINT tileSize);
 
-	void createDefaultMap(POINT mapSize);		//맵 사이즈 받아서 기본맵 생성
-	void newTileMap(void);
+	void createDefaultMap(POINT mapSize);		// 맵 사이즈 받아서 기본맵 생성
+	void newTileMap(void);						// 새로운 맵 생성
 
-	void mapSave(void);
-	void mapLoad(void);
-	void mapAutoSave(void);
+	void mapSave(void);							// 맵 저장
+	void mapLoad(void);							// 맵 불러오기
+	void mapAutoSave(void);						// 맵 자동 저장
 
 	//======================= 접근자 & 설정자 =======================
 	inline void setSelTerrainTile(tile selTile) { _selectedTerrainTile = selTile; }

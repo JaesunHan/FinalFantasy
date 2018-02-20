@@ -58,7 +58,7 @@ void worldMapScene::update()
 	//플레이어 현재 좌표를 받아서 계속 npc매니저쪽으로 넣어준다.
 	_npcManager->setPlayerPos(_worldMapPlayer->getWorldMapPlayerPoint());
 
-	getCollision();
+	
 	if (_isEscape) successEscape();
 	else
 	{
@@ -71,6 +71,8 @@ void worldMapScene::update()
 			}
 		}
 	}
+
+	getCollision();
 }
 
 void worldMapScene::render()
@@ -114,6 +116,8 @@ void worldMapScene::getCollision()
 
 void worldMapScene::successEscape()
 {
+	_wMEM->getVWME()[_enemyNum]->setIsCollision(false);
 	_worldMapPlayer->successEscape();
+	_enemyNum = -1;
 	_isEscape = false;
 }

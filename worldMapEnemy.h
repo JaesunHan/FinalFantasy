@@ -127,6 +127,7 @@ public:
 	void setEnemyAddressLinkWihtPlayer(worldMapPlayer* wp) { _wp = wp; }
 
 	//콜리전 겟함수
+	void setIsCollision(bool isCollision) { _isCollision = isCollision; }
 	bool getIsCollision() { return _isCollision; }
 
 

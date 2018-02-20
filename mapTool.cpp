@@ -88,6 +88,8 @@ void mapTool::update(void)
 	{
 		clickButton();
 	}
+
+	// 키보드로 맵 이동
 	if (_mapSize.x != 0 && _mapSize.y != 0)
 	{
 		if (KEYMANAGER->isStayKeyDown(VK_UP) && _mapTiles[_mapSize.x * _mapSize.y - 1].getCenterPt().y + TILE_SIZEY / 2 > 640) _mapMove.y -= MAP_MOVE_SPEED;
@@ -104,7 +106,7 @@ void mapTool::update(void)
 			_mapMove.y = (_mapTiles[_mapSize.x * _mapSize.y - 1].getCenterPt().y + TILE_SIZEY / 2 - MAP_AREA + TILE_SIZEY);
 	}
 	
-	//autoSave 기능
+	// autoSave 기능
 	if (TIMEMANAGER->getWorldTime() - _autoSaveTimer >= 80)
 	{
 		_autoSaveTimer = TIMEMANAGER->getWorldTime();
@@ -116,8 +118,7 @@ void mapTool::update(void)
 
 void mapTool::render(void)
 {
-	PatBlt(tileMapDC->getMemDC(), 0, 0, MAP_AREA, MAP_AREA, BLACKNESS);
-	//================== 이 위는 손대지 마시오 =========================
+	PatBlt(tileMapDC->getMemDC(), 0, 0, MAP_AREA, MAP_AREA, BLACKNESS);		// 맵 영역을 검은색 이미지로 초기화
 	
 	if (_mapTiles != NULL)
 	{
@@ -136,6 +137,7 @@ void mapTool::render(void)
 		else if (renderY == 22);
 		else ++renderY;
 
+		// 맵을 그려줄 별도의 DC영역내에 있는 타일만 랜더
 		for (int i = indexY; i < renderY; ++i)
 		{
 			for (int j = indexX; j < renderX; ++j)
@@ -148,7 +150,7 @@ void mapTool::render(void)
 			}
 		}
 
-		//나중에 랜더해야할 오브젝트
+		// 나중에 랜더해야할 오브젝트
 		for (int i = indexY; i < renderY; ++i)
 		{
 			for (int j = indexX; j < renderX; ++j)
@@ -162,6 +164,7 @@ void mapTool::render(void)
 		}
 	}
 	
+	// 지형 타일셋을 그려주는 부분
 	if (_currentSelectMode == MODE_TERRAIN_SELECT)
 	{
 		for (int i = 0; i < _terrainTileSize.x * _terrainTileSize.y; i++)
@@ -169,6 +172,7 @@ void mapTool::render(void)
 			_terrainTileSet[i].render(getMemDC(), 0, 0);
 		}
 	}
+	// 오브젝트 타일셋을 그려주는 부분
 	if (_currentSelectMode == MODE_OBJECT_SELECT)
 	{
 		for (int i = 0; i < _objectTileSize.x * _objectTileSize.y; i++)
@@ -180,7 +184,10 @@ void mapTool::render(void)
 
 	buttonDraw();
 
-	tileMapDC->render(getMemDC(), -32, -32, 0, 0, 672, 672);
+	// 맵 DC에 그려진걸 최종적으로 백버퍼에 그려줌
+	// -TILE_SIZE 부터 그리는 이유는 DC영역을 벗어나면 랜더가 안되기 때문에
+	// 카메라 이동시 안그려지는 부분이 발생하므로 1개 타일 범위만큼 추가로 그려줌
+	tileMapDC->render(getMemDC(), -TILE_SIZEX, -TILE_SIZEY, 0, 0, 672, 672);
 }
 
 void mapTool::terrainTileSetInit()
@@ -609,13 +616,14 @@ void mapTool::buttonDraw(void)
 	TextOut(getMemDC(), _objectBtn.left + 50, _objectBtn.top + 7, "object", strlen("object"));
 	Rectangle(getMemDC(), _eraserBtn.left, _eraserBtn.top, _eraserBtn.right, _eraserBtn.bottom);
 	TextOut(getMemDC(), _eraserBtn.left + 50, _eraserBtn.top + 7, "eraser", strlen("eraser"));
-	//맵툴 모드, 게임 모드 변경버튼
+	// 맵툴 모드, 게임 모드 변경버튼
 	//Rectangle(getMemDC(), _changeGameModeBtn.left, _changeGameModeBtn.top, _changeGameModeBtn.right, _changeGameModeBtn.bottom);
 	//TextOut(getMemDC(), _changeGameModeBtn.left + 50, _changeGameModeBtn.top + 7, "gameMode", strlen("gameMode"));
 	//Rectangle(getMemDC(), _changeMapEditModeBtn.left, _changeMapEditModeBtn.top, _changeMapEditModeBtn.right, _changeMapEditModeBtn.bottom);
 	//TextOut(getMemDC(), _changeMapEditModeBtn.left + 50, _changeMapEditModeBtn.top + 7, "mapEdit", strlen("mapEdit"));
 
-	HBRUSH hBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+	// 타일셋에서 선택한 타일을 직관적으로 볼수 있게 선택한 타일에 렉트를 그려줌
+	HBRUSH hBrush = (HBRUSH)GetStockObject(NULL_BRUSH);		// 렉트의 내부를 투명처리
 	HBRUSH oBrush = (HBRUSH)SelectObject(getMemDC(), hBrush);
 	HPEN hPen = (HPEN)CreatePen(PS_SOLID, 4, RGB(200, 100, 0));
 	HPEN oPen = (HPEN)SelectObject(getMemDC(), hPen);
@@ -646,7 +654,7 @@ void mapTool::buttonDraw(void)
 void mapTool::createDefaultMap(POINT mapSize)
 {
 	_mapSize = mapSize;
-
+	// 생성할 맵의 크기를 받아서 동적할당
 	_mapTiles = new tile[_mapSize.x * _mapSize.y];
 
 	for (int i = 0; i < _mapSize.x * _mapSize.y; i++)
@@ -661,7 +669,7 @@ void mapTool::createDefaultMap(POINT mapSize)
 
 void mapTool::newTileMap(void)
 {
-	this->init();
+	// 새 맵 다이얼로그 박스 호출
 	DialogBoxParam(_hInstance, MAKEINTRESOURCE(IDD_DIALOG1), _hWnd, newTileProc, (LPARAM)this);
 }
 
@@ -669,6 +677,8 @@ void mapTool::mapSave(void)
 {
 	HANDLE file;
 	DWORD write;
+	
+	// 파일 저장을 위한 오픈파일네임
 
 	OPENFILENAME ofn;
 	char filePath[1024] = "";
