@@ -36,6 +36,7 @@ private:
 
 private:
 	arrElement _mTotalElement;
+	//vector<item*>* inventory;//벡터 포인터
 
 
 public:

@@ -270,9 +270,14 @@ void playerManager::loadGameData()
 		int armorNum = INIDATA->loadDataInterger(gameFileName, playerSubject, "myArmor");
 		int helmetNum = INIDATA->loadDataInterger(gameFileName, playerSubject, "myHelmet");
 		int subWeaponNum = INIDATA->loadDataInterger(gameFileName, playerSubject, "mySubWeapon");
+		//테스트용 아이템 번호
+		//int weaponNum = 12;
+		//int armorNum = 23;
+		//int helmetNum = 28;
+		//int subWeaponNum = 33;
 
 		searchPlayerItem(weaponNum, armorNum, helmetNum, subWeaponNum, tempPlayer);
-
+		/*
 		//무기 이름에 따라서 무기로딩하기
 		TCHAR weaponName[256];
 		wsprintf(weaponName,"%s", INIDATA->loadDataString(gameFileName, playerSubject, "myWeapon"));
@@ -305,7 +310,7 @@ void playerManager::loadGameData()
 					tempPlayer->setWeaponItem(tempWeapon);
 				}
 			}
-		}
+		}*/
 		_vPlayer.push_back(tempPlayer);
 
 		//개발 초반에, 배틀씬에 플레이어 정보를 넘길 때 전역변수로 생성한 플레이어들을 이용해서 넘기는 걸로 해놔서....
@@ -340,6 +345,27 @@ void playerManager::searchPlayerItem(int weaponNum, int armorNum, int helmetNum,
 		tempPlayer->setDefaultWeapon(temWeapon);
 	}
 
+	if (armorNum == -1)
+	{
+		//기본 갑옷 세팅
+		armorItem* tempArmor = new armorItem;
+		tempArmor->init(-1, ITEM_ARMOR, "", "", 0, 0, 0);
+		tempPlayer->setArmor(tempArmor);
+	}
+
+	if (helmetNum == -2)
+	{
+		armorItem* tempHelmet = new armorItem;
+		tempHelmet->init(-2, ITEM_HELMET, "", "", 0, 0, 0);
+		tempPlayer->setHelmet(tempHelmet);
+	}
+
+	if (subWeapon == -3)
+	{
+		armorItem* tempSubWeapon = new armorItem;
+		tempSubWeapon->init(-3, ITEM_SUB_WEAPON, "", "", 0, 0, 0);
+		tempPlayer->setSubWeapon(tempSubWeapon);
+	}
 	for (int i = 0; i < _itemManager->getVItem().size(); ++i)
 	{
 		//================= 무기 아이템 ===================
@@ -347,13 +373,33 @@ void playerManager::searchPlayerItem(int weaponNum, int armorNum, int helmetNum,
 		//아이템리스트의 넘버와 무기아이템의 아이템 넘버가 같을때
 		if (_itemManager->getVItem()[i]->getItemNumber() == weaponNum)
 		{
+			//무기 아이템을 플레이어 정보에 저장
 			weaponItem* tempItem = (weaponItem*)_itemManager->getVItem()[i];
 			
-			tempPlayer->setWeaponItem((weaponItem*)tempItem);
-			
+			tempPlayer->setWeaponItem(tempItem);
+		}
+		if (_itemManager->getVItem()[i]->getItemNumber() == armorNum)
+		{
+			//갑옷 아이템을 플레이어 정보에 저장
+			armorItem* tempItem = (armorItem*)_itemManager->getVItem()[i];
+
+			tempPlayer->setArmor(tempItem);
+		}
+		if (_itemManager->getVItem()[i]->getItemNumber() == helmetNum)
+		{
+			//투구 아이템을 플레이어 정보에 저장
+			armorItem* tempItem = (armorItem*)_itemManager->getVItem()[i];
+
+			tempPlayer->setHelmet(tempItem);
+		}
+		if (_itemManager->getVItem()[i]->getItemNumber() == subWeapon)
+		{
+			//보조무기 아이템을 플레이어 정보에 저장
+			armorItem* tempItem = (armorItem*)_itemManager->getVItem()[i];
+
+			tempPlayer->setSubWeapon(tempItem);
 		}
 
 	}
-
 
 }

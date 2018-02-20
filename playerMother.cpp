@@ -18,7 +18,7 @@ playerMother::playerMother()
 	_myHelmet->init(-2, ITEM_HELMET, "", "", 0, 0, 0);
 	//기본 서브 무기 세팅
 	_mySubWeapon = new armorItem;
-	_myHelmet->init(-3, ITEM_SUB_WEAPON, "", "", 0, 0, 0);
+	_mySubWeapon->init(-3, ITEM_SUB_WEAPON, "", "", 0, 0, 0);
 }	
 
 
