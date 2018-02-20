@@ -9,10 +9,10 @@ protected:
 
 
 public:
-	virtual HRESULT init();
-	virtual void release();
-	virtual void update();
-	virtual void render();
+	HRESULT init();
+	void release();
+	void update();
+	void render();
 
 	void buttonOnActive();
 	void skillButtonSet();

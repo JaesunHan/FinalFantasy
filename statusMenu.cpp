@@ -13,7 +13,7 @@ statusMenu::~statusMenu()
 
 HRESULT statusMenu::init()
 {
-	_bgImage = IMAGEMANAGER->findImage("로드게임메뉴");
+	_bgImage = IMAGEMANAGER->findImage("상태메뉴");
 
 
 
