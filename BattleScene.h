@@ -30,12 +30,14 @@ enum BATTLEMENU
 	BATTLE_MAGIC,
 	BATTLE_SKILL,
 	BATTLE_ITEM,
-	BATTLE_ESCAPE
+	BATTLE_ESCAPE,
+	BATTLE_NULL
 };
 
 struct tagBattleCharacters
 {
 	int characterType;			//배틀 캐릭터
+	int menuSelect;				//메뉴 선택 번호
 	unsigned int ATBcounter;	//배틀 카운터
 	Enemy* enemy;				//에너미 주소
 	battlePlayerMother* player;	//플레이어 주소

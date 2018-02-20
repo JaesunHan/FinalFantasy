@@ -25,8 +25,8 @@ HRESULT soundManager::init()
 	_sound = new Sound*[TOTALSOUNDBUFFER];
 	_channel = new Channel*[TOTALSOUNDBUFFER];
 
-	//ZeroMemory(_sound, sizeof(_sound));
-	//ZeroMemory(_channel, sizeof(_channel));
+	ZeroMemory(_sound, sizeof(_sound));
+	ZeroMemory(_channel, sizeof(_channel));
 
 
 	return S_OK;
@@ -355,6 +355,9 @@ void soundManager::releaseAllSound()
 		releaseSound(0);
 	}
 	_mTotalSounds.clear();
+	SAFE_DELETE_ARRAY(_channel);
+	_channel = new Channel*[TOTALSOUNDBUFFER];
+	ZeroMemory(_channel, sizeof(_channel));
 }
 
 Channel* soundManager::findChannel(string keyName)

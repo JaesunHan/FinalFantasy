@@ -55,32 +55,46 @@ HRESULT BattleScene::init()
 	IMAGEMANAGER->addImage("celesFace00", ".\\image\\playerImg\\celes\\celes_face.bmp", 56, 38, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("shadowFace00", ".\\image\\playerImg\\shadow\\shadow_face.bmp", 56, 38, true, RGB(255, 0, 255));
 	//음악 추가
-	SOUNDMANAGER->addSound("battleBGM", ".\\sound\\battleSound\\05 - Battle Theme.mp3", true, true);
-	SOUNDMANAGER->addSound("fanfareBGM", ".\\sound\\battleSound\\06 - Fanfare.mp3", true, true);
-	SOUNDMANAGER->addSound("battleMenuOpen", ".\\sound\\sfx\\battleMenuOpen.wav", false, false);
-	SOUNDMANAGER->addSound("menuSelectLow", ".\\sound\\sfx\\menuSelectLow.wav", false, false);
-	SOUNDMANAGER->addSound("monsterDeath", ".\\sound\\sfx\\monsterDeath.wav", false, false);
-	SOUNDMANAGER->addSound("miss", ".\\sound\\sfx\\miss.wav", false, false);
+	SOUNDMANAGER->addSound("battleBGM", ".\\sound\\battleSound\\05 - Battle Theme.mp3", true, true);	//CH_BGM
+	SOUNDMANAGER->addSound("fanfareBGM", ".\\sound\\battleSound\\06 - Fanfare.mp3", true, true);		//CH_BGM
+	SOUNDMANAGER->addSound("battleMenuOpen", ".\\sound\\sfx\\battleMenuOpen.wav", false, false);		//CH_EFFECT03
+	SOUNDMANAGER->addSound("menuSelectLow", ".\\sound\\sfx\\menuSelectLow.wav", false, false);			//CH_EFFECT01
+	SOUNDMANAGER->addSound("monsterDeath", ".\\sound\\sfx\\monsterDeath.wav", false, false);			//CH_EFFECT02
+	SOUNDMANAGER->addSound("miss", ".\\sound\\sfx\\miss.wav", false, false);							//CH_SOKKONGGU->미스시에 플레이어의 공격 사운드를 멈추기 위해
+	SOUNDMANAGER->addSound("runAway", ".\\sound\\sfx\\runAway.wav", false, false);						//CH_EFFECT05
 	SOUNDMANAGER->play("battleBGM", CH_BGM, 1.0f);
 
 	tagBattleCharacters temp;
 	//플레이어 동적 할당 후 벡터에 담기
-	temp.characterType = TINA;
-	temp.ATBcounter = 25000 + RND->getInt(10000);
-	temp.player = new battleTina;
-	_battleCharacters.push_back(temp);
-	temp.characterType = LOCKE;
-	temp.ATBcounter = 25000 + RND->getInt(10000);
-	temp.player = new battleLocke;
-	_battleCharacters.push_back(temp);
-	temp.characterType = SHADOW;
-	temp.ATBcounter = 25000 + RND->getInt(10000);
-	temp.player = new battleShadow;
-	_battleCharacters.push_back(temp);
-	temp.characterType = CELES;
-	temp.ATBcounter = 25000 + RND->getInt(10000);
-	temp.player = new battleCeles;
-	_battleCharacters.push_back(temp);
+	for (int i = 0; i < 4; ++i)
+	{
+		switch (i)
+		{
+		case(0):
+			temp.characterType = TINA;
+			temp.player = new battleTina;
+			break;
+		case(1):
+			temp.characterType = LOCKE;
+			temp.player = new battleLocke;
+			break;
+		case(2):
+			temp.characterType = SHADOW;
+			temp.player = new battleShadow;
+			break;
+		case(3):
+			temp.characterType = CELES;
+			temp.player = new battleCeles;
+			break;
+		}
+		temp.ATBcounter = 25000 + RND->getInt(10000);
+		temp.menuSelect = BATTLE_NULL;
+		temp.turnStart = false;
+		temp.selectAction = false;
+		temp.attackReady = false;
+		temp.isDead = false;
+		_battleCharacters.push_back(temp);
+	}
 	//플레이어 인덱스 순서에 맞게 조정
 	for (int j = 0; j < 4; ++j)
 	{
@@ -125,10 +139,12 @@ HRESULT BattleScene::init()
 		_battleCharacters[i + 4].enemy->setBattleShadowMemoryAddressLink(_battleCharacters[2].player);
 		_battleCharacters[i + 4].enemy->setBattleCelesMemoryAddressLink(_battleCharacters[3].player);
 	}
+	//플레이어에 배틀씬 주소 넘기기
 	for (int i = 0; i < 4; ++i)
 	{
 		_battleCharacters[i].player->setBattleScene(this);
 	}
+	//배틀 플레이어에 플레이어 데이터 복사
 	_pm->setPlayerInfoToBattlePlayer();
 	return S_OK;
 }
@@ -146,10 +162,7 @@ void BattleScene::release()
 
 void BattleScene::update() 
 {
-	if (_victory == false)
-	{
-		ATBGauzeTimer();
-	}
+	ATBGauzeTimer();
 	playerMenuSelect();
 	updateWhenCharacterTurn();
 	playerFrameUpdate();
@@ -174,30 +187,33 @@ void BattleScene::render()
 //배틀 타이머 돌리는 함수
 void BattleScene::ATBGauzeTimer()
 {
-	if (_counterRoll == true)
+	if (_victory == false)
 	{
-		//ATB 카운터에 캐릭터 스피드에 따라 계산된 값을 더해준다.
-		for (int i = 0; i < _battleCharacters.size(); ++i)
+		if (_counterRoll == true)
 		{
-			if (_battleCharacters[i].characterType <= 3)
+			//ATB 카운터에 캐릭터 스피드에 따라 계산된 값을 더해준다.
+			for (int i = 0; i < _battleCharacters.size(); ++i)
 			{
-				if (_battleCharacters[i].player->getCurHP() <= 0) continue;
-				_battleCharacters[i].ATBcounter += 96 * (_battleCharacters[i].player->getSpeed() + 20) / 32;
+				if (_battleCharacters[i].characterType <= 3)//플레이어일때
+				{
+					if (_battleCharacters[i].player->getCurHP() <= 0) continue;
+					_battleCharacters[i].ATBcounter += 96 * (_battleCharacters[i].player->getSpeed() + 20) / 32;
+				}
+				if (_battleCharacters[i].characterType > 3)//적일때
+				{
+					if (_battleCharacters[i].enemy->getCurHP() <= 0) continue;
+					_battleCharacters[i].ATBcounter += 96 * (_battleCharacters[i].enemy->getSpeed() + 20) / 32;
+				}
 			}
-			if (_battleCharacters[i].characterType > 3)
+			//타이머가 차면 에너미를 큐에 넣어둔다
+			for (int i = 4; i < _battleCharacters.size(); ++i)
 			{
-				if (_battleCharacters[i].enemy->getCurHP() <= 0) continue;
-				_battleCharacters[i].ATBcounter += 96 * (_battleCharacters[i].enemy->getSpeed() + 20) / 32;
-			}
-		}
-		//타이머가 차면 에너미를 큐에 넣어둔다
-		for (int i = 4; i < _battleCharacters.size(); ++i)
-		{
-			if (_battleCharacters[i].ATBcounter > 65535 && _battleCharacters[i].turnStart == false)
-			{
-				_battleTurn.push(&_battleCharacters[i]);
-				_battleCharacters[i].turnStart = true;
-				_battleCharacters[i].enemy->setTurnEnd(false);
+				if (_battleCharacters[i].ATBcounter > 65535 && _battleCharacters[i].turnStart == false)
+				{
+					_battleTurn.push(&_battleCharacters[i]);
+					_battleCharacters[i].turnStart = true;
+					_battleCharacters[i].enemy->setTurnEnd(false);
+				}
 			}
 		}
 	}
@@ -205,17 +221,58 @@ void BattleScene::ATBGauzeTimer()
 
 void BattleScene::updateWhenCharacterTurn()
 {
-	//큐에서 플레이어나 에너미의 턴이 돌아오면 업데이트 실행
-	if (_battleTurn.size() > 0)
+	if (_battleTurn.size() > 0 && _battleTurn.front()->characterType <= 3)
 	{
-		if (_battleTurn.front()->characterType <= 3)
+		//플레이어가 죽었으면 턴을 넘김
+		if (_battleTurn.front()->player->getCurHP() <= 0)
 		{
-			if (_battleTurn.front()->player->getCurHP() <= 0)
+			_battleTurn.front()->ATBcounter = 0;
+			_battleTurn.front()->turnStart = false;
+			_battleTurn.front()->selectAction = false;
+			_battleTurn.front()->attackReady = false;
+			_battleTurn.front()->menuSelect = BATTLE_NULL;
+			_battleTurn.pop();
+		}
+	}
+	if (_battleTurn.size() > 0 && _battleTurn.front()->characterType <= 3)
+	{
+		//플레이어 선택이 도망일 경우
+		if (_battleTurn.front()->menuSelect == BATTLE_ESCAPE)
+		{
+			if (RND->getInt(3) == 0)	//도망 성공
 			{
+				SOUNDMANAGER->play("runAway", CH_EFFECT05, 1.0f);
+				while (1)
+				{
+					if (SOUNDMANAGER->isPlaySound(CH_EFFECT05) == false)
+					{
+						break;
+					}
+				}
+				((worldMapScene*)SCENEMANAGER->findScene("월드맵씬"))->setIsEscape(true);
+				_changeScene = true;
+			}
+			else						//도망 실패
+			{
+				_menuNum = 0;
+				_battleTurn.front()->player->setStatus(BATTLE_PLAYER_IDLE);
+				_battleTurn.front()->ATBcounter = 0;
+				_battleTurn.front()->turnStart = false;
+				_battleTurn.front()->selectAction = false;
+				_battleTurn.front()->attackReady = false;
+				_battleTurn.front()->menuSelect = BATTLE_NULL;
 				_battleTurn.pop();
 			}
+		}
+	}
+	if (_battleTurn.size() > 0 && _battleTurn.front()->characterType <= 3)
+	{
+		//플레이어 선택이 공격일 경우
+		if (_battleTurn.front()->menuSelect == BATTLE_ATTACK)
+		{
+			//플레이어 공격 전 에너미 선택 처리
 			if (_battleTurn.front()->attackReady == false)
-			{ 
+			{
 				//플레이어에 선택한 에너미 주소 할당
 				//해당 에너미가 죽었을 경우엔 살아있는애로 할당
 				if (_battleTurn.front()->enemy != NULL)
@@ -244,49 +301,55 @@ void BattleScene::updateWhenCharacterTurn()
 				_battleTurn.front()->attackReady = true;
 			}
 			_battleTurn.front()->player->update();
+			//턴 종료시 큐에서 삭제
 			if (_battleTurn.front()->player->getTurnEnd() == true)
 			{
 				_battleTurn.front()->ATBcounter = 0;
 				_battleTurn.front()->turnStart = false;
 				_battleTurn.front()->selectAction = false;
 				_battleTurn.front()->attackReady = false;
+				_battleTurn.front()->menuSelect = BATTLE_NULL;
 				if (_victory == false) _battleTurn.pop();
 			}
 		}
+	}
+	if (_battleTurn.size() > 0 && _battleTurn.front()->characterType > 3)
+	{
+		//적이 죽었으면 턴을 넘김
+		if (_battleTurn.front()->enemy->getCurHP() <= 0)
+		{
+			_battleTurn.pop();
+		}
 		else
 		{
-			if (_battleTurn.front()->enemy->getCurHP() <= 0)
+			//적 공격 전 사전준비
+			if (_battleTurn.front()->attackReady == false)
 			{
-				_battleTurn.pop();
-			}
-			else
-			{
-				if (_battleTurn.front()->attackReady == false)
+				int targetPlayer = RND->getInt(4);
+				for (int i = 0; i < 4; ++i)
 				{
-					int targetPlayer = RND->getInt(4);
-					for (int i = 0; i < 4; ++i)
+					if (_battleCharacters[targetPlayer].player->getCurHP() <= 0)
 					{
-						if (_battleCharacters[targetPlayer].player->getCurHP() <= 0)
-						{
-							targetPlayer++;
-							if (targetPlayer > 3) targetPlayer = 0;
-						}
-						else
-						{
-							break;
-						}
+						targetPlayer++;
+						if (targetPlayer > 3) targetPlayer = 0;
 					}
-					_battleTurn.front()->enemy->setTargetMemoryAddressLink(_battleCharacters[targetPlayer].player);
-					_battleTurn.front()->attackReady = true;
+					else
+					{
+						break;
+					}
 				}
-				_battleTurn.front()->enemy->update();
-				if (_battleTurn.front()->enemy->getTurnEnd() == true)
-				{
-					_battleTurn.front()->ATBcounter = 0;
-					_battleTurn.front()->turnStart = false;
-					_battleTurn.front()->attackReady = false;
-					if (_gameOver == 0) _battleTurn.pop();
-				}
+				_battleTurn.front()->enemy->setTargetMemoryAddressLink(_battleCharacters[targetPlayer].player);
+				_battleTurn.front()->attackReady = true;
+			}
+			//적 턴에 업데이트 돌림
+			_battleTurn.front()->enemy->update();
+			//턴 종료시 큐에서 삭제
+			if (_battleTurn.front()->enemy->getTurnEnd() == true)
+			{
+				_battleTurn.front()->ATBcounter = 0;
+				_battleTurn.front()->turnStart = false;
+				_battleTurn.front()->attackReady = false;
+				if (_gameOver == 0) _battleTurn.pop();
 			}
 		}
 	}
@@ -421,6 +484,7 @@ void BattleScene::playerMenuSelect()
 				case(BATTLE_ATTACK):
 					_battleCharacters[_currentTurn].player->setStatus(BATTLE_PLAYER_ATTACK_STANDBY);
 					_battleCharacters[_currentTurn].selectAction = true;
+					_battleCharacters[_currentTurn].menuSelect = BATTLE_ATTACK;
 					_battleTurn.push(&_battleCharacters[_currentTurn]);
 					_enemySelect = false;
 					_playerTurn = false;
@@ -432,7 +496,6 @@ void BattleScene::playerMenuSelect()
 				case(BATTLE_ITEM):
 					break;
 				case(BATTLE_ESCAPE):
-
 					break;
 				}
 			}
@@ -464,6 +527,12 @@ void BattleScene::playerMenuSelect()
 				case(BATTLE_ITEM):
 					break;
 				case(BATTLE_ESCAPE):
+					_battleCharacters[_currentTurn].player->setStatus(BATTLE_PLAYER_ATTACK_STANDBY);
+					_battleCharacters[_currentTurn].selectAction = true;
+					_battleCharacters[_currentTurn].menuSelect = BATTLE_ESCAPE;
+					_battleTurn.push(&_battleCharacters[_currentTurn]);
+					_enemySelect = false;
+					_playerTurn = false;
 					break;
 				}
 			}
@@ -687,6 +756,7 @@ void BattleScene::soundControl()
 
 void BattleScene::playerAttack()
 {
+	//플레이어 공격 알고리즘 계산
 	float BlockValue = (255 - _battleTurn.front()->enemy->getMDef() * 2) + 1;
 	if (BlockValue > 255) BlockValue = 255;
 	if (BlockValue < 1) BlockValue = 1;
@@ -728,6 +798,7 @@ void BattleScene::drawText(int fontSize, char* str, RECT rc, int position, bool 
 
 void BattleScene::renderDamage(int endPoint)
 {
+	//데미지 렌더
 	if (_isDamaged == true)
 	{
 		_messageCounter++;
@@ -738,7 +809,7 @@ void BattleScene::renderDamage(int endPoint)
 		{
 			if (_messageCounter < 2)
 			{
-				SOUNDMANAGER->play("miss", CH_EFFECT04, 1.0f);
+				SOUNDMANAGER->play("miss", CH_SOKKONGGU, 1.0f);
 			}
 			drawText(30, "miss", _damageRC, DT_CENTER);
 		}
@@ -752,6 +823,7 @@ void BattleScene::renderDamage(int endPoint)
 
 void BattleScene::temporaryMessage()
 {
+	//전투 종료시 메시지 표시
 	RECT tempDialogueRC = { 25, 48, WINSIZEX - 275, 80 };
 	if (_victoryCounter > 70 && _dialogueCounter < 10)
 	{
@@ -788,7 +860,7 @@ void BattleScene::temporaryMessage()
 				drawText(32, "게임이 끝날 것 같은 기분이 든다.", tempDialogueRC, DT_CENTER, true);
 				break;
 			}
-			if (_messageCounter > 180)
+			if (_messageCounter > 120)
 			{
 				_messageCounter = 0;
 				_dialogueCounter++;
@@ -800,6 +872,7 @@ void BattleScene::temporaryMessage()
 
 void BattleScene::victoryCondition()
 {
+	//승리 조건
 	for (int i = 0; i < _maxMonster; ++i)
 	{
 		_victory = false;
@@ -834,6 +907,7 @@ void BattleScene::victoryCondition()
 
 void BattleScene::gameOverCondition()
 {
+	//게임 오버 조건
 	int deathCount = 0;
 	for (int i = 0; i < 4; ++i)
 	{
@@ -847,7 +921,6 @@ void BattleScene::gameOverCondition()
 		if (deathCount == 4 && _gameOver == 0)
 		{
 			_gameOver = 1;
-			//SOUNDMANAGER->stop(CH_BGM);
 		}
 	}
 	if (_gameOver > 0)
@@ -863,10 +936,10 @@ void BattleScene::gameOverCondition()
 
 void BattleScene::sceneChange()
 {
+	//씬 전환
 	if (_changeScene == true)
 	{
 		this->release();
-		//((worldMapScene*)SCENEMANAGER->findScene("월드맵씬"))->
 		SCENEMANAGER->changeScene("월드맵씬", false);
 	}
 }
