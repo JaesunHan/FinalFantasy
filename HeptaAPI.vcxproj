@@ -87,6 +87,7 @@
     <ClInclude Include="action.h" />
     <ClInclude Include="animation.h" />
     <ClInclude Include="armorItem.h" />
+    <ClInclude Include="armourStore.h" />
     <ClInclude Include="aStar.h" />
     <ClInclude Include="battleCeles.h" />
     <ClInclude Include="battleLocke.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="playerManager.h" />
     <ClInclude Include="playerMother.h" />
     <ClInclude Include="playGround.h" />
+    <ClInclude Include="potionStore.h" />
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="randomFunction.h" />
     <ClInclude Include="Resource.h" />
@@ -175,6 +177,7 @@
     <ClInclude Include="utils.h" />
     <ClInclude Include="VectorPup.h" />
     <ClInclude Include="weaponItem.h" />
+    <ClInclude Include="weaponStore.h" />
     <ClInclude Include="worldEnemyBear.h" />
     <ClInclude Include="worldMap.h" />
     <ClInclude Include="worldMapEnemy.h" />
@@ -193,6 +196,7 @@
     <ClCompile Include="action.cpp" />
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="armorItem.cpp" />
+    <ClCompile Include="armourStore.cpp" />
     <ClCompile Include="aStar.cpp" />
     <ClCompile Include="battleCeles.cpp" />
     <ClCompile Include="battleLocke.cpp" />
@@ -251,6 +255,7 @@
     <ClCompile Include="playerManager.cpp" />
     <ClCompile Include="playerMother.cpp" />
     <ClCompile Include="playGround.cpp" />
+    <ClCompile Include="potionStore.cpp" />
     <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="samurai.cpp" />
     <ClCompile Include="saveLoadMenu.cpp" />
@@ -275,6 +280,7 @@
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="VectorPup.cpp" />
     <ClCompile Include="weaponItem.cpp" />
+    <ClCompile Include="weaponStore.cpp" />
     <ClCompile Include="winMain.cpp" />
     <ClCompile Include="worldEnemyBear.cpp" />
     <ClCompile Include="worldMap.cpp" />

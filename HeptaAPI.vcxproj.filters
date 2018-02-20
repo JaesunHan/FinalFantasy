@@ -450,6 +450,15 @@
     <ClInclude Include="magic.h">
       <Filter>playGround\player</Filter>
     </ClInclude>
+    <ClInclude Include="weaponStore.h">
+      <Filter>playGround\MapScene\store</Filter>
+    </ClInclude>
+    <ClInclude Include="armourStore.h">
+      <Filter>playGround\MapScene\store</Filter>
+    </ClInclude>
+    <ClInclude Include="potionStore.h">
+      <Filter>playGround\MapScene\store</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -739,6 +748,15 @@
     </ClCompile>
     <ClCompile Include="magic.cpp">
       <Filter>playGround\player</Filter>
+    </ClCompile>
+    <ClCompile Include="weaponStore.cpp">
+      <Filter>playGround\MapScene\store</Filter>
+    </ClCompile>
+    <ClCompile Include="armourStore.cpp">
+      <Filter>playGround\MapScene\store</Filter>
+    </ClCompile>
+    <ClCompile Include="potionStore.cpp">
+      <Filter>playGround\MapScene\store</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
