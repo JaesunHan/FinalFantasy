@@ -40,6 +40,7 @@ public:
 	int	_currentFrameY;
 	int _count;
 	bool _checkRc;
+	bool _isEscapeSuccess;
 
 	//충돌검출용
 	float _moveSpeed;
@@ -68,6 +69,10 @@ public:
 
 	//속성체크용 변수
 	void checkAttribute();
+
+	//도망 성공시
+	void successEscape();
+
 
 	//========겟셋 모음==================================/
 	RECT getWorldMapPlayerRect() { return _rc; }

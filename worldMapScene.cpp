@@ -29,7 +29,9 @@ HRESULT worldMapScene::init()
 	_wMEM->init();
 
 	_isEscape = false;
+	_isCollision = false;
 
+	_enemyNum = -1;
 
 	for (int i = 0; i < WORLDMAPENEMY; ++i)
 	{
@@ -57,6 +59,18 @@ void worldMapScene::update()
 	_npcManager->setPlayerPos(_worldMapPlayer->getWorldMapPlayerPoint());
 
 	getCollision();
+	if (_isEscape) successEscape();
+	else
+	{
+		for (int i = 0; i < _wMEM->getVWME().size(); ++i)
+		{
+			if (i == _enemyNum)
+			{
+				_wMEM->worldEmenyDelete(i);
+				_enemyNum = -1;
+			}
+		}
+	}
 }
 
 void worldMapScene::render()
@@ -89,84 +103,17 @@ void worldMapScene::getCollision()
 	{
 		if (_wMEM->getVWME()[i]->getIsCollision())
 		{
+			//충돌한 녀석의 인덱스를 변수에 저장한다.
+			_enemyNum = i;
 			SCENEMANAGER->changeScene("배틀씬");
-			_wMEM->worldEmenyDelete(i);
+			break;
 		}
 	}
 
 }
 
-//void worldMapScene::zOrderNpc1()
-//{
-//	Zorder
-//	if (_npc1->getNpcPoint().y <= _worldMapPlayer->getWorldMapPlayerPoint().y)
-//	{
-//		_npc1->render();
-//		_worldMapPlayer->render();
-//	}
-//	else if (_npc1->getNpcPoint().y > _worldMapPlayer->getWorldMapPlayerPoint().y)
-//	{
-//		_worldMapPlayer->render();
-//		_npc1->render();
-//	}
-//	
-//}
-//
-//void worldMapScene::zOrderNpc2()
-//{
-//	if (_npc2->getNpcPoint().y <= _worldMapPlayer->getWorldMapPlayerPoint().y)
-//	{
-//		_npc2->render();
-//		_worldMapPlayer->render();
-//	}
-//	else if (_npc2->getNpcPoint().y > _worldMapPlayer->getWorldMapPlayerPoint().y)
-//	{
-//		_worldMapPlayer->render();
-//		_npc2->render();
-//	}
-//	
-//}
-//
-//void worldMapScene::zOrderNpc3()
-//{
-//	if (_npc3->getNpcPoint().y <= _worldMapPlayer->getWorldMapPlayerPoint().y)
-//	{
-//		_npc3->render();
-//		_worldMapPlayer->render();
-//	}
-//	else if (_npc3->getNpcPoint().y > _worldMapPlayer->getWorldMapPlayerPoint().y)
-//	{
-//		_worldMapPlayer->render();
-//		_npc3->render();
-//	}
-//	
-//}
-//
-//void worldMapScene::zOrderNpc4()
-//{
-//	if (_npc4->getNpcPoint().y <= _worldMapPlayer->getWorldMapPlayerPoint().y)
-//	{
-//		_npc4->render();
-//		_worldMapPlayer->render();
-//	}
-//	else if (_npc4->getNpcPoint().y > _worldMapPlayer->getWorldMapPlayerPoint().y)
-//	{
-//		_worldMapPlayer->render();
-//		_npc4->render();
-//	}
-//
-//}
-//
-//void worldMapScene::zOrderNpc5()
-//{
-//	if (_npc5->getNpcPoint().y <= _worldMapPlayer->getWorldMapPlayerPoint().y)
-//	{
-//		_npc5->render();
-//		_worldMapPlayer->render();
-//	}
-//	else if (_npc5->getNpcPoint().y > _worldMapPlayer->getWorldMapPlayerPoint().y)
-//	{
-//		_worldMapPlayer->render();
-//		_npc5->render();
-//	}
-//}
+void worldMapScene::successEscape()
+{
+	_worldMapPlayer->successEscape();
+	_isEscape = false;
+}

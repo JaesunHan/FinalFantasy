@@ -29,7 +29,7 @@ HRESULT worldMapPlayer::init(int playerX, int playerY)
 
 	_isCollision = false;
 	_checkRc = false;
-
+	_isEscapeSuccess = false;
 
 	_worldMap = new worldMap;
 	_worldMap->init();
@@ -251,4 +251,9 @@ int worldMapPlayer::tileNum(float x, float y)
 
 void worldMapPlayer::checkAttribute()
 {
+}
+
+void worldMapPlayer::successEscape()
+{
+	_player.x = _player.x - 100;
 }
