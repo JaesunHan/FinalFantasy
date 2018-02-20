@@ -25,8 +25,8 @@ HRESULT worldMapScene::init()
 	_worldMapPlayer->init(200, 150);
 	_worldMapPlayer->setCurMapAddressLink(_worldMap);
 
-	_npcManager = new npcManager;
-	_npcManager->init();
+	//_npcManager = new npcManager;
+	//_npcManager->init();
 
 	_wMEM = new worldMapEnemyManager;
 	_wMEM->init();
@@ -60,13 +60,13 @@ void worldMapScene::update()
 
 	_worldMap->update();
 	_worldMapPlayer->update();
-	_npcManager->update();
+	//_npcManager->update();
 	_wMEM->update();
 
 
 	//Z오더용
 	//플레이어 현재 좌표를 받아서 계속 npc매니저쪽으로 넣어준다.
-	_npcManager->setPlayerPos(_worldMapPlayer->getWorldMapPlayerPoint());
+	//_npcManager->setPlayerPos(_worldMapPlayer->getWorldMapPlayerPoint());
 
 	
 	if (_isEscape) successEscape();
@@ -92,9 +92,9 @@ void worldMapScene::render()
 	_wMEM->render(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
 	//업데이트에서 받은 플레이어의 실시간 좌표를 NPC와 비교하여 
 	//플레이어보다 먼저 그려주는 이미지 -> 플레이어 이미지 -> 플레이어보다 다음에 그려주는 이미지 순으로 랜더를 한다.
-	_npcManager->beforeRender(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
+	//_npcManager->beforeRender(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
 	_worldMapPlayer->render(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
-	_npcManager->afterRender(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
+	//_npcManager->afterRender(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
 
 	CAMERAMANAGER->render(getMemDC());
 

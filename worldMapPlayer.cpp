@@ -30,6 +30,7 @@ HRESULT worldMapPlayer::init(int playerX, int playerY)
 	_isCollision = false;
 	_checkRc = false;
 	_isEscapeSuccess = false;
+	_isEnter = false;
 
 
 	return S_OK;
@@ -43,6 +44,7 @@ void worldMapPlayer::update()
 {
 	worldPlayerImageFrameControl();
 	worldPlayerKeyControl();
+	enterTown();
 
 }
 
@@ -128,6 +130,7 @@ void worldMapPlayer::worldPlayerKeyControl()
 			_curMap->getMapTile()[tileNum(_rc.left, _rc.bottom - 3)].getObjectAttr() == ATTR_UNMOVE)
 		{
 			_player.x += _moveSpeed;
+			_isEnter = true;
 		}
 
 		//오브젝트어트리뷰트도 추가해야한당
@@ -153,15 +156,11 @@ void worldMapPlayer::worldPlayerKeyControl()
 		{
 			_player.x += _moveSpeed *2;
 		}
-		else if (_curMap->getMapTile()[tileNum(_rc.right, _rc.top + 3)].getTerrainAttr() == ATTR_FAST ||
-			_curMap->getMapTile()[tileNum(_rc.right, _rc.bottom - 3)].getTerrainAttr() == ATTR_FAST)
-		{
-			_player.x += _moveSpeed *2;
-		}
 		if (_curMap->getMapTile()[tileNum(_rc.right, _rc.top + 3)].getObjectAttr() == ATTR_UNMOVE ||
 			_curMap->getMapTile()[tileNum(_rc.right, _rc.bottom - 3)].getObjectAttr() == ATTR_UNMOVE)
 		{
 			_player.x -= _moveSpeed;
+			_isEnter = true;
 		}
 
 	}
@@ -189,6 +188,7 @@ void worldMapPlayer::worldPlayerKeyControl()
 			_curMap->getMapTile()[tileNum(_rc.right - 3, _rc.top)].getObjectAttr() == ATTR_UNMOVE)
 		{
 			_player.y += _moveSpeed;
+			_isEnter = true;
 		}
 	}
 	else if (KEYMANAGER->isStayKeyDown(VK_DOWN))
@@ -215,6 +215,7 @@ void worldMapPlayer::worldPlayerKeyControl()
 			_curMap->getMapTile()[tileNum(_rc.right - 3, _rc.bottom)].getObjectAttr() == ATTR_UNMOVE)
 		{
 			_player.y -= _moveSpeed;
+			_isEnter = true;
 		}
 	}
 
@@ -279,4 +280,13 @@ void worldMapPlayer::checkAttribute()
 void worldMapPlayer::successEscape()
 {
 	_player.x = _player.x - 100;
+}
+
+void worldMapPlayer::enterTown()
+{
+	if (_isEnter)
+	{
+		SCENEMANAGER->changeScene("타운맵씬");
+	}
+	_isEnter = false;
 }

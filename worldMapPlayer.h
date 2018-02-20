@@ -44,6 +44,8 @@ public:
 	int _count;
 	bool _checkRc;
 	bool _isEscapeSuccess;
+	//마을 입장용
+	bool _isEnter;
 
 	//충돌검출용
 	float _moveSpeed;
@@ -75,6 +77,8 @@ public:
 
 	//도망 성공시
 	void successEscape();
+
+	void enterTown();
 
 
 	//========겟셋 모음==================================/
