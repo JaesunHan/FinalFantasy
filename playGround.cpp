@@ -28,8 +28,11 @@ HRESULT playGround::init()
 	SCENEMANAGER->addScene("¹èÆ²¾À", _bts);
 	SCENEMANAGER->addScene("¿ùµå¸Ê¾À", new worldMapScene);
 	SCENEMANAGER->addScene("Å¸¿î¸Ê¾À", new townScene);
+	SCENEMANAGER->addScene("storeScene", new storeScene);
 	SCENEMANAGER->addScene("°ÔÀÓ¿À¹ö", new gameOverScene);
 	
+	((storeScene*)(SCENEMANAGER->findScene("storeScene")))->setItemManagerAddressLink(_item);
+
 	//SCENEMANAGER->changeScene("mapToolScene");
 	
 	((mapTool*)SCENEMANAGER->findScene("mapToolScene"))->createDefaultMap(PointMake(20, 20));
@@ -116,7 +119,15 @@ void playGround::update(void)
 	//=============================Å¸¿î¾À======================================
 	if (KEYMANAGER->isOnceKeyDown('Z'))
 	{
-		SCENEMANAGER->changeScene("Å¸¿î¸Ê¾À");
+		SCENEMANAGER->changeSceneType0("Å¸¿î¸Ê¾À");
+	}
+	//=========================================================================
+
+	//=============================Å¸¿î¾À======================================
+	if (KEYMANAGER->isOnceKeyDown('S'))
+	{
+		((storeScene*)SCENEMANAGER->findScene("storeScene"))->setStoreKey("weaponStore");
+		SCENEMANAGER->changeSceneType0("storeScene");
 	}
 	//=========================================================================
 	_pm->update();

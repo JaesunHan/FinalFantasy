@@ -453,6 +453,9 @@
     <ClInclude Include="generalMap.h">
       <Filter>playGround\MapScene\map</Filter>
     </ClInclude>
+    <ClInclude Include="storeScene.h">
+      <Filter>playGround\MapScene\store</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -748,6 +751,9 @@
     </ClCompile>
     <ClCompile Include="generalMap.cpp">
       <Filter>playGround\MapScene\map</Filter>
+    </ClCompile>
+    <ClCompile Include="storeScene.cpp">
+      <Filter>playGround\MapScene\store</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

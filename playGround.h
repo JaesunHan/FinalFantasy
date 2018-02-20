@@ -20,6 +20,7 @@
 #include "gameOverScene.h"
 #include "characterAbility.h"
 #include "characterStatus.h"
+#include "storeScene.h"
 
 
 class playGround : public gameNode
