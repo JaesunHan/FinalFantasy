@@ -18,8 +18,10 @@ HRESULT optionMenu::init()
 	_bgImage = IMAGEMANAGER->findImage("옵션메뉴");
 
 	//커서
-	cursorInit(CUSOR_RIGHT, 950, 60);
+	_cursorXNum = 2;
 	_cursorYNum = 6;
+	cursorInit(CUSOR_RIGHT, 950, 60);
+
 
 	//버튼
 	_button = new fButton;

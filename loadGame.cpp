@@ -32,7 +32,7 @@ HRESULT loadGame::init()
 	_selectFileCount = 2;
 
 	//세이브파일 로드 (file: 0)
-	if (INIDATA->loadDataInterger("saveFile0", "player0", "level") != -1) fileLoad(0);
+	//if (INIDATA->loadDataInterger("saveFile0", "player0", "level") != -1) fileLoad(0);
 
 	_saveFileSelect = false;
 

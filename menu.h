@@ -171,7 +171,7 @@ public:
 	//--------------------------------  slot  -------------------------------
 	virtual void playerSlotInit(string keyName, float x, float y, int level, char* job, int hp, int maxHp, int mp, int maxMp, int exp, int maxExp);
 	virtual void playerSlotUpdate();
-	virtual void playerSlotKeyControl(float slotValueY, int slotNum);
+	virtual void playerSlotKeyControl(float slotValueY, int slotNum = 137);
 	virtual void playerSlotRender();
 	virtual void playerSlotRemove();
 	//-------------------------------  status  ------------------------------
@@ -188,7 +188,8 @@ public:
 	virtual void saveIniPlayerData(int fileNum, int playerNum, string cName, string job, 
 		int level, int hp, int maxHp, int mp, int maxMp, int exp, int maxExp, int strength, 
 		int speed, int stamina, int magic, int attack, int attackDefence, int magicDefence, 
-		int evation, int magicEvation, int partyIdx, string myWeapon, bool tmpSave = false);
+		int evation, int magicEvation, int partyIdx, string myWeapon, string myArmor,
+		string myHelmet, string mySubWeapon, bool tmpSave = false);
 	virtual void saveIniSlotGameData(int fileNum, string stage, int gil, int playTime);
 	//============================== save & load ============================
 
