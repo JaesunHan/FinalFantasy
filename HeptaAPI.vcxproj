@@ -246,6 +246,7 @@
     <ClCompile Include="npcMother.cpp" />
     <ClCompile Include="openingScene.cpp" />
     <ClCompile Include="optionMenu.cpp" />
+    <ClCompile Include="playerImproveInfo.cpp" />
     <ClCompile Include="playerManager.cpp" />
     <ClCompile Include="playerMother.cpp" />
     <ClCompile Include="playGround.cpp" />

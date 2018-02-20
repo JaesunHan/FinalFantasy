@@ -51,6 +51,7 @@ HRESULT playerManager::init()
 	//		//loadGameData();
 	//	}
 	//}
+	
 
 	return S_OK;
 }
@@ -82,10 +83,6 @@ void playerManager::release()
 }
 void playerManager::setPlayerInfoToBattlePlayer()
 {
-	//지금은 테스트용으로, 그냥 기본 정보로 넘기지만 
-	//나중에 실제 게임모드로 들어갈거면 이 부분을 _vPlayer 의 정보로 대입해야 된다
-	//ex) bCels	->setAllBattlePlayerInfo(_vPlayer[i(????)]->getLov(), _vPlayer[i]->getCurExp(), .........);
-	//요런식으로
 	//먼저 현재 씬매니저에 등록되어 있는 배틀씬을 가져온다
 	_battleScene = (BattleScene*)SCENEMANAGER->findScene("배틀씬");
 
@@ -312,5 +309,4 @@ void playerManager::loadGameData()
 			_shadow = (shadow*)tempPlayer;
 		}
 	}
-
 }

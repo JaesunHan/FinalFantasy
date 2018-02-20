@@ -740,6 +740,9 @@
     <ClCompile Include="characterStatus.cpp">
       <Filter>playGround\gameMenu\menu\character</Filter>
     </ClCompile>
+    <ClCompile Include="playerImproveInfo.cpp">
+      <Filter>playGround\player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FinalFantasy1.rc">
