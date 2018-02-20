@@ -68,7 +68,16 @@ void playerManager::update()
 		INIDATA->addData("gameData", "gameStart", "0");
 		INIDATA->iniSave(fileName);
 	}
-	
+	//무기가 잘 바뀌는지 테스트 해봄
+	if (KEYMANAGER->isOnceKeyDown('C'))
+	{
+		int rndNum = RND->getFromIntTo(11, 20);
+		if (_itemManager->getVItem()[rndNum]->getItmeKind() == ITEM_WEAPON)
+		{
+			_vPlayer[0]->setWeaponItem((weaponItem*)_itemManager->getVItem()[rndNum]);
+		}
+	}
+
 }
 void playerManager::render() 
 {
@@ -125,6 +134,7 @@ void playerManager::setPlayerInfoToBattlePlayer()
 }
 
 //새 게임을 시작하면 기본적으로 생성한 플레이어들의 정보를 파일에 저장한다.
+/*
 void playerManager::saveNewGameData()
 {
 	////먼저 newGame 클래스를 받아온다
@@ -224,7 +234,7 @@ void playerManager::saveNewGameData()
 	}
 	
 }
-
+*/
 void playerManager::loadGameData()
 {
 	TCHAR gameFileName[256];
@@ -256,6 +266,11 @@ void playerManager::loadGameData()
 		tempPlayer->setSpeed(INIDATA->loadDataInterger(gameFileName, playerSubject, "speed"));
 		tempPlayer->setStamina(INIDATA->loadDataInterger(gameFileName, playerSubject, "stamina"));
 		tempPlayer->setStrength(INIDATA->loadDataInterger(gameFileName, playerSubject, "strength"));
+		int weaponNum = INIDATA->loadDataInterger(gameFileName, playerSubject, "myWeapon");
+		int armorNum = INIDATA->loadDataInterger(gameFileName, playerSubject, "myArmor");
+		int helmetNum = INIDATA->loadDataInterger(gameFileName, playerSubject, "myHelmet");
+		int subWeaponNum = INIDATA->loadDataInterger(gameFileName, playerSubject, "mySubWeapon");
+
 		//무기 이름에 따라서 무기로딩하기
 		TCHAR weaponName[256];
 		wsprintf(weaponName,"%s", INIDATA->loadDataString(gameFileName, playerSubject, "myWeapon"));
@@ -264,7 +279,7 @@ void playerManager::loadGameData()
 		{
 			//기본무기 아이템을 생성해서
 			weaponItem* temWeapon = new weaponItem;
-			temWeapon->init(ITEM_WEAPON, "DefaultWeapon", "맨주먹공격무기이다", 0, 10, 100);
+			temWeapon->init(0,ITEM_WEAPON, "DefaultWeapon", "맨주먹공격무기이다", 0, 10, 100);
 			//플레이어의 무기에 세팅하기
 			tempPlayer->setDefaultWeapon(temWeapon);
 			tempPlayer->setWeaponItem(temWeapon);
@@ -283,7 +298,7 @@ void playerManager::loadGameData()
 					weaponItem* vWeapon = (weaponItem*)_itemManager->getVItem()[i];
 					//이 무기 아이템을 생성해서 
 					weaponItem* tempWeapon = new weaponItem;
-					tempWeapon->init(vWeapon->getItmeKind(), vWeapon->getItemName(), vWeapon->getItemDescription(), vWeapon->getPrice(), vWeapon->getAttack(), vWeapon->getHitRate());
+					tempWeapon->init(vWeapon->getItemNumber(), vWeapon->getItmeKind(), vWeapon->getItemName(), vWeapon->getItemDescription(), vWeapon->getPrice(), vWeapon->getAttack(), vWeapon->getHitRate());
 					//플레이어의 무기에 세팅한다.
 					tempPlayer->setWeaponItem(tempWeapon);
 				}
@@ -311,3 +326,33 @@ void playerManager::loadGameData()
 		}
 	}
 }
+/*
+void playerManager::searchPlayerItem(int weaponNum, int armorNum, int helmetNum, int subWeapon, playerMother* tempPlayer)
+{
+	for (int i = 0; i < _itemManager->getVItem().size; ++i)
+	{
+		//================= 무기 아이템 ===================
+		//itemMother * tempItem = (itemMother*)_itemManager->getVItem()[i];
+		//아이템리스트의 넘버와 무기아이템의 아이템 넘버가 같을때
+		if (_itemManager->getVItem()[i]->getItemNumber() == weaponNum)
+		{
+			weaponItem* tempItem = (weaponItem*)_itemManager->getVItem()[i];
+			//그 아이템 번호가 0이면 기본무기로 저장하고
+			if (weaponNum == 0)
+			{
+				//기본무기 아이템을 생성해서
+				weaponItem* temWeapon = new weaponItem;
+				temWeapon->init(0, ITEM_WEAPON, "DefaultWeapon", "맨주먹공격무기이다", 0, 10, 100);
+				tempPlayer->setDefaultWeapon(temWeapon);
+			}
+			//아니면 해당 무기로 저장한다.
+			else {
+				tempPlayer->setWeaponItem((weaponItem*)tempItem);
+			}
+		}
+
+	}
+
+
+}
+*/

@@ -43,9 +43,10 @@ public:
 	void draw();
 	void release();
 	//새 게임을 시작하면 기본 캐릭터 정보를 파일에 저장
-	void saveNewGameData();
+	//void saveNewGameData();
 	//로드 게임이면 캐릭터 정볼르 불러온다.
 	void loadGameData();
+	//void searchPlayerItem(int weaponNum, int armorNum, int helmetNum, int subWeapon, playerMother* tempPlayer);
 
 	//========================== 배틀씬으로 전환되면 플레이어 매니저의 이 함수를 호출하여 배틀플레이어의 정보를 전달한다 ==================
 	void setPlayerInfoToBattlePlayer();

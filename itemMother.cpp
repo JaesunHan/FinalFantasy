@@ -12,8 +12,9 @@ itemMother::~itemMother()
 
 }
 
-HRESULT itemMother::init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price)
+HRESULT itemMother::init(int itemNumber, itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price)
 {
+	_itemNumber = itemNumber;						//아이템 넘버
 	_itemKind = itemKind;							//아이템 종류
 
 	strcpy_s(_name, itemName);						//아이템 이름

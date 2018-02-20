@@ -19,6 +19,7 @@ protected:
 	//================================== 공통 =======================================
 
 	itemKind _itemKind;								//아이템 종류
+	int _itemNumber;						//아이템 넘버링
 
 	char _name[MAXNAMESIZE];						//아이템 이름
 	char _description[MAXNAMESIZE];					//아이템 설명
@@ -45,10 +46,11 @@ public:
 	itemMother();
 	~itemMother();
 
-	virtual	HRESULT init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price);
+	virtual	HRESULT init(int itemNumber, itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price);
 	virtual void release();
 	virtual void update();
 
+	inline int getItemNumber() { return _itemNumber; }
 	inline char* getItemName() { return _name; }
 	inline itemKind getItmeKind() { return _itemKind; }
 	inline char* getItemDescription() {		return _description;	}

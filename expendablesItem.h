@@ -20,7 +20,7 @@ public:
 	expendablesItem();
 	~expendablesItem();
 
-	HRESULT init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price,
+	HRESULT init(int itemNumber,itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price,
 		int currentHP, int currentMP, bool isDead, bool worldMap, bool percentHP, bool percentMP);
 	void release();
 	void update();

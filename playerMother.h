@@ -28,6 +28,9 @@ protected:
 
 	weaponItem* _defaultWeapon;		//기본으로 장착한 무기(무기 장착 안했을 때의 기본 무기)
 	weaponItem* _myWeapon;			//내가 장착한 무기
+	armorItem* _myArmor;			//내가 장착한 갑옷
+	armorItem* _myHelmet;			//내가 장착한 투구
+	armorItem* _mySubWeapon;		//내가 장착한 보조무기
 public:
 	playerMother();
 	~playerMother();
@@ -62,6 +65,15 @@ public:
 	//플레이어의 현재 장착 무기에 대한 게터세터
 	inline weaponItem* getWeapon() { return _myWeapon; }	
 	inline void setWeaponItem(weaponItem* weapon) { _myWeapon = weapon; }
+	//플레이어의 현재 장착 갑옷에 대한 게터세터
+	inline armorItem* getArmor() { return _myArmor; }
+	inline void setArmor(armorItem* armor) { _myArmor = armor; }
+	//플레이어의 현재 장착 헬멧에 대한 게터세터
+	inline armorItem* getHelmet() { return _myHelmet; }
+	inline void setHelmet(armorItem* helmet) { _myHelmet = helmet; }
+	//플레이어의 현재 장착 보조무기에 대한 게터세터
+	inline armorItem* getSubWeapon() { return _mySubWeapon; }
+	inline void setSubWeapon(armorItem* subWeapon) { _mySubWeapon = subWeapon; }
 
 	inline TCHAR* getName() { return _name; }	inline void setName(char str[256]) { wsprintf(_name, "%s", str); }
 	inline TCHAR* getJob() { return _job; }		inline void setJob(char str[256]) { wsprintf(_job, "%s", str); }

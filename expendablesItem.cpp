@@ -12,10 +12,10 @@ expendablesItem::~expendablesItem()
 {
 }
 
-HRESULT expendablesItem::init(itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price,
+HRESULT expendablesItem::init(int itemNumber,itemKind itemKind, char itemName[MAXNAMESIZE], char description[MAXNAMESIZE], int price,
 								int currentHP, int currentMP, bool isDead, bool worldMap, bool percentHP, bool percentMP)
 {
-	itemMother::init(itemKind, itemName, description, price);
+	itemMother::init(itemNumber, itemKind, itemName, description, price);
 	
 	_currentHP = currentHP;									//아이템 HP 효과
 	_currentMP = currentMP;									//아이템 MP 효과
