@@ -1,9 +1,8 @@
 #include "stdafx.h"
 #include "playerImproveInfo.h"
 
-namespace PLAYER_IMPROVE_INFO
-{
-	maxExpValue[MAXLV] = {
+
+int PLAYER_IMPROVE_INFO::maxExpValue[MAXLV] = {
 		0, 32, 96, 208, 400,
 		672, 1056, 1552, 2184, 2976,					//lv.10
 		3936, 5080, 6432, 7992, 9784,
@@ -26,7 +25,7 @@ namespace PLAYER_IMPROVE_INFO
 		2396128, 2471400, 2548224, 2637112				//lv.99
 	};
 
-	improveHPValue[MAXLV] = {
+int PLAYER_IMPROVE_INFO::improveHPValue[MAXLV] = {
 		0, 11, 12, 14, 17,
 		20, 22, 24, 26, 27,				//lv.10
 		28, 30, 35, 39, 44,
@@ -49,7 +48,7 @@ namespace PLAYER_IMPROVE_INFO
 		80, 83, 86, 88					//lv.99
 	};
 
-	improveMPValue[MAXLV] = {
+int PLAYER_IMPROVE_INFO::improveMPValue[MAXLV] = {
 		0, 5, 6, 7, 8,
 		9, 10, 11, 12, 13,				//lv.10
 		14, 15, 16, 17, 17,
@@ -71,4 +70,3 @@ namespace PLAYER_IMPROVE_INFO
 		8, 9, 10, 8, 8,
 		9, 10, 11, 13						//lv.99
 	};
-}

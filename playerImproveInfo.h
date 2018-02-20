@@ -2,9 +2,9 @@
 #define		 MAXLV	99
 namespace PLAYER_IMPROVE_INFO 
 {
-	int maxExpValue[MAXLV];
+	extern int maxExpValue[MAXLV];
 
-	int improveHPValue[MAXLV];
+	extern int improveHPValue[MAXLV];
 
-	int improveMPValue[MAXLV];
+	extern int improveMPValue[MAXLV];
 }
