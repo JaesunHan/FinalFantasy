@@ -40,6 +40,7 @@ public:
 	HRESULT changeScene(string sceneName, bool initCall = true);
 	HRESULT changeScene(string sceneName, string loadingSceneName);
 	HRESULT changeSceneType0(string sceneName, bool initCall = true);
+	HRESULT changeSceneType1(string sceneName, bool initCall = true);
 	//HRESULT changeSceneType0(string sceneName);
 
 	gameNode* findScene(string sceneName);

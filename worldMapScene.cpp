@@ -51,6 +51,9 @@ HRESULT worldMapScene::init()
 
 void worldMapScene::release()
 {
+	SAFE_DELETE(_worldMap);
+	SAFE_DELETE(_worldMapPlayer);
+
 	SOUNDMANAGER->releaseAllSound();
 }
 
@@ -142,11 +145,20 @@ void worldMapScene::enterTownMap()
 {
 	if(_worldMapPlayer->getIsEnter())
 	{
-		SCENEMANAGER->changeSceneType0("Å¸¿î¸Ê¾À");
+		SCENEMANAGER->changeSceneType1("Å¸¿î¸Ê¾À");
 		//SOUNDMANAGER->stop(CH_BGM);
 		//_worldMapPlayer->setWorldMapPlayerTempPoint(_worldMapPlayer->getWorldMapPlayerPoint());
 		_worldMapPlayer->setWorldMapPlayerPoint(PointMake(_worldMapPlayer->getWorldMapPlayerPoint().x - 100, _worldMapPlayer->getWorldMapPlayerPoint().y));
+
+		_curPlayerPos = _worldMapPlayer->getWorldMapPlayerPoint();
+		_curCameraPos = CAMERAMANAGER->getMovePt();
 	}
 	_worldMapPlayer->setIsEnter(false);
 
+}
+
+void worldMapScene::setPlayerPos(void)
+{
+	_worldMapPlayer->setWorldMapPlayerPoint(_curPlayerPos);
+	CAMERAMANAGER->setMovePt(_curCameraPos);
 }

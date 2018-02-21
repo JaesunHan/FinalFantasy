@@ -92,8 +92,8 @@ void storeScene::drawStoreInterface(void)
 	IMAGEMANAGER->frameRender("buySellButton", getMemDC(), 150, 118, !_buySellSelectCursor.getCursorXNum(), 0);
 	IMAGEMANAGER->frameRender("buySellButton", getMemDC(), 550, 118, _buySellSelectCursor.getCursorXNum(), 0);
 
-	outlineTextOut(getMemDC(), 230, 122, "BUY", GetTextColor(getMemDC()), RGB(0, 0, 0), GetTextColor(getMemDC()), 40);
-	outlineTextOut(getMemDC(), 620, 122, "SELL", GetTextColor(getMemDC()), RGB(0, 0, 0), GetTextColor(getMemDC()), 40);
+	outlineTextOut(getMemDC(), 230, 122, "구매", GetTextColor(getMemDC()), RGB(0, 0, 0), GetTextColor(getMemDC()), 40);
+	outlineTextOut(getMemDC(), 620, 122, "판매", GetTextColor(getMemDC()), RGB(0, 0, 0), GetTextColor(getMemDC()), 40);
 }
 
 void storeScene::drawVendorList(void)
@@ -117,7 +117,7 @@ void storeScene::setStoreKey(string key)
 
 	if (key == "weaponStore")
 	{
-		_storeName = "Weapon Shop";
+		_storeName = "무기 상점";
 		for (int i = 0; i < _im->getVItem().size(); i++)
 		{
 			if (_im->getVItem()[i]->getItmeKind() == ITEM_WEAPON && _im->getVItem()[i]->getPrice() != 2)
@@ -128,7 +128,7 @@ void storeScene::setStoreKey(string key)
 	}
 	else if (key == "armorStore")
 	{
-		_storeName = "Armor Shop";
+		_storeName = "방어구 상점";
 		for (int i = 0; i < _im->getVItem().size(); i++)
 		{
 			if ((_im->getVItem()[i]->getItmeKind() == ITEM_ARMOR || _im->getVItem()[i]->getItmeKind() == ITEM_HELMET
@@ -140,7 +140,7 @@ void storeScene::setStoreKey(string key)
 	}
 	else if (key == "itemShop")
 	{
-		_storeName = "Item Shop";
+		_storeName = "도구 상점";
 		for (int i = 0; i < _im->getVItem().size(); i++)
 		{
 			if (_im->getVItem()[i]->getItmeKind() == ITEM_EXPENDABLE && _im->getVItem()[i]->getPrice() != 2)

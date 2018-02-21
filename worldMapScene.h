@@ -15,7 +15,7 @@
 
 class worldMapScene : public gameNode
 {
-public:
+private:
 	//충돌한 녀석 인덱스 보관용
 	int _enemyNum;
 
@@ -34,6 +34,10 @@ public:
 	//에너미 등장용
 	worldMapEnemyManager* _wMEM;
 
+	POINT _curPlayerPos;
+	POINT _curCameraPos;
+
+public:
 	worldMapScene();
 	~worldMapScene();
 
@@ -58,6 +62,6 @@ public:
 	bool getIsEscape() { return _isEscape; }
 	void setIsEscape(bool isEscape) { _isEscape = isEscape; }
 
-
+	void setPlayerPos(void);
 
 };

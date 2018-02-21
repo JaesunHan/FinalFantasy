@@ -267,10 +267,13 @@ void worldMapPlayer::worldPlayerKeyControl()
 	{
 		CAMERAMANAGER->setMovePt(PointMake(_player.x - CAMERAMANAGER->getDcWidth() / 2, CAMERAMANAGER->getMovePt().y));
 	}
+
+
 	if (_player.y > CAMERAMANAGER->getDcHeight() / 2 && _player.y <= CAMERAMANAGER->getMapTotalSize().y - CAMERAMANAGER->getDcHeight() / 2)
 	{
 		CAMERAMANAGER->setMovePt(PointMake(CAMERAMANAGER->getMovePt().x, _player.y - CAMERAMANAGER->getDcHeight() / 2));
 	}
+
 
 	switch (_worldPlayerDirection)
 	{

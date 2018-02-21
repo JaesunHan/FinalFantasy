@@ -218,6 +218,57 @@ HRESULT sceneManager::changeSceneType0(string sceneName, bool initCall)
 	return E_FAIL;
 }
 
+HRESULT sceneManager::changeSceneType1(string sceneName, bool initCall)
+{
+	//이터레이터에 찾고자하는 씬의 키 값을 대입
+	mapSceneIter find = _mSceneList.find(sceneName);
+
+	//이터레이터가 맵의 끝까지 갔다 == 찾고자하는게 없다 실패 반환
+	if (find == _mSceneList.end()) return E_FAIL;
+
+	//만약 바꾸려는 씬이 현재 씬이면 그냥 둔다
+	if (find->second == _currentScene) return S_OK;
+
+	if (initCall)
+	{
+		//성공적으로 씬이 바뀐다면 init함수 실행 
+		if (SUCCEEDED(find->second->init()))
+		{
+			//만약 현재씬에 다른 씬이 있다면 해제 해주고
+			//if (_currentScene) _currentScene->release();
+
+			//바꾸려는 씬으로 체인지 한다
+			_currentScene = find->second;
+
+			//지금 씬 변환하는 이 구조는 여러분이 입맛에 따라 바꿔도 된다
+			//디폴트로 만들어 놨지만 위에 구조의 단점이 딱 하나 있는데
+			//스테이지1 -> 스테이지2로 씬이 바뀌었을때 스테이지1의 데이터를
+			//넘기려고 할때 릴리즈가 먼저 호출이 되서 조금 신경을 써줘야한다
+
+			//뭐 그렇다고.. ㅎ _ㅎ)
+
+			return S_OK;
+		}
+	}
+	else
+	{
+		//성공적으로 씬이 바뀐다면 init함수 실행 
+		if (SUCCEEDED(0))
+		{
+			//만약 현재씬에 다른 씬이 있다면 해제 해주고
+			if (_currentScene) _currentScene->release();
+
+			//바꾸려는 씬으로 체인지 한다
+			_currentScene = find->second;
+
+
+			return S_OK;
+		}
+	}
+
+	return E_FAIL;
+}
+
 gameNode* sceneManager::findScene(string sceneName)
 {
 	mapSceneIter find = _mSceneList.find(sceneName);
