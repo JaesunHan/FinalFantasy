@@ -340,8 +340,8 @@ void worldMapPlayer::enterWorldMap()
 {
 	if (_isWorldMapEnter)
 	{	
-		//부딪친 오브젝트가 월드맵에서 타운 속성을 가졌으면
-		SCENEMANAGER->changeSceneType0("월드맵씬");
+		//부딪친 오브젝트가 타운에서 월드맵 속성을 가졌으면
+		SCENEMANAGER->changeScene("월드맵씬", false);
 	}
 	//부딪친 오브젝트가 타운에서 타운 속성을 가졌으면
 	//"월드맵씬" 전환

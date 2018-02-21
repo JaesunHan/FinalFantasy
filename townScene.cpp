@@ -23,7 +23,7 @@ HRESULT townScene::init()
 	_townMap->init(".//town30X30.map");
 
 	_worldMapPlayer = new worldMapPlayer;
-	_worldMapPlayer->init(200, 150);
+	_worldMapPlayer->init(562, 50);
 	_worldMapPlayer->setCurMapAddressLink(_townMap);
 
 	_npcManager = new npcManager;
