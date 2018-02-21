@@ -121,7 +121,7 @@ void battlePlayerMother::update()
 			}
 			else
 			{
-
+				EFFECTMANAGER->play(_selectMagic->getMaicEffectKey(), _mEnemyTarget->getX(), _mEnemyTarget->getY());
 			}
 		}
 		_magicAtkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
