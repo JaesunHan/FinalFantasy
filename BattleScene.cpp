@@ -400,8 +400,7 @@ void BattleScene::playerMenuSelect()
 			}
 			else if (_itemSelect == true)
 			{
-				_itemSelectNum--;
-				if (_itemSelectNum < 0) _itemSelectNum = _im->getInventorySize() - 1;
+				if (_itemSelectNum > 0) _itemSelectNum--;
 				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
 			}
 			else if (_playerTurn == true)
@@ -433,8 +432,7 @@ void BattleScene::playerMenuSelect()
 			}
 			else if (_itemSelect == true)
 			{
-				_itemSelectNum++;
-				if (_itemSelectNum > _im->getInventorySize() - 1) _itemSelectNum = 0;
+				if (_itemSelectNum < _im->getInventorySize() - 1) _itemSelectNum++;
 				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
 			}
 			else if (_playerTurn == true)
@@ -449,9 +447,13 @@ void BattleScene::playerMenuSelect()
 			if (_enemySelect == true)
 			{
 				_enemyNum = 4;
-				_itemSelectNum = 0;
 				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
 				_enemySelect = false;
+			}
+			else if (_itemSelect == true)
+			{
+				_itemSelectNum = 0;
+				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
 				_itemSelect = false;
 			}
 			else if (_playerTurn == true)
@@ -675,7 +677,7 @@ void BattleScene::drawUI()
 		{
 			IMAGEMANAGER->findImage("fingerArrowLt")->render(getMemDC(), _battleCharacters[_enemyNum].enemy->getX() + _battleCharacters[_enemyNum].enemy->getImageWidth() / 2, _battleCharacters[_enemyNum].enemy->getY());
 		}
-		else if (_itemSelect == true)
+		else if (i == _currentTurn && _itemSelect == true)
 		{
 			char itemName1[64];
 			char itemName2[64];

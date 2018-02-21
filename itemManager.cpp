@@ -196,9 +196,10 @@ void itemManager::saveInventory(char* fileName)
 	_iterInventory = _arrInventory.begin();
 	for (_iterInventory; _iterInventory != _arrInventory.end(); ++_iterInventory)
 	{
-		itemListI += _iterInventory->second.first;
+		itemListI += _iterInventory->second.first + 1;
 		itemListI = itemListI * 100;
 		itemListI += _iterInventory->second.second;
+		itemListI = itemListI * 100;
 	}
 	itoa(itemListI, itemListA, 10);
 	INIDATA->addData("Inventory", "ItemList", itemListA);
@@ -219,7 +220,7 @@ void itemManager::loadInventory(char* fileName)
 		}
 		tempCount = itemListI % 100;
 		itemListI = itemListI / 100;
-		tempVectorNum = itemListI % 100;
+		tempVectorNum = itemListI % 100 - 1;
 		itemListI = itemListI / 100;
 		setInventory(tempVectorNum, tempCount);
 	}
@@ -229,8 +230,8 @@ void itemManager::loadInventory(char* fileName)
 void itemManager::setInventory(int vectorNum, int count)
 {
 	_element = make_pair(vectorNum, count);
-	char* keyName = _vItem[vectorNum]->getItemName();
-	_iterInventory = _arrInventory.find(keyName);
+	//char* keyName = ;
+	_iterInventory = _arrInventory.find(_vItem[vectorNum]->getItemName());
 	if (_iterInventory != _arrInventory.end())
 	{
 		_arrInventory[_vItem[vectorNum]->getItemName()] = _element;
