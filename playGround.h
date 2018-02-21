@@ -33,7 +33,7 @@ private:
 
 	newGame* _nGame;
 	saveLoadMenu* _saveMenu;
-	//loadGame* _loadGame;
+	loadGame* _loadGame;
 
 	//bool _isBattle;
 public:
