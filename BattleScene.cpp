@@ -543,6 +543,10 @@ void BattleScene::playerMenuSelect()
 		else if (_victory == true)
 		{
 			_dialogueCounter++;
+			if (_dialogueCounter == 4 || _dialogueCounter == 7 || _dialogueCounter == 10 || _dialogueCounter == 13)
+			{
+				_dialogueCounter += 2;
+			}
 			_messageCounter = 0;
 		}
 	}
@@ -828,7 +832,7 @@ void BattleScene::temporaryMessage()
 {
 	//전투 종료시 메시지 표시
 	RECT tempDialogueRC = { 25, 48, WINSIZEX - 275, 80 };
-	if (_victoryCounter > 70 && _dialogueCounter < 10)
+	if (_victoryCounter > 70 && _dialogueCounter < 18)
 	{
 		bool skip;
 		skip = false;
@@ -900,7 +904,6 @@ void BattleScene::temporaryMessage()
 						if (j == 1 && _battleCharacters[i].characterType != LOCKE) continue;
 						if (j == 2 && _battleCharacters[i].characterType != CELES) continue;
 						if (j == 3 && _battleCharacters[i].characterType != SHADOW) continue;
-						exp = _battleCharacters[i].player->getCurEXP();
 						_battleCharacters[i].player->setCurEXP(_battleCharacters[i].player->getCurEXP() + exp);
 						char playerNum[128];
 						char body[128];
@@ -942,6 +945,7 @@ void BattleScene::temporaryMessage()
 						}
 						if (_battleCharacters[i].player->getCurEXP() < maxExpValue[j])
 						{
+							_dialogueCounter = 6;
 							skip = true;
 							break;
 						}
@@ -959,16 +963,139 @@ void BattleScene::temporaryMessage()
 			drawText(32, _message2, tempDialogueRC, DT_CENTER, true);
 			break;
 		case(7):
+			if (_dialogue == true)
+			{
+				for (int i = 0; i < 4; ++i)
+				{
+					if (_battleCharacters[i].characterType != LOCKE) continue;
+					for (int j = _battleCharacters[i].player->getLv(); j < MAXLV; ++j)
+					{
+						if (_battleCharacters[i].player->getCurEXP() >= maxExpValue[j] && _battleCharacters[i].player->getCurEXP() < maxExpValue[j + 1])
+						{
+							wsprintf(_message0, "로크는 레벨이 %d 올랐다!", j + 1 - _battleCharacters[i].player->getLv());
+							int tempIncreasedHP;
+							int tempIncreasedMP;
+							tempIncreasedHP = 0;
+							tempIncreasedMP = 0;
+							for (int k = _battleCharacters[i].player->getLv(); k < j + 1; ++k)
+							{
+								tempIncreasedHP += improveHPValue[k];
+								tempIncreasedMP += improveMPValue[k];
+							}
+							wsprintf(_message1, "로크는 HP가 %d 상승했다.", tempIncreasedHP);
+							wsprintf(_message2, "로크는 MP가 %d 상승했다.", tempIncreasedMP);
+							break;
+						}
+						if (_battleCharacters[i].player->getCurEXP() < maxExpValue[j])
+						{
+							_dialogueCounter = 9;
+							skip = true;
+							break;
+						}
+					}
+					break;
+				}
+				_dialogue = false;
+			}
+			drawText(32, _message0, tempDialogueRC, DT_CENTER, true);
 			break;
 		case(8):
+			drawText(32, _message1, tempDialogueRC, DT_CENTER, true);
 			break;
 		case(9):
-			drawText(32, "아이템을 얻은 것 같은 그런 느낌이다.", tempDialogueRC, DT_CENTER, true);
-			drawText(32, "복끼리를 처치했다!!!", tempDialogueRC, DT_CENTER, true);
-			drawText(32, "복끼리는 울면서 도망갔다.", tempDialogueRC, DT_CENTER, true);
-			drawText(32, "전투는 언제 끝날까?", tempDialogueRC, DT_CENTER, true);
+			drawText(32, _message2, tempDialogueRC, DT_CENTER, true);
+			break;
+		case(10):
+			if (_dialogue == true)
+			{
+				for (int i = 0; i < 4; ++i)
+				{
+					if (_battleCharacters[i].characterType != CELES) continue;
+					for (int j = _battleCharacters[i].player->getLv(); j < MAXLV; ++j)
+					{
+						if (_battleCharacters[i].player->getCurEXP() >= maxExpValue[j] && _battleCharacters[i].player->getCurEXP() < maxExpValue[j + 1])
+						{
+							wsprintf(_message0, "세리스는 레벨이 %d 올랐다!", j + 1 - _battleCharacters[i].player->getLv());
+							int tempIncreasedHP;
+							int tempIncreasedMP;
+							tempIncreasedHP = 0;
+							tempIncreasedMP = 0;
+							for (int k = _battleCharacters[i].player->getLv(); k < j + 1; ++k)
+							{
+								tempIncreasedHP += improveHPValue[k];
+								tempIncreasedMP += improveMPValue[k];
+							}
+							wsprintf(_message1, "세리스는 HP가 %d 상승했다.", tempIncreasedHP);
+							wsprintf(_message2, "세리스는 MP가 %d 상승했다.", tempIncreasedMP);
+							break;
+						}
+						if (_battleCharacters[i].player->getCurEXP() < maxExpValue[j])
+						{
+							_dialogueCounter = 12;
+							skip = true;
+							break;
+						}
+					}
+					break;
+				}
+				_dialogue = false;
+			}
+			drawText(32, _message0, tempDialogueRC, DT_CENTER, true);
+			break;
+		case(11):
+			drawText(32, _message1, tempDialogueRC, DT_CENTER, true);
+			break;
+		case(12):
+			drawText(32, _message2, tempDialogueRC, DT_CENTER, true);
+			break;
+		case(13):
+			if (_dialogue == true)
+			{
+				for (int i = 0; i < 4; ++i)
+				{
+					if (_battleCharacters[i].characterType != SHADOW) continue;
+					for (int j = _battleCharacters[i].player->getLv(); j < MAXLV; ++j)
+					{
+						if (_battleCharacters[i].player->getCurEXP() >= maxExpValue[j] && _battleCharacters[i].player->getCurEXP() < maxExpValue[j + 1])
+						{
+							wsprintf(_message0, "쉐도우는 레벨이 %d 올랐다!", j + 1 - _battleCharacters[i].player->getLv());
+							int tempIncreasedHP;
+							int tempIncreasedMP;
+							tempIncreasedHP = 0;
+							tempIncreasedMP = 0;
+							for (int k = _battleCharacters[i].player->getLv(); k < j + 1; ++k)
+							{
+								tempIncreasedHP += improveHPValue[k];
+								tempIncreasedMP += improveMPValue[k];
+							}
+							wsprintf(_message1, "쉐도우는 HP가 %d 상승했다.", tempIncreasedHP);
+							wsprintf(_message2, "쉐도우는 MP가 %d 상승했다.", tempIncreasedMP);
+							break;
+						}
+						if (_battleCharacters[i].player->getCurEXP() < maxExpValue[j])
+						{
+							_dialogueCounter = 15;
+							skip = true;
+							break;
+						}
+					}
+					break;
+				}
+				_dialogue = false;
+			}
+			drawText(32, _message0, tempDialogueRC, DT_CENTER, true);
+			break;
+		case(14):
+			drawText(32, _message1, tempDialogueRC, DT_CENTER, true);
+			break;
+		case(15):
+			drawText(32, _message2, tempDialogueRC, DT_CENTER, true);
+			break;
+		case(16):
 			drawText(32, "소지금이 늘 것 같은 기분이 든다.", tempDialogueRC, DT_CENTER, true);
-			drawText(32, "게임이 끝날 것 같은 기분이 든다.", tempDialogueRC, DT_CENTER, true);
+			break;
+		case(17):
+			drawText(32, "아이템을 얻은 것 같은 그런 느낌이다.", tempDialogueRC, DT_CENTER, true);
 			break;
 		}
 		if (skip == true)
@@ -977,7 +1104,7 @@ void BattleScene::temporaryMessage()
 			_dialogueCounter++;
 			_dialogue = true;
 		}
-		if (_messageCounter > 120)
+		if (_messageCounter > 60)
 		{
 			_messageCounter = 0;
 			_dialogueCounter++;
@@ -1015,7 +1142,7 @@ void BattleScene::victoryCondition()
 		_dialogueCounter++;
 		_dialogue = true;
 	}
-	if (_dialogueCounter >= 10)
+	if (_dialogueCounter >= 18)
 	{
 		_changeScene = true;
 	}

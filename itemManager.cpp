@@ -187,3 +187,87 @@ HRESULT itemManager::init()
 
 	return S_OK;
 }
+
+void itemManager::saveInventory(char* fileName)
+{
+	int itemListI;
+	itemListI = 0;
+	char itemListA[1024];
+	_iterInventory = _arrInventory.begin();
+	for (_iterInventory; _iterInventory != _arrInventory.end(); ++_iterInventory)
+	{
+		itemListI += _iterInventory->second.first;
+		itemListI = itemListI * 100;
+		itemListI += _iterInventory->second.second;
+	}
+	itoa(itemListI, itemListA, 10);
+	INIDATA->addData("Inventory", "ItemList", itemListA);
+	INIDATA->iniSave(fileName);
+}
+
+void itemManager::loadInventory(char* fileName)
+{
+	int itemListI;
+	int tempVectorNum;
+	int tempCount;
+	itemListI = INIDATA->loadDataInterger(fileName, "Inventory", "ItemList");
+	while (1)
+	{
+		if (itemListI < 100)
+		{
+			break;
+		}
+		tempCount = itemListI % 100;
+		itemListI = itemListI / 100;
+		tempVectorNum = itemListI % 100;
+		itemListI = itemListI / 100;
+		setInventory(tempVectorNum, tempCount);
+	}
+
+}
+
+void itemManager::setInventory(int vectorNum, int count)
+{
+	_element = make_pair(vectorNum, count);
+	_arrInventory.insert(make_pair(_vItem[vectorNum]->getItemName, _element));
+}
+
+void itemManager::setInventory(string keyName, int count)
+{
+	_iterInventory = _arrInventory.find(keyName);
+	if (_iterInventory != _arrInventory.end())
+	{
+		_arrInventory[keyName].second = count;
+	}
+	else
+	{
+		for (int i = 0; i < _vItem.size(); ++i)
+		{
+			if (_vItem[i]->getItemName == keyName)
+			{
+				setInventory(i, count);
+				break;
+			}
+		}
+	}
+}
+
+int itemManager::getItemVNum(int num)
+{
+	_iterInventory = _arrInventory.begin();
+	for (int i = 0; i < num; ++i)
+	{
+		_iterInventory++;
+	}
+	return _iterInventory->second.first;
+}
+
+int itemManager::getItemCount(int num)
+{
+	_iterInventory = _arrInventory.begin();
+	for (int i = 0; i < num; ++i)
+	{
+		_iterInventory++;
+	}
+	return _iterInventory->second.second;
+}
