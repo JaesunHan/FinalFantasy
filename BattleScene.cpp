@@ -572,10 +572,12 @@ void BattleScene::playerMenuSelect()
 		}
 	}
 	
-	//if (KEYMANAGER->isOnceKeyDown('R'))
-	//{
-	//	SOUNDMANAGER->play("battleBGM", CH_BGM, 1.0f);
-	//}
+	if (KEYMANAGER->isOnceKeyDown('R'))
+	{
+		_im->setInventory(0, 3);
+		_im->setInventory(1, 3);
+		_im->setInventory(2, 3);
+	}
 	//if (KEYMANAGER->isOnceKeyDown('T'))
 	//{
 	//	SOUNDMANAGER->getChannel(CH_BGM)->setPosition(3900, FMOD_TIMEUNIT_MS);
@@ -687,7 +689,22 @@ void BattleScene::drawUI()
 		}
 		else if (_itemSelect == true)
 		{
-
+			switch (_battleCharacters[_currentTurn].characterType)
+			{
+			case(TINA):
+				IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 300, 160 * i, 150, 160);
+				break;
+			case(LOCKE):
+				IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 300, 160 * i, 150, 160);
+				break;
+			case(CELES):
+				IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 300, 160 * i, 150, 160);
+				break;
+			case(SHADOW):
+				IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 300, 160 * i, 150, 160);
+				break;
+			}
+			IMAGEMANAGER->findImage("fingerArrowRt")->render(getMemDC(), WINSIZEX - 290, 160 * i + 5 + 60);
 		}
 		else if (_playerTurn == true && i == _currentTurn)
 		{
