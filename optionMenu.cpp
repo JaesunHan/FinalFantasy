@@ -42,7 +42,7 @@ HRESULT optionMenu::init()
 	fileLoad(0, -1, true);
 
 	//슬롯변경
-	_changeSlotNum = -1;
+	_changeSlotNum = 0;
 	_slotSelectCount = 2;
 	_previousSlotNum = 0;
 	_isSlotReload = false;
@@ -268,6 +268,13 @@ void optionMenu::render()
 
 	gameDataRender(false);  //게임 데이터(플레이장소/플레이시간/돈)
 	gamePlayTime();			//게임 플레이 타임
+
+
+	//test
+	char buff[32];
+	textPrint(getMemDC(), itoa(_changeSlotNum, buff, 10), 20, 100);
+	textPrint(getMemDC(), itoa(_previousSlotNum, buff, 10), 20, 120);
+	textPrint(getMemDC(), itoa(_cursor.currentYNum, buff, 10), 20, 140);
 }
 
 void optionMenu::slotAniOn()
@@ -292,15 +299,16 @@ void optionMenu::slotChangeKey()
 
 		if (_slotSelectCount <= 0)
 		{
+			_changeSlotNum = slotSelect(_cursor.currentYNum);
 			slotChange(_cursor.currentYNum, _previousSlotNum);
+
+			//초기화
 			_slotSelectCount = 2;
 			_isSlotReload = true;
-			_changeSlotNum = -1;
 		}
 		else
 		{
 			_previousSlotNum = _cursor.currentYNum;
-			_changeSlotNum = slotSelect(_cursor.currentYNum);
 		}
 	}
 }

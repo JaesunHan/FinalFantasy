@@ -123,8 +123,8 @@ void newGame::update()
 			saveIniGameData(_saveFileNum, "OVER WORLD");							//게임데이터: 데이터베이스에 저장
 
 			//아이템
-			_iM->setInventory(1, 2);
-			_iM->setInventory(2, 2);
+			_iM->setItemInventory(1, 2);
+			_iM->setItemInventory(2, 2);
 			_iM->saveInventory("skgFile");
 
 			//================================== 저장파일 생성 ================================== 

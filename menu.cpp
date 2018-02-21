@@ -357,6 +357,16 @@ void menu::playerSlotRender()
 	{
 		textPrint(getMemDC(), "EMPTY", 440, 140, 30, 30, "HY견고딕", COLOR_BLACK);
 	}
+
+	//TEST
+	if (_vPlayer.size() != 0)
+	{
+		for (int i = 0; i < _vPlayer.size(); ++i)
+		{
+			char buff[32];
+			textPrint(getMemDC(), itoa(_vPlayer[i].partyIdx, buff, 10), _vPlayer[i].x, _vPlayer[i].y);
+		}
+	}
 }
 
 void menu::playerSlotRemove()
@@ -385,53 +395,55 @@ void menu::playerSlotAniStart(int slotNum, bool aniStart)
 }
 
 //플레이어 슬롯변경
-void menu::slotChange(int changeSlotNum, int playerIdx)
+//                   변경슬롯넘버        현재슬롯넘버  
+void menu::slotChange(int changeSlotNum, int currentSlotNum)
 {
 	//선택한 슬롯 바꾸기
 	for (int i = 0; i < 4; ++i)
 	{
-		if (i == changeSlotNum)
+		if (i == currentSlotNum)
 		{
 			//플레이어 넘버
 			char strPlayerNum[16];
 			ZeroMemory(&strPlayerNum, sizeof(strPlayerNum));
-			sprintf(strPlayerNum, "player%d", changeSlotNum);
+			sprintf(strPlayerNum, "player%d", i);
 
 			//플레이어 파티원넘버 변경
 			char strPlayerIdx[16];
 			ZeroMemory(&strPlayerIdx, sizeof(strPlayerIdx));
-			sprintf(strPlayerIdx, "%d", playerIdx);
+			sprintf(strPlayerIdx, "%d", changeSlotNum);
 
 			INIDATA->addData(strPlayerNum, "partyIdx", strPlayerIdx);
 			INIDATA->iniSave("skgFile");
+		}
+		else
+		{
+			//슬롯스왑
+			if (_vPlayer[i].partyIdx == changeSlotNum)
+			{
+				//플레이어 넘버
+				char strPlayerNum[16];
+				ZeroMemory(&strPlayerNum, sizeof(strPlayerNum));
+				sprintf(strPlayerNum, "player%d", i);
 
-			break;
+				//플레이어 파티원넘버 변경
+				char strPlayerIdx[16];
+				ZeroMemory(&strPlayerIdx, sizeof(strPlayerIdx));
+				sprintf(strPlayerIdx, "%d", currentSlotNum);
+
+				INIDATA->addData(strPlayerNum, "partyIdx", strPlayerIdx);
+				INIDATA->iniSave("skgFile");
+
+				break;
+			}
 		}
 	}
 
-	//기존 슬롯 바꾸기
+	//원래 미선택 이미지로...
 	for (int i = 0; i < 4; ++i)
 	{
-		if (i == changeSlotNum)
-		{
-			//플레이어 넘버
-			char strPlayerNum[16];
-			ZeroMemory(&strPlayerNum, sizeof(strPlayerNum));
-			sprintf(strPlayerNum, "player%d", changeSlotNum);
-
-			//플레이어 파티원넘버 변경
-			char strPlayerIdx[16];
-			ZeroMemory(&strPlayerIdx, sizeof(strPlayerIdx));
-			sprintf(strPlayerIdx, "%d", playerIdx);
-
-			INIDATA->addData(strPlayerNum, "partyIdx", strPlayerIdx);
-			INIDATA->iniSave("skgFile");
-
-			break;
-		}
-
-		//원래 미선택 이미지로...
 		_vPlayer[i].ani->setFrameIndex(0);
+		_vPlayer[i].slotSelect = false;
 	}
 }
 
@@ -440,7 +452,7 @@ int menu::slotSelect(int selectSlotNum)
 {
 	for (int i = 0; i < _vPlayer.size(); ++i)
 	{
-		if (i == selectSlotNum)
+		if (_vPlayer[i].partyIdx == selectSlotNum)
 		{
 			_vPlayer[i].ani->stop();
 			_vPlayer[i].ani->setFrameIndex(1);
@@ -451,6 +463,8 @@ int menu::slotSelect(int selectSlotNum)
 		}
 	}
 }
+
+
 //------------------------------  slot  ------------------------------ 
 
 
@@ -997,7 +1011,7 @@ void menu::gameDataRender(bool isNewGame)
 	{
 		char tmpBuff[32];
 		textPrint(getMemDC(), tmpGD.stage,					     1050, 392, 30, 30, "Stencil", COLOR_WHITE, true);
-		textPrint(getMemDC(), itoa(tmpGD.playTime, tmpBuff, 10), 1080, 462, 20, 20, "Stencil", COLOR_WHITE, true);
+		//textPrint(getMemDC(), itoa(tmpGD.playTime, tmpBuff, 10), 1080, 462, 20, 20, "Stencil", COLOR_WHITE, true);
 		textPrint(getMemDC(), itoa(tmpGD.gil, tmpBuff, 10),		 1080, 516, 20, 20, "Stencil", COLOR_WHITE, true);
 	}
 }
@@ -1011,17 +1025,17 @@ void menu::gamePlayTime()
 
 	//1분
 	sprintf_s(str, "%d", (int)(_gameTotalTime / 60) % 10);
-	textPrint(getMemDC(), str, 1050, 462, 20, 20, "Stencil", COLOR_WHITE, true);
+	textPrint(getMemDC(), str, 1040, 462, 20, 20, "Stencil", COLOR_WHITE, true);
 	//10분
 	sprintf_s(str, "%d", (int)_gameTotalTime / 600);
-	textPrint(getMemDC(), str, 1040, 462, 20, 20, "Stencil", COLOR_WHITE, true);
+	textPrint(getMemDC(), str, 1030, 462, 20, 20, "Stencil", COLOR_WHITE, true);
 
 	//1초
 	sprintf_s(str, "%d", (int)_gameTotalTime % 10);
-	textPrint(getMemDC(), str, 1100, 462, 20, 20, "Stencil", COLOR_WHITE, true);
+	textPrint(getMemDC(), str, 1090, 462, 20, 20, "Stencil", COLOR_WHITE, true);
 	//10초
 	sprintf_s(str, "%d", (int)(_gameTotalTime / 10) % 6);
-	textPrint(getMemDC(), str, 1090, 462, 20, 20, "Stencil", COLOR_WHITE, true);
+	textPrint(getMemDC(), str, 1080, 462, 20, 20, "Stencil", COLOR_WHITE, true);
 
 	sprintf_s(str, ":", str);
 	textPrint(getMemDC(), str, 1070, 461, 20, 20, "Stencil", COLOR_WHITE, true);
