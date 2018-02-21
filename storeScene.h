@@ -19,6 +19,7 @@ private:
 	image* _storeImg;
 	string _storeKey;
 	string _storeName;
+	char str[128];
 
 private:
 	cursor _buySellSelectCursor;
@@ -27,6 +28,7 @@ private:
 private:
 	itemManager* _im;
 	vector<itemMother*> _vendorList;
+	//vector<itemMother*> _sellList;
 
 private:
 	CURSOR_POS _currentPos;
@@ -47,6 +49,7 @@ public:
 
 	void drawStoreInterface(void);
 	void drawVendorList(void);
+	void drawSellItemList(void);
 
 	void setStoreKey(string key);
 

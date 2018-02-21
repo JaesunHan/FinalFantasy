@@ -70,6 +70,13 @@ void storeScene::render()
 
 	if (_currentPos == POS_BUY_LIST) drawVendorList();
 	
+	/*SetTextColor(getMemDC(), RGB(0, 0, 0));
+	SelectObject(getMemDC(), oldFont);
+	DeleteObject(oldFont);
+	DeleteObject(newFont);*/
+
+	if (_currentPos == POS_SELL_LIST) drawSellItemList();
+
 	SetTextColor(getMemDC(), RGB(0, 0, 0));
 	SelectObject(getMemDC(), oldFont);
 	DeleteObject(oldFont);
@@ -133,6 +140,27 @@ void storeScene::drawVendorList(void)
 		SetTextAlign(getMemDC(), TA_RIGHT);
 		TextOut(getMemDC(), 260 + (i % 3) * 280, 255 + (i / 3) * 90,
 			to_string(_vendorList[i]->getPrice()).c_str(), strlen(to_string(_vendorList[i]->getPrice()).c_str()));
+		SetTextAlign(getMemDC(), TA_LEFT);
+	}
+}
+
+void storeScene::drawSellItemList(void)
+{
+	for (int i = 0; i < _im->getItemInventorySize(); i++)
+	{
+		IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 0, 0);
+
+		//아이템 이름 불러온다.								//아이템 매니저의 벡터를 돌아 -> 맵정보에 있는 벡터arry넘버를 반환받아-> 인벤토리의 아이템 이름을 받아온다.
+		TextOut(getMemDC(), 75 + (i % 3) * 280, 235 + (i / 3) * 90, _im->getVItem()[_im->getItemVNum(i)]->getItemName(), strlen(_im->getVItem()[_im->getItemVNum(i)]->getItemName()));
+		//아이템 [가격] 출력
+		sprintf(str, "가격");
+		TextOut(getMemDC(), 240 + (i % 3) * 280, 235 + (i / 3) * 90, str, strlen(str));
+		//아이템 갯수 불러온다.
+		TextOut(getMemDC(), 75 + (i % 3) * 280, 255 + (i / 3) * 90, to_string(_im->getItemCount(i)).c_str(), strlen(to_string(_im->getItemCount(i)).c_str()));
+		SetTextAlign(getMemDC(), TA_RIGHT);
+		//아이템 가격 불러온다.
+		TextOut(getMemDC(), 260 + (i % 3) * 280, 255 + (i / 3) * 90,
+			to_string(_im->getVItem()[_im->getItemVNum(i)]->getPrice() / 2).c_str(), strlen(to_string(_im->getVItem()[_im->getItemVNum(i)]->getPrice() / 2).c_str()));
 		SetTextAlign(getMemDC(), TA_LEFT);
 	}
 }
