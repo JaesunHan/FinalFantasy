@@ -102,6 +102,10 @@ battleTina::battleTina()
 	_atkEffectSoundKey = "TinaAttackSound";
 	_atkEffectSoundFile = "./sound/sfx/42Fire2.wav";
 	SOUNDMANAGER->addSound(_atkEffectSoundKey, _atkEffectSoundFile, false, false);
+
+	//마법공격 세팅하기
+
+
 }
 
 

@@ -432,9 +432,6 @@
     <ClInclude Include="cameraManager.h">
       <Filter>playGround\MapScene\cameraManager</Filter>
     </ClInclude>
-    <ClInclude Include="magic.h">
-      <Filter>playGround\player</Filter>
-    </ClInclude>
     <ClInclude Include="weaponStore.h">
       <Filter>playGround\MapScene\store</Filter>
     </ClInclude>
@@ -455,6 +452,9 @@
     </ClInclude>
     <ClInclude Include="storeScene.h">
       <Filter>playGround\MapScene\store</Filter>
+    </ClInclude>
+    <ClInclude Include="magic.h">
+      <Filter>playGround\BattleScene\battlePlayer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -728,9 +728,6 @@
     <ClCompile Include="cameraManager.cpp">
       <Filter>playGround\MapScene\cameraManager</Filter>
     </ClCompile>
-    <ClCompile Include="magic.cpp">
-      <Filter>playGround\player</Filter>
-    </ClCompile>
     <ClCompile Include="weaponStore.cpp">
       <Filter>playGround\MapScene\store</Filter>
     </ClCompile>
@@ -754,6 +751,9 @@
     </ClCompile>
     <ClCompile Include="storeScene.cpp">
       <Filter>playGround\MapScene\store</Filter>
+    </ClCompile>
+    <ClCompile Include="magic.cpp">
+      <Filter>playGround\BattleScene\battlePlayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

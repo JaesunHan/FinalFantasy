@@ -1,6 +1,6 @@
 #pragma once
 #include "gameNode.h"
-#include "action.h"
+#include "magic.h"
 #define MAXANIMATIONNUM 8
 #define MAXATKMOTION	3
 //배틀 플레이어의 상태를 나타낼 enum
@@ -74,7 +74,6 @@ protected:
 	float _posX, _posY;				//출력될 위치좌표(중점)
 
 	
-
 	//애니메이션을 재생할지 말지에 대한 불값
 	bool _playAnimList[MAXANIMATIONNUM];
 	
@@ -110,6 +109,9 @@ protected:
 	//장착한 보조무기
 	armorItem* _mySubWeapon;
 	
+	//마법 공격
+	vector<magic*> _myUsableMagic;
+
 public:
 	battlePlayerMother();
 	~battlePlayerMother();
@@ -167,6 +169,11 @@ public:
 	inline armorItem* getSubWeapon() { return _mySubWeapon; }
 	inline void setSubWeapon(armorItem* subWeapon) { _mySubWeapon = subWeapon; }
 	
+	//배틀 플레이어가 보유하고 있는 마법 목록 게터
+	inline vector<magic*> getMyUsableMagic() {
+		return _myUsableMagic;	
+	}
+
 	//====================================== End 접근자 설정자 ======================================
 
 	//배틀시작할 때 한꺼번에 모든 배틀플레이어를 세팅하자
