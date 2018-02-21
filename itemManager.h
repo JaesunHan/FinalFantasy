@@ -16,6 +16,7 @@ private:
 	map<string, pair<int, int>>					_arrWeaponInventory;
 	map<string, pair<int, int>>					_arrArmorInventory;
 	map<string, pair<int, int>>::iterator		_iterInventory;
+	unsigned int								_gil;
 
 public:
 	itemManager();
@@ -47,6 +48,7 @@ public:
 	inline int getItemInventorySize() { return _arrItemInventory.size(); }
 	inline int getWeaponInventorySize() { return _arrWeaponInventory.size(); }
 	inline int getArmorInventorySize() { return _arrArmorInventory.size(); }
+	inline unsigned int getMoney() { return _gil; }
 
 };
 
