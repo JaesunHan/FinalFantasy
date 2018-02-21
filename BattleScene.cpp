@@ -689,6 +689,28 @@ void BattleScene::drawUI()
 			char itemCount3[16];
 			char itemCount4[16];
 			char itemCount5[16];
+			if (_itemSelectNum > 1)
+			{
+				wsprintf(itemName1, _im->getVItem()[_im->getItemVNum(_itemSelectNum - 2)]->getItemName());
+				wsprintf(itemCount1, "%d", _im->getItemCount(_itemSelectNum - 2));
+			}
+			if (_itemSelectNum > 0)
+			{
+				wsprintf(itemName2, _im->getVItem()[_im->getItemVNum(_itemSelectNum - 1)]->getItemName());
+				wsprintf(itemCount1, "%d", _im->getItemCount(_itemSelectNum - 1));
+			}
+			wsprintf(itemName3, _im->getVItem()[_im->getItemVNum(_itemSelectNum)]->getItemName());
+			wsprintf(itemCount1, "%d", _im->getItemCount(_itemSelectNum));
+			if (_itemSelectNum + 1 < _im->getInventorySize())
+			{
+				wsprintf(itemName4, _im->getVItem()[_im->getItemVNum(_itemSelectNum + 1)]->getItemName());
+				wsprintf(itemCount1, "%d", _im->getItemCount(_itemSelectNum + 1));
+			}
+			if (_itemSelectNum + 2 < _im->getInventorySize())
+			{
+				wsprintf(itemName5, _im->getVItem()[_im->getItemVNum(_itemSelectNum + 2)]->getItemName());
+				wsprintf(itemCount1, "%d", _im->getItemCount(_itemSelectNum + 2));
+			}
 
 			switch (_battleCharacters[_currentTurn].characterType)
 			{
@@ -705,6 +727,7 @@ void BattleScene::drawUI()
 				IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 300, 160 * i, 150, 160);
 				break;
 			}
+			TextOut(getMemDC(), WINSIZEX - 250, 160 * i + 5, )
 			IMAGEMANAGER->findImage("fingerArrowRt")->render(getMemDC(), WINSIZEX - 290, 160 * i + 5 + 60);
 		}
 		else if (_playerTurn == true && i == _currentTurn)

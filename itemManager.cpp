@@ -191,7 +191,7 @@ HRESULT itemManager::init()
 void itemManager::saveInventory(char* fileName)
 {
 	int itemListI;
-	itemListI = 0;
+	itemListI = 1;
 	char itemListA[1024];
 	_iterInventory = _arrInventory.begin();
 	for (_iterInventory; _iterInventory != _arrInventory.end(); ++_iterInventory)
