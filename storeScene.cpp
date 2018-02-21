@@ -96,11 +96,12 @@ void storeScene::keyControl(void)
 	}
 	if (_currentPos == POS_BUY_LIST)
 	{
-		
+		_listSelectCursor.keyControlXY(280, 90, 3, _vendorList.size());
 
 		if (KEYMANAGER->isOnceKeyDown(VK_BACK))
 		{
 			_currentPos = POS_BUY_SELL;
+			_listSelectCursor.init(CURSOR_RIGHT, 20, 240);
 		}
 	}
 	if (_currentPos == POS_SELL_LIST)
@@ -112,6 +113,7 @@ void storeScene::keyControl(void)
 		if (KEYMANAGER->isOnceKeyDown(VK_BACK))
 		{
 			_currentPos = POS_BUY_SELL;
+			_listSelectCursor.init(CURSOR_RIGHT, 20, 240);
 		}
 
 		if (KEYMANAGER->isOnceKeyDown(VK_TAB))
@@ -136,7 +138,8 @@ void storeScene::drawVendorList(void)
 {
 	for (int i = 0; i < _vendorList.size(); i++)
 	{
-		IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 0, 0);
+		if (i == _listSelectCursor.getCursorPos()) IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 1, 0);
+		else IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 0, 0);
 
 		TextOut(getMemDC(), 75 + (i % 3) * 280, 235 + (i / 3) * 90, _vendorList[i]->getItemName(), strlen(_vendorList[i]->getItemName()));
 
@@ -153,7 +156,8 @@ void storeScene::drawSellItemList(void)
 	{
 		for (int i = 0; i < _im->getItemInventorySize(); i++)
 		{
-			IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 0, 0);
+			if (i == _listSelectCursor.getCursorPos()) IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 1, 0);
+			else IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 0, 0);
 
 			//맵정보에는 아이템, 웨폰, 아머 이렇게 있다. 접근시 아이템매니저 벡터를 접근한뒤 해당 아이템의 맵정보에 접근가능하다. 
 			//아이템 이름 불러온다.                  //아이템 매니저의 벡터를 돌아 -> 맵정보에 [아이템]맵에 있는 벡터arry넘버를 반환받아-> 인벤토리의 아이템 이름을 받아온다.
@@ -174,7 +178,8 @@ void storeScene::drawSellItemList(void)
 	{
 		for (int i = 0; i < _im->getWeaponInventorySize(); i++)
 		{
-			IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 0, 0);
+			if (i == _listSelectCursor.getCursorPos()) IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 1, 0);
+			else IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 0, 0);
 
 			//맵정보에는 아이템, 웨폰, 아머 이렇게 있다. 접근시 아이템매니저 벡터를 접근한뒤 해당 아이템의 맵정보에 접근가능하다. 
 			//아이템 이름 불러온다.                  //아이템 매니저의 벡터를 돌아 -> 맵정보에 [아이템]맵에 있는 벡터arry넘버를 반환받아-> 인벤토리의 아이템 이름을 받아온다.
@@ -195,7 +200,8 @@ void storeScene::drawSellItemList(void)
 	{
 		for (int i = 0; i < _im->getArmorInventorySize(); i++)
 		{
-			IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 0, 0);
+			if (i == _listSelectCursor.getCursorPos()) IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 1, 0);
+			else IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 0, 0);
 
 			//맵정보에는 아이템, 웨폰, 아머 이렇게 있다. 접근시 아이템매니저 벡터를 접근한뒤 해당 아이템의 맵정보에 접근가능하다. 
 			//아이템 이름 불러온다.                  //아이템 매니저의 벡터를 돌아 -> 맵정보에 [아이템]맵에 있는 벡터arry넘버를 반환받아-> 인벤토리의 아이템 이름을 받아온다.

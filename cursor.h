@@ -40,5 +40,6 @@ public:
 
 	inline int getCursorXNum(void) { return _currentXNum; }
 	inline int getCursorYNum(void) { return _currentYNum; }
+	inline int getCursorPos(void) { return _currentPos; }
 };
 
