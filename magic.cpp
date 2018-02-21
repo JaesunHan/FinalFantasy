@@ -12,14 +12,14 @@ magic::~magic()
 
 }
 
-HRESULT magic::init(string magicEffectKey, char* magicImgFileName, char magicName[256], int abilityPower, int manaConst, int hitRate, int healHp, bool isHeal)
+HRESULT magic::init(string magicEffectKey, char* magicImgFileName, char magicName[256], int abilityPower, int manaCost, int hitRate, int healHp, bool isHeal)
 {
 	_maicEffectKeyString = magicEffectKey;
 	//이미지 매니저에 등록된 이미지를 찾아서 변수에 저장하기
 	_magicImg = IMAGEMANAGER->findImage(_maicEffectKeyString);
 	wsprintf(_magicName, "%s", magicName);
 	_abilityPower = abilityPower;
-	_manaConst = manaConst;
+	_manaCost = manaCost;
 	_hitRate = hitRate;
 	_isHeal = isHeal;
 	_healHP = healHp;
