@@ -432,7 +432,7 @@ void BattleScene::playerMenuSelect()
 			}
 			else if (_itemSelect == true)
 			{
-				if (_itemSelectNum < _im->getInventorySize() - 1) _itemSelectNum++;
+				if (_itemSelectNum < _im->getItemInventorySize() - 1) _itemSelectNum++;
 				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
 			}
 			else if (_playerTurn == true)
@@ -577,9 +577,9 @@ void BattleScene::playerMenuSelect()
 	
 	if (KEYMANAGER->isOnceKeyDown('R'))
 	{
-		_im->setInventory(0, 3);
-		_im->setInventory(1, 3);
-		_im->setInventory(2, 3);
+		_im->setItemInventory("포션", 3);
+		_im->setItemInventory(5, 4);
+		_im->setItemInventory("X-포션", 3);
 	}
 	//if (KEYMANAGER->isOnceKeyDown('T'))
 	//{
@@ -679,55 +679,56 @@ void BattleScene::drawUI()
 		}
 		else if (i == _currentTurn && _itemSelect == true)
 		{
-			char itemName1[64];
-			char itemName2[64];
-			char itemName3[64];
-			char itemName4[64];
-			char itemName5[64];
-			char itemCount1[16];
-			char itemCount2[16];
-			char itemCount3[16];
-			char itemCount4[16];
-			char itemCount5[16];
+			char itemName[5][64];
+			char itemCount[5][16];
+			RECT itemRC[5];
+			itemRC[0] = { WINSIZEX - 250, 160 * i + 5, WINSIZEX - 115, 160 * i + 35 };
+			itemRC[1] = { WINSIZEX - 250, 160 * i + 35, WINSIZEX - 115, 160 * i + 65 };
+			itemRC[2] = { WINSIZEX - 250, 160 * i + 65, WINSIZEX - 115, 160 * i + 95 };
+			itemRC[3] = { WINSIZEX - 250, 160 * i + 95, WINSIZEX - 115, 160 * i + 125 };
+			itemRC[4] = { WINSIZEX - 250, 160 * i + 125, WINSIZEX - 115, 160 * i + 155 };
 			if (_itemSelectNum > 1)
 			{
-				wsprintf(itemName1, _im->getVItem()[_im->getItemVNum(_itemSelectNum - 2)]->getItemName());
-				wsprintf(itemCount1, "%d", _im->getItemCount(_itemSelectNum - 2));
+				wsprintf(itemName[0], _im->getVItem()[_im->getItemVNum(_itemSelectNum - 2)]->getItemName());
+				wsprintf(itemCount[0], "%d", _im->getItemCount(_itemSelectNum - 2));
 			}
 			if (_itemSelectNum > 0)
 			{
-				wsprintf(itemName2, _im->getVItem()[_im->getItemVNum(_itemSelectNum - 1)]->getItemName());
-				wsprintf(itemCount1, "%d", _im->getItemCount(_itemSelectNum - 1));
+				wsprintf(itemName[1], _im->getVItem()[_im->getItemVNum(_itemSelectNum - 1)]->getItemName());
+				wsprintf(itemCount[1], "%d", _im->getItemCount(_itemSelectNum - 1));
 			}
-			wsprintf(itemName3, _im->getVItem()[_im->getItemVNum(_itemSelectNum)]->getItemName());
-			wsprintf(itemCount1, "%d", _im->getItemCount(_itemSelectNum));
-			if (_itemSelectNum + 1 < _im->getInventorySize())
+			wsprintf(itemName[2], _im->getVItem()[_im->getItemVNum(_itemSelectNum)]->getItemName());
+			wsprintf(itemCount[2], "%d", _im->getItemCount(_itemSelectNum));
+			if (_itemSelectNum + 1 < _im->getItemInventorySize())
 			{
-				wsprintf(itemName4, _im->getVItem()[_im->getItemVNum(_itemSelectNum + 1)]->getItemName());
-				wsprintf(itemCount1, "%d", _im->getItemCount(_itemSelectNum + 1));
+				wsprintf(itemName[3], _im->getVItem()[_im->getItemVNum(_itemSelectNum + 1)]->getItemName());
+				wsprintf(itemCount[3], "%d", _im->getItemCount(_itemSelectNum + 1));
 			}
-			if (_itemSelectNum + 2 < _im->getInventorySize())
+			if (_itemSelectNum + 2 < _im->getItemInventorySize())
 			{
-				wsprintf(itemName5, _im->getVItem()[_im->getItemVNum(_itemSelectNum + 2)]->getItemName());
-				wsprintf(itemCount1, "%d", _im->getItemCount(_itemSelectNum + 2));
+				wsprintf(itemName[4], _im->getVItem()[_im->getItemVNum(_itemSelectNum + 2)]->getItemName());
+				wsprintf(itemCount[4], "%d", _im->getItemCount(_itemSelectNum + 2));
 			}
-
 			switch (_battleCharacters[_currentTurn].characterType)
 			{
 			case(TINA):
-				IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 300, 160 * i, 150, 160);
+				IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 300, 160 * i, 200, 160);
 				break;
 			case(LOCKE):
-				IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 300, 160 * i, 150, 160);
+				IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 300, 160 * i, 200, 160);
 				break;
 			case(CELES):
-				IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 300, 160 * i, 150, 160);
+				IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 300, 160 * i, 200, 160);
 				break;
 			case(SHADOW):
-				IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 300, 160 * i, 150, 160);
+				IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 300, 160 * i, 200, 160);
 				break;
 			}
-			//TextOut(getMemDC(), WINSIZEX - 250, 160 * i + 5, )
+			for (int j = 0; j < 5; ++j)
+			{
+				drawText(30, itemName[j], itemRC[j], DT_LEFT);
+				drawText(30, itemCount[j], itemRC[j], DT_RIGHT);
+			}
 			IMAGEMANAGER->findImage("fingerArrowRt")->render(getMemDC(), WINSIZEX - 290, 160 * i + 5 + 60);
 		}
 		else if (_playerTurn == true && i == _currentTurn)
@@ -866,6 +867,35 @@ void BattleScene::playerAttack()
 		_battleTurn.front()->enemy->setCurHP(_battleTurn.front()->enemy->getCurHP() - _damage);
 	}
 	_isDamaged = true;
+
+	/*
+	//이거를 배틀플레이어의 연산에 넣어야됨
+	void magic::setDamageFormula()
+	{
+		bool _hit;                                                                        //맞았는지 빗나갔는지를 알기위한 불값
+																						  //타겟에 들어갈 거는 에너미의 마법 방어력이 들어가야됨.
+		float BlockValue = (255 - _target->getMDef() * 2) + 1;                                       //회피율 공식 _target->getMDef() == 플레이어의 마법방어력 수치
+		if (BlockValue > 255) BlockValue = 255;                                                   //BlockValue가 255 보다 크면 BlockValue값은 255
+		if (BlockValue < 1) BlockValue = 1;                                                      //BlockValue가 1보다 작으면 BlockValue값은 1
+																								 //ㅈ자료에 있는 히트레이트 적용하기
+		if (((float)_hitRate * BlockValue / 256) > RND->getFromFloatTo(0, 0.99f))
+		{
+			_hit = true;                                                                  //맞았다!
+		}
+		else
+		{
+			_hit = false;                                                                  //빗나감 ㅠㅠ
+		}
+
+		if (_hit == true)                                                                  //맞앗으면 데미지 공식 적용
+		{
+			_spellDamage = _spellPower * 4 + (_Lv * MagicPower * _spellPower / 32);         // 스킬 데미지 공식
+		}
+		else                                                                           //빗나갔다 ㅠㅠ 데미지 스킬데미지 0
+		{
+			_spellDamage = 0;
+		}
+	*/
 }
 
 void BattleScene::drawText(int fontSize, char* str, RECT rc, int position, bool dialogue)

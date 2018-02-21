@@ -191,27 +191,54 @@ HRESULT itemManager::init()
 void itemManager::saveInventory(char* fileName)
 {
 	int itemListI;
-	itemListI = 1;
+	int weaponListI;
+	int armorListI;
 	char itemListA[1024];
-	_iterInventory = _arrInventory.begin();
-	for (_iterInventory; _iterInventory != _arrInventory.end(); ++_iterInventory)
+	char weaponListA[1024];
+	char armorListA[1024];
+	itemListI = 1;
+	weaponListI = 1;
+	armorListI = 1;
+	for (_iterInventory = _arrItemInventory.begin(); _iterInventory != _arrItemInventory.end(); ++_iterInventory)
 	{
 		itemListI = itemListI * 100;
 		itemListI += _iterInventory->second.first;
 		itemListI = itemListI * 100;
 		itemListI += _iterInventory->second.second;
 	}
+	for (_iterInventory = _arrWeaponInventory.begin(); _iterInventory != _arrWeaponInventory.end(); ++_iterInventory)
+	{
+		weaponListI = weaponListI * 100;
+		weaponListI += _iterInventory->second.first;
+		weaponListI = weaponListI * 100;
+		weaponListI += _iterInventory->second.second;
+	}
+	for (_iterInventory = _arrArmorInventory.begin(); _iterInventory != _arrArmorInventory.end(); ++_iterInventory)
+	{
+		armorListI = armorListI * 100;
+		armorListI += _iterInventory->second.first;
+		armorListI = armorListI * 100;
+		armorListI += _iterInventory->second.second;
+	}
 	itoa(itemListI, itemListA, 10);
+	itoa(weaponListI, weaponListA, 10);
+	itoa(armorListI, armorListA, 10);
 	INIDATA->addData("Inventory", "ItemList", itemListA);
+	INIDATA->addData("Inventory", "WeaponList", weaponListA);
+	INIDATA->addData("Inventory", "ArmorList", armorListA);
 	INIDATA->iniSave(fileName);
 }
 
 void itemManager::loadInventory(char* fileName)
 {
 	int itemListI;
+	int weaponListI;
+	int armorListI;
 	int tempVectorNum;
 	int tempCount;
 	itemListI = INIDATA->loadDataInterger(fileName, "Inventory", "ItemList");
+	weaponListI = INIDATA->loadDataInterger(fileName, "Inventory", "WeaponList");
+	armorListI = INIDATA->loadDataInterger(fileName, "Inventory", "ArmorList");
 	while (1)
 	{
 		if (itemListI < 100)
@@ -222,32 +249,31 @@ void itemManager::loadInventory(char* fileName)
 		itemListI = itemListI / 100;
 		tempVectorNum = itemListI % 100;
 		itemListI = itemListI / 100;
-		setInventory(tempVectorNum, tempCount);
+		setItemInventory(tempVectorNum, tempCount);
 	}
 
 }
 
-void itemManager::setInventory(int vectorNum, int count)
+void itemManager::setItemInventory(int vectorNum, int count)
 {
 	_element = make_pair(vectorNum, count);
-	//char* keyName = ;
-	_iterInventory = _arrInventory.find(_vItem[vectorNum]->getItemName());
-	if (_iterInventory != _arrInventory.end())
+	_iterInventory = _arrItemInventory.find(_vItem[vectorNum]->getItemName());
+	if (_iterInventory != _arrItemInventory.end())
 	{
-		_arrInventory[_vItem[vectorNum]->getItemName()] = _element;
+		_arrItemInventory[_vItem[vectorNum]->getItemName()] = _element;
 	}
 	else
 	{
-		_arrInventory.insert(make_pair(_vItem[vectorNum]->getItemName(), _element));
+		_arrItemInventory.insert(make_pair(_vItem[vectorNum]->getItemName(), _element));
 	}
 }
 
-void itemManager::setInventory(string keyName, int count)
+void itemManager::setItemInventory(string keyName, int count)
 {
-	_iterInventory = _arrInventory.find(keyName);
-	if (_iterInventory != _arrInventory.end())
+	_iterInventory = _arrItemInventory.find(keyName);
+	if (_iterInventory != _arrItemInventory.end())
 	{
-		_arrInventory[keyName].second = count;
+		_arrItemInventory[keyName].second = count;
 	}
 	else
 	{
@@ -255,7 +281,75 @@ void itemManager::setInventory(string keyName, int count)
 		{
 			if (_vItem[i]->getItemName() == keyName)
 			{
-				setInventory(i, count);
+				setItemInventory(i, count);
+				break;
+			}
+		}
+	}
+}
+
+void itemManager::setWeaponInventory(int vectorNum, int count)
+{
+	_element = make_pair(vectorNum, count);
+	_iterInventory = _arrWeaponInventory.find(_vItem[vectorNum]->getItemName());
+	if (_iterInventory != _arrWeaponInventory.end())
+	{
+		_arrWeaponInventory[_vItem[vectorNum]->getItemName()] = _element;
+	}
+	else
+	{
+		_arrWeaponInventory.insert(make_pair(_vItem[vectorNum]->getItemName(), _element));
+	}
+}
+
+void itemManager::setWeaponInventory(string keyName, int count)
+{
+	_iterInventory = _arrWeaponInventory.find(keyName);
+	if (_iterInventory != _arrWeaponInventory.end())
+	{
+		_arrWeaponInventory[keyName].second = count;
+	}
+	else
+	{
+		for (int i = 0; i < _vItem.size(); ++i)
+		{
+			if (_vItem[i]->getItemName() == keyName)
+			{
+				setWeaponInventory(i, count);
+				break;
+			}
+		}
+	}
+}
+
+void itemManager::setArmorInventory(int vectorNum, int count)
+{
+	_element = make_pair(vectorNum, count);
+	_iterInventory = _arrArmorInventory.find(_vItem[vectorNum]->getItemName());
+	if (_iterInventory != _arrArmorInventory.end())
+	{
+		_arrArmorInventory[_vItem[vectorNum]->getItemName()] = _element;
+	}
+	else
+	{
+		_arrArmorInventory.insert(make_pair(_vItem[vectorNum]->getItemName(), _element));
+	}
+}
+
+void itemManager::setArmorInventory(string keyName, int count)
+{
+	_iterInventory = _arrArmorInventory.find(keyName);
+	if (_iterInventory != _arrArmorInventory.end())
+	{
+		_arrArmorInventory[keyName].second = count;
+	}
+	else
+	{
+		for (int i = 0; i < _vItem.size(); ++i)
+		{
+			if (_vItem[i]->getItemName() == keyName)
+			{
+				setArmorInventory(i, count);
 				break;
 			}
 		}
@@ -264,7 +358,7 @@ void itemManager::setInventory(string keyName, int count)
 
 int itemManager::getItemVNum(int num)
 {
-	_iterInventory = _arrInventory.begin();
+	_iterInventory = _arrItemInventory.begin();
 	for (int i = 0; i < num; ++i)
 	{
 		_iterInventory++;
@@ -274,7 +368,47 @@ int itemManager::getItemVNum(int num)
 
 int itemManager::getItemCount(int num)
 {
-	_iterInventory = _arrInventory.begin();
+	_iterInventory = _arrItemInventory.begin();
+	for (int i = 0; i < num; ++i)
+	{
+		_iterInventory++;
+	}
+	return _iterInventory->second.second;
+}
+
+int itemManager::getWeaponVNum(int num)
+{
+	_iterInventory = _arrWeaponInventory.begin();
+	for (int i = 0; i < num; ++i)
+	{
+		_iterInventory++;
+	}
+	return _iterInventory->second.first;
+}
+
+int itemManager::getWeaponCount(int num)
+{
+	_iterInventory = _arrWeaponInventory.begin();
+	for (int i = 0; i < num; ++i)
+	{
+		_iterInventory++;
+	}
+	return _iterInventory->second.second;
+}
+
+int itemManager::getArmorVNum(int num)	
+{
+	_iterInventory = _arrArmorInventory.begin();
+	for (int i = 0; i < num; ++i)
+	{
+		_iterInventory++;
+	}
+	return _iterInventory->second.first;
+}
+
+int itemManager::getArmorCount(int num)	
+{
+	_iterInventory = _arrArmorInventory.begin();
 	for (int i = 0; i < num; ++i)
 	{
 		_iterInventory++;

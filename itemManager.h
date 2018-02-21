@@ -12,7 +12,9 @@ private:
 	vector<itemMother*>							_vItem;
 	//º¤ÅÍ ¹øÈ£, °¹¼ö	
 	pair<int, int>								_element;		
-	map<string, pair<int, int>>					_arrInventory;
+	map<string, pair<int, int>>					_arrItemInventory;
+	map<string, pair<int, int>>					_arrWeaponInventory;
+	map<string, pair<int, int>>					_arrArmorInventory;
 	map<string, pair<int, int>>::iterator		_iterInventory;
 
 public:
@@ -26,9 +28,19 @@ public:
 	void loadInventory(char* fileName);
 	int getItemVNum(int num);
 	int getItemCount(int num);
-	void setInventory(int vectorNum, int count);
-	void setInventory(string keyName, int count);
-	inline int getInventorySize() { return _arrInventory.size(); }
+	int getWeaponVNum(int num);
+	int getWeaponCount(int num);
+	int getArmorVNum(int num);
+	int getArmorCount(int num);
+	void setItemInventory(int vectorNum, int count);
+	void setItemInventory(string keyName, int count);
+	void setWeaponInventory(int vectorNum, int count);
+	void setWeaponInventory(string keyName, int count);
+	void setArmorInventory(int vectorNum, int count);
+	void setArmorInventory(string keyName, int count);
+	inline int getItemInventorySize() { return _arrItemInventory.size(); }
+	inline int getWeaponInventorySize() { return _arrWeaponInventory.size(); }
+	inline int getArmorInventorySize() { return _arrArmorInventory.size(); }
 
 };
 
