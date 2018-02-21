@@ -1,10 +1,13 @@
 #include "stdafx.h"
 #include "menu.h"
-
+#include "itemManager.h"
 
 menu::menu()
 {
 	_slotNum = 0;
+	//사운드
+	SOUNDMANAGER->addSound("battleMenuOpen", ".\\sound\\sfx\\battleMenuOpen.wav", false, false);
+	SOUNDMANAGER->addSound("menuSelectLow", ".\\sound\\sfx\\menuSelectLow.wav", false, false);
 }
 menu::~menu()
 {
@@ -396,17 +399,17 @@ void menu::playerSlotAniStart(int slotNum, bool aniStart)
 
 //플레이어 슬롯변경
 //                   변경슬롯넘버        현재슬롯넘버  
-void menu::slotChange(int changeSlotNum, int currentSlotNum)
+void menu::slotChange(int changeSlotNum, int selectSlotNum)
 {
 	//선택한 슬롯 바꾸기
 	for (int i = 0; i < 4; ++i)
 	{
-		if (i == currentSlotNum)
+		if (_vPlayer[i].partyIdx == selectSlotNum)
 		{
-			//플레이어 넘버
+			//플레이어 파티원넘버 변경
 			char strPlayerNum[16];
 			ZeroMemory(&strPlayerNum, sizeof(strPlayerNum));
-			sprintf(strPlayerNum, "player%d", i);
+			sprintf(strPlayerNum, "player%d", getPlayerNum(i));
 
 			//플레이어 파티원넘버 변경
 			char strPlayerIdx[16];
@@ -418,18 +421,17 @@ void menu::slotChange(int changeSlotNum, int currentSlotNum)
 		}
 		else
 		{
-			//슬롯스왑
 			if (_vPlayer[i].partyIdx == changeSlotNum)
 			{
-				//플레이어 넘버
+				//플레이어 파티원넘버 변경
 				char strPlayerNum[16];
 				ZeroMemory(&strPlayerNum, sizeof(strPlayerNum));
-				sprintf(strPlayerNum, "player%d", i);
+				sprintf(strPlayerNum, "player%d", getPlayerNum(i));
 
 				//플레이어 파티원넘버 변경
 				char strPlayerIdx[16];
 				ZeroMemory(&strPlayerIdx, sizeof(strPlayerIdx));
-				sprintf(strPlayerIdx, "%d", currentSlotNum);
+				sprintf(strPlayerIdx, "%d", selectSlotNum);
 
 				INIDATA->addData(strPlayerNum, "partyIdx", strPlayerIdx);
 				INIDATA->iniSave("skgFile");
@@ -437,7 +439,9 @@ void menu::slotChange(int changeSlotNum, int currentSlotNum)
 				break;
 			}
 		}
+
 	}
+
 
 	//원래 미선택 이미지로...
 	for (int i = 0; i < 4; ++i)
@@ -459,11 +463,38 @@ int menu::slotSelect(int selectSlotNum)
 			_vPlayer[i].aniStart = false;
 			_vPlayer[i].slotSelect = true;
 		
-			return i;
+			return getPlayerNum(i);
 		}
 	}
 }
 
+
+int menu::getPlayerNum(int partyIdX)
+{
+	for (int i = 0; i < _vPlayer.size(); ++i)
+	{
+		if (_vPlayer[i].partyIdx == partyIdX)
+		{
+			if (!strcmp(_vPlayer[i].name, "TINA"))
+			{
+				return 0;
+			}
+			if (!strcmp(_vPlayer[i].name, "LOCKE"))
+			{
+				return 1;
+			}
+			if (!strcmp(_vPlayer[i].name, "CELES"))
+			{
+				return 2;
+			}
+			if (!strcmp(_vPlayer[i].name, "SHADOW"))
+			{
+				return 3;
+			}
+		
+		}
+	}
+}
 
 //------------------------------  slot  ------------------------------ 
 
@@ -859,6 +890,7 @@ void menu::saveIniSlotGameData(int fileNum, string stage, int gil, int playTime,
 	}
 }
 
+//saveFile -> tmpFile copy
 void menu::fileCopyTmpFile(int fileNum)
 {
 	//플레이어 정보로드
@@ -875,7 +907,7 @@ void menu::fileCopyTmpFile(int fileNum)
 			tmpPlayrInfo.playerInfo.stamina, tmpPlayrInfo.playerInfo.magic, tmpPlayrInfo.playerInfo.attack, tmpPlayrInfo.playerInfo.attackDefence,
 			tmpPlayrInfo.playerInfo.magicDefence, tmpPlayrInfo.playerInfo.evation, tmpPlayrInfo.playerInfo.magicEvation, tmpPlayrInfo.playerInfo.partyIdx,
 			tmpPlayrInfo.playerInfo.weapon, tmpPlayrInfo.playerInfo.armor, tmpPlayrInfo.playerInfo.helmet, tmpPlayrInfo.playerInfo.subWeapon,
-			true, true);
+			false, true);
 
 		INIDATA->iniSave("skgFile");
 
@@ -898,12 +930,68 @@ void menu::fileCopyTmpFile(int fileNum)
 	}
 }
 
-tagSaveData menu::loadIniPlayerData(int fileNum, int playerNumber)
+//tmpFile -> saveFile copy
+void menu::fileCopySaveFile(int fileNum)
+{
+		//플레이어 정보로드
+	tagSaveData tmpPlayrInfo;
+
+	for (int i = 0; i < 4; ++i)
+	{
+		ZeroMemory(&tmpPlayrInfo, sizeof(tmpPlayrInfo));
+		tmpPlayrInfo = loadIniPlayerData(fileNum, i, true);
+
+		saveIniPlayerData(tmpPlayrInfo.fileNum, i, tmpPlayrInfo.playerInfo.name, tmpPlayrInfo.playerInfo.job, tmpPlayrInfo.playerInfo.level,
+			tmpPlayrInfo.playerInfo.hp, tmpPlayrInfo.playerInfo.maxHp, tmpPlayrInfo.playerInfo.mp, tmpPlayrInfo.playerInfo.maxMp,
+			tmpPlayrInfo.playerInfo.exp, tmpPlayrInfo.playerInfo.maxExp, tmpPlayrInfo.playerInfo.strength, tmpPlayrInfo.playerInfo.speed,
+			tmpPlayrInfo.playerInfo.stamina, tmpPlayrInfo.playerInfo.magic, tmpPlayrInfo.playerInfo.attack, tmpPlayrInfo.playerInfo.attackDefence,
+			tmpPlayrInfo.playerInfo.magicDefence, tmpPlayrInfo.playerInfo.evation, tmpPlayrInfo.playerInfo.magicEvation, tmpPlayrInfo.playerInfo.partyIdx,
+			tmpPlayrInfo.playerInfo.weapon, tmpPlayrInfo.playerInfo.armor, tmpPlayrInfo.playerInfo.helmet, tmpPlayrInfo.playerInfo.subWeapon,
+			false, false);
+
+
+		char saveFileNum[32];
+		ZeroMemory(&saveFileNum, sizeof(saveFileNum));
+		sprintf(saveFileNum, "saveFile%d", fileNum);
+		INIDATA->iniSave(saveFileNum);
+
+		if (i == 3)
+		{
+			//게임데이터
+			char tmpGil[16];
+			ZeroMemory(&tmpGil, sizeof(tmpGil));
+			sprintf(tmpGil, "%d", tmpPlayrInfo.gil);
+
+			char tmpTime[16];
+			ZeroMemory(&tmpTime, sizeof(tmpTime));
+			sprintf(tmpTime, "%d", tmpPlayrInfo.playTime);
+
+			INIDATA->addData("gameData", "stage", tmpPlayrInfo.stage);
+			INIDATA->addData("gameData", "gil", tmpGil);
+			INIDATA->addData("gameData", "playTime", tmpTime);
+
+			INIDATA->iniSave(saveFileNum);
+
+			//아이템
+
+		}
+	}
+}
+
+tagSaveData menu::loadIniPlayerData(int fileNum, int playerNumber, bool tmpFile)
 {
 	//세이브파일 넘버
 	char saveFileNum[32];
 	ZeroMemory(&saveFileNum, sizeof(saveFileNum));
-	wsprintf(saveFileNum, "saveFile%d", fileNum);
+	if (!tmpFile)
+	{
+		wsprintf(saveFileNum, "saveFile%d", fileNum);
+	}
+	else
+	{
+		wsprintf(saveFileNum, "skgFile");
+	}
+
 
 	//플레이어 번호 담을 변수
 	char playerNum[16];
@@ -914,7 +1002,14 @@ tagSaveData menu::loadIniPlayerData(int fileNum, int playerNumber)
 	tagSaveData tmpPlayrInfo;
 	ZeroMemory(&tmpPlayrInfo, sizeof(tmpPlayrInfo));
 
-	tmpPlayrInfo.fileNum = INIDATA->loadDataInterger(saveFileNum, "fileInfo", "fileNum");                               //파일넘버   
+	if (!tmpFile)
+	{
+		tmpPlayrInfo.fileNum = INIDATA->loadDataInterger(saveFileNum, "fileInfo", "fileNum");                           //파일넘버 
+	}
+	else
+	{
+		tmpPlayrInfo.fileNum = fileNum;
+	}
 	
 	wsprintf(tmpPlayrInfo.playerInfo.name, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "name"));				//이름
 	wsprintf(tmpPlayrInfo.playerInfo.job, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "job"));				//직업
@@ -1018,6 +1113,86 @@ void menu::gameDataRender(bool isNewGame)
 
 //============================== gameData ============================
 
+
+//================================ item ==============================
+
+void menu::itemSave(int itemKind, int itemName, int itemNum, bool saveFile, int saveFileNum)
+{
+	int saveNum = 0;
+	if (saveFile) saveNum = 2;  
+	else saveNum = 1;  //tmpFile에만 저장할 경우
+
+	switch (itemKind)
+	{
+		case MENUITEM_ITEM:
+			for (int i = 0; i < saveNum; ++i)
+			{
+				_iM->setItemInventory(itemName, itemNum);
+				if (i == 0) _iM->saveInventory("skgFile");
+				if (i == 1)
+				{
+					char saveFile[32];
+					ZeroMemory(&saveFile, sizeof(saveFile));
+					sprintf(saveFile, "saveFile%d", saveFileNum);
+					_iM->saveInventory(saveFile);
+				}
+			}
+		break;
+		case MENUITEM_ARMOR:
+			for (int i = 0; i < saveNum; ++i)
+			{
+				_iM->setArmorInventory(itemName, itemNum);
+				if (i == 0) _iM->saveInventory("skgFile");
+				if (i == 1)
+				{
+					char saveFile[32];
+					ZeroMemory(&saveFile, sizeof(saveFile));
+					sprintf(saveFile, "saveFile%d", saveFileNum);
+					_iM->saveInventory(saveFile);
+				}
+			}
+		break;
+		case MENUITEM_WEAPON:
+			for (int i = 0; i < saveNum; ++i)
+			{
+				_iM->setWeaponInventory(itemName, itemNum);
+				if (i == 0) _iM->saveInventory("skgFile");
+				if (i == 1)
+				{
+					char saveFile[32];
+					ZeroMemory(&saveFile, sizeof(saveFile));
+					sprintf(saveFile, "saveFile%d", saveFileNum);
+					_iM->saveInventory(saveFile);
+				}
+			}
+		break;
+	}
+}
+
+void menu::itemDataLoad(int fileNum, bool tmpFile)
+{
+	//세이브파일 넘버
+	char saveFileNum[32];
+	ZeroMemory(&saveFileNum, sizeof(saveFileNum));
+	if (!tmpFile)
+	{
+		wsprintf(saveFileNum, "saveFile%d", fileNum);
+	}
+	else
+	{
+		wsprintf(saveFileNum, "skgFile");
+	}
+
+
+	_iM->loadInventory("skgFile");
+	_iM->saveInventory(saveFileNum);
+}
+
+//================================ item ==============================
+
+
+//================================ timer =============================
+
 void menu::gamePlayTime()
 {
 	TCHAR str[128];
@@ -1040,3 +1215,5 @@ void menu::gamePlayTime()
 	sprintf_s(str, ":", str);
 	textPrint(getMemDC(), str, 1070, 461, 20, 20, "Stencil", COLOR_WHITE, true);
 }
+
+//================================ timer =============================

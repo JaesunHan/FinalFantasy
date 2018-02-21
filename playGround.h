@@ -32,7 +32,7 @@ private:
 	BattleScene* _bts;
 
 	newGame* _nGame;
-
+	saveLoadMenu* _saveMenu;
 
 	//bool _isBattle;
 public:

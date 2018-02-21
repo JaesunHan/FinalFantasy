@@ -122,11 +122,11 @@ void newGame::update()
 			saveIniSlotGameData(_saveFileNum, "OVER WORLD",3000 , 0, true);			//게임데이터: 세이브파일에 저장
 			saveIniGameData(_saveFileNum, "OVER WORLD");							//게임데이터: 데이터베이스에 저장
 
-			//아이템
-			_iM->setItemInventory(1, 2);
-			_iM->setItemInventory(2, 2);
-			_iM->saveInventory("skgFile");
-
+			//아이템 저장
+			itemSave(MENUITEM_ITEM, 1, 2, true, _saveFileNum);
+			itemSave(MENUITEM_ITEM, 2, 2, true, _saveFileNum);
+			itemSave(MENUITEM_ARMOR, 2, 2, true, _saveFileNum);
+			itemSave(MENUITEM_WEAPON, 2, 2, true, _saveFileNum);
 			//================================== 저장파일 생성 ================================== 
 
 			//버튼삭제 

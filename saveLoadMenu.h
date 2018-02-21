@@ -5,7 +5,7 @@
 class saveLoadMenu : public menu
 {
 private:
-
+	int _tmpLoasdSaveFileNum;
 
 public:
 	HRESULT init();
@@ -14,6 +14,7 @@ public:
 	void render();
 
 
+	void setItemManagerAddressLink(itemManager* im) { _iM = im; }
 
 	saveLoadMenu();
 	~saveLoadMenu();

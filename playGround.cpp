@@ -42,7 +42,8 @@ HRESULT playGround::init()
 	//=========================== 메뉴씬 =========================== by won
 	SCENEMANAGER->addScene("로딩", new loadingScene);
 	SCENEMANAGER->addScene("타이틀", new titleScene);
-	SCENEMANAGER->addScene("세이브로드", new saveLoadMenu);
+	_saveMenu = (saveLoadMenu*)SCENEMANAGER->addScene("세이브로드", new saveLoadMenu);
+	_saveMenu->setItemManagerAddressLink(_item);
 	SCENEMANAGER->addScene("옵션", new optionMenu);
 	_nGame = (newGame*)SCENEMANAGER->addScene("뉴게임", new newGame);
 	_nGame->setItemManagerAddressLink(_item);

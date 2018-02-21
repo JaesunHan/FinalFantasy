@@ -124,6 +124,22 @@ enum MENU_SCENE
 	MENU_END
 };
 
+enum MENUITEM_KIND
+{
+	MENUITEM_ITEM,
+	MENUITEM_ARMOR,
+	MENUITEM_WEAPON,
+	MENUITEM_END
+};
+
+struct tagItem
+{
+	int itemNum;
+	int itemKind;
+	int itemNameNum;
+	int itemPosNum;
+};
+
 class itemManager;
 
 class menu : public gameNode
@@ -172,6 +188,7 @@ protected:
 
 	//========= ITEM =========
 	itemManager* _iM;
+	tagItem _posItem;
 
 public:
 	virtual HRESULT init();
@@ -206,9 +223,11 @@ public:
 	virtual void fileLoad(int fileNum, int playerNum = -1, bool tmpFile = false);
 	//------------------------------  fileCopy  -----------------------------
 	virtual void fileCopyTmpFile(int fileNum);
+	virtual void fileCopySaveFile(int fileNum);
 	//--------------------------------  slot  -------------------------------
-	virtual void slotChange(int changeSlotNum, int playerIdx);
+	virtual void slotChange(int changeSlotNum, int selectSlotNum);
 	virtual int slotSelect(int selectSlotNum);
+	virtual int getPlayerNum(int partyIdX);
 	//================================ player ===============================
 
 	//============================== save & load ============================
@@ -219,13 +238,18 @@ public:
 		int evation, int magicEvation, int partyIdx, string myWeapon, string myArmor,
 		string myHelmet, string mySubWeapon, bool tmpSave = false, bool saveFile = false);
 	virtual void saveIniSlotGameData(int fileNum, string stage, int gil, int playTime, bool tmpSave = false);
-	virtual tagSaveData loadIniPlayerData(int fileNum, int playerNum);
+	virtual tagSaveData loadIniPlayerData(int fileNum, int playerNum, bool tmpFile = false);
 	//============================== save & load ============================
 
 	//=============================== gameData ==============================
 	virtual void saveIniGameData(int fileNum, string currentScene = "");
 	virtual void gameDataRender(bool isNewGame);
 	//=============================== gameData ==============================
+
+	//================================= item ================================
+	virtual void itemSave(int itemKind, int itemName, int itemNum, bool saveFile = false, int saveFileNum = 0);
+	virtual void itemDataLoad(int fileNum, bool tmpFile = false);
+	//================================= item =================================
 
 	//=============================== gameTime ==============================
 	virtual void gamePlayTime();

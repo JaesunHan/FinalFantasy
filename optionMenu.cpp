@@ -47,9 +47,7 @@ HRESULT optionMenu::init()
 	_previousSlotNum = 0;
 	_isSlotReload = false;
 
-	//사운드
-	SOUNDMANAGER->addSound("battleMenuOpen", ".\\sound\\sfx\\battleMenuOpen.wav", false, false);
-	SOUNDMANAGER->addSound("menuSelectLow", ".\\sound\\sfx\\menuSelectLow.wav", false, false);
+
 
 
 	return S_OK;
@@ -279,7 +277,7 @@ void optionMenu::render()
 
 void optionMenu::slotAniOn()
 {
-	if (_changeSlotNum != _cursor.currentYNum)
+	if (_previousSlotNum != _cursor.currentYNum)
 	{
 		playerSlotAniStart(_cursor.currentYNum, true);
 
@@ -300,15 +298,19 @@ void optionMenu::slotChangeKey()
 		if (_slotSelectCount <= 0)
 		{
 			_changeSlotNum = slotSelect(_cursor.currentYNum);
-			slotChange(_cursor.currentYNum, _previousSlotNum);
+			slotChange(_changeSlotNum, _previousSlotNum);
 
 			//초기화
 			_slotSelectCount = 2;
 			_isSlotReload = true;
+			_previousSlotNum = -1;
+			_changeSlotNum = -1;
+
 		}
 		else
 		{
-			_previousSlotNum = _cursor.currentYNum;
+			slotSelect(_cursor.currentYNum);
+			_previousSlotNum = slotSelect(_cursor.currentYNum);
 		}
 	}
 }
