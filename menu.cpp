@@ -1004,3 +1004,25 @@ void menu::gameDataRender(bool isNewGame)
 
 //============================== gameData ============================
 
+void menu::gamePlayTime()
+{
+	TCHAR str[128];
+	sprintf_s(str, "%f", _gameTotalTime);
+
+	//1분
+	sprintf_s(str, "%d", (int)(_gameTotalTime / 60) % 10);
+	textPrint(getMemDC(), str, 1050, 462, 20, 20, "Stencil", COLOR_WHITE, true);
+	//10분
+	sprintf_s(str, "%d", (int)_gameTotalTime / 600);
+	textPrint(getMemDC(), str, 1040, 462, 20, 20, "Stencil", COLOR_WHITE, true);
+
+	//1초
+	sprintf_s(str, "%d", (int)_gameTotalTime % 10);
+	textPrint(getMemDC(), str, 1100, 462, 20, 20, "Stencil", COLOR_WHITE, true);
+	//10초
+	sprintf_s(str, "%d", (int)(_gameTotalTime / 10) % 6);
+	textPrint(getMemDC(), str, 1090, 462, 20, 20, "Stencil", COLOR_WHITE, true);
+
+	sprintf_s(str, ":", str);
+	textPrint(getMemDC(), str, 1070, 461, 20, 20, "Stencil", COLOR_WHITE, true);
+}
