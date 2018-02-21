@@ -2,7 +2,8 @@
 #include "battlePlayerMother.h"
 #include "BattleScene.h"
 #include "Enemy.h"
-
+#include "weaponItem.h"
+#include "armorItem.h"
 
 battlePlayerMother::battlePlayerMother()
 {
