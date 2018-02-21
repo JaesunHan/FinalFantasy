@@ -27,11 +27,13 @@ HRESULT saveLoadMenu::init()
 	_button->buttonSet("버튼예스", 1000, 187);
 	_button->buttonSet("버튼노", 1000, 238);
 
-	for (int i = 0; i < 4; ++i) 	_fileLoadOk[i] = false;
+	for (int i = 0; i < 4; ++i) _fileLoadOk[i] = false;
 	_selectFileCount = 2;
 
 	_saveFileSelect = false;
 	_tmpLoasdSaveFileNum = 0;
+	_resetCount = false;
+	_resetCountSlotNum = -1;
 
 
 	return S_OK;
@@ -74,13 +76,27 @@ void saveLoadMenu::update()
 			//선택버튼으로 이동
 			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 			{
+				//선택카운트 초기화
+				if (!_resetCount)
+				{
+					_selectFileCount = 2;
+					_resetCount = true;
+				}
+				if (_resetCountSlotNum != _cursor.currentXNum)
+				{
+					_selectFileCount = 2;
+					_resetCountSlotNum = _cursor.currentXNum;
+				}
+
 				//게임데이터: 데이터베이스에 저장
 				saveIniGameData(0);
 
 				//세이브파일 출력
-				fileLoad(0);
 				_fileLoadOk[0] = true;
+				fileLoad(0);
+			
 				_selectFileCount--;
+
 
 				if (_selectFileCount <= 0)
 				{
@@ -89,9 +105,8 @@ void saveLoadMenu::update()
 					_selectFileCount = 2;
 
 					_tmpLoasdSaveFileNum = _cursor.currentXNum;
+					_resetCount = false;
 				}
-
-
 			}
 			break;
 		case 1:
@@ -105,6 +120,18 @@ void saveLoadMenu::update()
 			//선택버튼으로 이동
 			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 			{
+				//선택카운트 초기화
+				if (!_resetCount)
+				{
+					_selectFileCount = 2;
+					_resetCount = true;
+				}
+				if (_resetCountSlotNum != _cursor.currentXNum)
+				{
+					_selectFileCount = 2;
+					_resetCountSlotNum = _cursor.currentXNum;
+				}
+
 				//게임데이터: 데이터베이스에 저장
 				saveIniGameData(1);
 
@@ -122,6 +149,7 @@ void saveLoadMenu::update()
 					_selectFileCount = 2;
 
 					_tmpLoasdSaveFileNum = _cursor.currentXNum;
+					_resetCount = false;
 				}
 
 			}
@@ -137,6 +165,18 @@ void saveLoadMenu::update()
 			//선택버튼으로 이동
 			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 			{
+				//선택카운트 초기화
+				if (!_resetCount)
+				{
+					_selectFileCount = 2;
+					_resetCount = true;
+					_resetCountSlotNum = _cursor.currentXNum;
+				}
+				if (_resetCountSlotNum != _cursor.currentXNum)
+				{
+					_selectFileCount = 2;
+				}
+
 				//게임데이터: 데이터베이스에 저장
 				saveIniGameData(2);
 
@@ -153,6 +193,7 @@ void saveLoadMenu::update()
 					_selectFileCount = 2;
 
 					_tmpLoasdSaveFileNum = _cursor.currentXNum;
+					_resetCount = false;
 				}
 			}
 			break;
@@ -167,6 +208,18 @@ void saveLoadMenu::update()
 			//선택버튼으로 이동
 			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 			{
+				//선택카운트 초기화
+				if (!_resetCount)
+				{
+					_selectFileCount = 2;
+					_resetCount = true;
+					_resetCountSlotNum = _cursor.currentXNum;
+				}
+				if (_resetCountSlotNum != _cursor.currentXNum)
+				{
+					_selectFileCount = 2;
+				}
+
 				//게임데이터: 데이터베이스에 저장
 				saveIniGameData(3);
 
@@ -183,6 +236,7 @@ void saveLoadMenu::update()
 					_selectFileCount = 2;
 
 					_tmpLoasdSaveFileNum = _cursor.currentXNum;
+					_resetCount = false;
 				}
 
 			}
@@ -217,10 +271,16 @@ void saveLoadMenu::update()
 			{
 				_saveFileSelect = false;
 
-				//tmpFile -> saveFile copy : playerInfo
-				fileCopySaveFile(_tmpLoasdSaveFileNum);
-				//tmpFile -> saveFile copy : itemInfo
-				itemDataLoad(_tmpLoasdSaveFileNum);
+				//플레이시간 저장
+				char tmpTime[16];
+				ZeroMemory(&tmpTime, sizeof(tmpTime));
+				sprintf(tmpTime, "%f", _gameTotalTime);
+				INIDATA->addData("gameData", "playTime", tmpTime);
+				INIDATA->iniSave("skgFile");
+
+				//tmpFile -> saveFile copy
+				fileCopySaveFile(_cursor.currentXNum);
+
 
 				_saveFileSelect = false;
 				_cursor.cursorReset = false;

@@ -5,7 +5,9 @@
 class saveLoadMenu : public menu
 {
 private:
-	int _tmpLoasdSaveFileNum;
+	int  _tmpLoasdSaveFileNum;
+	bool _resetCount;
+	int  _resetCountSlotNum;
 
 public:
 	HRESULT init();

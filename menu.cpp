@@ -205,7 +205,6 @@ void menu::cursorKeyControlY(float moveValueY, int downNumber)
 			_cursor.y = _cursor.startY;
 			_cursor.currentYNum = 0;
 		}
-
 	}
 
 	if (KEYMANAGER->isOnceKeyDown(VK_UP))
@@ -364,16 +363,6 @@ void menu::playerSlotRender()
 	{
 		textPrint(getMemDC(), "EMPTY", 440, 140, 30, 30, "HY견고딕", COLOR_BLACK);
 	}
-
-	//TEST
-	if (_vPlayer.size() != 0)
-	{
-		for (int i = 0; i < _vPlayer.size(); ++i)
-		{
-			char buff[32];
-			textPrint(getMemDC(), itoa(_vPlayer[i].partyIdx, buff, 10), _vPlayer[i].x, _vPlayer[i].y);
-		}
-	}
 }
 
 void menu::playerSlotRemove()
@@ -413,7 +402,7 @@ void menu::slotChange(int changeSlotNum, int selectSlotNum)
 			//플레이어 파티원넘버 변경
 			char strPlayerNum[16];
 			ZeroMemory(&strPlayerNum, sizeof(strPlayerNum));
-			sprintf(strPlayerNum, "player%d", getPlayerNum(i));
+			sprintf(strPlayerNum, "player%d", getPlayerNum(selectSlotNum));
 
 			//플레이어 파티원넘버 변경
 			char strPlayerIdx[16];
@@ -430,7 +419,7 @@ void menu::slotChange(int changeSlotNum, int selectSlotNum)
 				//플레이어 파티원넘버 변경
 				char strPlayerNum[16];
 				ZeroMemory(&strPlayerNum, sizeof(strPlayerNum));
-				sprintf(strPlayerNum, "player%d", getPlayerNum(i));
+				sprintf(strPlayerNum, "player%d", getPlayerNum(changeSlotNum));
 
 				//플레이어 파티원넘버 변경
 				char strPlayerIdx[16];
@@ -439,8 +428,6 @@ void menu::slotChange(int changeSlotNum, int selectSlotNum)
 
 				INIDATA->addData(strPlayerNum, "partyIdx", strPlayerIdx);
 				INIDATA->iniSave("skgFile");
-
-				break;
 			}
 		}
 
@@ -724,14 +711,16 @@ void menu::saveIniPlayerData(int fileNum, int playerNum, string cName, string jo
 		saveNum = 1;
 	}
 
-	//파일정보 넘버
-	TCHAR tmp[4];
-	ZeroMemory(&tmp, sizeof(tmp));
-	wsprintf(tmp, "%d", fileNum);
-	INIDATA->addData("fileInfo", "fileNum",  tmp);
+
 
 	for (int i = 0; i < saveNum; ++i)
 	{
+		//파일정보 넘버
+		TCHAR tmp[4];
+		ZeroMemory(&tmp, sizeof(tmp));
+		wsprintf(tmp, "%d", fileNum);
+		INIDATA->addData("fileInfo", "fileNum", tmp);
+
 		//플레이어 넘버
 		TCHAR subjectNum[12];
 		ZeroMemory(&subjectNum, sizeof(subjectNum));
@@ -875,7 +864,7 @@ void menu::saveIniSlotGameData(int fileNum, string stage, int gil, int playTime,
 		//플레이 시간
 		TCHAR tmp3[32];
 		ZeroMemory(&tmp3, sizeof(tmp3));
-		wsprintf(tmp3, "%d", playTime);
+		wsprintf(tmp3, "%d", _gameTotalTime);
 		INIDATA->addData("gameData", "playTime", tmp3);
 
 
@@ -911,9 +900,8 @@ void menu::fileCopyTmpFile(int fileNum)
 			tmpPlayrInfo.playerInfo.stamina, tmpPlayrInfo.playerInfo.magic, tmpPlayrInfo.playerInfo.attack, tmpPlayrInfo.playerInfo.attackDefence,
 			tmpPlayrInfo.playerInfo.magicDefence, tmpPlayrInfo.playerInfo.evation, tmpPlayrInfo.playerInfo.magicEvation, tmpPlayrInfo.playerInfo.partyIdx,
 			tmpPlayrInfo.playerInfo.weapon, tmpPlayrInfo.playerInfo.armor, tmpPlayrInfo.playerInfo.helmet, tmpPlayrInfo.playerInfo.subWeapon,
-			false, true);
+			true, false);
 
-		INIDATA->iniSave("skgFile");
 
 		if (i == 3)
 		{
@@ -923,7 +911,7 @@ void menu::fileCopyTmpFile(int fileNum)
 
 			char tmpTime[16];
 			ZeroMemory(&tmpTime, sizeof(tmpTime));
-			sprintf(tmpTime, "%d", tmpPlayrInfo.playTime);
+			sprintf(tmpTime, "%f", _gameTotalTime);
 
 			INIDATA->addData("gameData", "stage", tmpPlayrInfo.stage);
 			INIDATA->addData("gameData", "gil", tmpGil);
@@ -931,8 +919,8 @@ void menu::fileCopyTmpFile(int fileNum)
 
 			INIDATA->iniSave("skgFile");
 
-			//아이템
-			itemDataLoad(fileNum);
+			//아이템 
+			itemDataLoad(fileNum, true);
 		}
 	}
 }
@@ -960,7 +948,7 @@ void menu::fileCopySaveFile(int fileNum)
 		char saveFileNum[32];
 		ZeroMemory(&saveFileNum, sizeof(saveFileNum));
 		sprintf(saveFileNum, "saveFile%d", fileNum);
-		INIDATA->iniSave(saveFileNum);
+		//INIDATA->iniSave(saveFileNum);
 
 		if (i == 3)
 		{
@@ -980,7 +968,7 @@ void menu::fileCopySaveFile(int fileNum)
 			INIDATA->iniSave(saveFileNum);
 
 			//아이템
-			itemDataLoad(fileNum, true);
+			itemDataLoad(fileNum);
 		}
 	}
 }
@@ -1113,8 +1101,11 @@ void menu::gameDataRender(bool isNewGame)
 	{
 		char tmpBuff[32];
 		textPrint(getMemDC(), tmpGD.stage,					     1050, 392, 30, 30, "Stencil", COLOR_WHITE, true);
-		//textPrint(getMemDC(), itoa(tmpGD.playTime, tmpBuff, 10), 1080, 462, 20, 20, "Stencil", COLOR_WHITE, true);
 		textPrint(getMemDC(), itoa(tmpGD.gil, tmpBuff, 10),		 1080, 516, 20, 20, "Stencil", COLOR_WHITE, true);
+		if (SCENEMANAGER->getCurrentSceneName() != "옵션")
+		{
+			gamePlayTime(tmpGD.playTime, true);
+		}
 	}
 }
 
@@ -1181,26 +1172,42 @@ void menu::itemDataLoad(int fileNum, bool tmpFile)
 	//세이브파일 넘버
 	char saveFileNum[32];
 	ZeroMemory(&saveFileNum, sizeof(saveFileNum));
-	if (!tmpFile)
+
+	//저장변수
+	char itemList[1024];
+	char weaponList[1024];
+	char armorList[1024];
+	ZeroMemory(&itemList, sizeof(itemList));
+	ZeroMemory(&weaponList, sizeof(weaponList));
+	ZeroMemory(&armorList, sizeof(armorList));
+
+	if (!tmpFile)  //tmp파일 -> save파일
 	{
+		wsprintf(itemList, "%s", INIDATA->loadDataString("skgFile", "Inventory", "ItemList"));
+		wsprintf(weaponList, "%s", INIDATA->loadDataString("skgFile", "Inventory", "WeaponList"));
+		wsprintf(armorList, "%s", INIDATA->loadDataString("skgFile", "Inventory", "ArmorList"));
+
 		//세이브파일 네임
 		wsprintf(saveFileNum, "saveFile%d", fileNum);
-
-		//파일로드
-		_iM->loadInventory("skgFile");
 	}
-	else
+	else  //save파일 -> tmp파일
 	{
+		//로드파일 네임
+		wsprintf(saveFileNum, "saveFile%d", fileNum);
+		wsprintf(itemList, "%s", INIDATA->loadDataString(saveFileNum, "Inventory", "ItemList"));
+		wsprintf(weaponList, "%s", INIDATA->loadDataString(saveFileNum, "Inventory", "WeaponList"));
+		wsprintf(armorList, "%s", INIDATA->loadDataString(saveFileNum, "Inventory", "ArmorList"));
+
 		//세이브파일 네임
 		wsprintf(saveFileNum, "skgFile");
-
-		//파일로드
-		wsprintf(saveFileNum, "saveFile%d", fileNum);
-		_iM->loadInventory(saveFileNum);
 	}
 
-	//파일저장
-	_iM->saveInventory(saveFileNum);
+	//데이터 저장
+	INIDATA->addData("Inventory", "ItemList", itemList);
+	INIDATA->addData("Inventory", "WeaponList", weaponList);
+	INIDATA->addData("Inventory", "ArmorList", armorList);
+
+	INIDATA->iniSave(saveFileNum);
 }
 
 //================================ item ==============================
@@ -1208,27 +1215,58 @@ void menu::itemDataLoad(int fileNum, bool tmpFile)
 
 //================================ timer =============================
 
-void menu::gamePlayTime()
+void menu::gamePlayTime(float getSaveTime, bool fileLoadTime)
 {
+
 	TCHAR str[128];
-	sprintf_s(str, "%f", _gameTotalTime);
+	if (fileLoadTime)
+	{
+		sprintf_s(str, "%f", getSaveTime);
+	}
+	else
+	{
+		sprintf_s(str, "%f", _gameTotalTime);
+	}
 
-	//1분
-	sprintf_s(str, "%d", (int)(_gameTotalTime / 60) % 10);
-	textPrint(getMemDC(), str, 1060, 462, 20, 20, "Stencil", COLOR_WHITE, true);
-	//10분
-	sprintf_s(str, "%d", (int)_gameTotalTime / 600);
-	textPrint(getMemDC(), str, 1050, 462, 20, 20, "Stencil", COLOR_WHITE, true);
+	if (fileLoadTime)
+	{
+		//1분
+		sprintf_s(str, "%d", (int)(getSaveTime / 60) % 10);
+		textPrint(getMemDC(), str, 1060, 462, 20, 20, "Stencil", COLOR_WHITE, true);
+		//10분
+		sprintf_s(str, "%d", (int)getSaveTime / 600);
+		textPrint(getMemDC(), str, 1050, 462, 20, 20, "Stencil", COLOR_WHITE, true);
 
-	//1초
-	sprintf_s(str, "%d", (int)_gameTotalTime % 10);
-	textPrint(getMemDC(), str, 1090, 462, 20, 20, "Stencil", COLOR_WHITE, true);
-	//10초
-	sprintf_s(str, "%d", (int)(_gameTotalTime / 10) % 6);
-	textPrint(getMemDC(), str, 1080, 462, 20, 20, "Stencil", COLOR_WHITE, true);
+		//1초
+		sprintf_s(str, "%d", (int)getSaveTime % 10);
+		textPrint(getMemDC(), str, 1090, 462, 20, 20, "Stencil", COLOR_WHITE, true);
+		//10초
+		sprintf_s(str, "%d", (int)(getSaveTime / 10) % 6);
+		textPrint(getMemDC(), str, 1080, 462, 20, 20, "Stencil", COLOR_WHITE, true);
 
-	sprintf_s(str, ":", str);
-	textPrint(getMemDC(), str, 1070, 461, 20, 20, "Stencil", COLOR_WHITE, true);
+		sprintf_s(str, ":", str);
+		textPrint(getMemDC(), str, 1070, 461, 20, 20, "Stencil", COLOR_WHITE, true);
+	}
+	else
+	{
+		//1분
+		sprintf_s(str, "%d", (int)(_gameTotalTime / 60) % 10);
+		textPrint(getMemDC(), str, 1060, 462, 20, 20, "Stencil", COLOR_WHITE, true);
+		//10분
+		sprintf_s(str, "%d", (int)_gameTotalTime / 600);
+		textPrint(getMemDC(), str, 1050, 462, 20, 20, "Stencil", COLOR_WHITE, true);
+
+		//1초
+		sprintf_s(str, "%d", (int)_gameTotalTime % 10);
+		textPrint(getMemDC(), str, 1090, 462, 20, 20, "Stencil", COLOR_WHITE, true);
+		//10초
+		sprintf_s(str, "%d", (int)(_gameTotalTime / 10) % 6);
+		textPrint(getMemDC(), str, 1080, 462, 20, 20, "Stencil", COLOR_WHITE, true);
+
+		sprintf_s(str, ":", str);
+		textPrint(getMemDC(), str, 1070, 461, 20, 20, "Stencil", COLOR_WHITE, true);
+	}
+
 }
 
 //================================ timer =============================

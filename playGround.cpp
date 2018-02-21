@@ -93,7 +93,7 @@ void playGround::update(void)
 	//可记皋春
 	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE) && SCENEMANAGER->getCurrentSceneName() == "岿靛甘纠")
 	{
-		SCENEMANAGER->changeSceneType0("可记");
+		SCENEMANAGER->changeSceneType1("可记");
 	}
 	//================================ 皋春纠 ================================
 
