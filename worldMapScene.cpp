@@ -127,7 +127,7 @@ void worldMapScene::getCollision()
 			//충돌한 녀석의 인덱스를 변수에 저장한다.
 			_enemyNum = i;
 			SOUNDMANAGER->stop(CH_BGM);
-			SCENEMANAGER->changeSceneType0("배틀씬");
+			SCENEMANAGER->changeSceneType1("배틀씬");
 			break;
 		}
 	}
