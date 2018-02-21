@@ -89,8 +89,9 @@ void worldMapScene::update()
 		}
 	}
 
-	getCollision();
 	enterTownMap();
+	getCollision();
+	
 }
 
 void worldMapScene::render()
