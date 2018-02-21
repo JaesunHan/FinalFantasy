@@ -22,6 +22,7 @@ enum baattlePlayerStatus
 class BattleScene;
 class Enemy;
 class weaponItem;
+class armorItem;
 class battlePlayerMother : public gameNode
 {
 protected:
@@ -102,6 +103,13 @@ protected:
 
 	//장착한 무기
 	weaponItem* _myWeapon;
+	//장착한 갑옷
+	armorItem* _myArmor;
+	//장착한 투구
+	armorItem* _myHelmet;
+	//장착한 보조무기
+	armorItem* _mySubWeapon;
+	
 public:
 	battlePlayerMother();
 	~battlePlayerMother();
@@ -149,6 +157,15 @@ public:
 	//플레이어가 장착한 무기 세팅
 	inline weaponItem* getWeapon() { return _myWeapon; }
 	inline void setWeapon(weaponItem* weapon) { _myWeapon = weapon; }
+	//플레이어가 장착한 갑옷 세팅
+	inline armorItem* getArmor() { return _myArmor; }
+	inline void setArmor(armorItem* armor) { _myArmor = armor; }
+	//플레이어가 장착한 투구 세팅
+	inline armorItem* getHelmet() { return _myHelmet; }
+	inline void setHelmet(armorItem* helmet) { _myHelmet = helmet; }
+	//플레이어가 장착한 보조 무기 세팅
+	inline armorItem* getSubWeapon() { return _mySubWeapon; }
+	inline void setSubWeapon(armorItem* subWeapon) { _mySubWeapon = subWeapon; }
 	
 	//====================================== End 접근자 설정자 ======================================
 

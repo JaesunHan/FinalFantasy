@@ -105,6 +105,9 @@ void playerManager::setPlayerInfoToBattlePlayer()
 	bCeles->setPartyIdx(_celes->getPartyIdx());
 	bCeles->setPlayerDefaultPosition();
 	bCeles->setWeapon(_celes->getWeapon());
+	bCeles->setArmor(_celes->getArmor());
+	bCeles->setHelmet(_celes->getHelmet());
+	bCeles->setSubWeapon(_celes->getSubWeapon());
 	
 	battleLocke* bLocke = (battleLocke*)_battleScene->getLockeAddress();
 	bLocke->setAllBattlePlayerInfo(_locke->getLv(), _locke->getCurEXP(), _locke->getMaxEXP(),
@@ -113,6 +116,9 @@ void playerManager::setPlayerInfoToBattlePlayer()
 	bLocke->setPartyIdx(_locke->getPartyIdx());
 	bLocke->setPlayerDefaultPosition();
 	bLocke->setWeapon(_locke->getWeapon());
+	bLocke->setArmor(_locke->getArmor());
+	bLocke->setHelmet(_locke->getHelmet());
+	bLocke->setSubWeapon(_locke->getSubWeapon());
 
 	battleShadow* bShadow = (battleShadow*)_battleScene->getShadowAddress();
 	bShadow->setAllBattlePlayerInfo(_shadow->getLv(), _shadow->getCurEXP(), _shadow->getMaxEXP(),
@@ -121,6 +127,9 @@ void playerManager::setPlayerInfoToBattlePlayer()
 	bShadow->setPartyIdx(_shadow->getPartyIdx());
 	bShadow->setPlayerDefaultPosition();
 	bShadow->setWeapon(_shadow->getWeapon());
+	bShadow->setArmor(_shadow->getArmor());
+	bShadow->setHelmet(_shadow->getHelmet());
+	bShadow->setSubWeapon(_shadow->getSubWeapon());
 	
 	battleTina* bTina = (battleTina*)_battleScene->getTinaAddress();
 	bTina->setAllBattlePlayerInfo(_tina->getLv(), _tina->getCurEXP(), _tina->getMaxEXP(),
@@ -129,6 +138,9 @@ void playerManager::setPlayerInfoToBattlePlayer()
 	bTina->setPartyIdx(_tina->getPartyIdx());
 	bTina->setPlayerDefaultPosition();
 	bTina->setWeapon(_tina->getWeapon());
+	bTina->setArmor(_tina->getArmor());
+	bTina->setHelmet(_tina->getHelmet());
+	bTina->setSubWeapon(_tina->getSubWeapon());
 	
 	//================================== End 그 배틀씬의 배틀플레이어들의 정보를 저장한다.====================================
 }
@@ -235,8 +247,10 @@ void playerManager::saveNewGameData()
 	
 }
 */
+
 void playerManager::loadGameData()
 {
+	_vPlayer.clear();
 	TCHAR gameFileName[256];
 	wsprintf(gameFileName, "skgFile");
 
@@ -275,42 +289,8 @@ void playerManager::loadGameData()
 		//int armorNum = 23;
 		//int helmetNum = 28;
 		//int subWeaponNum = 33;
-
 		searchPlayerItem(weaponNum, armorNum, helmetNum, subWeaponNum, tempPlayer);
-		/*
-		//무기 이름에 따라서 무기로딩하기
-		TCHAR weaponName[256];
-		wsprintf(weaponName,"%s", INIDATA->loadDataString(gameFileName, playerSubject, "myWeapon"));
-		//만약 읽어온 이름이 기본무기 이면 
-		if (!strcmp("DefaultWeapon", weaponName))
-		{
-			//기본무기 아이템을 생성해서
-			weaponItem* temWeapon = new weaponItem;
-			temWeapon->init(0,ITEM_WEAPON, "DefaultWeapon", "맨주먹공격무기이다", 0, 10, 100);
-			//플레이어의 무기에 세팅하기
-			tempPlayer->setDefaultWeapon(temWeapon);
-			tempPlayer->setWeaponItem(temWeapon);
-		}
-		//기본무기가 아니라면
-		else
-		{
-			//아이템 매니저에 있는 무기벡터를 탐색해서 같은 이름의 무기를 찾는다
-			for (int i = 0; i < _itemManager->getVItem().size(); ++i)
-			{
-				//아이템 벡터의 현재 인덱스가 가리키는 아이템이 무기종류가 아니면 탐색을 계속한다.
-				if (_itemManager->getVItem()[i]->getItmeKind() != ITEM_WEAPON)	continue;
-				//만약 INI 데이터에서 읽어온 데이터가 현재 이 아이템의 이름과 일치하면
-				if (strcmp(weaponName, _itemManager->getVItem()[i]->getItemName()))
-				{
-					weaponItem* vWeapon = (weaponItem*)_itemManager->getVItem()[i];
-					//이 무기 아이템을 생성해서 
-					weaponItem* tempWeapon = new weaponItem;
-					tempWeapon->init(vWeapon->getItemNumber(), vWeapon->getItmeKind(), vWeapon->getItemName(), vWeapon->getItemDescription(), vWeapon->getPrice(), vWeapon->getAttack(), vWeapon->getHitRate());
-					//플레이어의 무기에 세팅한다.
-					tempPlayer->setWeaponItem(tempWeapon);
-				}
-			}
-		}*/
+
 		_vPlayer.push_back(tempPlayer);
 
 		//개발 초반에, 배틀씬에 플레이어 정보를 넘길 때 전역변수로 생성한 플레이어들을 이용해서 넘기는 걸로 해놔서....
