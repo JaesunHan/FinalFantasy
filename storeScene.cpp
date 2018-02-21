@@ -28,6 +28,8 @@ HRESULT storeScene::init()
 	_listSelectIndex = 0;
 	_listMaxIndex = 0;
 
+	_currentInventory = INVENTORY_ITEM;
+
 	_buySellSelectCursor.init(CURSOR_RIGHT, 130, 130);
 	_listSelectCursor.init(CURSOR_RIGHT, 20, 240);
 
@@ -69,14 +71,8 @@ void storeScene::render()
 	SelectObject(getMemDC(), newFont);
 
 	if (_currentPos == POS_BUY_LIST) drawVendorList();
+	else if (_currentPos == POS_SELL_LIST) drawSellItemList();
 	
-	/*SetTextColor(getMemDC(), RGB(0, 0, 0));
-	SelectObject(getMemDC(), oldFont);
-	DeleteObject(oldFont);
-	DeleteObject(newFont);*/
-
-	if (_currentPos == POS_SELL_LIST) drawSellItemList();
-
 	SetTextColor(getMemDC(), RGB(0, 0, 0));
 	SelectObject(getMemDC(), oldFont);
 	DeleteObject(oldFont);
@@ -100,9 +96,7 @@ void storeScene::keyControl(void)
 	}
 	if (_currentPos == POS_BUY_LIST)
 	{
-		_listMaxIndex = _vendorList.size();
-		if (_listMaxIndex > 2) _listSelectCursor.keyControlX(280, 3);
-		_listSelectCursor.keyControlY(90, 3);
+		
 
 		if (KEYMANAGER->isOnceKeyDown(VK_BACK))
 		{
@@ -111,11 +105,20 @@ void storeScene::keyControl(void)
 	}
 	if (_currentPos == POS_SELL_LIST)
 	{
-		_listSelectCursor.keyControlX(280, 3);
+		if (_currentInventory == INVENTORY_WEAPON) _listSelectCursor.keyControlXY(280, 90, 3, _im->getWeaponInventorySize());
+		else if (_currentInventory == INVENTORY_ARMOR) _listSelectCursor.keyControlXY(280, 90, 3, _im->getArmorInventorySize());
+		else if (_currentInventory == INVENTORY_ITEM) _listSelectCursor.keyControlXY(280, 90, 3, _im->getItemInventorySize());
 
 		if (KEYMANAGER->isOnceKeyDown(VK_BACK))
 		{
 			_currentPos = POS_BUY_SELL;
+		}
+
+		if (KEYMANAGER->isOnceKeyDown(VK_TAB))
+		{
+			if (_currentInventory < INVENTORY_END - 1)_currentInventory++;
+			else _currentInventory = 0;
+			_listSelectCursor.init(CURSOR_RIGHT, 20, 240);
 		}
 	}
 }
@@ -146,22 +149,68 @@ void storeScene::drawVendorList(void)
 
 void storeScene::drawSellItemList(void)
 {
-	for (int i = 0; i < _im->getItemInventorySize(); i++)
+	if (_currentInventory == INVENTORY_ITEM)
 	{
-		IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 0, 0);
+		for (int i = 0; i < _im->getItemInventorySize(); i++)
+		{
+			IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 0, 0);
 
-		//아이템 이름 불러온다.								//아이템 매니저의 벡터를 돌아 -> 맵정보에 있는 벡터arry넘버를 반환받아-> 인벤토리의 아이템 이름을 받아온다.
-		TextOut(getMemDC(), 75 + (i % 3) * 280, 235 + (i / 3) * 90, _im->getVItem()[_im->getItemVNum(i)]->getItemName(), strlen(_im->getVItem()[_im->getItemVNum(i)]->getItemName()));
-		//아이템 [가격] 출력
-		sprintf(str, "가격");
-		TextOut(getMemDC(), 240 + (i % 3) * 280, 235 + (i / 3) * 90, str, strlen(str));
-		//아이템 갯수 불러온다.
-		TextOut(getMemDC(), 75 + (i % 3) * 280, 255 + (i / 3) * 90, to_string(_im->getItemCount(i)).c_str(), strlen(to_string(_im->getItemCount(i)).c_str()));
-		SetTextAlign(getMemDC(), TA_RIGHT);
-		//아이템 가격 불러온다.
-		TextOut(getMemDC(), 260 + (i % 3) * 280, 255 + (i / 3) * 90,
-			to_string(_im->getVItem()[_im->getItemVNum(i)]->getPrice() / 2).c_str(), strlen(to_string(_im->getVItem()[_im->getItemVNum(i)]->getPrice() / 2).c_str()));
-		SetTextAlign(getMemDC(), TA_LEFT);
+			//맵정보에는 아이템, 웨폰, 아머 이렇게 있다. 접근시 아이템매니저 벡터를 접근한뒤 해당 아이템의 맵정보에 접근가능하다. 
+			//아이템 이름 불러온다.                  //아이템 매니저의 벡터를 돌아 -> 맵정보에 [아이템]맵에 있는 벡터arry넘버를 반환받아-> 인벤토리의 아이템 이름을 받아온다.
+			TextOut(getMemDC(), 75 + (i % 3) * 280, 235 + (i / 3) * 90, _im->getVItem()[_im->getItemVNum(i)]->getItemName(), strlen(_im->getVItem()[_im->getItemVNum(i)]->getItemName()));
+			//아이템 [가격] 출력
+			sprintf(str, "가격");
+			TextOut(getMemDC(), 240 + (i % 3) * 280, 235 + (i / 3) * 90, str, strlen(str));
+			//아이템 갯수 불러온다.
+			TextOut(getMemDC(), 75 + (i % 3) * 280, 255 + (i / 3) * 90, to_string(_im->getItemCount(i)).c_str(), strlen(to_string(_im->getItemCount(i)).c_str()));
+			SetTextAlign(getMemDC(), TA_RIGHT);
+			//아이템 가격 불러온다.
+			TextOut(getMemDC(), 260 + (i % 3) * 280, 255 + (i / 3) * 90,
+				to_string(_im->getVItem()[_im->getItemVNum(i)]->getPrice() / 2).c_str(), strlen(to_string(_im->getVItem()[_im->getItemVNum(i)]->getPrice() / 2).c_str()));
+			SetTextAlign(getMemDC(), TA_LEFT);
+		}
+	}
+	else if (_currentInventory == INVENTORY_WEAPON)
+	{
+		for (int i = 0; i < _im->getWeaponInventorySize(); i++)
+		{
+			IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 0, 0);
+
+			//맵정보에는 아이템, 웨폰, 아머 이렇게 있다. 접근시 아이템매니저 벡터를 접근한뒤 해당 아이템의 맵정보에 접근가능하다. 
+			//아이템 이름 불러온다.                  //아이템 매니저의 벡터를 돌아 -> 맵정보에 [아이템]맵에 있는 벡터arry넘버를 반환받아-> 인벤토리의 아이템 이름을 받아온다.
+			TextOut(getMemDC(), 75 + (i % 3) * 280, 235 + (i / 3) * 90, _im->getVItem()[_im->getWeaponVNum(i)]->getItemName(), strlen(_im->getVItem()[_im->getWeaponVNum(i)]->getItemName()));
+			//아이템 [가격] 출력
+			sprintf(str, "가격");
+			TextOut(getMemDC(), 240 + (i % 3) * 280, 235 + (i / 3) * 90, str, strlen(str));
+			//아이템 갯수 불러온다.
+			TextOut(getMemDC(), 75 + (i % 3) * 280, 255 + (i / 3) * 90, to_string(_im->getWeaponCount(i)).c_str(), strlen(to_string(_im->getWeaponCount(i)).c_str()));
+			SetTextAlign(getMemDC(), TA_RIGHT);
+			//아이템 가격 불러온다.
+			TextOut(getMemDC(), 260 + (i % 3) * 280, 255 + (i / 3) * 90,
+				to_string(_im->getVItem()[_im->getWeaponVNum(i)]->getPrice() / 2).c_str(), strlen(to_string(_im->getVItem()[_im->getWeaponVNum(i)]->getPrice() / 2).c_str()));
+			SetTextAlign(getMemDC(), TA_LEFT);
+		}
+	}
+	else if (_currentInventory == INVENTORY_ARMOR)
+	{
+		for (int i = 0; i < _im->getArmorInventorySize(); i++)
+		{
+			IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 0, 0);
+
+			//맵정보에는 아이템, 웨폰, 아머 이렇게 있다. 접근시 아이템매니저 벡터를 접근한뒤 해당 아이템의 맵정보에 접근가능하다. 
+			//아이템 이름 불러온다.                  //아이템 매니저의 벡터를 돌아 -> 맵정보에 [아이템]맵에 있는 벡터arry넘버를 반환받아-> 인벤토리의 아이템 이름을 받아온다.
+			TextOut(getMemDC(), 75 + (i % 3) * 280, 235 + (i / 3) * 90, _im->getVItem()[_im->getArmorVNum(i)]->getItemName(), strlen(_im->getVItem()[_im->getArmorVNum(i)]->getItemName()));
+			//아이템 [가격] 출력
+			sprintf(str, "가격");
+			TextOut(getMemDC(), 240 + (i % 3) * 280, 235 + (i / 3) * 90, str, strlen(str));
+			//아이템 갯수 불러온다.
+			TextOut(getMemDC(), 75 + (i % 3) * 280, 255 + (i / 3) * 90, to_string(_im->getArmorCount(i)).c_str(), strlen(to_string(_im->getArmorCount(i)).c_str()));
+			SetTextAlign(getMemDC(), TA_RIGHT);
+			//아이템 가격 불러온다.
+			TextOut(getMemDC(), 260 + (i % 3) * 280, 255 + (i / 3) * 90,
+				to_string(_im->getVItem()[_im->getArmorVNum(i)]->getPrice() / 2).c_str(), strlen(to_string(_im->getVItem()[_im->getArmorVNum(i)]->getPrice() / 2).c_str()));
+			SetTextAlign(getMemDC(), TA_LEFT);
+		}
 	}
 }
 

@@ -22,6 +22,7 @@ private:
 	float _fForce;           //커서 마찰력
 	int _currentXNum;        //커서X 현위치
 	int _currentYNum;        //커서Y 현위치
+	int _currentPos;		 //XY 동시 이동을 위한 커서 좌표
 	bool _cursorOn;          //커서 선택위치 판별을 위한 불값
 	bool _cursorReset;       //커서 위치리셋 판별을 위한 불값
 
@@ -34,7 +35,7 @@ public:
 	void render();
 	void keyControlX(float moveValueX, int downNumber, bool leftMove = false);
 	void keyControlY(float moveValueY, int downNumber);
-	//void keyControlXY(float moveValueX, float moveValueY, int maxNumX, int maxNumY, int maxListNum, bool leftMove = false);
+	void keyControlXY(float moveValueX, float moveValueY, int maxNumX, int maxListNum, bool leftMove = false);
 	void resetXY(float cursorX, float cursorY);
 
 	inline int getCursorXNum(void) { return _currentXNum; }

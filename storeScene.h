@@ -13,6 +13,14 @@ enum CURSOR_POS
 	POS_END
 };
 
+enum INVENTORY_KIND
+{
+	INVENTORY_WEAPON,
+	INVENTORY_ARMOR,
+	INVENTORY_ITEM,
+	INVENTORY_END
+};
+
 class storeScene : public gameNode
 {
 private:
@@ -28,7 +36,7 @@ private:
 private:
 	itemManager* _im;
 	vector<itemMother*> _vendorList;
-	//vector<itemMother*> _sellList;
+	int _currentInventory;
 
 private:
 	CURSOR_POS _currentPos;
