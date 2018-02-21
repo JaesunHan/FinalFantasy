@@ -20,7 +20,9 @@ HRESULT BattleScene::init()
 	//수치들 초기화
 	_menuNum = 0;
 	_enemyNum = 4;
+	_playerSelectNum = 0;
 	_itemSelectNum = 0;
+	_magicSelectNum = 0;
 	_messageCounter = 0;
 	_victoryCounter = 0;
 	_dialogueCounter = 0;
@@ -29,6 +31,7 @@ HRESULT BattleScene::init()
 	_counterRoll = true;
 	_playerTurn = false;
 	_enemySelect = false;
+	_playerSelect = false;
 	_itemSelect = false;
 	_magicSelect = false;
 	_sfx01 = true;
@@ -93,6 +96,7 @@ HRESULT BattleScene::init()
 		}
 		temp.ATBcounter = 25000 + RND->getInt(10000);
 		temp.menuSelect = BATTLE_NULL;
+		temp.magicSelect = 0;
 		temp.turnStart = false;
 		temp.selectAction = false;
 		temp.attackReady = false;
@@ -270,6 +274,50 @@ void BattleScene::updateWhenCharacterTurn()
 					}
 					//플레이어 상태를 어택으로
 					if (_battleTurn.front()->player->getStatus() == BATTLE_PLAYER_ATTACK_STANDBY) _battleTurn.front()->player->setStatus(BATTLE_PLAYER_ATTACK);
+					//플레이어 공격 준비 완료
+					_battleTurn.front()->attackReady = true;
+				}
+				_battleTurn.front()->player->update();
+				//턴 종료시 큐에서 삭제
+				if (_battleTurn.front()->player->getTurnEnd() == true)
+				{
+					_battleTurn.front()->ATBcounter = 0;
+					_battleTurn.front()->turnStart = false;
+					_battleTurn.front()->selectAction = false;
+					_battleTurn.front()->attackReady = false;
+					_battleTurn.front()->menuSelect = BATTLE_NULL;
+					if (_victory == false) _battleTurn.pop();
+				}
+				break;
+			}
+			//플레이어 선택이 마법일 경우
+			if (_battleTurn.front()->menuSelect == BATTLE_MAGIC_ATTACK || _battleTurn.front()->menuSelect == BATTLE_MAGIC_HEAL)
+			{
+				//플레이어 공격 전 에너미 선택 처리
+				if (_battleTurn.front()->attackReady == false && _battleTurn.front()->menuSelect == BATTLE_MAGIC_ATTACK)
+				{
+					//플레이어에 선택한 에너미 주소 할당
+					//해당 에너미가 죽었을 경우엔 살아있는애로 할당
+					if (_battleTurn.front()->enemy != NULL)
+					{
+						if (_battleTurn.front()->enemy->getCurHP() > 0)
+						{
+							_battleTurn.front()->player->setMEnemyTarget(_battleTurn.front()->enemy);
+						}
+						else
+						{
+							for (int i = 0; i < _maxMonster; ++i)
+							{
+								if (_battleCharacters[i + 4].enemy->getCurHP() > 0)
+								{
+									_battleTurn.front()->enemy = _battleCharacters[i + 4].enemy;
+									_battleTurn.front()->player->setMEnemyTarget(_battleCharacters[i + 4].enemy);
+									break;
+								}
+							}
+						}
+					}
+					//플레이어 상태를 마법 어택으로
 					if (_battleTurn.front()->player->getStatus() == BATTLE_PLAYER_MAGIC_ATTACK_STANDBY) _battleTurn.front()->player->setStatus(BATTLE_PLAYER_MAGIC_ATTACK);
 					//플레이어 공격 준비 완료
 					_battleTurn.front()->attackReady = true;
@@ -380,7 +428,43 @@ void BattleScene::playerMenuSelect()
 		}
 		if (KEYMANAGER->isOnceKeyDown(VK_UP))
 		{
-			if (_enemySelect == true)
+			if (_playerSelect == true)
+			{
+				_playerSelectNum--;
+				if (_playerSelectNum < 0) _playerSelectNum = 3;
+				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
+				if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelect]->getIsRevive() == true)
+				{
+					for (int i = 0; i < 4; ++i)
+					{
+						if (_battleCharacters[_playerSelectNum].player->getCurHP() > 0)
+						{
+							_playerSelectNum--;
+							if (_playerSelectNum < 0) _playerSelectNum = 3;
+						}
+						else
+						{
+							break;
+						}
+					}
+				}
+				if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelect]->getIsHeal() == true)
+				{
+					for (int i = 0; i < 4; ++i)
+					{
+						if (_battleCharacters[_playerSelectNum].player->getCurHP() <= 0)
+						{
+							_playerSelectNum--;
+							if (_playerSelectNum < 0) _playerSelectNum = 3;
+						}
+						else
+						{
+							break;
+						}
+					}
+				}
+			}
+			else if (_enemySelect == true)
 			{
 				_enemyNum--;
 				if (_enemyNum < 4) _enemyNum = _maxMonster + 3;
@@ -398,6 +482,11 @@ void BattleScene::playerMenuSelect()
 					}
 				}
 			}
+			else if (_magicSelect == true)
+			{
+				if (_magicSelectNum > 0) _magicSelectNum--;
+				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
+			}
 			else if (_itemSelect == true)
 			{
 				if (_itemSelectNum > 0) _itemSelectNum--;
@@ -412,7 +501,43 @@ void BattleScene::playerMenuSelect()
 		}
 		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 		{
-			if (_enemySelect == true)
+			if (_playerSelect == true)
+			{
+				_playerSelectNum++;
+				if (_playerSelectNum > 3) _playerSelectNum = 0;
+				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
+				if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelect]->getIsRevive() == true)
+				{
+					for (int i = 0; i < 4; ++i)
+					{
+						if (_battleCharacters[_playerSelectNum].player->getCurHP() > 0)
+						{
+							_playerSelectNum++;
+							if (_playerSelectNum > 3) _playerSelectNum = 0;
+						}
+						else
+						{
+							break;
+						}
+					}
+				}
+				if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelect]->getIsHeal() == true)
+				{
+					for (int i = 0; i < 4; ++i)
+					{
+						if (_battleCharacters[_playerSelectNum].player->getCurHP() <= 0)
+						{
+							_playerSelectNum++;
+							if (_playerSelectNum > 3) _playerSelectNum = 0;
+						}
+						else
+						{
+							break;
+						}
+					}
+				}
+			}
+			else if (_enemySelect == true)
 			{
 				_enemyNum++;
 				if (_enemyNum > _maxMonster + 3) _enemyNum = 4;
@@ -430,6 +555,11 @@ void BattleScene::playerMenuSelect()
 					}
 				}
 			}
+			else if (_magicSelect == true)
+			{
+				if (_magicSelectNum < _battleCharacters[_currentTurn].player->getMyUsableMagic().size() - 1) _magicSelectNum++;
+				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
+			}
 			else if (_itemSelect == true)
 			{
 				if (_itemSelectNum < _im->getItemInventorySize() - 1) _itemSelectNum++;
@@ -444,16 +574,33 @@ void BattleScene::playerMenuSelect()
 		}
 		if (KEYMANAGER->isOnceKeyDown(VK_BACK))
 		{
-			if (_enemySelect == true)
+			if (_playerSelect == true)
+			{
+				_playerSelectNum = 0;
+				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
+				_counterRoll = true;
+				_playerSelect = false;
+				_itemSelect = false;
+				_magicSelect = false;
+			}
+			else if (_enemySelect == true)
 			{
 				_enemyNum = 4;
 				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
 				_enemySelect = false;
 			}
+			else if (_magicSelect == true)
+			{
+				_magicSelectNum = 0;
+				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
+				_counterRoll = true;
+				_magicSelect = false;
+			}
 			else if (_itemSelect == true)
 			{
 				_itemSelectNum = 0;
 				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
+				_counterRoll = true;
 				_itemSelect = false;
 			}
 			else if (_playerTurn == true)
@@ -475,6 +622,11 @@ void BattleScene::playerMenuSelect()
 			if (_playerTurn == true)
 			{
 				_menuNum = 0;
+				_counterRoll = true;
+				_playerSelect = false;
+				_enemySelect = false;
+				_itemSelect = false;
+				_magicSelect = false;
 				_sfx01 = false;
 				while (1)
 				{
@@ -489,8 +641,11 @@ void BattleScene::playerMenuSelect()
 		if (_playerTurn == true && _battleCharacters[_currentTurn].player->getCurHP() <= 0)
 		{
 			_menuNum = 0;
+			_counterRoll = true;
+			_playerSelect = false;
 			_enemySelect = false;
 			_itemSelect = false;
+			_magicSelect = false;
 			_playerTurn = false;
 		}
 	}
@@ -498,7 +653,33 @@ void BattleScene::playerMenuSelect()
 	{
 		if (_victory == false)
 		{
-			if (_enemySelect == true || _itemSelect == true)
+			if (_playerSelect == true)
+			{
+				switch (_menuNum)
+				{
+				case(BATTLE_ATTACK):
+					break;
+				case(BATTLE_MAGIC):
+					_battleCharacters[_currentTurn].player->setMAllyTarget(_battleCharacters[_playerSelectNum].player);
+					_battleCharacters[_currentTurn].player->setStatus(BATTLE_PLAYER_MAGIC_ATTACK_STANDBY);
+					_battleCharacters[_currentTurn].selectAction = true;
+					_battleCharacters[_currentTurn].menuSelect = BATTLE_MAGIC_HEAL;
+					_battleTurn.push(&_battleCharacters[_currentTurn]);
+					_playerSelectNum = 0;
+					_magicSelect = false;
+					_playerSelect = false;
+					_playerTurn = false;
+					_counterRoll = true;
+					break;
+				case(BATTLE_SKILL):
+					break;
+				case(BATTLE_ITEM):
+					break;
+				case(BATTLE_ESCAPE):
+					break;
+				}
+			}
+			else if (_enemySelect == true || _itemSelect == true)
 			{
 				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
 				_battleCharacters[_currentTurn].enemy = _battleCharacters[_enemyNum].enemy;
@@ -513,6 +694,14 @@ void BattleScene::playerMenuSelect()
 					_playerTurn = false;
 					break;
 				case(BATTLE_MAGIC):
+					_battleCharacters[_currentTurn].player->setStatus(BATTLE_PLAYER_MAGIC_ATTACK_STANDBY);
+					_battleCharacters[_currentTurn].selectAction = true;
+					_battleCharacters[_currentTurn].menuSelect = BATTLE_MAGIC_ATTACK;
+					_battleTurn.push(&_battleCharacters[_currentTurn]);
+					_magicSelect = false;
+					_enemySelect = false;
+					_playerTurn = false;
+					_counterRoll = true;
 					break;
 				case(BATTLE_SKILL):
 					break;
@@ -523,6 +712,72 @@ void BattleScene::playerMenuSelect()
 					break;
 				case(BATTLE_ESCAPE):
 					break;
+				}
+			}
+			else if (_magicSelect == true)
+			{
+				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
+				_battleCharacters[_currentTurn].player->setSelectMagic(_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelect]);
+				if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelect]->getIsHeal() == false && _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelect]->getManaCost() <= _battleCharacters[_currentTurn].player->getCurMP())
+				{
+					_enemySelect = true;
+					_enemyNum = 4;
+					for (int i = 0; i < _maxMonster; ++i)
+					{
+						if (_battleCharacters[_enemyNum].enemy->getCurHP() <= 0)
+						{
+							_enemyNum++;
+							if (_enemyNum > _maxMonster + 3) _enemyNum = 4;
+						}
+						else
+						{
+							break;
+						}
+					}
+				}
+				if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelect]->getIsRevive() == true && _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelect]->getManaCost() <= _battleCharacters[_currentTurn].player->getCurMP())
+				{
+					_playerSelect = true;
+					_playerSelectNum = 0;
+					for (int i = 0; i < 4; ++i)
+					{
+						if (_battleCharacters[_playerSelectNum].player->getCurHP() > 0)
+						{
+							_playerSelectNum++;
+							if (_playerSelectNum > 3) _playerSelectNum = 0;
+						}
+						else
+						{
+							break;
+						}
+						_playerSelectNum = 0;
+						_magicSelectNum = 0;
+						_counterRoll = true;
+						_playerSelect = false;
+						_magicSelect = false;
+					}
+				}
+				if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelect]->getIsHeal() == true)// && _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelect]->getManaCost() <= _battleCharacters[_currentTurn].player->getCurMP())
+				{
+					_playerSelect = true;
+					_playerSelectNum = 0;
+					for (int i = 0; i < 4; ++i)
+					{
+						if (_battleCharacters[_playerSelectNum].player->getCurHP() <= 0)
+						{
+							_playerSelectNum++;
+							if (_playerSelectNum > 3) _playerSelectNum = 0;
+						}
+						else
+						{
+							break;
+						}
+						_playerSelectNum = 0;
+						_magicSelectNum = 0;
+						_counterRoll = true;
+						_playerSelect = false;
+						_magicSelect = false;
+					}
 				}
 			}
 			else if (_playerTurn == true)
@@ -547,10 +802,13 @@ void BattleScene::playerMenuSelect()
 					}
 					break;
 				case(BATTLE_MAGIC):
+					_counterRoll = false;
+					_magicSelect = true;
 					break;
 				case(BATTLE_SKILL):
 					break;
 				case(BATTLE_ITEM):
+					_counterRoll = false;
 					_itemSelect = true;
 					break;
 				case(BATTLE_ESCAPE):
@@ -673,9 +931,67 @@ void BattleScene::drawUI()
 		//배틀 메뉴 랜더
 		newFont = CreateFont(30, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
 		oldFont = (HFONT)SelectObject(getMemDC(), newFont);
-		if (_enemySelect == true)
+		if (_playerSelect == true)
+		{
+			IMAGEMANAGER->findImage("fingerArrowRt")->render(getMemDC(), _battleCharacters[_playerSelectNum].player->getPosX() - 30, _battleCharacters[_playerSelectNum].player->getPosY() + 20);
+		}
+		else if (_enemySelect == true)
 		{
 			IMAGEMANAGER->findImage("fingerArrowLt")->render(getMemDC(), _battleCharacters[_enemyNum].enemy->getX() + _battleCharacters[_enemyNum].enemy->getImageWidth() / 2, _battleCharacters[_enemyNum].enemy->getY());
+		}
+		else if (i == _currentTurn && _magicSelect == true)
+		{
+			char magicName[5][64];
+			char magicMP[5][16];
+			RECT itemRC[5];
+			itemRC[0] = { WINSIZEX - 250, 160 * i + 5, WINSIZEX - 115, 160 * i + 35 };
+			itemRC[1] = { WINSIZEX - 250, 160 * i + 35, WINSIZEX - 115, 160 * i + 65 };
+			itemRC[2] = { WINSIZEX - 250, 160 * i + 65, WINSIZEX - 115, 160 * i + 95 };
+			itemRC[3] = { WINSIZEX - 250, 160 * i + 95, WINSIZEX - 115, 160 * i + 125 };
+			itemRC[4] = { WINSIZEX - 250, 160 * i + 125, WINSIZEX - 115, 160 * i + 155 };
+			if (_magicSelectNum > 1)
+			{
+				wsprintf(magicName[0], _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum - 2]->getMagicName());
+				wsprintf(magicMP[0], "%d", _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum - 2]->getManaCost());
+			}
+			if (_magicSelectNum > 0)
+			{
+				wsprintf(magicName[1], _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum - 1]->getMagicName());
+				wsprintf(magicMP[1], "%d", _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum - 1]->getManaCost());
+			}
+			wsprintf(magicName[2], _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getMagicName());
+			wsprintf(magicMP[2], "%d", _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getManaCost());
+			if (_magicSelectNum + 1 <  _battleCharacters[_currentTurn].player->getMyUsableMagic().size())
+			{
+				wsprintf(magicName[3], _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum + 1]->getMagicName());
+				wsprintf(magicMP[3], "%d", _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum + 1]->getManaCost());
+			}
+			if (_magicSelectNum + 2 <  _battleCharacters[_currentTurn].player->getMyUsableMagic().size())
+			{
+				wsprintf(magicName[4], _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum + 2]->getMagicName());
+				wsprintf(magicMP[4], "%d", _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum + 2]->getManaCost());
+			}
+			switch (_battleCharacters[_currentTurn].characterType)
+			{
+			case(TINA):
+				IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 300, 160 * i, 200, 160);
+				break;
+			case(LOCKE):
+				IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 300, 160 * i, 200, 160);
+				break;
+			case(CELES):
+				IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 300, 160 * i, 200, 160);
+				break;
+			case(SHADOW):
+				IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 300, 160 * i, 200, 160);
+				break;
+			}
+			for (int j = 0; j < 5; ++j)
+			{
+				drawText(30, magicName[j], itemRC[j], DT_LEFT);
+				drawText(30, magicMP[j], itemRC[j], DT_RIGHT);
+			}
+			IMAGEMANAGER->findImage("fingerArrowRt")->render(getMemDC(), WINSIZEX - 290, 160 * i + 5 + 60);
 		}
 		else if (i == _currentTurn && _itemSelect == true)
 		{
@@ -803,22 +1119,6 @@ void BattleScene::playerFrameUpdate()
 
 void BattleScene::soundControl()
 {
-	//if (_victory == false)
-	//{
-	//	SOUNDMANAGER->findChannel("battleBGM")->getPosition(&_position, FMOD_TIMEUNIT_MS);
-	//	if (_position >= 56800)
-	//	{
-	//		SOUNDMANAGER->findChannel("battleBGM")->setPosition(4000, FMOD_TIMEUNIT_MS);
-	//	}
-	//}
-	//if (_victory == true)
-	//{
-	//	SOUNDMANAGER->findChannel("fanfareBGM")->getPosition(&_position, FMOD_TIMEUNIT_MS);
-	//	if (_victoryCounter >= 100 && _position >= 32500)
-	//	{
-	//		SOUNDMANAGER->findChannel("battleBGM")->setPosition(3900, FMOD_TIMEUNIT_MS);
-	//	}
-	//}
 	SOUNDMANAGER->getChannel(CH_BGM)->getPosition(&_position, FMOD_TIMEUNIT_MS);
 	if (_victory == false)
 	{
@@ -886,7 +1186,7 @@ void BattleScene::playerMagicAttack()
 	}
 	if (_hit == true)                                                                  //맞앗으면 데미지 공식 적용
 	{
-		//_damage = _spellPower * 4 + ((float)_battleTurn.front()->player->getLv() * (float)_battleTurn.front()->player->getMagic() * _spellPower / 32);         // 스킬 데미지 공식
+		//_damage = (float)_battleTurn.front()->player->getMyUsableMagic()[0]-> * 4 + ((float)_battleTurn.front()->player->getLv() * (float)_battleTurn.front()->player->getMagic() * _spellPower / 32);         // 스킬 데미지 공식
 	}
 	_isDamaged = true;
 }
