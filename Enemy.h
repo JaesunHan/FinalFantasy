@@ -107,7 +107,7 @@ public:
 	inline int getBlock() { return _block; }
 	inline int getX() { return _x; }
 	inline int getY() { return _y; }
-	inline bool getIsItem() { return _isItem; }
+	//inline bool getIsItem() { return _isItem; }
 	inline bool getTurnEnd() { return _turnEnd; }
 	inline bool getEffectFire() { return _effectFire; }
 	inline char* getItemName() { return _itemString; }
