@@ -6,7 +6,7 @@ class magic
 protected:
 	char _magicName[256];		//마법 이름
 	int _abilityPower;			//마법 적용 효과
-	int _manaConst;				//소모 마나
+	int _manaCost;				//소모 마나
 	int _hitRate;				//마법 명중률
 
 	bool _isHeal;				//힐 마법이냐(true)? 아니냐?(false)
@@ -27,7 +27,7 @@ public:
 	//================ 마법 공격 데미지 계산할 때 필요한 변수들의 게터 ==================
 	char* getMagicName() { return _magicName; }
 	int getAbilityPower() { return _abilityPower; }
-	int getManaConst() { return _manaConst; }
+	int getManaCost() { return _manaCost; }
 	int getHitRate() { return _hitRate; }
 	bool getIsHeal() { return _isHeal; }
 	int getHealHP() { return _healHP; }
