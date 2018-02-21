@@ -14,6 +14,11 @@ optionMenu::~optionMenu()
 
 HRESULT optionMenu::init()
 {
+	//==============뉴게임을 했을시 타임이 먹는다!============
+	_gameEndTime = TIMEMANAGER->getWorldTime();
+	_gameTotalTime = _gameEndTime - _gameStartTime;
+	//==============뉴게임을 했을시 타임이 먹는다!============
+
 	//백그라운드 이미지
 	_bgImage = IMAGEMANAGER->findImage("옵션메뉴");
 
@@ -35,7 +40,6 @@ HRESULT optionMenu::init()
 	//선택한 세이브 파일 가져오기 
 	fileLoad(INIDATA->loadDataInterger("gameData", "gameData", "fileNum"));
 
-
 	return S_OK;
 }
 
@@ -46,6 +50,8 @@ void optionMenu::release()
 
 void optionMenu::update() 
 {
+	_gameTotalTime += TIMEMANAGER->getElapsedTime();
+
 	cursorUpdate();
 	_button->update();
 
@@ -173,4 +179,6 @@ void optionMenu::render()
 
 	playerSlotRender();
 	gameDataRender(false);  //게임 데이터(플레이장소/플레이시간/돈)
+
+	gamePlayTime();			//게임 플레이 타임 함수
 }

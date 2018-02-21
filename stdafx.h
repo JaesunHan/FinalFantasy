@@ -77,3 +77,6 @@ extern HWND			_hWnd;			//วฺต้
 extern POINT		_ptMouse;
 extern BOOL			_leftButtonDown;
 extern BOOL			_isDebug;
+extern FLOAT		_gameStartTime;
+extern FLOAT		_gameEndTime;
+extern FLOAT		_gameTotalTime;

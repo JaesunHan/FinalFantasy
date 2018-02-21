@@ -13,6 +13,10 @@ worldMapScene::~worldMapScene()
 
 HRESULT worldMapScene::init()
 {
+	//==============뉴게임을 했을시 타임이 먹는다!============
+	_gameStartTime = TIMEMANAGER->getWorldTime();
+	//==============뉴게임을 했을시 타임이 먹는다!============
+
 	SOUNDMANAGER->addSound("worldMapBGM", ".//sound//worldMapSound//01. Tina.mp3", true, true);
 	SOUNDMANAGER->play("worldMapBGM", CH_BGM, 1.0f);
 	CAMERAMANAGER->init(getMemDC());

@@ -215,8 +215,9 @@ public:
 	virtual void gameDataRender(bool isNewGame);
 	//=============================== gameData ==============================
 
-
-
+	//=============================== gameTime ==============================
+	virtual void gamePlayTime();
+	//=============================== gameTime ==============================
 
 	//================================ getter ===============================
 	int getSaveFileNum() { return _saveFileNum; }

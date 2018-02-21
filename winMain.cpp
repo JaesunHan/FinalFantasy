@@ -8,6 +8,9 @@
 HINSTANCE	_hInstance;		//인스턴스 핸들
 HWND		_hWnd;			//핸들
 BOOL		_isDebug;		//디버그 변수
+FLOAT		_gameStartTime;
+FLOAT		_gameEndTime;
+FLOAT		_gameTotalTime;
 
 //포인트 구조체
 POINT _ptMouse;
