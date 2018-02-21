@@ -142,7 +142,7 @@ void worldMapScene::enterTownMap()
 {
 	if(_worldMapPlayer->getIsEnter())
 	{
-		SCENEMANAGER->changeScene("Å¸¿î¸Ê¾À", false);
+		SCENEMANAGER->changeSceneType0("Å¸¿î¸Ê¾À");
 		//SOUNDMANAGER->stop(CH_BGM);
 		//_worldMapPlayer->setWorldMapPlayerTempPoint(_worldMapPlayer->getWorldMapPlayerPoint());
 		_worldMapPlayer->setWorldMapPlayerPoint(PointMake(_worldMapPlayer->getWorldMapPlayerPoint().x - 100, _worldMapPlayer->getWorldMapPlayerPoint().y));

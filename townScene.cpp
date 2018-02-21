@@ -77,7 +77,8 @@ void townScene::enterWorldMap()
 	if(_worldMapPlayer->getIsWorldMapEnter())
 	{
 		//부딪친 오브젝트가 타운에서 월드맵 속성을 가졌으면
-		SCENEMANAGER->changeScene("월드맵씬");
+		SCENEMANAGER->changeScene("월드맵씬",false);
+		_worldMapPlayer->setWorldMapPlayerPoint(PointMake(_worldMapPlayer->getWorldMapPlayerPoint().x, _worldMapPlayer->getWorldMapPlayerPoint().y));
 	}
 	//부딪친 오브젝트가 타운에서 타운 속성을 가졌으면
 	//"월드맵씬" 전환
