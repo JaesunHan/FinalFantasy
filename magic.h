@@ -18,7 +18,7 @@ protected:
 
 public:
 	//			이미지,이팩트매니저에 등록할 키, 이미지파일의이름,		마법이름,			마법 파워,		필요마나량,		명중률,		힐량	,		힐아이템여부
-	HRESULT init(string magicEffectKey, char* magicImgFileName, char magicName[256], int abilityPower, int manaConst, int hitRate, int healHp, bool isHeal=false);
+	HRESULT init(string magicEffectKey, char* magicImgFileName, char magicName[256], int abilityPower, int manaConst, int hitRate, bool isHeal=false);
 	void update();
 	void release();
 	void render(HDC hdc);

@@ -108,14 +108,15 @@ battleShadow::battleShadow()
 	SOUNDMANAGER->addSound(_atkEffectSoundKey, _atkEffectSoundFile, false, false);
 
 	//마법 공격 1 - 그림자 공격
-	//magic* tmpMagic = new magic;
-	//IMAGEMANAGER->addFrameImage("Shadow::Shadow Magic", "./image/playerImg/playerEffectImage/playerSkill7.bmp", 960, 1152, 5, 6, true, RGB(255, 0, 255));
-	//tmpMagic->init("Shadow::Shadow Magic", "./image/playerImg/playerEffectImage/playerSkill7.bmp", "그림자공격!", 100, 4, 100, 0, 0);
-	//_myUsableMagic.push_back(tmpMagic);
-	//
-	//tmpMagic = new magic;
-	//IMAGEMANAGER->addFrameImage("Shadow::Thunder Magic", "./image/playerImg/playerEffectImage/playerSkill5.bmp", 472, 126, 8, 1, true, RGB(255, 0, 255));
-	//tmpMagic->init("Shadow::Thunder Magic", "./image/playerImg/playerEffectImage/playerSkill6.bmp", "", )
+	magic* tmpMagic = new magic;
+	IMAGEMANAGER->addFrameImage("Shadow::Bio Magic", "./image/playerImg/playerEffectImage/playerSkill7.bmp", 960, 1152, 5, 6, true, RGB(255, 0, 255));
+	tmpMagic->init("Shadow::Bio Magic", "./image/playerImg/playerEffectImage/playerSkill7.bmp", "바이오!", 53,26, 120, 0);
+	_myUsableMagic.push_back(tmpMagic);
+	//마법공격 2 - 홀리 공격
+	tmpMagic = new magic;
+	IMAGEMANAGER->addFrameImage("Shadow::Holy Magic", "./image/playerImg/playerEffectImage/playerSkill6.bmp", 472, 126, 8, 1, true, RGB(255, 0, 255));
+	tmpMagic->init("Shadow::Holy Magic", "./image/playerImg/playerEffectImage/playerSkill6.bmp", "홀리!", 108, 40, 150, 0);
+	_myUsableMagic.push_back(tmpMagic);
 }
 
 

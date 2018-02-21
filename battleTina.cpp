@@ -103,9 +103,17 @@ battleTina::battleTina()
 	_atkEffectSoundFile = "./sound/sfx/42Fire2.wav";
 	SOUNDMANAGER->addSound(_atkEffectSoundKey, _atkEffectSoundFile, false, false);
 
-	//마법공격 세팅하기
+	//마법 공격 1 - 물 공격
+	magic* tmpMagic = new magic;
+	IMAGEMANAGER->addFrameImage("Tina::Water Magic", "./image/playerImg/playerEffectImage/playerSkill1.bmp", 1463, 119, 7, 1, true, RGB(255, 0, 255));
+	tmpMagic->init("Tina::Water Magic", "./image/playerImg/playerEffectImage/playerSkill1.bmp", "수룡!", 22, 5, 150, 0);
+	_myUsableMagic.push_back(tmpMagic);
 
-
+	//마법공격 2 - 아군 힐
+	tmpMagic = new magic;
+	IMAGEMANAGER->addFrameImage("Tina::Heal Magic", "./image/playerImg/playerEffectImage/playerSkill8.bmp", 445, 45, 5, 1, true, RGB(255, 0, 255));
+	tmpMagic->init("Tina::Heal Magic", "./image/playerImg/playerEffectImage/playerSkill8.bmp", "힐!", 66, 40, 0, 1);
+	_myUsableMagic.push_back(tmpMagic);
 }
 
 
