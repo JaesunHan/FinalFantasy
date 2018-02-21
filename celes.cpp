@@ -14,6 +14,7 @@ celes::celes()
 	_evasion = 7, _m_Def = 31, _m_evasion = 9;
 	_partyIdx = 2;
 
+	_spellPower = _Lv;
 }
 
 

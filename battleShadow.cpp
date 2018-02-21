@@ -106,6 +106,12 @@ battleShadow::battleShadow()
 	_atkEffectSoundKey = "ShadowAttackSound";
 	_atkEffectSoundFile = "./sound/sfx/8BClawSlash.wav";
 	SOUNDMANAGER->addSound(_atkEffectSoundKey, _atkEffectSoundFile, false, false);
+
+	//공격할 때 터질 이팩트
+	magic* tmpMagic = new magic;
+	IMAGEMANAGER->addFrameImage("Shadow Magic", "./image/playerImg/playerEffectImage/playerSkill7.bmp", 960, 1152, 5, 6, true, RGB(255, 0, 255));
+	tmpMagic->init("Shadow Magic", "./image/playerImg/playerEffectImage/playerSkill7.bmp", "그림자공격!", 100, 4, 100, 0, 0);
+	_myUsableMagic.push_back(tmpMagic);
 }
 
 
@@ -123,6 +129,7 @@ HRESULT battleShadow::init()
 void battleShadow::update()	
 {
 	battlePlayerMother::update();
+	
 }
 
 void battleShadow::draw()	

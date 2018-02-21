@@ -14,6 +14,8 @@ Tina::Tina()
 	_m_Def = 33, _evasion = 5, _m_evasion = 7;
 	_partyIdx = 0;
 	
+	//임시값(스펠파워에 대한 자료가 없어성 ㅜㅠ)
+	_spellPower = _Lv;
 }
 
 

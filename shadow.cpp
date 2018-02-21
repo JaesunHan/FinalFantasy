@@ -14,6 +14,7 @@ shadow::shadow()
 	_evasion = 28, _m_Def = 25, _m_evasion = 9;
 	_partyIdx = 3;
 
+	_spellPower = _Lv;
 }
 
 
