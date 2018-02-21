@@ -5,9 +5,7 @@
 menu::menu()
 {
 	_slotNum = 0;
-	//사운드
-	SOUNDMANAGER->addSound("battleMenuOpen", ".\\sound\\sfx\\battleMenuOpen.wav", false, false);
-	SOUNDMANAGER->addSound("menuSelectLow", ".\\sound\\sfx\\menuSelectLow.wav", false, false);
+
 }
 menu::~menu()
 {
@@ -16,6 +14,12 @@ menu::~menu()
 
 HRESULT menu::init()
 {
+	//세이브포인트 도달시
+	_isSavePoint = false;
+
+	//사운드
+	SOUNDMANAGER->addSound("battleMenuOpen", ".\\sound\\sfx\\battleMenuOpen.wav", false, false);
+	SOUNDMANAGER->addSound("menuSelectLow", ".\\sound\\sfx\\menuSelectLow.wav", false, false);
 
 	return S_OK;
 }
@@ -926,6 +930,9 @@ void menu::fileCopyTmpFile(int fileNum)
 			INIDATA->addData("gameData", "playTime", tmpTime);
 
 			INIDATA->iniSave("skgFile");
+
+			//아이템
+			itemDataLoad(fileNum);
 		}
 	}
 }
@@ -973,7 +980,7 @@ void menu::fileCopySaveFile(int fileNum)
 			INIDATA->iniSave(saveFileNum);
 
 			//아이템
-
+			itemDataLoad(fileNum, true);
 		}
 	}
 }
@@ -1176,15 +1183,23 @@ void menu::itemDataLoad(int fileNum, bool tmpFile)
 	ZeroMemory(&saveFileNum, sizeof(saveFileNum));
 	if (!tmpFile)
 	{
+		//세이브파일 네임
 		wsprintf(saveFileNum, "saveFile%d", fileNum);
+
+		//파일로드
+		_iM->loadInventory("skgFile");
 	}
 	else
 	{
+		//세이브파일 네임
 		wsprintf(saveFileNum, "skgFile");
+
+		//파일로드
+		wsprintf(saveFileNum, "saveFile%d", fileNum);
+		_iM->loadInventory(saveFileNum);
 	}
 
-
-	_iM->loadInventory("skgFile");
+	//파일저장
 	_iM->saveInventory(saveFileNum);
 }
 
@@ -1200,10 +1215,10 @@ void menu::gamePlayTime()
 
 	//1분
 	sprintf_s(str, "%d", (int)(_gameTotalTime / 60) % 10);
-	textPrint(getMemDC(), str, 1040, 462, 20, 20, "Stencil", COLOR_WHITE, true);
+	textPrint(getMemDC(), str, 1060, 462, 20, 20, "Stencil", COLOR_WHITE, true);
 	//10분
 	sprintf_s(str, "%d", (int)_gameTotalTime / 600);
-	textPrint(getMemDC(), str, 1030, 462, 20, 20, "Stencil", COLOR_WHITE, true);
+	textPrint(getMemDC(), str, 1050, 462, 20, 20, "Stencil", COLOR_WHITE, true);
 
 	//1초
 	sprintf_s(str, "%d", (int)_gameTotalTime % 10);

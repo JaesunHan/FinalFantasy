@@ -159,6 +159,7 @@ protected:
 	//======= saveLoad =======
 	bool _saveFileSelect;
 	int  _saveFileNum;
+	bool _isSavePoint;
 	//======= saveLoad =======
 
 	//======== button ========
@@ -257,6 +258,7 @@ public:
 
 	//================================ getter ===============================
 	int getSaveFileNum() { return _saveFileNum; }
+	int setIsSavePoint(bool isSave) { _isSavePoint = isSave; }
 	//================================ getter ===============================
 
 	void setItemManagerAddressLink(itemManager* im) { _iM = im; }

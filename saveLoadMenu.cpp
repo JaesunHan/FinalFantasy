@@ -226,6 +226,12 @@ void saveLoadMenu::update()
 				_cursor.cursorReset = false;
 				_button->setVButtonAniStart(4, false);
 				_button->setVButtonAniStart(5, false);	
+
+				//可记芒栏肺...
+				_button->buttonRemove();
+				delete _button;
+				playerSlotRemove();
+				SCENEMANAGER->changeSceneType0("可记");
 			}
 			break;
 		case 1:
@@ -255,7 +261,7 @@ void saveLoadMenu::update()
 		_button->buttonRemove();
 		delete _button;
 		playerSlotRemove();
-		SCENEMANAGER->changeScene("可记");
+		SCENEMANAGER->changeSceneType0("可记");
 	}
 }
 

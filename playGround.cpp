@@ -47,7 +47,8 @@ HRESULT playGround::init()
 	SCENEMANAGER->addScene("옵션", new optionMenu);
 	_nGame = (newGame*)SCENEMANAGER->addScene("뉴게임", new newGame);
 	_nGame->setItemManagerAddressLink(_item);
-	SCENEMANAGER->addScene("로드게임", new loadGame);
+	_loadGame = (loadGame*)SCENEMANAGER->addScene("로드게임", new loadGame);
+	_loadGame->setItemManagerAddressLink(_item);
 	SCENEMANAGER->addScene("능력치", new abilitiesMenu);
 	SCENEMANAGER->addScene("사운드", new configMenu);
 	SCENEMANAGER->addScene("장비", new equipMenu);
@@ -92,7 +93,7 @@ void playGround::update(void)
 	//옵션메뉴
 	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE) && SCENEMANAGER->getCurrentSceneName() == "월드맵씬")
 	{
-		SCENEMANAGER->changeScene("옵션");
+		SCENEMANAGER->changeSceneType0("옵션");
 	}
 	//================================ 메뉴씬 ================================
 

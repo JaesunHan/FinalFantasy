@@ -28,6 +28,9 @@ HRESULT optionMenu::init()
 	cursorInit(CUSOR_RIGHT, 950, 60);
 	_cursorReset = false;
 
+	//사운드 추가
+	menu::init();
+	_isSavePoint = true;  //************************************************ test : 세이브포인트 도착
 
 	//버튼
 	_button = new fButton;
@@ -38,6 +41,7 @@ HRESULT optionMenu::init()
 	_button->buttonSet("버튼판타지", 1000, 250, "Save", 30);
 	_button->buttonSet("버튼판타지", 1000, 300, "Config", 30);
 
+
 	//tmp 파일 가져오기 (skgFile)
 	fileLoad(0, -1, true);
 
@@ -46,8 +50,6 @@ HRESULT optionMenu::init()
 	_slotSelectCount = 2;
 	_previousSlotNum = 0;
 	_isSlotReload = false;
-
-
 
 
 	return S_OK;
@@ -162,11 +164,14 @@ void optionMenu::update()
 				_button->setVButtonAniStart(i, false);
 			}
 
-			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+			if (_isSavePoint)
 			{
-				_button->buttonRemove();
-				delete _button;
-				SCENEMANAGER->changeScene("세이브로드");
+				if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+				{
+					_button->buttonRemove();
+					delete _button;
+					SCENEMANAGER->changeScene("세이브로드");
+				}
 			}
 			break;
 		case 5:
@@ -192,7 +197,7 @@ void optionMenu::update()
 		{
 			_button->buttonRemove();
 			delete _button;
-			SCENEMANAGER->changeScene("월드맵씬", false);
+			SCENEMANAGER->changeSceneType0("월드맵씬", false);
 		}
 	}
 	else
