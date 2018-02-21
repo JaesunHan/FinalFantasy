@@ -114,11 +114,21 @@ void battlePlayerMother::update()
 		{
 			_magicAtkAnim->start();
 			_playAnimList[BATTLE_PLAYER_MAGIC_ATTACK] = true;
+			//힐 마법 이면 아군 이 있는 위치에 이팩트 출력
+			if (_selectMagic->getIsHeal() || _selectMagic->getIsRevive())
+			{
+				EFFECTMANAGER->play(_selectMagic->getMaicEffectKey(), _mAllyTarget->getPosX(), _mAllyTarget->getPosY());
+			}
+			else
+			{
+
+			}
 		}
 		_magicAtkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
+		//공격이 끝나고 나면 다시 IDLE 상태로 전환한다.
 		if (!_magicAtkAnim->isPlay())
 		{
-			setPlayerStatusToIdle(_magicAtkAnim);	//공격이 끝나고 나면 다시 IDLE 상태로 전환한다.
+			setPlayerStatusToIdle(_magicAtkAnim);	
 			_turnEnd = true;
 			_playAnimList[BATTLE_PLAYER_MAGIC_ATTACK] = false;
 		}

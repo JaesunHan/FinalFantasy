@@ -12,13 +12,16 @@ protected:
 	bool _isHeal;				//힐 마법이냐(true)? 아니냐?(false)
 	int _healHP;				//적용될 힐
 
+	bool _isRevive;				//살리는 마법이냐(true)? 아니냐?(false)
+	int  _reviveHP;				//살리면 얼만큼의 HP 로 살아날지 세팅
+
 	image* _magicImg;			//마법 이미지
 	effect* _magicEft;			//마법 이팩트
 	string _maicEffectKeyString;	//이팩트 매니저에 등록할 때 쓸 키값
 
 public:
 	//			이미지,이팩트매니저에 등록할 키, 이미지파일의이름,		마법이름,			마법 파워,		필요마나량,		명중률,		힐량	,		힐아이템여부
-	HRESULT init(string magicEffectKey, char* magicImgFileName, char magicName[256], int abilityPower, int manaConst, int hitRate, bool isHeal=false);
+	HRESULT init(string magicEffectKey, char* magicImgFileName, char magicName[256], int abilityPower, int manaConst, int hitRate, bool isHeal, bool isRevive);
 	void update();
 	void release();
 	void render(HDC hdc);
@@ -31,6 +34,8 @@ public:
 	int getHitRate() { return _hitRate; }
 	bool getIsHeal() { return _isHeal; }
 	int getHealHP() { return _healHP; }
+	bool getIsRevive() { return _isRevive; }
+	int getReviveHP() { return _reviveHP; }
 	string getMaicEffectKey() { return _maicEffectKeyString; }
 
 	

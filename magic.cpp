@@ -12,7 +12,7 @@ magic::~magic()
 
 }
 
-HRESULT magic::init(string magicEffectKey, char* magicImgFileName, char magicName[256], int abilityPower, int manaCost, int hitRate, bool isHeal)
+HRESULT magic::init(string magicEffectKey, char* magicImgFileName, char magicName[256], int abilityPower, int manaCost, int hitRate, bool isHeal, bool isRevive)
 {
 	_maicEffectKeyString = magicEffectKey;
 	//이미지 매니저에 등록된 이미지를 찾아서 변수에 저장하기
@@ -22,6 +22,7 @@ HRESULT magic::init(string magicEffectKey, char* magicImgFileName, char magicNam
 	_manaCost = manaCost;
 	_hitRate = hitRate;
 	_isHeal = isHeal;
+	_isRevive = isRevive;
 
 	//만약 힐 마법이 아니면 힐량은 0으로 저장(혹시모를 보정 작업임)
 	if (!_isHeal)
@@ -32,6 +33,16 @@ HRESULT magic::init(string magicEffectKey, char* magicImgFileName, char magicNam
 	{
 		_healHP = _abilityPower;
 	}
+
+	if (!_isRevive)
+	{
+		_reviveHP = 0;
+	}
+	else
+	{
+		_reviveHP = _abilityPower;
+	}
+
 	//_magicEft->init(_magicImg, _magicImg->getFrameWidth(), _magicImg->getFrameHeight(), 1.0f, 1.0f);
 	EFFECTMANAGER->addEffect(_maicEffectKeyString, magicImgFileName, _magicImg->getWidth(), _magicImg->getHeight(), _magicImg->getFrameWidth(), _magicImg->getFrameHeight(), 1.0f, 1.0f, 2);
 
