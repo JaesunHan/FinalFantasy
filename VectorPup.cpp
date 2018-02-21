@@ -75,8 +75,8 @@ VectorPup::~VectorPup()
 void VectorPup::update()
 {
 	Enemy::update();
-	wsprintf(basicAttack, "vectorPup기본공격");
-	wsprintf(skillAttack, "vectorPup스킬공격");
+	wsprintf(_basicAttack, "vectorPup기본공격");
+	wsprintf(_skillAttack, "vectorPup스킬공격");
 }
 
 void VectorPup::render() 

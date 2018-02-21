@@ -58,8 +58,6 @@ Bear::Bear()
 	_block = 0;										//방어율
 
 	_spellPower = (_Lv / 3) * 2;					//마법력
-
-
 }
 
 Bear::~Bear()
@@ -77,8 +75,8 @@ Bear::~Bear()
 void Bear::update()
 {
 	Enemy::update();
-	wsprintf(basicAttack, "bear기본공격");
-	wsprintf(skillAttack, "bear스킬공격");
+	wsprintf(_basicAttack, "bear기본공격");
+	wsprintf(_skillAttack, "bear스킬공격");
 }
 
 void Bear::render()

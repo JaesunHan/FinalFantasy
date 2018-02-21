@@ -69,8 +69,8 @@ covert::~covert()
 void covert::update()
 {
 	Enemy::update();
-	wsprintf(basicAttack, "covert기본공격");
-	wsprintf(skillAttack, "covert스킬공격");
+	wsprintf(_basicAttack, "covert기본공격");
+	wsprintf(_skillAttack, "covert스킬공격");
 }
 
 void covert::render()

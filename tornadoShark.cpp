@@ -69,8 +69,8 @@ tornadoShark::~tornadoShark()
 void tornadoShark::update()
 {
 	Enemy::update();
-	wsprintf(basicAttack, "tornadoShark기본공격");
-	wsprintf(skillAttack, "tornadoShark스킬공격");
+	wsprintf(_basicAttack, "tornadoShark기본공격");
+	wsprintf(_skillAttack, "tornadoShark스킬공격");
 }
 
 void tornadoShark::render()

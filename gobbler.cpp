@@ -69,8 +69,8 @@ gobbler::~gobbler()
 void gobbler::update()
 {
 	Enemy::update();
-	wsprintf(basicAttack, "gobbler기본공격");
-	wsprintf(skillAttack, "gobbler스킬공격");
+	wsprintf(_basicAttack, "gobbler기본공격");
+	wsprintf(_skillAttack, "gobbler스킬공격");
 }
 
 void gobbler::render()

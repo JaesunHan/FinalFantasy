@@ -69,8 +69,8 @@ siren::~siren()
 void siren::update()
 {
 	Enemy::update();
-	wsprintf(basicAttack, "siren기본공격");
-	wsprintf(skillAttack, "siren스킬공격");
+	wsprintf(_basicAttack, "siren기본공격");
+	wsprintf(_skillAttack, "siren스킬공격");
 }
 
 void siren::render()

@@ -69,8 +69,8 @@ guard::~guard()
 void guard::update()
 {
 	Enemy::update();
-	wsprintf(basicAttack, "guard기본공격");
-	wsprintf(skillAttack, "guard스킬공격");
+	wsprintf(_basicAttack, "guard기본공격");
+	wsprintf(_skillAttack, "guard스킬공격");
 }
 
 void guard::render()

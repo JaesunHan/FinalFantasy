@@ -63,8 +63,8 @@ void Enemy::update()
 			//_count가 80보다 커지면 공격 이펙트가 그려짐
 			if (_count > 50 && _effectFire == true)
 			{
-				EFFECTMANAGER->play(basicAttack, _target->getPosX() + _target->getWidth() / 2, _target->getPosY() + _target->getHeight() / 2);
-				SOUNDMANAGER->play(basicAttack, CH_EFFECT05, 1.0f);
+				EFFECTMANAGER->play(_basicAttack, _target->getPosX() + _target->getWidth() / 2, _target->getPosY() + _target->getHeight() / 2);
+				SOUNDMANAGER->play(_basicAttack, CH_EFFECT05, 1.0f);
 				_target->setCurHP(_target->getCurHP() - _damage);
 				
 				if (_target->getCurHP() <= 0)
@@ -83,8 +83,8 @@ void Enemy::update()
 			//_count가 80보다 커지면 공격 이펙트가 그려짐
 			if (_count > 50 && _effectFire == true)
 			{
-				EFFECTMANAGER->play(skillAttack, _target->getPosX() + _target->getWidth() / 2, _target->getPosY() + _target->getHeight() / 2);
-				SOUNDMANAGER->play(skillAttack, CH_EFFECT05, 1.0f);
+				EFFECTMANAGER->play(_skillAttack, _target->getPosX() + _target->getWidth() / 2, _target->getPosY() + _target->getHeight() / 2);
+				SOUNDMANAGER->play(_skillAttack, CH_EFFECT05, 1.0f);
 				_target->setCurHP(_target->getCurHP() - _spellDamage);
 
 				if (_target->getCurHP() <= 0)
@@ -164,4 +164,20 @@ void Enemy::glitter()
 	{
 		_frameX = 0;
 	}
+}
+
+void Enemy::playerGetItem()
+{
+	//switch (switch_on)
+	//{
+	//default:
+	//	break;
+	//}
+	wsprintf(_itemString, "에테르");
+	wsprintf(_itemString, "육포");
+	wsprintf(_itemString, "메가엘릭서");
+	wsprintf(_itemString, "엘릭서");
+	wsprintf(_itemString, "침낭");
+	wsprintf(_itemString, "포션");
+	wsprintf(_itemString, "토닉");
 }

@@ -69,8 +69,8 @@ samurai::~samurai()
 void samurai::update()
 {
 	Enemy::update();
-	wsprintf(basicAttack, "samurai기본공격");
-	wsprintf(skillAttack, "samurai스킬공격");
+	wsprintf(_basicAttack, "samurai기본공격");
+	wsprintf(_skillAttack, "samurai스킬공격");
 }
 
 void samurai::render()

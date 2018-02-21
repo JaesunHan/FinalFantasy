@@ -76,8 +76,8 @@ DarkWind::~DarkWind()
 void DarkWind::update()
 {
 	Enemy::update();
-	wsprintf(basicAttack, "darkWind기본공격");
-	wsprintf(skillAttack, "darkWind스킬공격");
+	wsprintf(_basicAttack, "darkWind기본공격");
+	wsprintf(_skillAttack, "darkWind스킬공격");
 }
 
 void DarkWind::render()

@@ -75,8 +75,8 @@ bossAtma::~bossAtma()
 void bossAtma::update()
 {
 	Enemy::update();
-	wsprintf(basicAttack, "bossAtma기본공격");
-	wsprintf(skillAttack, "bossAtma스킬공격");
+	wsprintf(_basicAttack, "bossAtma기본공격");
+	wsprintf(_skillAttack, "bossAtma스킬공격");
 }
 
 void bossAtma::render()
