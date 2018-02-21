@@ -38,7 +38,7 @@ void townScene::release()
 
 void townScene::update()
 {
-	if (SOUNDMANAGER->isPlaySound("townMapBGM"))
+	if (!SOUNDMANAGER->isPlaySound("townMapBGM"))
 	{
 		SOUNDMANAGER->addSound("townMapBGM", ".//sound//worldMapSound//07. Edgar \& Mash", true, true);
 		SOUNDMANAGER->play("townMapBGM", CH_BGM, 1.0f);
@@ -53,7 +53,7 @@ void townScene::update()
 	//플레이어 현재 좌표를 받아서 계속 npc매니저쪽으로 넣어준다.
 	_npcManager->setPlayerPos(_worldMapPlayer->getWorldMapPlayerPoint());
 
-
+	enterWorldMap();
 }
 
 void townScene::render()
@@ -70,4 +70,16 @@ void townScene::render()
 	_townMap->afterRenderObject(CAMERAMANAGER->getCameraDC());
 
 	CAMERAMANAGER->render(getMemDC());
+}
+
+void townScene::enterWorldMap()
+{
+	if(_worldMapPlayer->getIsWorldMapEnter())
+	{
+		//부딪친 오브젝트가 타운에서 월드맵 속성을 가졌으면
+		SCENEMANAGER->changeScene("월드맵씬");
+	}
+	//부딪친 오브젝트가 타운에서 타운 속성을 가졌으면
+	//"월드맵씬" 전환
+	_worldMapPlayer->setIsWorldMapeEnter(false);
 }

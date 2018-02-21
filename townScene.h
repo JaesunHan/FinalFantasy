@@ -28,5 +28,8 @@ public:
 	void update();
 	void render();
 
+	//월드맵으로 넘어가는 함수
+	void enterWorldMap();
+
 };
 

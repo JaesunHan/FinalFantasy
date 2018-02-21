@@ -48,9 +48,16 @@ public:
 
 	void successEscape();
 
+
+	//타운으로 들어가자.
+	void enterTownMap();
+
+
+
 	//배틀씬과의 통신을 위한 불값 겟터세터
 	bool getIsEscape() { return _isEscape; }
 	void setIsEscape(bool isEscape) { _isEscape = isEscape; }
+
 
 
 };

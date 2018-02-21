@@ -83,6 +83,7 @@ void worldMapScene::update()
 	}
 
 	getCollision();
+	enterTownMap();
 }
 
 void worldMapScene::render()
@@ -131,4 +132,17 @@ void worldMapScene::successEscape()
 	_worldMapPlayer->successEscape();
 	_enemyNum = -1;
 	_isEscape = false;
+}
+
+void worldMapScene::enterTownMap()
+{
+	if(_worldMapPlayer->getIsEnter())
+	{
+		SCENEMANAGER->changeScene("Å¸¿î¸Ê¾À", false);
+		//SOUNDMANAGER->stop(CH_BGM);
+		//_worldMapPlayer->setWorldMapPlayerTempPoint(_worldMapPlayer->getWorldMapPlayerPoint());
+		_worldMapPlayer->setWorldMapPlayerPoint(PointMake(_worldMapPlayer->getWorldMapPlayerPoint().x - 100, _worldMapPlayer->getWorldMapPlayerPoint().y));
+	}
+	_worldMapPlayer->setIsEnter(false);
+
 }

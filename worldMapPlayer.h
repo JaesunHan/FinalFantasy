@@ -37,6 +37,9 @@ public:
 	POINT _player;
 	RECT _rc;
 
+	//플레이어 씬전환시 사용할 임시 저장좌표
+	POINT _playerTemp;
+
 	//플레이어 이미지용
 	image* _image;
 	int _currentFrameX;
@@ -81,11 +84,7 @@ public:
 	//도망 성공시
 	void successEscape();
 
-	//타운입장
-	void enterTown();
 
-	//월드맵 입장
-	void enterWorldMap();
 
 	//========겟셋 모음==================================/
 	RECT getWorldMapPlayerRect() { return _rc; }
@@ -98,6 +97,19 @@ public:
 	void setWorldMapPlayerCollision(bool collision) { _isCollision = collision; }
 
 	void setCurMapAddressLink(generalMap* curMap) { _curMap = curMap; }
+
+
+
+	POINT getWorldMapPlayerTempPoint() { return _playerTemp; }
+	void setWorldMapPlayerTempPoint(POINT playerTemp) { _playerTemp = playerTemp; }
+
+
+
+	bool getIsEnter() { return _isEnter; }
+	void setIsEnter(bool isEnter) { _isEnter = isEnter; }
+
+	bool getIsWorldMapEnter() { return _isWorldMapEnter; }
+	void setIsWorldMapeEnter(bool isWorldMapEnter) { _isWorldMapEnter = isWorldMapEnter; }
 
 };
 
