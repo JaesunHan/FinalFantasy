@@ -186,6 +186,99 @@ void cursor::keyControlY(float moveValueY, int downNumber)
 	if (_currentYNum <= 0)				 _currentYNum = 0;
 	if (_currentYNum >= (downNumber - 1)) _currentYNum = (downNumber - 1);
 }
+/*
+void cursor::keyControlXY(float moveValueX, float moveValueY, int maxNumX, int maxNumY, int maxListNum, bool leftMove)
+{
+	if (!_cursorOn)
+	{
+		if (!leftMove)
+		{
+			_minX = _x;
+			_maxX = _x + (moveValueX * (maxNumX - 1));
+		}
+		else
+		{
+			_minX = _x - (moveValueX * (maxNumX - 1));
+			_maxX = _x;
+		}
+
+		_currentXNum = 0;
+		_currentYNum = 0;
+		_cursorOn = true;
+	}
+
+
+	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT))
+	{
+		SOUNDMANAGER->play("menuSelectLow", CH_MENUSCENE, EFFECTVOLUME);
+
+		_x += moveValueX;
+		_startX += moveValueX;
+		_currentXNum++;
+
+		//예외처리: 커서가 선택항목을 벗어나면 다시 처음 선택지로~~
+		if (_currentXNum > (maxNumX - 1))
+		{
+			_x = _minX;
+			_startX = _minX;
+			_currentXNum = 0;
+		}
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_LEFT))
+	{
+		SOUNDMANAGER->play("menuSelectLow", CH_MENUSCENE, EFFECTVOLUME);
+
+		_x -= moveValueX;
+		_startX -= moveValueX;
+		_currentXNum--;
+
+		//예외처리: 커서가 선택항목을 벗어나면 마지막 선택지로~~
+		if (_x < _minX)
+		{
+			_x = _maxX;
+			_startX = _maxX;
+			_currentXNum = (moveNumber - 1);
+		}
+
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+	{
+		SOUNDMANAGER->play("menuSelectLow", CH_MENUSCENE, EFFECTVOLUME);
+
+		_y += moveValueY;
+		_currentYNum++;
+
+		//예외처리: 커서가 선택항목을 벗어나면 다시 처음 선택지로~~
+		if (_y > _startY + (moveValueY * (downNumber - 1)))
+		{
+			_y = _startY;
+			_currentYNum = 0;
+		}
+
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_UP))
+	{
+		SOUNDMANAGER->play("menuSelectLow", CH_MENUSCENE, EFFECTVOLUME);
+
+		_y -= moveValueY;
+		_currentYNum--;
+
+		//예외처리: 커서가 선택항목을 벗어나면 마지막 선택지로~~
+		if (_y < _startY)
+		{
+			_y = _startY + (moveValueY * (downNumber - 1));
+			_currentYNum = downNumber - 1;
+		}
+	}
+
+
+	//예외처리: 커서 선택위치 반환을 위한...
+	if (_currentXNum <= 0)					_currentXNum = 0;
+	if (_currentXNum >= (moveNumber))		_currentXNum = (moveNumber - 1);
+}*/
 
 void cursor::render()
 {

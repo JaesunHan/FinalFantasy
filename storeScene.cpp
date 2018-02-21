@@ -25,9 +25,11 @@ HRESULT storeScene::init()
 
 	_currentPos = POS_BUY_SELL;
 	_cursorIndex = 0;
+	_listSelectIndex = 0;
+	_listMaxIndex = 0;
 
 	_buySellSelectCursor.init(CURSOR_RIGHT, 130, 130);
-	
+	_listSelectCursor.init(CURSOR_RIGHT, 20, 240);
 
 	return S_OK;
 }
@@ -39,10 +41,10 @@ void storeScene::release()
 
 void storeScene::update()
 {
-	//keyControl();
-	_buySellSelectCursor.keyControlX(400, 2);
+	keyControl();
 
 	_buySellSelectCursor.update();
+	if (_currentPos == POS_BUY_LIST || _currentPos == POS_SELL_LIST) _listSelectCursor.update();
 }
 
 void storeScene::render()
@@ -66,7 +68,7 @@ void storeScene::render()
 	newFont = CreateFont(20, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll ¹Ì»ý"));
 	SelectObject(getMemDC(), newFont);
 
-	drawVendorList();
+	if (_currentPos == POS_BUY_LIST) drawVendorList();
 	
 	SetTextColor(getMemDC(), RGB(0, 0, 0));
 	SelectObject(getMemDC(), oldFont);
@@ -74,15 +76,39 @@ void storeScene::render()
 	DeleteObject(newFont);
 
 	_buySellSelectCursor.render();
+	if (_currentPos == POS_BUY_LIST || _currentPos == POS_SELL_LIST) _listSelectCursor.render();
 }
 
 void storeScene::keyControl(void)
 {
 	if (_currentPos == POS_BUY_SELL)
 	{
-		if (KEYMANAGER->isOnceKeyDown(VK_LEFT) || KEYMANAGER->isOnceKeyDown(VK_RIGHT))
+		_buySellSelectCursor.keyControlX(400, 2);
+
+		if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 		{
-			_cursorIndex = !_cursorIndex;
+			if (!_buySellSelectCursor.getCursorXNum()) _currentPos = POS_BUY_LIST;
+			else if (_buySellSelectCursor.getCursorXNum()) _currentPos = POS_SELL_LIST;
+		}
+	}
+	if (_currentPos == POS_BUY_LIST)
+	{
+		_listMaxIndex = _vendorList.size();
+		if (_listMaxIndex > 2) _listSelectCursor.keyControlX(280, 3);
+		_listSelectCursor.keyControlY(90, 3);
+
+		if (KEYMANAGER->isOnceKeyDown(VK_BACK))
+		{
+			_currentPos = POS_BUY_SELL;
+		}
+	}
+	if (_currentPos == POS_SELL_LIST)
+	{
+		_listSelectCursor.keyControlX(280, 3);
+
+		if (KEYMANAGER->isOnceKeyDown(VK_BACK))
+		{
+			_currentPos = POS_BUY_SELL;
 		}
 	}
 }

@@ -31,6 +31,8 @@ private:
 private:
 	CURSOR_POS _currentPos;
 	int _cursorIndex;
+	int _listSelectIndex;
+	int _listMaxIndex;
 
 public:
 	storeScene();
