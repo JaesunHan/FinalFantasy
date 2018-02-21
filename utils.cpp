@@ -51,6 +51,24 @@ namespace HEPTA_UTIL
 		SetTextColor(hdc, RGB(0, 0, 0));
 		SetTextAlign(hdc, TA_LEFT);
 	}
+
+	//							  텍스트위치 X, Y	텍스트				텍스트색상			외곽선색상				현재폰트색상					현재폰트사이즈
+	void outlineTextOut(HDC hdc, int left, int top, const char * str, COLORREF fontColor, COLORREF outlineColor, COLORREF currentFontColor, int curFontSize)
+	{
+		SetTextColor(hdc, outlineColor);
+
+		if (curFontSize < 40) curFontSize = 40;
+
+		TextOut(hdc, left + curFontSize / 40, top, str, strlen(str));
+		TextOut(hdc, left - curFontSize / 40, top, str, strlen(str));
+		TextOut(hdc, left, top + curFontSize / 40, str, strlen(str));
+		TextOut(hdc, left, top - curFontSize / 40, str, strlen(str));
+
+		SetTextColor(hdc, fontColor);
+		TextOut(hdc, left, top, str, strlen(str));
+
+		SetTextColor(hdc, currentFontColor);
+	}
 	//숫자를 TCHAR 로 반환!		=> ex) 5 -> "5"
 	TCHAR* changeIntToTChar(int num)
 	{

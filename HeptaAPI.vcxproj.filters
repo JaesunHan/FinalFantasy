@@ -456,6 +456,9 @@
     <ClInclude Include="magic.h">
       <Filter>playGround\BattleScene\battlePlayer</Filter>
     </ClInclude>
+    <ClInclude Include="cursor.h">
+      <Filter>playGround</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -754,6 +757,9 @@
     </ClCompile>
     <ClCompile Include="magic.cpp">
       <Filter>playGround\BattleScene\battlePlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="cursor.cpp">
+      <Filter>playGround</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
