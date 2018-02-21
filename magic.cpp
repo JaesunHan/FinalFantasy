@@ -29,15 +29,17 @@ HRESULT magic::init(string magicEffectKey, char* magicImgFileName, char magicNam
 	{
 		_healHP = 0;
 	}
+	//힐 마법이면 어빌리티 파워로 저장
 	else
 	{
 		_healHP = _abilityPower;
 	}
-
+	//만약 되살리는 마법이 아니면 되살리는 HP 는 0으로 저장
 	if (!_isRevive)
 	{
 		_reviveHP = 0;
 	}
+	//되살리는 마법이면 어빌리티 파워로 저장
 	else
 	{
 		_reviveHP = _abilityPower;

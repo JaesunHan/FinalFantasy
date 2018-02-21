@@ -45,7 +45,7 @@ battleCeles::battleCeles()
 	_magicAtkStandbyAnim = new animation;
 	_magicAtkStandbyAnim->init(_magicAtkStandbyImg->getWidth(), _magicAtkStandbyImg->getHeight(), _magicAtkStandbyImg->getFrameWidth(), _magicAtkStandbyImg->getFrameHeight());
 	int magicAtkStandbyArr[] = { 0, 1, 2, 3};
-	_magicAtkStandbyAnim->setPlayFrame(magicAtkStandbyArr, 4, false);
+	_magicAtkStandbyAnim->setPlayFrame(magicAtkStandbyArr, 4, true);
 	_magicAtkStandbyAnim->setFPS(1);
 
 

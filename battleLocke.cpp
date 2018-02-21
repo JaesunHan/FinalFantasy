@@ -44,7 +44,7 @@ battleLocke::battleLocke()
 	_magicAtkStandbyAnim = new animation;
 	_magicAtkStandbyAnim->init(_magicAtkStandbyImg->getWidth(), _magicAtkStandbyImg->getHeight(), _magicAtkStandbyImg->getFrameWidth(), _magicAtkStandbyImg->getFrameHeight());
 	int magicAtkStandbyArr[] = { 0, 1, 2, 3, 4, 5, 6, 7 };
-	_magicAtkStandbyAnim->setPlayFrame(magicAtkStandbyArr, 8, false);
+	_magicAtkStandbyAnim->setPlayFrame(magicAtkStandbyArr, 8, true);
 	_magicAtkStandbyAnim->setFPS(1);
 
 

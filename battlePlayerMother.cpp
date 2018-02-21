@@ -117,7 +117,7 @@ void battlePlayerMother::update()
 			//힐 마법 이면 아군 이 있는 위치에 이팩트 출력
 			if (_selectMagic->getIsHeal() || _selectMagic->getIsRevive())
 			{
-				EFFECTMANAGER->play(_selectMagic->getMaicEffectKey(), _mAllyTarget->getPosX(), _mAllyTarget->getPosY());
+				EFFECTMANAGER->play(_selectMagic->getMaicEffectKey(), _mAllyTarget->getPosX()-30, _mAllyTarget->getPosY());
 			}
 			else
 			{
@@ -219,12 +219,12 @@ void battlePlayerMother::setAllBattlePlayerInfo(int lv, int curExp, int maxExp, 
 
 void battlePlayerMother::animationFrameUpdate()
 {
-	if (KEYMANAGER->isOnceKeyDown('S'))
-	{
-		_status = (baattlePlayerStatus)((int)_status + 1);
-		if (_status >= BATTLE_PLAYER_NONE-1)	 _status = BATTLE_PLAYER_IDLE;
-		_playAnimList[_status] = false;
-	}
+	//if (KEYMANAGER->isOnceKeyDown('S'))
+	//{
+	//	_status = (baattlePlayerStatus)((int)_status + 1);
+	//	if (_status >= BATTLE_PLAYER_NONE-1)	 _status = BATTLE_PLAYER_IDLE;
+	//	_playAnimList[_status] = false;
+	//}
 	//IDLE일때
 	if (_status == BATTLE_PLAYER_IDLE)
 	{
