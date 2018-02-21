@@ -190,6 +190,9 @@ void cursor::keyControlY(float moveValueY, int downNumber)
 
 void cursor::keyControlXY(float moveValueX, float moveValueY, int maxNumX, int maxListNum, bool leftMove)
 {
+	if (maxNumX > maxListNum) maxNumX = maxListNum;
+	if (maxListNum <= 0) return;
+
 	if (!_cursorOn)
 	{
 		if (!leftMove)
