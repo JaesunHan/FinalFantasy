@@ -86,7 +86,15 @@ protected:
 	//공격할 때 일정 시간동안애는 공격을 한다.
 	bool _atkMotion;
 
+	//일반공격 타겟
 	Enemy* _target;
+	//마법 공격 타겟(적)
+	Enemy* _mEnemyTarget;
+	//마법 힐 타겟(아군)
+	battlePlayerMother* _mAllyTarget;
+	//선택한 마법 종류
+	magic* _selectMagic;
+
 	float _targetX, _targetY;
 	int _targetWidth, _targetHeight;
 
@@ -195,6 +203,13 @@ public:
 	bool moveToTarget(int targetX, int targetY, int motionListIdx);
 
 	void setBattleScene(BattleScene* bs) { _BS = bs; }
+
+	//마법공격할 적 대상세팅
+	void setMEnemyTarget(Enemy* target) { _mEnemyTarget = target; }
+	//마법 힐을 줄 아군 대상 세팅
+	void setMAllyTarget(battlePlayerMother* target) { _mAllyTarget = target; }
+	//선택한 마법 세팅
+	void setSelectMagic(magic* m) { _selectMagic = m; }
 
 
 };
