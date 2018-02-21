@@ -1,5 +1,6 @@
 #pragma once
 #include "gameNode.h"
+#include "itemManager.h"
 #include "battleShadow.h"
 #include "battleTina.h"
 #include "battleLocke.h"
@@ -58,6 +59,7 @@ private:
 	int _currentTurn;								//현재 턴이 누구턴인가 저장
 	int _menuNum = 0;								//메뉴 선택 번호(1번 공격, 2번 마법, 3번 스킬, 4번 아이템, 5번 도망)
 	int _enemyNum = 4;								//적 선택 번호 (4번이 첫번째 적)
+	int _itemSelectNum = 0;								//아이템 선택 번호
 	int _messageCounter = 0;						//메시지 표시 카운터
 	int _victoryCounter = 0;						//승리 카운터
 	int _dialogueCounter = 0;						//다이얼로그 카운터
@@ -66,7 +68,8 @@ private:
 	unsigned int _position;							//사운드 포지션			
 	bool _counterRoll = true;						//참일때만 카운터 증가
 	bool _playerTurn = false;						//플레이어 턴일때 참
-	bool _enemySelect = false;						//에너미 선택할때 참
+	bool _enemySelect = false;						//에너미 선택창 띄운다
+	bool _itemSelect = false;						//아이템 선택창 띄운다
 	bool _magicSelect = false;						//마법 선택
 	bool _sfx01 = true;								//이펙트 사운드 1번
 	bool _sfx02 = false;							//이펙트 사운드 2번
@@ -81,6 +84,7 @@ private:
 	HFONT newFont, oldFont;							//폰트
 	RECT _damageRC;									//데미지 렉트
 	playerManager* _pm;
+	itemManager* _im;
 public:
 	BattleScene();
 	~BattleScene();

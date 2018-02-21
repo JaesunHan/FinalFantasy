@@ -229,7 +229,7 @@ void itemManager::loadInventory(char* fileName)
 void itemManager::setInventory(int vectorNum, int count)
 {
 	_element = make_pair(vectorNum, count);
-	_arrInventory.insert(make_pair(_vItem[vectorNum]->getItemName, _element));
+	_arrInventory.insert(make_pair(_vItem[vectorNum]->getItemName(), _element));
 }
 
 void itemManager::setInventory(string keyName, int count)
@@ -243,7 +243,7 @@ void itemManager::setInventory(string keyName, int count)
 	{
 		for (int i = 0; i < _vItem.size(); ++i)
 		{
-			if (_vItem[i]->getItemName == keyName)
+			if (_vItem[i]->getItemName() == keyName)
 			{
 				setInventory(i, count);
 				break;

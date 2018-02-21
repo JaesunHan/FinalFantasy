@@ -19,6 +19,7 @@ HRESULT BattleScene::init()
 	//수치들 초기화
 	_menuNum = 0;
 	_enemyNum = 4;
+	_itemSelectNum = 0;
 	_messageCounter = 0;
 	_victoryCounter = 0;
 	_dialogueCounter = 0;
@@ -27,6 +28,7 @@ HRESULT BattleScene::init()
 	_counterRoll = true;
 	_playerTurn = false;
 	_enemySelect = false;
+	_itemSelect = false;
 	_magicSelect = false;
 	_sfx01 = true;
 	_sfx02 = false;
@@ -395,6 +397,12 @@ void BattleScene::playerMenuSelect()
 					}
 				}
 			}
+			else if (_itemSelect == true)
+			{
+				_itemSelectNum--;
+				if (_itemSelectNum < 0) _itemSelectNum = _im->getInventorySize() - 1;
+				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
+			}
 			else if (_playerTurn == true)
 			{
 				_menuNum--;
@@ -422,6 +430,12 @@ void BattleScene::playerMenuSelect()
 					}
 				}
 			}
+			else if (_itemSelect == true)
+			{
+				_itemSelectNum++;
+				if (_itemSelectNum > _im->getInventorySize() - 1) _itemSelectNum = 0;
+				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
+			}
 			else if (_playerTurn == true)
 			{
 				_menuNum++;
@@ -434,8 +448,10 @@ void BattleScene::playerMenuSelect()
 			if (_enemySelect == true)
 			{
 				_enemyNum = 4;
+				_itemSelectNum = 0;
 				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
 				_enemySelect = false;
+				_itemSelect = false;
 			}
 			else if (_playerTurn == true)
 			{
@@ -471,6 +487,7 @@ void BattleScene::playerMenuSelect()
 		{
 			_menuNum = 0;
 			_enemySelect = false;
+			_itemSelect = false;
 			_playerTurn = false;
 		}
 	}
@@ -478,7 +495,7 @@ void BattleScene::playerMenuSelect()
 	{
 		if (_victory == false)
 		{
-			if (_enemySelect == true)
+			if (_enemySelect == true || _itemSelect == true)
 			{
 				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
 				_battleCharacters[_currentTurn].enemy = _battleCharacters[_enemyNum].enemy;
@@ -497,6 +514,9 @@ void BattleScene::playerMenuSelect()
 				case(BATTLE_SKILL):
 					break;
 				case(BATTLE_ITEM):
+
+
+
 					break;
 				case(BATTLE_ESCAPE):
 					break;
@@ -528,6 +548,7 @@ void BattleScene::playerMenuSelect()
 				case(BATTLE_SKILL):
 					break;
 				case(BATTLE_ITEM):
+					_itemSelect = true;
 					break;
 				case(BATTLE_ESCAPE):
 					_battleCharacters[_currentTurn].player->setStatus(BATTLE_PLAYER_ATTACK_STANDBY);
@@ -664,6 +685,10 @@ void BattleScene::drawUI()
 		{
 			IMAGEMANAGER->findImage("fingerArrowLt")->render(getMemDC(), _battleCharacters[_enemyNum].enemy->getX() + _battleCharacters[_enemyNum].enemy->getImageWidth() / 2, _battleCharacters[_enemyNum].enemy->getY());
 		}
+		else if (_itemSelect == true)
+		{
+
+		}
 		else if (_playerTurn == true && i == _currentTurn)
 		{
 			switch (_battleCharacters[_currentTurn].characterType)
@@ -764,6 +789,7 @@ void BattleScene::soundControl()
 void BattleScene::playerAttack()
 {
 	//플레이어 공격 알고리즘 계산
+	_damageRC = { _battleTurn.front()->enemy->getX() - 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() / 2, _battleTurn.front()->enemy->getX() + 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() / 2 + 30 };
 	float BlockValue = (255 - _battleTurn.front()->enemy->getMDef() * 2) + 1;
 	if (BlockValue > 255) BlockValue = 255;
 	if (BlockValue < 1) BlockValue = 1;
@@ -784,7 +810,6 @@ void BattleScene::playerAttack()
 		_damage = (_damage * (float)RND->getFromIntTo(224, 255) / 256) + 1;
 		_damage = (_damage * (255 - (float)_battleTurn.front()->enemy->getADef()) / 256) + 1;
 		_battleTurn.front()->enemy->setCurHP(_battleTurn.front()->enemy->getCurHP() - _damage);
-		_damageRC = { _battleTurn.front()->enemy->getX() - 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() / 2, _battleTurn.front()->enemy->getX() + 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() / 2 + 30 };
 	}
 	_isDamaged = true;
 }
