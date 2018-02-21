@@ -16,6 +16,8 @@ HRESULT npc1::init(int npcX, int npcY)
 	//npc1번 이미지 추가
 	_image = IMAGEMANAGER->addFrameImage("1번npc", ".\\image\\NPC\\npc1_front.bmp", 96, 48, 3, 1, true, RGB(255, 0, 255));
 
+	npcMother::init(npcX, npcY);
+
 	_npc.x = npcX;
 	_npc.y = npcY;
 
@@ -35,7 +37,8 @@ void npc1::release()
 
 void npc1::update()
 {
-	worldNpcImageFrameControl();
+	//worldNpcImageFrameControl();
+	npcMother::update();
 }
 
 void npc1::render(HDC hdc, POINT movePt)
@@ -47,17 +50,17 @@ void npc1::render(HDC hdc, POINT movePt)
 	}
 }
 
-void npc1::worldNpcImageFrameControl()
-{
-	_count++;
-
-	if (_count % 50 == 0)
-	{
-		_npcCurrentFrameX++;
-
-		if (_npcCurrentFrameX == _image->getMaxFrameX())
-		{
-			_npcCurrentFrameX = 0;
-		}
-	}
-}
+//void npc1::worldNpcImageFrameControl()
+//{
+//	_count++;
+//
+//	if (_count % 50 == 0)
+//	{
+//		_npcCurrentFrameX++;
+//
+//		if (_npcCurrentFrameX == _image->getMaxFrameX())
+//		{
+//			_npcCurrentFrameX = 0;
+//		}
+//	}
+//}

@@ -16,6 +16,8 @@ HRESULT npc4::init(int npcX, int npcY)
 	//npc4번 이미지 추가
 	_image = IMAGEMANAGER->addFrameImage("4번npc", ".\\image\\NPC\\npc4_front.bmp", 96, 48, 3, 1, true, RGB(255, 0, 255));
 
+	npcMother::init(npcX, npcY);
+
 	_npc.x = npcX;
 	_npc.y = npcY;
 
@@ -34,7 +36,8 @@ void npc4::release()
 
 void npc4::update()
 {
-	worldNpcImageFrameControl();
+	//worldNpcImageFrameControl();
+	npcMother::update();
 }
 
 void npc4::render(HDC hdc, POINT movePt)

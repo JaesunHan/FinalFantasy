@@ -16,6 +16,8 @@ HRESULT npc3::init(int npcX, int npcY)
 	//npc3번 이미지 추가
 	_image = IMAGEMANAGER->addFrameImage("3번npc", ".\\image\\NPC\\npc3_front.bmp", 90, 48, 3, 1, true, RGB(255, 0, 255));
 
+	npcMother::init(npcX, npcY);
+
 	_npc.x = npcX;
 	_npc.y = npcY;
 
@@ -34,7 +36,8 @@ void npc3::release()
 
 void npc3::update()
 {
-	worldNpcImageFrameControl();
+	//worldNpcImageFrameControl();
+	npcMother::update();
 }
 
 void npc3::render(HDC hdc, POINT movePt)

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "npcMother.h"
+#include "worldMapPlayer.h"
 
 
 npcMother::npcMother()
@@ -13,9 +14,16 @@ npcMother::~npcMother()
 
 HRESULT npcMother::init(int npcX, int npcY)
 {
+	_npc.x = npcX;
+	_npc.y = npcY;
+
 	_npcCurrentFrameX = 0;
 	_npcCurrentFrameY = 0;
 	_count = 0;
+
+	_rc = RectMake(_npc.x, _npc.y + 30, TILE_SIZEX, TILE_SIZEY / 2);
+
+	_isCollision = false;
 
 
 	return S_OK;
@@ -28,6 +36,7 @@ void npcMother::release()
 void npcMother::update()
 {
 	worldNpcImageFrameControl();
+	npcCollision();
 }
 
 void npcMother::render(HDC hdc, POINT movePt)
@@ -55,6 +64,14 @@ void npcMother::worldNpcImageControl()
 
 void npcMother::worldNpcKeyControl()
 {
+}
+
+void npcMother::npcCollision()
+{
+	if (getDistance(_npc.x, _npc.y, _wp->getWorldMapPlayerPoint().x, _wp->getWorldMapPlayerPoint().y)< TILE_SIZEX)
+	{
+		_isCollision = true;
+	}
 }
 
 int npcMother::tileNum(float x, float y)

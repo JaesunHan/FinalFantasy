@@ -12,7 +12,7 @@ public:
 	void update();
 	virtual void render(HDC hdc, POINT movePt);
 
-	void worldNpcImageFrameControl();
+	//void worldNpcImageFrameControl();
 
 	POINT getNpcPoint() { return _npc; }
 };

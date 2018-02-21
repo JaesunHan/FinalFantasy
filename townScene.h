@@ -4,6 +4,7 @@
 #include "npcManager.h"
 #include "generalMap.h"
 #include "townMap.h"
+#include "storeScene.h"
 
 
 class townScene : public gameNode
@@ -18,6 +19,9 @@ public:
 
 	//타운맵용
 	generalMap* _townMap;
+	
+	//스토어씬용
+	storeScene* _store;
 
 
 	townScene();
@@ -30,6 +34,9 @@ public:
 
 	//월드맵으로 넘어가는 함수
 	void enterWorldMap();
+
+	//상점으로 넘어가는 함수
+	void entershop();
 
 };
 

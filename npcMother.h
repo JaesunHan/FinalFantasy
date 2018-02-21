@@ -1,7 +1,7 @@
 #pragma once
 #include "gameNode.h"
 #include "worldMap.h"
-#include "worldMapPlayer.h"
+
 
 enum NPCTYPE
 {
@@ -12,6 +12,9 @@ enum NPCTYPE
 	NPC_MAGIC,
 	NPC_END
 };
+
+
+class worldMapPlayer;
 
 class npcMother : public gameNode
 {
@@ -58,16 +61,23 @@ public:
 	//월드NPC 키 컨트롤
 	void worldNpcKeyControl();
 
+	//npc와 플레이어 충돌
+	void npcCollision();
+
 	//타일 인덱스 계산하는 함수
 	int tileNum(float x, float y);
 
+	//==========겟셋 추가==============//
 
 	//zorder를 위한 y위치 게터
 	POINT getNpcPoint() { return _npc; }
-
-
 	//콜리전 했늬? 안했늬? 
 	bool getNpcCollison() { return _isCollision; }
+	//NPC타입 겟함수
+	NPCTYPE getNpcType() { return _npctype; }
+
+	//플레이어 메모리 링크
+	void setPlayerMemoryAddressLink(worldMapPlayer* wp) { _wp = wp; }
 
 };
 

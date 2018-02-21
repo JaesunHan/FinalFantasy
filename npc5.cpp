@@ -16,6 +16,8 @@ HRESULT npc5::init(int npcX, int npcY)
 	//npc5번 이미지 추가
 	_image = IMAGEMANAGER->addFrameImage("5번npc", ".\\image\\NPC\\npc5_front.bmp", 84, 46, 3, 1, true, RGB(255, 0, 255));
 
+	npcMother::init(npcX, npcY);
+
 	_npc.x = npcX;
 	_npc.y = npcY;
 
@@ -34,7 +36,8 @@ void npc5::release()
 
 void npc5::update()
 {
-	worldNpcImageFrameControl();
+	//worldNpcImageFrameControl();
+	npcMother::update();
 }
 
 void npc5::render(HDC hdc, POINT movePt)

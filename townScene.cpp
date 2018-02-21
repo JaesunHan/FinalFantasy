@@ -29,6 +29,12 @@ HRESULT townScene::init()
 	_npcManager = new npcManager;
 	_npcManager->init();
 
+	//npc가 플레이어 함수들 가져다 쓰기위함
+	for (int i = 0; i < _npcManager->getVNpc().size(); ++i)
+	{
+		_npcManager->getVNpc()[i]->setPlayerMemoryAddressLink(_worldMapPlayer);
+	}
+
 	return S_OK;
 }
 
@@ -54,6 +60,7 @@ void townScene::update()
 	_npcManager->setPlayerPos(_worldMapPlayer->getWorldMapPlayerPoint());
 
 	enterWorldMap();
+	entershop();
 }
 
 void townScene::render()
@@ -84,4 +91,33 @@ void townScene::enterWorldMap()
 	//부딪친 오브젝트가 타운에서 타운 속성을 가졌으면
 	//"월드맵씬" 전환
 	_worldMapPlayer->setIsWorldMapeEnter(false);
+}
+
+void townScene::entershop()
+{
+	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+	{
+		for (int i = 0; i < _npcManager->getVNpc().size(); ++i)
+		{
+			//만약 플레이어와 npc의 겟디스턴스 거리가 TILE_SIZEX 미만일때 /iscollision = true일때
+			if (_npcManager->getVNpc()[i]->getNpcCollison())
+			{
+				if (_npcManager->getVNpc()[i]->getNpcType() == NPC_WEAPON)
+				{
+					((storeScene*)SCENEMANAGER->findScene("storeScene"))->setStoreKey("weaponStore");
+					SCENEMANAGER->changeSceneType0("storeScene");
+				}
+				else if (_npcManager->getVNpc()[i]->getNpcType() == NPC_POTION)
+				{
+					((storeScene*)SCENEMANAGER->findScene("storeScene"))->setStoreKey("itemShop");
+					SCENEMANAGER->changeSceneType0("storeScene");
+				}
+				else if (_npcManager->getVNpc()[i]->getNpcType() == NPC_DEFENCE)
+				{
+					((storeScene*)SCENEMANAGER->findScene("storeScene"))->setStoreKey("armorStore");
+					SCENEMANAGER->changeSceneType0("storeScene");
+				}
+			}
+		}
+	}
 }
