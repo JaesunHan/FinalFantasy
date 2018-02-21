@@ -55,6 +55,9 @@ struct tagPlayer
 {
 	image* img;						//플레이어 이미지
 	float x, y;						//플레이어 이미지 위치
+	animation* ani;                 //이미지 에니메이션
+	bool aniStart;                  //에니메이션 시작 불값
+	bool slotSelect;                //슬롯변경 불값
 
 	TCHAR name[CHARBUFFSHORT];		//플레이어 이름
 	TCHAR job[CHARBUFFSHORT];		//플레이어 직업
@@ -121,6 +124,7 @@ enum MENU_SCENE
 	MENU_END
 };
 
+class itemManager;
 
 class menu : public gameNode
 {
@@ -149,6 +153,7 @@ protected:
 	vPlayer   _vPlayer;          //플레이어 슬롯정보
 	viPlayer  _viPlayer;
 	tagElements _playerElements;
+	int _slotNum;
 
 	vPlayer   _vPlayerStatus;    //플레이어 상태정보
 	viPlayer  _viPlayerStatus;   
@@ -164,6 +169,9 @@ protected:
 
 	//====== BG 이미지 =======
 	image*    _bgImage;
+
+	//========= ITEM =========
+	itemManager* _iM;
 
 public:
 	virtual HRESULT init();
@@ -188,15 +196,19 @@ public:
 	virtual void playerSlotKeyControl(float slotValueY, int slotNum = 137);
 	virtual void playerSlotRender();
 	virtual void playerSlotRemove();
+	virtual void playerSlotAniStart(int slotNum, bool aniStart);
 	//-------------------------------  status  ------------------------------
 	virtual void playerStatusInit(int strength, int speed, int stamina, int magic, int attack,
 		int attackDefence, int magicDefence, int evation, int magicEvation, int partyIdx);
 	virtual void playerStatusRender();
 	virtual void playerStatusRemove();
 	//------------------------------  fileLoad  -----------------------------
-	virtual void fileLoad(int fileNum, int playerNum = -1);
+	virtual void fileLoad(int fileNum, int playerNum = -1, bool tmpFile = false);
 	//------------------------------  fileCopy  -----------------------------
 	virtual void fileCopyTmpFile(int fileNum);
+	//--------------------------------  slot  -------------------------------
+	virtual void slotChange(int changeSlotNum, int playerIdx);
+	virtual int slotSelect(int selectSlotNum);
 	//================================ player ===============================
 
 	//============================== save & load ============================
@@ -215,19 +227,19 @@ public:
 	virtual void gameDataRender(bool isNewGame);
 	//=============================== gameData ==============================
 
-	//=============================== gameTime ==============================
-	virtual void gamePlayTime();
-	//=============================== gameTime ==============================
+
+
 
 	//================================ getter ===============================
 	int getSaveFileNum() { return _saveFileNum; }
 	//================================ getter ===============================
 
+	void setItemManagerAddressLink(itemManager* im) { _iM = im; }
+
 
 
 	menu();
 	~menu();
-
 };
 
 

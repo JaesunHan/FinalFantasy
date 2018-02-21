@@ -4,6 +4,7 @@
 
 menu::menu()
 {
+	_slotNum = 0;
 }
 menu::~menu()
 {
@@ -147,11 +148,23 @@ void menu::cursorKeyControlX(float moveValueX, int moveNumber, bool leftMove)
 		_cursor.currentXNum--;
 
 		//예외처리: 커서가 선택항목을 벗어나면 마지막 선택지로~~
-		if (_cursor.x < _cursor.minX)
+		if (!leftMove)
 		{
-			_cursor.x = _cursor.maxX;
-			_cursor.startX = _cursor.maxX;
-			_cursor.currentXNum = (moveNumber - 1);
+			if (_cursor.x < _cursor.minX)
+			{
+				_cursor.x = _cursor.maxX;
+				_cursor.startX = _cursor.maxX;
+				_cursor.currentXNum = (moveNumber - 1);
+			}
+		}
+		else
+		{
+			if (_cursor.currentXNum < 0)
+			{
+				_cursor.x = _cursor.minX;
+				_cursor.startX = _cursor.minX;
+				_cursor.currentXNum = (moveNumber - 1);
+			}
 		}
 
 	}
@@ -212,6 +225,15 @@ void menu::cursorKeyControlY(float moveValueY, int downNumber)
 void  menu::cursorRender()
 {
 	_cursor.img->frameRender(getMemDC(), _cursor.x, _cursor.y);
+
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		char tmp[4];
+		ZeroMemory(&tmp, sizeof(tmp));
+		TextOut(getMemDC(), _cursor.x - 20, _cursor.y - 30, itoa(_cursor.x, tmp, 10), sizeof(tmp));
+		TextOut(getMemDC(), _cursor.x + 20, _cursor.y - 30, itoa(_cursor.y, tmp, 10), sizeof(tmp));
+		TextOut(getMemDC(), _cursor.x, _cursor.y + 30, itoa(_cursor.currentXNum, tmp, 10), sizeof(tmp));
+	}
 }
 
 void menu::cursorResetXY(float cursorX, float cursorY)
@@ -236,6 +258,12 @@ void menu::playerSlotInit(string keyName, float x, float y, int level, char* job
 	tagPlayer player;
 	ZeroMemory(&player, sizeof(player));
 
+	//-------------------------------------------- animationKeyName
+	char aniTemp[32];
+	ZeroMemory(&aniTemp, sizeof(aniTemp));
+	sprintf(aniTemp, "%s%d", "슬롯시작", partyIdx);
+	//--------------------------------------------
+
 	player.img = IMAGEMANAGER->findImage(keyName);
 	wsprintf(player.name, "%s", keyName.c_str());
 	player.x = x;
@@ -250,25 +278,47 @@ void menu::playerSlotInit(string keyName, float x, float y, int level, char* job
 	player.partyIdx = partyIdx;
 	wsprintf(player.job, "%s", job);
 
+	//에니메이션
+	player.ani = new animation;
+	int arrAniSlot[] = { 0, 1 };
+	KEYANIMANAGER->addArrayFrameAnimation(aniTemp, player.name, arrAniSlot, 2, 1, true);
+	player.ani = KEYANIMANAGER->findAnimation(aniTemp);
+
+	//슬롯변경
+	player.slotSelect = false;
+
 	_vPlayer.push_back(player);
+
+	_slotNum++;
+
 }
 
 void menu::playerSlotUpdate()
 {
 	for (int i = 0; i < _vPlayer.size(); ++i)
 	{
-		//_vPlayer[i].partyIdx
+		if (_vPlayer[i].aniStart)
+		{
+			if (!_vPlayer[i].ani->isPlay()) _vPlayer[i].ani->start();
+		}
+		else
+		{
+			if (_vPlayer[i].ani->isPlay()) _vPlayer[i].ani->stop();
+		}
 	}
+
+	KEYANIMANAGER->update();
 }
 
 void menu::playerSlotKeyControl(float slotValueY, int slotNum)
 {
-	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+	for (int i = 0; i < _vPlayer.size(); ++i)
 	{
-		for (int i = 0; i < _vPlayer.size(); ++i)
-		{
-			_vPlayer[i].y += slotValueY * slotNum;
-		}
+		//예외처리
+		if (slotNum < 0 || slotNum > 3) continue;
+
+		_vPlayer[i].y += slotValueY * slotNum;
+		_vPlayer[i].partyIdx = slotNum;
 	}
 }
 
@@ -277,7 +327,7 @@ void menu::playerSlotRender()
 	for (int i = 0; i < _vPlayer.size(); ++i)
 	{
 		//이미지 출력
-		_vPlayer[i].img->render(getMemDC(), _vPlayer[i].x, _vPlayer[i].y);
+		_vPlayer[i].img->aniRender(getMemDC(), _vPlayer[i].x, _vPlayer[i].y, _vPlayer[i].ani);
 
 		//int -> string 형변환
 		char strLevel[INTCHARBUFF];
@@ -321,6 +371,85 @@ void menu::playerSlotRemove()
 	}
 
 	_vPlayer.clear();
+}
+
+void menu::playerSlotAniStart(int slotNum, bool aniStart)
+{
+	for (int i = 0; i < _vPlayer.size(); ++i)
+	{
+		if (_vPlayer[i].partyIdx == slotNum)
+		{
+			_vPlayer[i].aniStart = aniStart;
+		}
+	}
+}
+
+//플레이어 슬롯변경
+void menu::slotChange(int changeSlotNum, int playerIdx)
+{
+	//선택한 슬롯 바꾸기
+	for (int i = 0; i < 4; ++i)
+	{
+		if (i == changeSlotNum)
+		{
+			//플레이어 넘버
+			char strPlayerNum[16];
+			ZeroMemory(&strPlayerNum, sizeof(strPlayerNum));
+			sprintf(strPlayerNum, "player%d", changeSlotNum);
+
+			//플레이어 파티원넘버 변경
+			char strPlayerIdx[16];
+			ZeroMemory(&strPlayerIdx, sizeof(strPlayerIdx));
+			sprintf(strPlayerIdx, "%d", playerIdx);
+
+			INIDATA->addData(strPlayerNum, "partyIdx", strPlayerIdx);
+			INIDATA->iniSave("skgFile");
+
+			break;
+		}
+	}
+
+	//기존 슬롯 바꾸기
+	for (int i = 0; i < 4; ++i)
+	{
+		if (i == changeSlotNum)
+		{
+			//플레이어 넘버
+			char strPlayerNum[16];
+			ZeroMemory(&strPlayerNum, sizeof(strPlayerNum));
+			sprintf(strPlayerNum, "player%d", changeSlotNum);
+
+			//플레이어 파티원넘버 변경
+			char strPlayerIdx[16];
+			ZeroMemory(&strPlayerIdx, sizeof(strPlayerIdx));
+			sprintf(strPlayerIdx, "%d", playerIdx);
+
+			INIDATA->addData(strPlayerNum, "partyIdx", strPlayerIdx);
+			INIDATA->iniSave("skgFile");
+
+			break;
+		}
+
+		//원래 미선택 이미지로...
+		_vPlayer[i].ani->setFrameIndex(0);
+	}
+}
+
+//슬롯선택
+int menu::slotSelect(int selectSlotNum)
+{
+	for (int i = 0; i < _vPlayer.size(); ++i)
+	{
+		if (i == selectSlotNum)
+		{
+			_vPlayer[i].ani->stop();
+			_vPlayer[i].ani->setFrameIndex(1);
+			_vPlayer[i].aniStart = false;
+			_vPlayer[i].slotSelect = true;
+		
+			return i;
+		}
+	}
 }
 //------------------------------  slot  ------------------------------ 
 
@@ -412,16 +541,24 @@ void menu::playerStatusRemove()
 
 //----------------------------  fileLoad  ---------------------------- 
 //플레이어 세이브 파일 로드      ↓플레이어 슬롯넘버(특정 캐릭터 슬롯 하나만 띄울경우)
-void menu::fileLoad(int fileNum, int playerNumber)
+void menu::fileLoad(int fileNum, int playerNumber, bool tmpFile)
 {
 	//슬롯 초기화
 	playerSlotRemove();
 	if (!_fileLoadOk[fileNum]) _selectFileCount = 2;  //버튼선택 초기화
 
-	//세이브파일 넘버
+	//세이브파일 
 	char saveFileNum[32];
 	ZeroMemory(&saveFileNum, sizeof(saveFileNum));
-	wsprintf(saveFileNum, "saveFile%d", fileNum);
+	if (tmpFile)
+	{
+		wsprintf(saveFileNum, "skgFile");
+	}
+	else
+	{
+		wsprintf(saveFileNum, "saveFile%d", fileNum);
+	}
+
 
 
 	for (int i = 0; i < 4; ++i)
@@ -861,31 +998,9 @@ void menu::gameDataRender(bool isNewGame)
 		char tmpBuff[32];
 		textPrint(getMemDC(), tmpGD.stage,					     1050, 392, 30, 30, "Stencil", COLOR_WHITE, true);
 		textPrint(getMemDC(), itoa(tmpGD.playTime, tmpBuff, 10), 1080, 462, 20, 20, "Stencil", COLOR_WHITE, true);
-		textPrint(getMemDC(), itoa(tmpGD.gil, tmpBuff, 10),    1080, 516, 20, 20, "Stencil", COLOR_WHITE, true);
+		textPrint(getMemDC(), itoa(tmpGD.gil, tmpBuff, 10),		 1080, 516, 20, 20, "Stencil", COLOR_WHITE, true);
 	}
 }
 
 //============================== gameData ============================
 
-void menu::gamePlayTime()
-{
-	TCHAR str[128];
-	sprintf_s(str, "%f", _gameTotalTime);
-
-	//1분
-	sprintf_s(str, "%d", (int)(_gameTotalTime / 60) % 10);
-	textPrint(getMemDC(), str, 1050, 462, 20, 20, "Stencil", COLOR_WHITE, true);
-	//10분
-	sprintf_s(str, "%d", (int)_gameTotalTime / 600);
-	textPrint(getMemDC(), str, 1040, 462, 20, 20, "Stencil", COLOR_WHITE, true);
-
-	//1초
-	sprintf_s(str, "%d", (int)_gameTotalTime % 10);
-	textPrint(getMemDC(), str, 1100, 462, 20, 20, "Stencil", COLOR_WHITE, true);
-	//10초
-	sprintf_s(str, "%d", (int)(_gameTotalTime / 10) % 6);
-	textPrint(getMemDC(), str, 1090, 462, 20, 20, "Stencil", COLOR_WHITE, true);
-
-	sprintf_s(str, ":", str);
-	textPrint(getMemDC(), str, 1070, 461, 20, 20, "Stencil", COLOR_WHITE, true);
-}

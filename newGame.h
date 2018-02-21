@@ -14,6 +14,8 @@ public:
 	void render();
 
 
+	void setItemManagerAddressLink(itemManager* im) { _iM = im; }
+
 	newGame();
 	~newGame();
 };

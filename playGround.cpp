@@ -25,6 +25,7 @@ HRESULT playGround::init()
 	_bts->setItemManagerMemoryAddressLink(_item);
 	_pm->setItemManagerAddressLink(_item);
 
+
 	SCENEMANAGER->addScene("mapToolScene", new mapTool);
 	SCENEMANAGER->addScene("배틀씬", _bts);
 	SCENEMANAGER->addScene("월드맵씬", new worldMapScene);
@@ -43,7 +44,8 @@ HRESULT playGround::init()
 	SCENEMANAGER->addScene("타이틀", new titleScene);
 	SCENEMANAGER->addScene("세이브로드", new saveLoadMenu);
 	SCENEMANAGER->addScene("옵션", new optionMenu);
-	SCENEMANAGER->addScene("뉴게임", new newGame);
+	_nGame = (newGame*)SCENEMANAGER->addScene("뉴게임", new newGame);
+	_nGame->setItemManagerAddressLink(_item);
 	SCENEMANAGER->addScene("로드게임", new loadGame);
 	SCENEMANAGER->addScene("능력치", new abilitiesMenu);
 	SCENEMANAGER->addScene("사운드", new configMenu);
@@ -53,6 +55,9 @@ HRESULT playGround::init()
 	SCENEMANAGER->addScene("캐릭터능력", new characterAbility);
 	SCENEMANAGER->addScene("캐릭터상태", new characterStatus);
 	//=========================== 메뉴씬 ===========================
+
+
+
 	
 	SCENEMANAGER->changeScene("로딩");
 

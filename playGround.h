@@ -23,12 +23,15 @@
 #include "storeScene.h"
 
 
+
 class playGround : public gameNode
 {
 private:
 	playerManager* _pm;
 	itemManager* _item;
 	BattleScene* _bts;
+
+	newGame* _nGame;
 
 
 	//bool _isBattle;

@@ -47,10 +47,10 @@ HRESULT loadingScene::init()
 	_loading->loadFrameImage("아이콘방어", ".//prevProjectResource//SceneImage//icon_menu_ability_defence.bmp", 400, 74, 2, 1, true, RGB(255, 0, 255));
 
 	//플레이어 이미지
-	_loading->loadImage("TINA", ".//prevProjectResource//SceneImage//player_tina.bmp", 112, 111, true, RGB(255, 0, 255));
-	_loading->loadImage("CELES", ".//prevProjectResource//SceneImage//player_celes.bmp", 112, 111, true, RGB(255, 0, 255));
-	_loading->loadImage("LOCKE", ".//prevProjectResource//SceneImage//player_locke.bmp", 112, 111, true, RGB(255, 0, 255));
-	_loading->loadImage("SHADOW", ".//prevProjectResource//SceneImage//player_shadow.bmp", 112, 111, true, RGB(255, 0, 255));
+	_loading->loadFrameImage("TINA", ".//prevProjectResource//SceneImage//player_tina.bmp", 224, 111, 2, 1, true, RGB(255, 0, 255));
+	_loading->loadFrameImage("CELES", ".//prevProjectResource//SceneImage//player_celes.bmp", 224, 111, 2, 1, true, RGB(255, 0, 255));
+	_loading->loadFrameImage("LOCKE", ".//prevProjectResource//SceneImage//player_locke.bmp", 224, 111, 2, 1, true, RGB(255, 0, 255));
+	_loading->loadFrameImage("SHADOW", ".//prevProjectResource//SceneImage//player_shadow.bmp", 224, 111, 2, 1, true, RGB(255, 0, 255));
 
 	//사운드
 	SOUNDMANAGER->addSound("battleMenuOpen", ".\\sound\\sfx\\battleMenuOpen.wav", false, false);
