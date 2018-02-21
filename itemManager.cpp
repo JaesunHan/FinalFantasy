@@ -288,6 +288,24 @@ void itemManager::setItemInventory(string keyName, int count)
 	}
 }
 
+void itemManager::changeItemNumber(int vectorNum, int number)
+{
+	_arrItemInventory[_vItem[vectorNum]->getItemName()].second += number;
+	if (_arrItemInventory[_vItem[vectorNum]->getItemName()].second <= 0)
+	{
+		_arrItemInventory.erase(_vItem[vectorNum]->getItemName());
+	}
+}
+
+void itemManager::changeItemNumber(string keyName, int number)
+{
+	_arrItemInventory[keyName].second += number;
+	if (_arrItemInventory[keyName].second <= 0)
+	{
+		_arrItemInventory.erase(keyName);
+	}
+}
+
 void itemManager::setWeaponInventory(int vectorNum, int count)
 {
 	_element = make_pair(vectorNum, count);
@@ -322,6 +340,24 @@ void itemManager::setWeaponInventory(string keyName, int count)
 	}
 }
 
+void itemManager::changeWeaponNumber(int vectorNum, int number)
+{
+	_arrWeaponInventory[_vItem[vectorNum]->getItemName()].second += number;
+	if (_arrWeaponInventory[_vItem[vectorNum]->getItemName()].second <= 0)
+	{
+		_arrWeaponInventory.erase(_vItem[vectorNum]->getItemName());
+	}
+}
+
+void itemManager::changeWeaponNumber(string keyName, int number)
+{
+	_arrWeaponInventory[keyName].second += number;
+	if (_arrWeaponInventory[keyName].second <= 0)
+	{
+		_arrWeaponInventory.erase(keyName);
+	}
+}
+
 void itemManager::setArmorInventory(int vectorNum, int count)
 {
 	_element = make_pair(vectorNum, count);
@@ -353,6 +389,24 @@ void itemManager::setArmorInventory(string keyName, int count)
 				break;
 			}
 		}
+	}
+}
+
+void itemManager::changeArmorNumber(int vectorNum, int number)
+{
+	_arrArmorInventory[_vItem[vectorNum]->getItemName()].second += number;
+	if (_arrArmorInventory[_vItem[vectorNum]->getItemName()].second <= 0)
+	{
+		_arrArmorInventory.erase(_vItem[vectorNum]->getItemName());
+	}
+}
+
+void itemManager::changeArmorNumber(string keyName, int number)
+{
+	_arrArmorInventory[keyName].second += number;
+	if (_arrArmorInventory[keyName].second <= 0)
+	{
+		_arrArmorInventory.erase(keyName);
 	}
 }
 

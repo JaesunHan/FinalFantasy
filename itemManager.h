@@ -34,10 +34,16 @@ public:
 	int getArmorCount(int num);
 	void setItemInventory(int vectorNum, int count);
 	void setItemInventory(string keyName, int count);
+	void changeItemNumber(int vectorNum, int number);
+	void changeItemNumber(string keyName, int number);
 	void setWeaponInventory(int vectorNum, int count);
 	void setWeaponInventory(string keyName, int count);
+	void changeWeaponNumber(int vectorNum, int number);
+	void changeWeaponNumber(string keyName, int number);
 	void setArmorInventory(int vectorNum, int count);
 	void setArmorInventory(string keyName, int count);
+	void changeArmorNumber(int vectorNum, int number);
+	void changeArmorNumber(string keyName, int number);
 	inline int getItemInventorySize() { return _arrItemInventory.size(); }
 	inline int getWeaponInventorySize() { return _arrWeaponInventory.size(); }
 	inline int getArmorInventorySize() { return _arrArmorInventory.size(); }

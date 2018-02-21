@@ -105,6 +105,7 @@ public:
 	void renderDamage(int endPoint);
 	void temporaryMessage();
 	void playerAttack();
+	void playerMagicAttack();
 	void victoryCondition();
 	void gameOverCondition();
 	void sceneChange();
