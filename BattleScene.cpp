@@ -727,7 +727,7 @@ void BattleScene::drawUI()
 				IMAGEMANAGER->findImage("battleUI")->enlargeRender(getMemDC(), WINSIZEX - 300, 160 * i, 150, 160);
 				break;
 			}
-			TextOut(getMemDC(), WINSIZEX - 250, 160 * i + 5, )
+			//TextOut(getMemDC(), WINSIZEX - 250, 160 * i + 5, )
 			IMAGEMANAGER->findImage("fingerArrowRt")->render(getMemDC(), WINSIZEX - 290, 160 * i + 5 + 60);
 		}
 		else if (_playerTurn == true && i == _currentTurn)
