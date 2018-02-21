@@ -3,6 +3,7 @@
 #include "playerManager.h"
 #include "worldMapScene.h"
 #include "playerImproveInfo.h"
+#include "itemManager.h"
 
 BattleScene::BattleScene()
 {
@@ -626,11 +627,6 @@ void BattleScene::drawUI()
 		RECT nameRC = { WINSIZEX - 235, 160 * i + 35, WINSIZEX - 100, 160 * i + 65 };
 		RECT hpRC = { WINSIZEX - 200, 160 * i + 80, WINSIZEX - 15, 160 * i + 100 };
 		RECT mpRC = { WINSIZEX - 200, 160 * i + 100, WINSIZEX - 15, 160 * i + 120 };
-		RECT attackMenuRC = { WINSIZEX - 200, 160 * i + 5, WINSIZEX - 115, 160 * i + 35 };
-		RECT magicMenuRC = { WINSIZEX - 200, 160 * i + 35, WINSIZEX - 115, 160 * i + 65 };
-		RECT skillMenuRC = { WINSIZEX - 200, 160 * i + 65, WINSIZEX - 115, 160 * i + 95 };
-		RECT itemMenuRC = { WINSIZEX - 200, 160 * i + 95, WINSIZEX - 115, 160 * i + 125 };
-		RECT escapeMenuRC = { WINSIZEX - 200, 160 * i + 125, WINSIZEX - 115, 160 * i + 155 };
 		char hpStr[128];
 		char mpStr[128];
 		wsprintf(hpStr, "체력 : %d / %d", _battleCharacters[i].player->getCurHP(), _battleCharacters[i].player->getMaxHP());
@@ -675,20 +671,23 @@ void BattleScene::drawUI()
 		//배틀 메뉴 랜더
 		newFont = CreateFont(30, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
 		oldFont = (HFONT)SelectObject(getMemDC(), newFont);
-		char attackMenu[] = "공격";
-		char magicMenu[] = "마법";
-		char itemMenu[] = "아이템";
-		char escapeMenu[] = "도망";
-		char tinaMenu[] = "변신";
-		char lockeMenu[] = "훔치기";
-		char celesMenu[] = "마법흡수";
-		char shadowMenu[] = "던지기";
 		if (_enemySelect == true)
 		{
 			IMAGEMANAGER->findImage("fingerArrowLt")->render(getMemDC(), _battleCharacters[_enemyNum].enemy->getX() + _battleCharacters[_enemyNum].enemy->getImageWidth() / 2, _battleCharacters[_enemyNum].enemy->getY());
 		}
 		else if (_itemSelect == true)
 		{
+			char itemName1[64];
+			char itemName2[64];
+			char itemName3[64];
+			char itemName4[64];
+			char itemName5[64];
+			char itemCount1[16];
+			char itemCount2[16];
+			char itemCount3[16];
+			char itemCount4[16];
+			char itemCount5[16];
+
 			switch (_battleCharacters[_currentTurn].characterType)
 			{
 			case(TINA):
@@ -708,6 +707,19 @@ void BattleScene::drawUI()
 		}
 		else if (_playerTurn == true && i == _currentTurn)
 		{
+			char attackMenu[] = "공격";
+			char magicMenu[] = "마법";
+			char itemMenu[] = "아이템";
+			char escapeMenu[] = "도망";
+			char tinaMenu[] = "변신";
+			char lockeMenu[] = "훔치기";
+			char celesMenu[] = "마법흡수";
+			char shadowMenu[] = "던지기";
+			RECT attackMenuRC = { WINSIZEX - 200, 160 * i + 5, WINSIZEX - 115, 160 * i + 35 };
+			RECT magicMenuRC = { WINSIZEX - 200, 160 * i + 35, WINSIZEX - 115, 160 * i + 65 };
+			RECT skillMenuRC = { WINSIZEX - 200, 160 * i + 65, WINSIZEX - 115, 160 * i + 95 };
+			RECT itemMenuRC = { WINSIZEX - 200, 160 * i + 95, WINSIZEX - 115, 160 * i + 125 };
+			RECT escapeMenuRC = { WINSIZEX - 200, 160 * i + 125, WINSIZEX - 115, 160 * i + 155 };
 			switch (_battleCharacters[_currentTurn].characterType)
 			{
 			case(TINA):

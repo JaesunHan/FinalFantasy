@@ -229,7 +229,8 @@ void itemManager::loadInventory(char* fileName)
 void itemManager::setInventory(int vectorNum, int count)
 {
 	_element = make_pair(vectorNum, count);
-	_iterInventory = _arrInventory.find(_vItem[vectorNum]->getItemName());
+	char* keyName = _vItem[vectorNum]->getItemName();
+	_iterInventory = _arrInventory.find(keyName);
 	if (_iterInventory != _arrInventory.end())
 	{
 		_arrInventory[_vItem[vectorNum]->getItemName()] = _element;

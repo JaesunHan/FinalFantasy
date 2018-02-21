@@ -1,6 +1,5 @@
 #pragma once
 #include "gameNode.h"
-#include "itemManager.h"
 #include "battleShadow.h"
 #include "battleTina.h"
 #include "battleLocke.h"
@@ -49,6 +48,7 @@ struct tagBattleCharacters
 };
 
 class playerManager;
+class itemManager;
 
 class BattleScene : public gameNode
 {
@@ -114,5 +114,6 @@ public:
 	inline battlePlayerMother* getCelesAddress() { return _battleCharacters[2].player; }
 	inline battlePlayerMother* getShadowAddress() { return _battleCharacters[3].player; }
 	inline void setPlayerManagerMemoryAddressLink(playerManager* pm) { _pm = pm; }
+	inline void setItemManagerMemoryAddressLink(itemManager* im) { _im = im; }
 };
 
