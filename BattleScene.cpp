@@ -717,8 +717,8 @@ void BattleScene::playerMenuSelect()
 			else if (_magicSelect == true)
 			{
 				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
-				_battleCharacters[_currentTurn].player->setSelectMagic(_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelect]);
-				if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelect]->getIsRevive() == true)// && _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelect]->getManaCost() <= _battleCharacters[_currentTurn].player->getCurMP())
+				_battleCharacters[_currentTurn].player->setSelectMagic(_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]);
+				if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getIsRevive() == true)// && _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getManaCost() <= _battleCharacters[_currentTurn].player->getCurMP())
 				{
 					_playerSelect = true;
 					_playerSelectNum = 0;
@@ -740,7 +740,7 @@ void BattleScene::playerMenuSelect()
 						_magicSelect = false;
 					}
 				}
-				else if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelect]->getIsHeal() == true)// && _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelect]->getManaCost() <= _battleCharacters[_currentTurn].player->getCurMP())
+				else if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getIsHeal() == true)// && _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getManaCost() <= _battleCharacters[_currentTurn].player->getCurMP())
 				{
 					_playerSelect = true;
 					_playerSelectNum = 0;
@@ -762,7 +762,7 @@ void BattleScene::playerMenuSelect()
 						_magicSelect = false;
 					}
 				}
-				else if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelect]->getIsHeal() == false)// && _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelect]->getManaCost() <= _battleCharacters[_currentTurn].player->getCurMP())
+				else if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getIsHeal() == false)// && _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getManaCost() <= _battleCharacters[_currentTurn].player->getCurMP())
 				{
 					_enemySelect = true;
 					_enemyNum = 4;
