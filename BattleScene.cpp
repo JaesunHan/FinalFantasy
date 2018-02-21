@@ -867,35 +867,28 @@ void BattleScene::playerAttack()
 		_battleTurn.front()->enemy->setCurHP(_battleTurn.front()->enemy->getCurHP() - _damage);
 	}
 	_isDamaged = true;
+}
 
-	/*
-	//이거를 배틀플레이어의 연산에 넣어야됨
-	void magic::setDamageFormula()
+void BattleScene::playerMagicAttack()
+{
+	//플레이어 마법 공격 알고리즘 계산
+	_damageRC = { _battleTurn.front()->enemy->getX() - 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() / 2, _battleTurn.front()->enemy->getX() + 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() / 2 + 30 };
+	float BlockValue = (255 - _battleTurn.front()->enemy->getMDef() * 2) + 1;
+	if (BlockValue > 255) BlockValue = 255;
+	if (BlockValue < 1) BlockValue = 1;
+	if ((_battleTurn.front()->player->getHitRate() * BlockValue / 256) > RND->getFromFloatTo(0, 0.99f))
 	{
-		bool _hit;                                                                        //맞았는지 빗나갔는지를 알기위한 불값
-																						  //타겟에 들어갈 거는 에너미의 마법 방어력이 들어가야됨.
-		float BlockValue = (255 - _target->getMDef() * 2) + 1;                                       //회피율 공식 _target->getMDef() == 플레이어의 마법방어력 수치
-		if (BlockValue > 255) BlockValue = 255;                                                   //BlockValue가 255 보다 크면 BlockValue값은 255
-		if (BlockValue < 1) BlockValue = 1;                                                      //BlockValue가 1보다 작으면 BlockValue값은 1
-																								 //ㅈ자료에 있는 히트레이트 적용하기
-		if (((float)_hitRate * BlockValue / 256) > RND->getFromFloatTo(0, 0.99f))
-		{
-			_hit = true;                                                                  //맞았다!
-		}
-		else
-		{
-			_hit = false;                                                                  //빗나감 ㅠㅠ
-		}
-
-		if (_hit == true)                                                                  //맞앗으면 데미지 공식 적용
-		{
-			_spellDamage = _spellPower * 4 + (_Lv * MagicPower * _spellPower / 32);         // 스킬 데미지 공식
-		}
-		else                                                                           //빗나갔다 ㅠㅠ 데미지 스킬데미지 0
-		{
-			_spellDamage = 0;
-		}
-	*/
+		_hit = true;                                                                  //맞았다!
+	}
+	else
+	{
+		_hit = false;                                                                  //빗나감 ㅠㅠ
+	}
+	if (_hit == true)                                                                  //맞앗으면 데미지 공식 적용
+	{
+		//_damage = _spellPower * 4 + ((float)_battleTurn.front()->player->getLv() * (float)_battleTurn.front()->player->getMagic() * _spellPower / 32);         // 스킬 데미지 공식
+	}
+	_isDamaged = true;
 }
 
 void BattleScene::drawText(int fontSize, char* str, RECT rc, int position, bool dialogue)
