@@ -1538,6 +1538,7 @@ void BattleScene::sceneChange()
 {
 	if (_changeScene == true)
 	{
+		_pm->playerLevelUp();
 		this->release();
 		SCENEMANAGER->changeSceneType0("월드맵씬", false);
 	}
@@ -1561,7 +1562,7 @@ void BattleScene::playerAttack()
 {
 	//플레이어 공격 알고리즘 계산
 	_damageRC = { _battleTurn.front()->enemy->getX() - 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() / 2, _battleTurn.front()->enemy->getX() + 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() / 2 + 30 };
-	float BlockValue = (255 - _battleTurn.front()->enemy->getMDef() * 2) + 1;
+	float BlockValue = (255 - (float)_battleTurn.front()->enemy->getMDef() * 2) + 1;
 	if (BlockValue > 255) BlockValue = 255;
 	if (BlockValue < 1) BlockValue = 1;
 	if ((_battleTurn.front()->player->getHitRate() * BlockValue / 256) > RND->getFromFloatTo(0, 0.99f))
@@ -1581,6 +1582,7 @@ void BattleScene::playerAttack()
 		_damage = (_damage * (float)RND->getFromIntTo(224, 255) / 256) + 1;
 		_damage = (_damage * (255 - (float)_battleTurn.front()->enemy->getADef()) / 256) + 1;
 		_battleTurn.front()->enemy->setCurHP(_battleTurn.front()->enemy->getCurHP() - _damage);
+		if (_battleTurn.front()->enemy->getCurHP() < 0) _battleTurn.front()->enemy->setCurHP(0);
 	}
 	_isDamaged = true;
 }
@@ -1589,7 +1591,7 @@ void BattleScene::playerMagicAttack()
 {
 	//플레이어 마법 공격 알고리즘 계산
 	_damageRC = { _battleTurn.front()->enemy->getX() - 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() / 2, _battleTurn.front()->enemy->getX() + 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() / 2 + 30 };
-	float BlockValue = (255 - _battleTurn.front()->enemy->getMDef() * 2) + 1;
+	float BlockValue = (255 - (float)_battleTurn.front()->enemy->getMDef() * 2) + 1;
 	if (BlockValue > 255) BlockValue = 255;
 	if (BlockValue < 1) BlockValue = 1;
 	if ((_battleTurn.front()->player->getHitRate() * BlockValue / 256) > RND->getFromFloatTo(0, 0.99f))
@@ -1605,7 +1607,11 @@ void BattleScene::playerMagicAttack()
 		//스킬 데미지 공식
 		float spellPower;
 		spellPower = (float)_battleTurn.front()->player->getMyUsableMagic()[_battleTurn.front()->magicSelect]->getAbilityPower();
-		_damage = spellPower * 4 + ((float)_battleTurn.front()->player->getLv() * (float)_battleTurn.front()->player->getMagic() * spellPower / 32);         
+		_damage = spellPower * 4 + ((float)_battleTurn.front()->player->getLv() * (float)_battleTurn.front()->player->getMagic() * spellPower / 32);
+		_damage = (_damage * (float)RND->getFromIntTo(224, 255) / 256) + 1;
+		_damage = (_damage * (255 - (float)_battleTurn.front()->enemy->getMDef()) / 256) + 1;
+		_battleTurn.front()->enemy->setCurHP(_battleTurn.front()->enemy->getCurHP() - _damage);
+		if (_battleTurn.front()->enemy->getCurHP() < 0) _battleTurn.front()->enemy->setCurHP(0);
 	}
 	_isDamaged = true;
 }
