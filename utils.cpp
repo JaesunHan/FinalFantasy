@@ -77,7 +77,7 @@ namespace HEPTA_UTIL
 		return str;
 	}
 	//문자와 숫자를 조합하여 문자열로 변환 => ex) "Player", 2 -> "Player2"
-	TCHAR* changeIntToTChar(char strChange[512], int num)
+	TCHAR* changeStringNIntToTChar(char strChange[512], int num)
 	{
 		TCHAR str[512];
 		wsprintf(str, "%s%d", strChange, num);

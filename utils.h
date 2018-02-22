@@ -19,5 +19,5 @@ namespace HEPTA_UTIL
 	void outlineTextOut(HDC hdc, int left, int top, const char* str, COLORREF fontColor, COLORREF outlineColor, COLORREF currentFontColor, int curFontSize);
 
 	TCHAR* changeIntToTChar(int num);
-	TCHAR* changeIntToTChar(char str[512], int num);
+	TCHAR* changeStringNIntToTChar(char str[512], int num);
 }

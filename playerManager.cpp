@@ -401,8 +401,13 @@ void playerManager::playerLevelUp()
 		if (curExp >= maxExp)
 		{
 			lv += 1;	maxExp = maxExpValue[lv];
-			INIDATA->addData(subjectName, "maxExp", changeIntToTChar(maxExp));
-			INIDATA->addData(subjectName, "level", changeIntToTChar(lv));
+			char strMaxExp[256];
+			wsprintf(strMaxExp, "%d", maxExp);
+			char strLv[256];
+			wsprintf(strLv, "%d", lv);
+		
+			INIDATA->addData(subjectName, "maxExp", strMaxExp);
+			INIDATA->addData(subjectName, "level", strLv);
 			INIDATA->iniSave(fileName);
 		}
 	}
