@@ -21,43 +21,43 @@ HRESULT itemManager::init()
 	_vItem.push_back(expendables);
 
 	expendables = new expendablesItem;
-	expendables->init(2, ITEM_EXPENDABLE, "육포", "플레이어 체력 10% 회복", 2, 10, 0, false, false, false, false, false);
+	expendables->init(2, ITEM_EXPENDABLE, "육포", "플레이어 체력 10% 회복", 2, 10, 0, false, false, true, true, false);
 	_vItem.push_back(expendables);
 
 	expendables = new expendablesItem;
-	expendables->init(3, ITEM_EXPENDABLE, "엘릭서", "플레이어 체력 마력 100% 회복", 2, 100, 100, false, false, false, true, true);
+	expendables->init(3, ITEM_EXPENDABLE, "엘릭서", "플레이어 체력 마력 100% 회복", 2, 100, 100, false, false, true, true, true);
 	_vItem.push_back(expendables);
 
 	expendables = new expendablesItem;
-	expendables->init(4, ITEM_EXPENDABLE, "메가엘릭서", "전체 플레이어 체력 마력 100% 회복", 2, 100, 100, false, false, false, true, true);
+	expendables->init(4, ITEM_EXPENDABLE, "메가엘릭서", "전체 플레이어 체력 마력 100% 회복", 2, 100, 100, false, true, true, true, true);
 	_vItem.push_back(expendables);
 
 	expendables = new expendablesItem;
-	expendables->init(5, ITEM_EXPENDABLE, "피닉스깃털", "행동불능이 된 플레이어 회복", 500, 50, 0, true, false, false, false, false);
+	expendables->init(5, ITEM_EXPENDABLE, "피닉스깃털", "행동불능이 된 플레이어 회복", 500, 50, 0, true, false, true, false, false);
 	_vItem.push_back(expendables);
 
 	expendables = new expendablesItem;
-	expendables->init(6, ITEM_EXPENDABLE, "포션", "플레이어 체력 250 회복", 300, 250, 0, false, false, false, false, false);
+	expendables->init(6, ITEM_EXPENDABLE, "포션", "플레이어 체력 25% 회복", 300, 25, 0, false, false, true, true, false);
 	_vItem.push_back(expendables);
 
 	expendables = new expendablesItem;
-	expendables->init(7, ITEM_EXPENDABLE, "토닉", "플레이어 마력 50 회복", 200, 0, 50, false, false, false, false, false);
+	expendables->init(7, ITEM_EXPENDABLE, "토닉", "플레이어 마력 50 회복", 200, 0, 50, false, false, true, false, false);
 	_vItem.push_back(expendables);
 
 	expendables = new expendablesItem;
-	expendables->init(8, ITEM_EXPENDABLE, "침낭", "플레이어 체력 마력 100% 회복 ( 월드맵에서만 사용 가능 )", 500, 0, 0, false, true, false, true, true);
+	expendables->init(8, ITEM_EXPENDABLE, "침낭", "플레이어 체력 마력 100% 회복 ( 월드맵에서만 사용 가능 )", 500, 100, 100, false, true, false, true, true);
 	_vItem.push_back(expendables);
 
 	expendables = new expendablesItem;
-	expendables->init(9, ITEM_EXPENDABLE, "텐트", "전체 플레이어 체력 마력 100% 회복 ( 월드맵에서만 사용 가능 )", 1200, 0, 0, false, true, false, true, true);
+	expendables->init(9, ITEM_EXPENDABLE, "텐트", "전체 플레이어 체력 마력 100% 회복 ( 월드맵에서만 사용 가능 )", 1200, 100, 100, true, true, false, true, true);
 	_vItem.push_back(expendables);
 
 	expendables = new expendablesItem;
-	expendables->init(10, ITEM_EXPENDABLE, "X-에테르", "플레이어 마력 100% 회복", 5000, 0, 0, false, false, false, false, true);
+	expendables->init(10, ITEM_EXPENDABLE, "X-에테르", "플레이어 마력 100% 회복", 5000, 100, 0, false, false, true, false, true);
 	_vItem.push_back(expendables);
 
 	expendables = new expendablesItem;
-	expendables->init(11, ITEM_EXPENDABLE, "X-포션", "플레이어 체력 100% 회복", 5000, 0, 0, false, false, false, true, false);
+	expendables->init(11, ITEM_EXPENDABLE, "X-포션", "플레이어 체력 100% 회복", 5000, 0, 100, false, false, true, true, false);
 	_vItem.push_back(expendables);
 
 	//=======================================================================================
