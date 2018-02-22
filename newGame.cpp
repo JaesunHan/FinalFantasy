@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "newGame.h"
 #include "itemManager.h"
-
+#include "playerManager.h"
 
 newGame::newGame()
 {
@@ -110,18 +110,28 @@ void newGame::update()
 			}
 
 			//================================== 저장파일 생성 ================================== 
-			saveIniPlayerData(_saveFileNum, 0, "TINA",   "Magician",         3, 63, 63, 27, 27, maxExpValue[2],
-				maxExpValue[3], 31, 33, 28, 39, 12, 42, 33, 5, 7, 0, "0", "-1", "-2", "-3", true);
-			saveIniPlayerData(_saveFileNum, 1, "LOCKE", "Treasure Hunter",   3, 71, 71, 18, 18, maxExpValue[2],
-				maxExpValue[3], 37, 40, 31, 28, 14, 46, 23, 15, 2, 1, "0", "-1", "-2", "-3", true);
-			saveIniPlayerData(_saveFileNum, 2, "CELES",  "Rune Knight",      3, 67, 67, 26, 26, maxExpValue[2],
-				maxExpValue[3], 34, 34, 31, 36, 16, 44, 31, 7, 9, 2, "0", "-1", "-2", "-3", true);
-			saveIniPlayerData(_saveFileNum, 3, "SHADOW", "Assassin",         3, 74, 74, 17, 17, maxExpValue[2],
-				maxExpValue[3], 39, 38, 30, 33, 23, 47, 25, 28, 9, 3, "0", "-1", "-2", "-3", true);
+			saveIniPlayerData(_saveFileNum, 0, "TINA",   "Magician",  3, 63, 63, 27, 27, maxExpValue[2],
+				maxExpValue[3], 31, 33, 28, 39, 12, 42, 33, 5, 7, 0, 0, -1, -2, -3,
+				0, 1, 2, 3, 4, -1, -1, -1, true);
+			saveIniPlayerData(_saveFileNum, 1, "LOCKE", "Treasure Hunter", 3, 71, 71, 18, 18, maxExpValue[2],
+				maxExpValue[3], 37, 40, 31, 28, 14, 46, 23, 15, 2, 1, 0, -1, -2, -3,
+				0, 1, 2, 3, -1, 5, -1, -1, true);
+			saveIniPlayerData(_saveFileNum, 2, "CELES",  "Rune Knight", 3, 67, 67, 26, 26, maxExpValue[2],
+				maxExpValue[3], 34, 34, 31, 36, 16, 44, 31, 7, 9, 2, 0, -1, -2, -3,
+				0, 1, 2, 3, -1, -1, 6, -1, true);
+			saveIniPlayerData(_saveFileNum, 3, "SHADOW", "Assassin", 3, 74, 74, 17, 17, maxExpValue[2],
+				maxExpValue[3], 39, 38, 30, 33, 23, 47, 25, 28, 9, 3, 0, -1, -2, -3,
+				0, 1, 2, 3, -1, -1, -1, 7, true);
 
-			saveIniSlotGameData(_saveFileNum, "OVER WORLD",100000 , 0, true);			//게임데이터: 세이브파일에 저장
+			saveIniSlotGameData(_saveFileNum, "OVER WORLD",30000 , 0, true);			//게임데이터: 세이브파일에 저장
 			saveIniGameData(_saveFileNum, "OVER WORLD");								//게임데이터: 데이터베이스에 저장
 
+			//플레이어 기본무기 셋팅
+			for (int i = 0; i < MAXPLAYERNUMBER; ++i)
+			{
+				//_pM->getVPlayer()[i]->setWeaponItem(_iM->getWeaponVNum());
+			}
+	
 			//아이템 저장
 			itemSave(MENUITEM_ITEM, 1, 2, true, _saveFileNum);
 			itemSave(MENUITEM_ITEM, 2, 2, true, _saveFileNum);

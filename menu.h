@@ -53,32 +53,33 @@ enum SAVE_TYPE
 
 struct tagPlayer
 {
-	image* img;						//플레이어 이미지
-	float x, y;						//플레이어 이미지 위치
-	animation* ani;                 //이미지 에니메이션
-	bool aniStart;                  //에니메이션 시작 불값
-	bool slotSelect;                //슬롯변경 불값
+	image* img;							//플레이어 이미지
+	float x, y;							//플레이어 이미지 위치
+	animation* ani;						//이미지 에니메이션
+	bool aniStart;						//에니메이션 시작 불값
+	bool slotSelect;					//슬롯변경 불값
 
-	TCHAR name[CHARBUFFSHORT];		//플레이어 이름
-	TCHAR job[CHARBUFFSHORT];		//플레이어 직업
-	int level;						//플레이어 레벨
-	int hp, maxHp;					//플레이어 체력
-	int mp, maxMp;					//플레이어 마력
-	int exp, maxExp;				//플레이어 경험치
-	int strength;					//플레이어 힘
-	int speed;						//플레이어 스피드
-	int stamina;					//플레이어 내구력
-	int magic;						//플레이어 마법력
-	int attack;						//플레이어 공격력
-	int attackDefence;				//플레이어 공격디펜스
-	int magicDefence;				//플레이어 마법디펜스
-	int evation;					//플레이어 공격회피
-	int magicEvation;				//플레이어 마법회피
-	int partyIdx;					//플레이어 파티원 넘버
-	TCHAR weapon[CHARBUFFSHORT];	//플레이어 무기
-	TCHAR armor[CHARBUFFSHORT];		//플레이어 갑옷 
-	TCHAR helmet[CHARBUFFSHORT];	//플레이어 투구  
-	TCHAR subWeapon[CHARBUFFSHORT];	//플레이어 보조무기
+	TCHAR name[CHARBUFFSHORT];			//플레이어 이름
+	TCHAR job[CHARBUFFSHORT];			//플레이어 직업
+	int level;							//플레이어 레벨
+	int hp, maxHp;						//플레이어 체력
+	int mp, maxMp;						//플레이어 마력
+	int exp, maxExp;					//플레이어 경험치
+	int strength;						//플레이어 힘
+	int speed;							//플레이어 스피드
+	int stamina;						//플레이어 내구력
+	int magic;							//플레이어 마법력
+	int attack;							//플레이어 공격력
+	int attackDefence;					//플레이어 공격디펜스
+	int magicDefence;					//플레이어 마법디펜스
+	int evation;						//플레이어 공격회피
+	int magicEvation;					//플레이어 마법회피
+	int partyIdx;						//플레이어 파티원 넘버
+	int weapon;							//플레이어 무기
+	int armor;							//플레이어 갑옷 
+	int helmet;				    		//플레이어 투구  
+	int subWeapon;						//플레이어 보조무기
+	int command[8];						//플레이어 커맨드
 };	
 
 struct tagSaveData
@@ -176,6 +177,7 @@ protected:
 	vPlayer   _vPlayerStatus;    //플레이어 상태정보
 	viPlayer  _viPlayerStatus;   
 
+
 	tagPlayer _playerSlot;		 //각 슬롯에 플레이어 정보 담을 구조체 변수
 	bool _fileLoadOk[4];		 //세이브 파일 존재 유무판별
 	int _selectFileCount;		 //파일 선택후 슬롯을 보여주기 위한 카운트 값 (바로 선택버튼으로 이동하지 않도록) 
@@ -222,9 +224,11 @@ public:
 	//-------------------------------  status  ------------------------------
 	virtual void playerStatusInit(int strength, int speed, int stamina, int magic, int attack,
 		int attackDefence, int magicDefence, int evation, int magicEvation, int partyIdx,
-		string weapon, string armor, string helmet, string subWeapon);
+		int weapon, int armor, int helmet, int subWeapon, int command1, int command2,
+		int command3, int command4, int command5, int command6, int command7, int command8);
 	virtual void playerStatusRender(int SlotNum);
 	virtual void playerStatusRemove();
+	virtual string playerCommandReturn(int num);
 	//------------------------------  fileLoad  -----------------------------
 	virtual void fileLoad(int fileNum, int playerNum = -1, bool tmpFile = false);
 	//------------------------------  fileCopy  -----------------------------
@@ -238,11 +242,12 @@ public:
 
 	//============================== save & load ============================
 	virtual tagElements saveTxtData(int fileNum, string cStage);
-	virtual void saveIniPlayerData(int fileNum, int playerNum, string cName, string job, 
-		int level, int hp, int maxHp, int mp, int maxMp, int exp, int maxExp, int strength, 
-		int speed, int stamina, int magic, int attack, int attackDefence, int magicDefence, 
-		int evation, int magicEvation, int partyIdx, string myWeapon, string myArmor,
-		string myHelmet, string mySubWeapon, bool tmpSave = false, bool saveFile = false);
+	virtual void saveIniPlayerData(int fileNum, int playerNum, string cName, string job,
+		int level, int hp, int maxHp, int mp, int maxMp, int exp, int maxExp, int strength,
+		int speed, int stamina, int magic, int attack, int attackDefence, int magicDefence,
+		int evation, int magicEvation, int partyIdx, int myWeapon, int myArmor,int myHelmet,
+		int mySubWeapon, int command1, int command2, int command3, int command4,int command5,
+		int command6, int command7, int command8, bool tmpSave, bool saveFile = false);
 	virtual void saveIniSlotGameData(int fileNum, string stage, int gil, int playTime, bool tmpSave = false);
 	virtual tagSaveData loadIniPlayerData(int fileNum, int playerNum, bool tmpFile = false);
 	//============================== save & load ============================

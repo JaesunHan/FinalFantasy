@@ -15,6 +15,7 @@ public:
 
 
 	void setItemManagerAddressLink(itemManager* im) { _iM = im; }
+	void setPlayerManagerAddressLink(playerManager* pm) { _pM = pm; }
 
 	newGame();
 	~newGame();

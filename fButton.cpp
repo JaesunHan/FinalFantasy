@@ -55,8 +55,8 @@ void fButton::buttonSet(string keyName, float x, float y)
 	_buttonNum++;
 }
 
-//						 버튼이미지 키값  위치XY
-void fButton::buttonSet(string keyName, float x, float y, char* buttonText, float textSize)
+//					    버튼이미지 키값  위치XY           텍스트            텍스트크기
+void fButton::buttonSet(string keyName, float x, float y, char* buttonText, float textSize, int textSortType)
 {
 	//-------------------------------------------- keyName 형변환
 	char temp[128];
@@ -84,6 +84,7 @@ void fButton::buttonSet(string keyName, float x, float y, char* buttonText, floa
 	_button.textOn = true;
 	_button.ani = new animation;
 	_button.text = buttonText;
+	_button.textSort = textSortType;
 	int arrAni[] = { 0, 1 };
 	KEYANIMANAGER->addArrayFrameAnimation(aniTemp, temp, arrAni, 2, 2, true);
 	_button.ani = KEYANIMANAGER->findAnimation(aniTemp);
@@ -116,8 +117,20 @@ void fButton::render()
 	for (int i = 0; i < _vButton.size(); ++i)
 	{
 		_vButton[i].img->aniRender(getMemDC(), _vButton[i].x, _vButton[i].y, _vButton[i].ani);
-		if (_vButton[i].textOn) 
-			textPrint(getMemDC(), _vButton[i].text, _vButton[i].centerX, _vButton[i].centerY, _vButton[i].textSize, 20, "Viner Hand ITC");
+		if (_vButton[i].textOn)
+		{
+			switch (_vButton[i].textSort)
+			{
+				case 0:
+					textPrint(getMemDC(), _vButton[i].text, _vButton[i].centerX, _vButton[i].centerY, _vButton[i].textSize, 20, "Viner Hand ITC");
+				break;
+				case 1:
+					textPrint(getMemDC(), _vButton[i].text, _vButton[i].centerX - 40, _vButton[i].centerY - 5, _vButton[i].textSize, 20, "Viner Hand ITC", RGB(255, 255, 255), false);
+				break;
+			}
+		
+		}
+			
 	}
 }
 

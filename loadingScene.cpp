@@ -21,7 +21,7 @@ HRESULT loadingScene::init()
 	_loading->loadImage("능력메뉴", ".//prevProjectResource//SceneImage//menu_abilities.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	_loading->loadImage("캐릭터능력메뉴", ".//prevProjectResource//SceneImage//menu_abilitiCharacter.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	//_loading->loadImage("장비메뉴", ".//prevProjectResource//SceneImage//equipMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
-	//_loading->loadImage("아이템메뉴", ".//prevProjectResource//SceneImage//itemMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	_loading->loadImage("아이템메뉴", ".//prevProjectResource//SceneImage//menu_item.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	//_loading->loadImage("메인메뉴", ".//prevProjectResource//SceneImage//mainMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	_loading->loadImage("상태메뉴", ".//prevProjectResource//SceneImage//menu_status.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	_loading->loadImage("캐릭터상태메뉴", ".//prevProjectResource//SceneImage//menu_statusCharacter.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
@@ -40,17 +40,27 @@ HRESULT loadingScene::init()
 	_loading->loadFrameImage("버튼판타지", ".//prevProjectResource//SceneImage//button_fantasy.bmp", 338, 41, 2, 1, true, RGB(255, 0, 255));
 	_loading->loadFrameImage("버튼파일", ".//prevProjectResource//SceneImage//button_saveFile.bmp", 344, 49, 2, 1, true, RGB(255, 0, 255));
 	_loading->loadFrameImage("버튼네임", ".//prevProjectResource//SceneImage//button_name.bmp", 352, 63, 2, 1, true, RGB(255, 0, 255));
+	_loading->loadFrameImage("버튼아이템힐", ".//prevProjectResource//SceneImage//button_items_heal.bmp", 384, 48, 2, 1, true, RGB(255, 0, 255));
 
 	//아이콘 이미지
 	_loading->loadFrameImage("아이콘힐", ".//prevProjectResource//SceneImage//icon_menu_ability_heal.bmp", 400, 74, 2, 1, true, RGB(255, 0, 255));
 	_loading->loadFrameImage("아이콘공격", ".//prevProjectResource//SceneImage//icon_menu_ability_attack.bmp", 400, 74, 2, 1, true, RGB(255, 0, 255));
 	_loading->loadFrameImage("아이콘방어", ".//prevProjectResource//SceneImage//icon_menu_ability_defence.bmp", 400, 74, 2, 1, true, RGB(255, 0, 255));
+	_loading->loadFrameImage("아이콘아이템사용", ".//prevProjectResource//SceneImage//icon_items_use.bmp", 400, 74, 2, 1, true, RGB(255, 0, 255));
+	_loading->loadFrameImage("아이콘아이템정리", ".//prevProjectResource//SceneImage//icon_items_sort.bmp", 400, 74, 2, 1, true, RGB(255, 0, 255));
+	_loading->loadFrameImage("아이콘아이템레어", ".//prevProjectResource//SceneImage//icon_items_rare.bmp", 400, 74, 2, 1, true, RGB(255, 0, 255));
+
 
 	//플레이어 이미지
 	_loading->loadFrameImage("TINA", ".//prevProjectResource//SceneImage//player_tina.bmp", 224, 111, 2, 1, true, RGB(255, 0, 255));
 	_loading->loadFrameImage("CELES", ".//prevProjectResource//SceneImage//player_celes.bmp", 224, 111, 2, 1, true, RGB(255, 0, 255));
 	_loading->loadFrameImage("LOCKE", ".//prevProjectResource//SceneImage//player_locke.bmp", 224, 111, 2, 1, true, RGB(255, 0, 255));
 	_loading->loadFrameImage("SHADOW", ".//prevProjectResource//SceneImage//player_shadow.bmp", 224, 111, 2, 1, true, RGB(255, 0, 255));
+	//플레이어 이미지: 사이즈 재조정      
+	_loading->loadFrameImage("miniTINA", ".//prevProjectResource//SceneImage//player_tina.bmp", 61, 30, 2, 1, true, RGB(255, 0, 255));
+	_loading->loadFrameImage("miniCELES", ".//prevProjectResource//SceneImage//player_celes.bmp", 61, 30, 2, 1, true, RGB(255, 0, 255));
+	_loading->loadFrameImage("miniLOCKE", ".//prevProjectResource//SceneImage//player_locke.bmp", 61, 30, 2, 1, true, RGB(255, 0, 255));
+	_loading->loadFrameImage("miniSHADOW", ".//prevProjectResource//SceneImage//player_shadow.bmp", 61, 30, 2, 1, true, RGB(255, 0, 255));
 
 	//사운드
 	SOUNDMANAGER->addSound("battleMenuOpen", ".\\sound\\sfx\\battleMenuOpen.wav", false, false);

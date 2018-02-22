@@ -30,7 +30,7 @@ namespace HEPTA_UTIL
 		return angle;
 	}
 
-	//                      입력할텍스트     텍스트위치 XY		   폰트SIZE       폰트굵기       폰트명          텍스트색상(기본흰색)  텍스트 중앙정렬 
+	//                      입력할텍스트           텍스트위치 XY		 폰트SIZE       폰트굵기       폰트명          텍스트색상(기본흰색)  텍스트 중앙정렬 
 	void textPrint(HDC hdc, const char* textInput, int textX, int textY, int fontWidth, int fontThick, char* fontName, COLORREF RGB, BOOL textCenter)
 	{
 		//----------------------------------- 폰트셋팅

@@ -13,6 +13,7 @@ struct tagButton
 	char* text;             //버튼 제목
 	float textSize;         //버튼 제목 크기
 	bool textOn;            //버튼 제목 출력여부
+	int textSort;          //버튼 제목 위치정렬 type1
 };
 
 
@@ -37,7 +38,7 @@ public:
 	//================================ button ===============================
 	HRESULT init();
 	void buttonSet(string keyName, float x, float y);
-	void buttonSet(string keyName, float x, float y, char* buttonText, float textSize = 10);
+	void buttonSet(string keyName, float x, float y, char* buttonText, float textSize = 10, int textSortType = 0);
 	void release();
 	void update();
 	void render();

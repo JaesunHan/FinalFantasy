@@ -467,7 +467,7 @@ int menu::slotSelect(int selectSlotNum)
 	}
 }
 
-
+//파일에 저장된 해당 캐릭터 파티원넘버 반환
 int menu::getPlayerNum(int partyIdX)
 {
 	for (int i = 0; i < _vPlayer.size(); ++i)
@@ -502,7 +502,8 @@ int menu::getPlayerNum(int partyIdX)
            
 void menu::playerStatusInit(int strength, int speed, int stamina, int magic, int attack,
 	int attackDefence, int magicDefence, int evation, int magicEvation, int partyIdx,
-	string weapon, string armor, string helmet, string subWeapon)
+	int weapon, int armor, int helmet, int subWeapon, int command1, int command2,
+	int command3, int command4, int command5, int command6, int command7, int command8)
 {
 	tagPlayer player;
 	ZeroMemory(&player, sizeof(player));
@@ -518,10 +519,19 @@ void menu::playerStatusInit(int strength, int speed, int stamina, int magic, int
 	player.magicEvation = magicEvation;
 	player.partyIdx = partyIdx;
 
-	sprintf(player.weapon, "%s", weapon);
-	sprintf(player.armor, "%s", armor);
-	sprintf(player.helmet, "%s", helmet);
-	sprintf(player.subWeapon, "%s", subWeapon);
+	player.weapon = weapon;
+	player.armor = armor;
+	player.helmet = helmet;
+	player.subWeapon = subWeapon;
+
+	player.command[0] = command1;
+	player.command[1] = command2;
+	player.command[2] = command3;
+	player.command[3] = command4;
+	player.command[4] = command5;
+	player.command[5] = command6;
+	player.command[6] = command7;
+	player.command[7] = command8;
 
 	_vPlayerStatus.push_back(player);
 }
@@ -551,57 +561,88 @@ void menu::playerStatusRender(int SlotNum)
 		sprintf(strMagicE, "%d%%", _vPlayerStatus[i].magicEvation);
 
 		char strWeapon[INTCHARBUFF];
-		sprintf(strWeapon, "%s", _vPlayerStatus[i].weapon);
+		sprintf(strWeapon, "%d", _vPlayerStatus[i].weapon);
 		char strArmor[INTCHARBUFF];
-		sprintf(strArmor, "%s", _vPlayerStatus[i].armor);
+		sprintf(strArmor, "%d", _vPlayerStatus[i].armor);
 		char strHelmet[INTCHARBUFF];
-		sprintf(strHelmet, "%s", _vPlayerStatus[i].helmet);
+		sprintf(strHelmet, "%d", _vPlayerStatus[i].helmet);
 		char strSubweapon[INTCHARBUFF];
-		sprintf(strSubweapon, "%s", _vPlayerStatus[i].subWeapon);
+		sprintf(strSubweapon, "%d", _vPlayerStatus[i].subWeapon);
+
+		char strCommand0[INTCHARBUFF];
+		sprintf(strCommand0, "%s", playerCommandReturn(_vPlayerStatus[i].command[0]).c_str());
+		char strCommand1[INTCHARBUFF];
+		sprintf(strCommand1, "%s", playerCommandReturn(_vPlayerStatus[i].command[1]).c_str());
+		char strCommand2[INTCHARBUFF];
+		sprintf(strCommand2, "%s", playerCommandReturn(_vPlayerStatus[i].command[2]).c_str());
+		char strCommand3[INTCHARBUFF];
+		sprintf(strCommand3, "%s", playerCommandReturn(_vPlayerStatus[i].command[3]).c_str());
+		char strCommand4[INTCHARBUFF];
+		sprintf(strCommand4, "%s", playerCommandReturn(_vPlayerStatus[i].command[4]).c_str());
+		char strCommand5[INTCHARBUFF];
+		sprintf(strCommand5, "%s", playerCommandReturn(_vPlayerStatus[i].command[5]).c_str());
+		char strCommand6[32];
+		sprintf(strCommand6, "%s", playerCommandReturn(_vPlayerStatus[i].command[6]).c_str());
+		char strCommand7[INTCHARBUFF];
+		sprintf(strCommand7, "%s", playerCommandReturn(_vPlayerStatus[i].command[7]).c_str());
+
+
 
 
 		//텍스트 출력용 위치보정
 		int textX = 0;
-		textX = _vPlayer[i].x + 200;
+		textX = _vPlayer[i].x + 250;
+		int textX1 = 0;
+		textX1 = textX + 300;
 		int textY = 0;
-		textY = _vPlayer[i].y + 150;
+		textY = _vPlayer[i].y + 160;
 		int textInterY[9] = { NULL };
 		for (int i = 0; i < 9; ++i)
 		{
-			textInterY[i] = 30 * i;
+			textInterY[i] = 40 * i;
 		}
 
 		//--------------------------------------------------------- 텍스트 출력 ---------------------------------------------------------
 		//플레이어 기본 능력
-		textPrint(getMemDC(), "Strength",		_vPlayer[i].x,		 textY + textInterY[0], 15, 15, "HY견고딕", COLOR_BLUE, false);		//"Strength"
-		textPrint(getMemDC(), strStrength,		_vPlayer[i].x + 150, textY + textInterY[0], 15, 15, "HY견고딕", COLOR_BLACK, false);	//힘
-		textPrint(getMemDC(), "Speed",			_vPlayer[i].x,		 textY + textInterY[1], 15, 15, "HY견고딕", COLOR_BLUE, false);		//"Speed"
-		textPrint(getMemDC(), strSpeed,			_vPlayer[i].x + 150, textY + textInterY[1], 15, 15, "HY견고딕", COLOR_BLACK, false);	//스피드
-		textPrint(getMemDC(), "Stamina",		_vPlayer[i].x,		 textY + textInterY[2], 15, 15, "HY견고딕", COLOR_BLUE, false);		//"Stamina"
-		textPrint(getMemDC(), strStamina,		_vPlayer[i].x + 150, textY + textInterY[2], 15, 15, "HY견고딕", COLOR_BLACK, false);	//내구력
-		textPrint(getMemDC(), "Magic",			_vPlayer[i].x,		 textY + textInterY[3], 15, 15, "HY견고딕", COLOR_BLUE, false);		//"Magic"
-		textPrint(getMemDC(), strMagic,			_vPlayer[i].x + 150, textY + textInterY[3], 15, 15, "HY견고딕", COLOR_BLACK, false);	//마법
-		textPrint(getMemDC(), "Attack",			_vPlayer[i].x,       textY + textInterY[4], 15, 15, "HY견고딕", COLOR_BLUE, false);		//"Attack"
-		textPrint(getMemDC(), strAttack,		_vPlayer[i].x + 150, textY + textInterY[4], 15, 15, "HY견고딕", COLOR_BLACK, false);	//공격력
-		textPrint(getMemDC(), "AttackDefence",  _vPlayer[i].x,		 textY + textInterY[5], 15, 15, "HY견고딕", COLOR_BLUE, false);		//"AttackDefence"
-		textPrint(getMemDC(), strAttackD,		_vPlayer[i].x + 150, textY + textInterY[5], 15, 15, "HY견고딕", COLOR_BLACK, false);	//공격디펜스
-		textPrint(getMemDC(), "MagicDefence",   _vPlayer[i].x,		 textY + textInterY[6], 15, 15, "HY견고딕", COLOR_BLUE, false);		//"MagicDefence"
-		textPrint(getMemDC(), strMagicD,		_vPlayer[i].x + 150, textY + textInterY[6], 15, 15, "HY견고딕", COLOR_BLACK, false);	//마법디펜스
-		textPrint(getMemDC(), "Evation",		_vPlayer[i].x,		 textY + textInterY[7], 15, 15, "HY견고딕", COLOR_BLUE, false);		//"Evation"
-		textPrint(getMemDC(), strEvation,		_vPlayer[i].x + 150, textY + textInterY[7], 15, 15, "HY견고딕", COLOR_BLACK, false);	//공격회피
-		textPrint(getMemDC(), "MagicEvation",	_vPlayer[i].x,		 textY + textInterY[8], 15, 15, "HY견고딕", COLOR_BLUE, false);		//"MagicEvation"
-		textPrint(getMemDC(), strMagicE,		_vPlayer[i].x + 150, textY + textInterY[8], 15, 15, "HY견고딕", COLOR_BLACK, false);	//마법회피
+		textPrint(getMemDC(), "Strength",		_vPlayer[i].x,		 textY + textInterY[0], 20, 15, "HY견고딕", COLOR_BLUE, false);		//"Strength"
+		textPrint(getMemDC(), strStrength,		_vPlayer[i].x + 200, textY + textInterY[0], 20, 15, "HY견고딕", COLOR_BLACK, false);	//힘
+		textPrint(getMemDC(), "Speed",			_vPlayer[i].x,		 textY + textInterY[1], 20, 15, "HY견고딕", COLOR_BLUE, false);		//"Speed"
+		textPrint(getMemDC(), strSpeed,			_vPlayer[i].x + 200, textY + textInterY[1], 20, 15, "HY견고딕", COLOR_BLACK, false);	//스피드
+		textPrint(getMemDC(), "Stamina",		_vPlayer[i].x,		 textY + textInterY[2], 20, 15, "HY견고딕", COLOR_BLUE, false);		//"Stamina"
+		textPrint(getMemDC(), strStamina,		_vPlayer[i].x + 200, textY + textInterY[2], 20, 15, "HY견고딕", COLOR_BLACK, false);	//내구력
+		textPrint(getMemDC(), "Magic",			_vPlayer[i].x,		 textY + textInterY[3], 20, 15, "HY견고딕", COLOR_BLUE, false);		//"Magic"
+		textPrint(getMemDC(), strMagic,			_vPlayer[i].x + 200, textY + textInterY[3], 20, 15, "HY견고딕", COLOR_BLACK, false);	//마법
+		textPrint(getMemDC(), "Attack",			_vPlayer[i].x,       textY + textInterY[4], 20, 15, "HY견고딕", COLOR_BLUE, false);		//"Attack"
+		textPrint(getMemDC(), strAttack,		_vPlayer[i].x + 200, textY + textInterY[4], 20, 15, "HY견고딕", COLOR_BLACK, false);	//공격력
+		textPrint(getMemDC(), "AttackDefence",  _vPlayer[i].x,		 textY + textInterY[5], 20, 15, "HY견고딕", COLOR_BLUE, false);		//"AttackDefence"
+		textPrint(getMemDC(), strAttackD,		_vPlayer[i].x + 200, textY + textInterY[5], 20, 15, "HY견고딕", COLOR_BLACK, false);	//공격디펜스
+		textPrint(getMemDC(), "MagicDefence",   _vPlayer[i].x,		 textY + textInterY[6], 20, 15, "HY견고딕", COLOR_BLUE, false);		//"MagicDefence"
+		textPrint(getMemDC(), strMagicD,		_vPlayer[i].x + 200, textY + textInterY[6], 20, 15, "HY견고딕", COLOR_BLACK, false);	//마법디펜스
+		textPrint(getMemDC(), "Evation",		_vPlayer[i].x,		 textY + textInterY[7], 20, 15, "HY견고딕", COLOR_BLUE, false);		//"Evation"
+		textPrint(getMemDC(), strEvation,		_vPlayer[i].x + 200, textY + textInterY[7], 20, 15, "HY견고딕", COLOR_BLACK, false);	//공격회피
+		textPrint(getMemDC(), "MagicEvation",	_vPlayer[i].x,		 textY + textInterY[8], 20, 15, "HY견고딕", COLOR_BLUE, false);		//"MagicEvation"
+		textPrint(getMemDC(), strMagicE,		_vPlayer[i].x + 200, textY + textInterY[8], 20, 15, "HY견고딕", COLOR_BLACK, false);	//마법회피
 
 		//플레이어 보유 아이템
-		textPrint(getMemDC(), "Right Hand",		_vPlayer[i].x + textX,		 textY + textInterY[0], 15, 15, "HY견고딕", COLOR_BLUE, false);		//"Right Hand"
-		textPrint(getMemDC(), strWeapon,		_vPlayer[i].x + textX + 150, textY + textInterY[0], 15, 15, "HY견고딕", COLOR_BLACK, false);	//주무기
-		textPrint(getMemDC(), "Left Hand",		_vPlayer[i].x + textX,		 textY + textInterY[1], 15, 15, "HY견고딕", COLOR_BLUE, false);		//"Left Hand"
-		textPrint(getMemDC(), strArmor,			_vPlayer[i].x + textX + 150, textY + textInterY[1], 15, 15, "HY견고딕", COLOR_BLACK, false);	//보조무기
-		textPrint(getMemDC(), "Head",			_vPlayer[i].x + textX,		 textY + textInterY[2], 15, 15, "HY견고딕", COLOR_BLUE, false);		//"Head"
-		textPrint(getMemDC(), strHelmet,		_vPlayer[i].x + textX + 150, textY + textInterY[2], 15, 15, "HY견고딕", COLOR_BLACK, false);	//헬멧
-		textPrint(getMemDC(), "Body",			_vPlayer[i].x + textX,		 textY + textInterY[3], 15, 15, "HY견고딕", COLOR_BLUE, false);		//"Body"
-		textPrint(getMemDC(), strSubweapon,		_vPlayer[i].x + textX + 150, textY + textInterY[3], 15, 15, "HY견고딕", COLOR_BLACK, false);	//갑옷
+		textPrint(getMemDC(), "Right Hand",		_vPlayer[i].x + textX,		 textY + textInterY[0], 20, 15, "HY견고딕", COLOR_BLUE, false);		//"Right Hand"
+		textPrint(getMemDC(), strWeapon,		_vPlayer[i].x + textX + 150, textY + textInterY[0], 20, 15, "HY견고딕", COLOR_BLACK, false);	//주무기
+		textPrint(getMemDC(), "Left Hand",		_vPlayer[i].x + textX,		 textY + textInterY[1], 20, 15, "HY견고딕", COLOR_BLUE, false);		//"Left Hand"
+		textPrint(getMemDC(), strArmor,			_vPlayer[i].x + textX + 150, textY + textInterY[1], 20, 15, "HY견고딕", COLOR_BLACK, false);	//보조무기
+		textPrint(getMemDC(), "Head",			_vPlayer[i].x + textX,		 textY + textInterY[2], 20, 15, "HY견고딕", COLOR_BLUE, false);		//"Head"
+		textPrint(getMemDC(), strHelmet,		_vPlayer[i].x + textX + 150, textY + textInterY[2], 20, 15, "HY견고딕", COLOR_BLACK, false);	//헬멧
+		textPrint(getMemDC(), "Body",			_vPlayer[i].x + textX,		 textY + textInterY[3], 20, 15, "HY견고딕", COLOR_BLUE, false);		//"Body"
+		textPrint(getMemDC(), strSubweapon,		_vPlayer[i].x + textX + 150, textY + textInterY[3], 20, 15, "HY견고딕", COLOR_BLACK, false);	//갑옷
 
+	     //플레이어 보유 커맨드
+		textPrint(getMemDC(), "Command",		_vPlayer[i].x + textX1, textY + textInterY[0], 20, 15, "HY견고딕", COLOR_BLUE, false);			//"command"
+		textPrint(getMemDC(), strCommand0,		_vPlayer[i].x + textX1, textY + textInterY[1], 20, 15, "HY견고딕", COLOR_BLACK, false);			//보유커맨드
+		textPrint(getMemDC(), strCommand1,	    _vPlayer[i].x + textX1, textY + textInterY[2], 20, 15, "HY견고딕", COLOR_BLACK, false);			//보유커맨드
+		textPrint(getMemDC(), strCommand2,	    _vPlayer[i].x + textX1, textY + textInterY[3], 20, 15, "HY견고딕", COLOR_BLACK, false);			//보유커맨드
+		textPrint(getMemDC(), strCommand3,	    _vPlayer[i].x + textX1, textY + textInterY[4], 20, 15, "HY견고딕", COLOR_BLACK, false);			//보유커맨드
+		textPrint(getMemDC(), strCommand4,	    _vPlayer[i].x + textX1, textY + textInterY[5], 20, 15, "HY견고딕", COLOR_BLACK, false);			//보유커맨드
+		textPrint(getMemDC(), strCommand5,	    _vPlayer[i].x + textX1, textY + textInterY[6], 20, 15, "HY견고딕", COLOR_BLACK, false);			//보유커맨드
+		textPrint(getMemDC(), strCommand6,	    _vPlayer[i].x + textX1, textY + textInterY[7], 20, 15, "HY견고딕", COLOR_BLACK, false);			//보유커맨드
+		textPrint(getMemDC(), strCommand7,		_vPlayer[i].x + textX1, textY + textInterY[8], 20, 15, "HY견고딕", COLOR_BLACK, false);			//보유커맨드
 	}
 }
 
@@ -616,6 +657,75 @@ void menu::playerStatusRemove()
 	}
 
 	_vPlayerStatus.clear();
+}
+
+string menu::playerCommandReturn(int num)
+{
+	char tmpCom[32] = "";
+	if (num < 0) return tmpCom;
+
+
+	switch (num)
+	{
+		case 0:
+			char tmpCom0[32];
+			ZeroMemory(&tmpCom0, sizeof(tmpCom0));
+			sprintf(tmpCom0, "%s", "Attack");
+
+			return tmpCom0;
+		break;
+		case 1:
+			char tmpCom1[32];
+			ZeroMemory(&tmpCom1, sizeof(tmpCom1));
+			sprintf(tmpCom1, "%s", "Magic");
+
+			return tmpCom1;
+		break;
+		case 2:
+			char tmpCom2[32];
+			ZeroMemory(&tmpCom2, sizeof(tmpCom2));
+			sprintf(tmpCom2, "%s", "Items");
+
+			return tmpCom2;
+		break;
+		case 3:
+			char tmpCom3[32];
+			ZeroMemory(&tmpCom3, sizeof(tmpCom3));
+			sprintf(tmpCom3, "%s", "Escape");
+
+			return tmpCom3;
+		break;
+		case 4:
+			char tmpCom4[32];
+			ZeroMemory(&tmpCom4, sizeof(tmpCom4));
+			sprintf(tmpCom4, "%s", "Transform");
+
+			return tmpCom4;
+		break;
+		case 5:
+			char tmpCom5[32];
+			ZeroMemory(&tmpCom5, sizeof(tmpCom5));
+			sprintf(tmpCom5, "%s", "Steal");
+
+			return tmpCom5;
+		break;
+		case 6:
+			char tmpCom6[32];
+			ZeroMemory(&tmpCom6, sizeof(tmpCom6));
+			sprintf(tmpCom6, "%s", "Magic Absorption");
+
+			return tmpCom6;
+		break;
+		case 7:
+			char tmpCom7[32];
+			ZeroMemory(&tmpCom7, sizeof(tmpCom7));
+			sprintf(tmpCom7, "%s", "Pelt");
+
+			return tmpCom7;
+		break;
+	}
+
+	return tmpCom;
 }
 //-----------------------------  status  ----------------------------- 
 
@@ -674,31 +784,40 @@ void menu::fileLoad(int fileNum, int playerNumber, bool tmpFile)
 		//}
 		//------------------------------------------- playerNumber 입력 -------------------------------------------
 	
-		wsprintf(_playerSlot.job, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "job"));			//직업
-		_playerSlot.level = INIDATA->loadDataInterger(saveFileNum, playerNum, "level");						//레벨
+		wsprintf(_playerSlot.job, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "job"));					//직업
+		_playerSlot.level = INIDATA->loadDataInterger(saveFileNum, playerNum, "level");								//레벨
 		if (_playerSlot.level == -1) continue; //예외처리: 정보가 없으면 다음으로...
-		_playerSlot.hp = INIDATA->loadDataInterger(saveFileNum, playerNum, "hp");							//체력
-		_playerSlot.maxHp = INIDATA->loadDataInterger(saveFileNum, playerNum, "maxHp");						//최대 체력
-		_playerSlot.mp = INIDATA->loadDataInterger(saveFileNum, playerNum, "mp");							//마력
-		_playerSlot.maxMp = INIDATA->loadDataInterger(saveFileNum, playerNum, "maxMp");						//최대 마력
-		_playerSlot.exp = INIDATA->loadDataInterger(saveFileNum, playerNum, "exp");							//경험치
-		_playerSlot.maxExp = INIDATA->loadDataInterger(saveFileNum, playerNum, "maxExp");					//최대 경험치
+		_playerSlot.hp = INIDATA->loadDataInterger(saveFileNum, playerNum, "hp");									//체력
+		_playerSlot.maxHp = INIDATA->loadDataInterger(saveFileNum, playerNum, "maxHp");								//최대 체력
+		_playerSlot.mp = INIDATA->loadDataInterger(saveFileNum, playerNum, "mp");									//마력
+		_playerSlot.maxMp = INIDATA->loadDataInterger(saveFileNum, playerNum, "maxMp");								//최대 마력
+		_playerSlot.exp = INIDATA->loadDataInterger(saveFileNum, playerNum, "exp");									//경험치
+		_playerSlot.maxExp = INIDATA->loadDataInterger(saveFileNum, playerNum, "maxExp");							//최대 경험치
 
-		_playerSlot.strength = INIDATA->loadDataInterger(saveFileNum, playerNum, "strength");				//힘
-		_playerSlot.speed = INIDATA->loadDataInterger(saveFileNum, playerNum, "speed");						//스피드
-		_playerSlot.stamina = INIDATA->loadDataInterger(saveFileNum, playerNum, "stamina");					//내구력
-		_playerSlot.magic = INIDATA->loadDataInterger(saveFileNum, playerNum, "magic");						//마법력
-		_playerSlot.attack = INIDATA->loadDataInterger(saveFileNum, playerNum, "attack");					//공격력
-		_playerSlot.attackDefence = INIDATA->loadDataInterger(saveFileNum, playerNum, "attackDefence");		//공격디펜스
-		_playerSlot.magicDefence = INIDATA->loadDataInterger(saveFileNum, playerNum, "magicDefence");       //마법디펜스
-		_playerSlot.evation = INIDATA->loadDataInterger(saveFileNum, playerNum, "evation");					//공격회피
-		_playerSlot.magicEvation = INIDATA->loadDataInterger(saveFileNum, playerNum, "magicEvation");       //마법회피
-		_playerSlot.partyIdx = INIDATA->loadDataInterger(saveFileNum, playerNum, "partyIdx");				//파티원넘버
+		_playerSlot.strength = INIDATA->loadDataInterger(saveFileNum, playerNum, "strength");						//힘
+		_playerSlot.speed = INIDATA->loadDataInterger(saveFileNum, playerNum, "speed");								//스피드
+		_playerSlot.stamina = INIDATA->loadDataInterger(saveFileNum, playerNum, "stamina");							//내구력
+		_playerSlot.magic = INIDATA->loadDataInterger(saveFileNum, playerNum, "magic");								//마법력
+		_playerSlot.attack = INIDATA->loadDataInterger(saveFileNum, playerNum, "attack");							//공격력
+		_playerSlot.attackDefence = INIDATA->loadDataInterger(saveFileNum, playerNum, "attackDefence");				//공격디펜스
+		_playerSlot.magicDefence = INIDATA->loadDataInterger(saveFileNum, playerNum, "magicDefence");				//마법디펜스
+		_playerSlot.evation = INIDATA->loadDataInterger(saveFileNum, playerNum, "evation");							//공격회피
+		_playerSlot.magicEvation = INIDATA->loadDataInterger(saveFileNum, playerNum, "magicEvation");				//마법회피
+		_playerSlot.partyIdx = INIDATA->loadDataInterger(saveFileNum, playerNum, "partyIdx");						//파티원넘버
 
-		wsprintf(_playerSlot.weapon, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "myWeapon"));		//보유무기
-		wsprintf(_playerSlot.armor, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "myArmor"));			//보유갑옷
-		wsprintf(_playerSlot.helmet, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "myHelmet"));		//보유투구
-		wsprintf(_playerSlot.subWeapon, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "mySubWeapon"));	//보유보조무기
+		_playerSlot.weapon    = INIDATA->loadDataInterger(saveFileNum, playerNum, "myWeapon");						//보유무기
+		_playerSlot.armor     = INIDATA->loadDataInterger(saveFileNum, playerNum, "myArmor");						//보유갑옷
+		_playerSlot.helmet    = INIDATA->loadDataInterger(saveFileNum, playerNum, "myHelmet");						//보유투구
+		_playerSlot.subWeapon = INIDATA->loadDataInterger(saveFileNum, playerNum, "mySubWeapon");					//보유보조무기
+
+		_playerSlot.command[0] = INIDATA->loadDataInterger(saveFileNum, playerNum, "command0");                     //보유커맨드
+		_playerSlot.command[1] = INIDATA->loadDataInterger(saveFileNum, playerNum, "command1");                     //보유커맨드
+		_playerSlot.command[2] = INIDATA->loadDataInterger(saveFileNum, playerNum, "command2");                     //보유커맨드
+		_playerSlot.command[3] = INIDATA->loadDataInterger(saveFileNum, playerNum, "command3");                     //보유커맨드
+		_playerSlot.command[4] = INIDATA->loadDataInterger(saveFileNum, playerNum, "command4");                     //보유커맨드
+		_playerSlot.command[5] = INIDATA->loadDataInterger(saveFileNum, playerNum, "command5");                     //보유커맨드
+		_playerSlot.command[6] = INIDATA->loadDataInterger(saveFileNum, playerNum, "command6");                     //보유커맨드
+		_playerSlot.command[7] = INIDATA->loadDataInterger(saveFileNum, playerNum, "command7");                     //보유커맨드
 
 
 		//-------------------------------------------- playerSlot 위치 --------------------------------------------
@@ -720,7 +839,9 @@ void menu::fileLoad(int fileNum, int playerNumber, bool tmpFile)
 		//플레이어 상태 출력정보 담기
 		playerStatusInit(_playerSlot.strength, _playerSlot.speed, _playerSlot.stamina, _playerSlot.magic, _playerSlot.attack,
 			_playerSlot.attackDefence, _playerSlot.magicDefence, _playerSlot.evation, _playerSlot.magicEvation, _playerSlot.partyIdx,
-			_playerSlot.weapon, _playerSlot.armor, _playerSlot.helmet, _playerSlot.subWeapon);
+			_playerSlot.weapon, _playerSlot.armor, _playerSlot.helmet, _playerSlot.subWeapon,
+			_playerSlot.command[0], _playerSlot.command[1], _playerSlot.command[2], _playerSlot.command[3], _playerSlot.command[4],
+			_playerSlot.command[5], _playerSlot.command[6], _playerSlot.command[7]);
 
 		//정보가 담겨있으면...
 		_fileLoadOk[fileNum] = true;
@@ -750,7 +871,9 @@ tagElements menu::saveTxtData(int fileNum, string cStage)
 
 void menu::saveIniPlayerData(int fileNum, int playerNum, string cName, string job, int level, int hp, int maxHp, int mp, int maxMp,
 	int exp, int maxExp, int strength, int speed, int stamina, int magic, int attack, int attackDefence, int magicDefence, int evation,
-	int magicEvation, int partyIdx, string myWeapon, string myArmor, string myHelmet, string mySubWeapon, bool tmpSave, bool saveFile)
+	int magicEvation, int partyIdx, int myWeapon, int myArmor, int myHelmet, int mySubWeapon, 
+	int command1, int command2, int command3, int command4, int command5, int command6, int command7, int command8, 
+	bool tmpSave, bool saveFile)
 {
 	//템프파일 저장시
 	int saveNum;
@@ -865,14 +988,62 @@ void menu::saveIniPlayerData(int fileNum, int playerNum, string cName, string jo
 		ZeroMemory(&tmp17, sizeof(tmp17));
 		wsprintf(tmp17, "%d", partyIdx);
 		INIDATA->addData(subjectNum, "partyIdx", tmp17);
+
 		//플레이어 무기
-		INIDATA->addData(subjectNum, "myWeapon", myWeapon.c_str());
+		TCHAR tmp18[4];
+		ZeroMemory(&tmp18, sizeof(tmp18));
+		wsprintf(tmp18, "%d", myWeapon);
+		INIDATA->addData(subjectNum, "myWeapon", tmp18);
 		//플레이어 아머
-		INIDATA->addData(subjectNum, "myArmor", myArmor.c_str());
+		TCHAR tmp19[4];
+		ZeroMemory(&tmp19, sizeof(tmp19));
+		wsprintf(tmp19, "%d", myArmor);
+		INIDATA->addData(subjectNum, "myArmor", tmp19);
 		//플레이어 헬멧
-		INIDATA->addData(subjectNum, "myHelmet", myHelmet.c_str());
+		TCHAR tmp20[4];
+		ZeroMemory(&tmp20, sizeof(tmp20));
+		wsprintf(tmp20, "%d", myHelmet);
+		INIDATA->addData(subjectNum, "myHelmet", tmp20);
 		//플레이어 서브무기
-		INIDATA->addData(subjectNum, "mySubWeapon", mySubWeapon.c_str());
+		TCHAR tmp21[4];
+		ZeroMemory(&tmp21, sizeof(tmp21));
+		wsprintf(tmp21, "%d", mySubWeapon);
+		INIDATA->addData(subjectNum, "mySubWeapon", tmp21);
+
+		//---------------- 플레이어 커맨드 ----------------
+		TCHAR tmp22[4];
+		ZeroMemory(&tmp22, sizeof(tmp22));
+		wsprintf(tmp22, "%d", command1);
+		INIDATA->addData(subjectNum, "command0", tmp22);
+		TCHAR tmp23[4];
+		ZeroMemory(&tmp23, sizeof(tmp23));
+		wsprintf(tmp23, "%d", command2);
+		INIDATA->addData(subjectNum, "command1", tmp23);
+		TCHAR tmp24[4];
+		ZeroMemory(&tmp24, sizeof(tmp24));
+		wsprintf(tmp24, "%d", command3);
+		INIDATA->addData(subjectNum, "command2", tmp24);
+		TCHAR tmp25[4];
+		ZeroMemory(&tmp25, sizeof(tmp25));
+		wsprintf(tmp25, "%d", command4);
+		INIDATA->addData(subjectNum, "command3", tmp25);
+		TCHAR tmp26[4];
+		ZeroMemory(&tmp26, sizeof(tmp26));
+		wsprintf(tmp26, "%d", command5);
+		INIDATA->addData(subjectNum, "command4", tmp26);
+		TCHAR tmp27[4];
+		ZeroMemory(&tmp27, sizeof(tmp27));
+		wsprintf(tmp27, "%d", command6);
+		INIDATA->addData(subjectNum, "command5", tmp27);
+		TCHAR tmp28[4];
+		ZeroMemory(&tmp28, sizeof(tmp28));
+		wsprintf(tmp28, "%d", command7);
+		INIDATA->addData(subjectNum, "command6", tmp28);
+		TCHAR tmp29[4];
+		ZeroMemory(&tmp29, sizeof(tmp29));
+		wsprintf(tmp29, "%d", command8);
+		INIDATA->addData(subjectNum, "command7", tmp29);
+		//------------------------------------------------
 
 		if (i == 0)
 		{
@@ -962,6 +1133,8 @@ void menu::fileCopyTmpFile(int fileNum)
 			tmpPlayrInfo.playerInfo.stamina, tmpPlayrInfo.playerInfo.magic, tmpPlayrInfo.playerInfo.attack, tmpPlayrInfo.playerInfo.attackDefence,
 			tmpPlayrInfo.playerInfo.magicDefence, tmpPlayrInfo.playerInfo.evation, tmpPlayrInfo.playerInfo.magicEvation, tmpPlayrInfo.playerInfo.partyIdx,
 			tmpPlayrInfo.playerInfo.weapon, tmpPlayrInfo.playerInfo.armor, tmpPlayrInfo.playerInfo.helmet, tmpPlayrInfo.playerInfo.subWeapon,
+			tmpPlayrInfo.playerInfo.command[0], tmpPlayrInfo.playerInfo.command[1], tmpPlayrInfo.playerInfo.command[2], tmpPlayrInfo.playerInfo.command[3],
+			tmpPlayrInfo.playerInfo.command[4], tmpPlayrInfo.playerInfo.command[5], tmpPlayrInfo.playerInfo.command[6], tmpPlayrInfo.playerInfo.command[7],
 			true, false);
 
 
@@ -1004,6 +1177,8 @@ void menu::fileCopySaveFile(int fileNum)
 			tmpPlayrInfo.playerInfo.stamina, tmpPlayrInfo.playerInfo.magic, tmpPlayrInfo.playerInfo.attack, tmpPlayrInfo.playerInfo.attackDefence,
 			tmpPlayrInfo.playerInfo.magicDefence, tmpPlayrInfo.playerInfo.evation, tmpPlayrInfo.playerInfo.magicEvation, tmpPlayrInfo.playerInfo.partyIdx,
 			tmpPlayrInfo.playerInfo.weapon, tmpPlayrInfo.playerInfo.armor, tmpPlayrInfo.playerInfo.helmet, tmpPlayrInfo.playerInfo.subWeapon,
+			tmpPlayrInfo.playerInfo.command[0], tmpPlayrInfo.playerInfo.command[1], tmpPlayrInfo.playerInfo.command[2], tmpPlayrInfo.playerInfo.command[3],
+			tmpPlayrInfo.playerInfo.command[4], tmpPlayrInfo.playerInfo.command[5], tmpPlayrInfo.playerInfo.command[6], tmpPlayrInfo.playerInfo.command[7],
 			false, false);
 
 
@@ -1087,10 +1262,19 @@ tagSaveData menu::loadIniPlayerData(int fileNum, int playerNumber, bool tmpFile)
 	tmpPlayrInfo.playerInfo.evation = INIDATA->loadDataInterger(saveFileNum, playerNum, "evation");						//공격회피           
 	tmpPlayrInfo.playerInfo.magicEvation = INIDATA->loadDataInterger(saveFileNum, playerNum, "magicEvation");			//마법회피               
 	tmpPlayrInfo.playerInfo.partyIdx = INIDATA->loadDataInterger(saveFileNum, playerNum, "partyIdx");					//파티원넘버
-	wsprintf(tmpPlayrInfo.playerInfo.weapon, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "myWeapon"));		//무기
-	wsprintf(tmpPlayrInfo.playerInfo.armor, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "myArmor"));			//갑옷 
-	wsprintf(tmpPlayrInfo.playerInfo.helmet, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "myHelmet"));		//투구  
-	wsprintf(tmpPlayrInfo.playerInfo.subWeapon, "%s", INIDATA->loadDataString(saveFileNum, playerNum, "mySubWeapon"));	//보조무기 
+	tmpPlayrInfo.playerInfo.weapon	  = INIDATA->loadDataInterger(saveFileNum, playerNum, "myWeapon");					//무기
+	tmpPlayrInfo.playerInfo.armor	  = INIDATA->loadDataInterger(saveFileNum, playerNum, "myArmor");					//갑옷 
+	tmpPlayrInfo.playerInfo.helmet	  = INIDATA->loadDataInterger(saveFileNum, playerNum, "myHelmet");					//투구  
+	tmpPlayrInfo.playerInfo.subWeapon = INIDATA->loadDataInterger(saveFileNum, playerNum, "mySubWeapon");				//보조무기 
+
+	tmpPlayrInfo.playerInfo.command[0] = INIDATA->loadDataInterger(saveFileNum, playerNum, "command0");					//커맨드
+	tmpPlayrInfo.playerInfo.command[1] = INIDATA->loadDataInterger(saveFileNum, playerNum, "command1");					//커맨드
+	tmpPlayrInfo.playerInfo.command[2] = INIDATA->loadDataInterger(saveFileNum, playerNum, "command2");					//커맨드 
+	tmpPlayrInfo.playerInfo.command[3] = INIDATA->loadDataInterger(saveFileNum, playerNum, "command3");					//커맨드 
+	tmpPlayrInfo.playerInfo.command[4] = INIDATA->loadDataInterger(saveFileNum, playerNum, "command4");					//커맨드 
+	tmpPlayrInfo.playerInfo.command[5] = INIDATA->loadDataInterger(saveFileNum, playerNum, "command5");					//커맨드 
+	tmpPlayrInfo.playerInfo.command[6] = INIDATA->loadDataInterger(saveFileNum, playerNum, "command6");					//커맨드 
+	tmpPlayrInfo.playerInfo.command[7] = INIDATA->loadDataInterger(saveFileNum, playerNum, "command7");					//커맨드 
 
 	wsprintf(tmpPlayrInfo.stage, "%s", INIDATA->loadDataString(saveFileNum, "gameData", "stage"));                      //스테이지  
 	tmpPlayrInfo.gil = INIDATA->loadDataInterger(saveFileNum, "Inventory", "Gil");										//돈  

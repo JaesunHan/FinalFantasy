@@ -20,7 +20,7 @@ HRESULT characterAbility::init()
 	//선택한 세이브 파일 가져오기 
 	int saveFileNum = INIDATA->loadDataInterger("gameData", "gameData", "fileNum");
 	int selectPlayerNum = INIDATA->loadDataInterger("gameData", "inventory", "selectChar");
-	fileLoad(saveFileNum, selectPlayerNum);
+	fileLoad(saveFileNum, selectPlayerNum);  //skgFile에서 해당 캐릭터 정보 가져오기
 
 	//버튼
 	int buttonX, buttonY;
