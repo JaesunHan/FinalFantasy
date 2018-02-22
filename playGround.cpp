@@ -24,7 +24,7 @@ HRESULT playGround::init()
 	_bts->setPlayerManagerMemoryAddressLink(_pm);
 	_bts->setItemManagerMemoryAddressLink(_item);
 	_pm->setItemManagerAddressLink(_item);
-
+	_item->setPlayerManagerMemoryAddressLink(_pm);
 
 	SCENEMANAGER->addScene("mapToolScene", new mapTool);
 	SCENEMANAGER->addScene("πË∆≤æ¿", _bts);

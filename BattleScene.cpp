@@ -106,18 +106,6 @@ HRESULT BattleScene::init()
 	//배틀 플레이어에 플레이어 데이터 복사
 	_pm->loadGameData();
 	_pm->setPlayerInfoToBattlePlayer();
-	//플레이어 인덱스 순서에 맞게 조정
-	for (int j = 0; j < 4; ++j)
-	{
-		for (int i = j; i < 4; ++i)
-		{
-			if (i != j && _battleCharacters[i].player->getPartyIdx() == j)
-			{
-				swap(_battleCharacters[j], _battleCharacters[i]);
-				break;
-			}
-		}
-	}
 	//최대 몬스터 랜덤 지정
 	_maxMonster = RND->getInt(3) + 1;
 	//에너미 동적할당 후 벡터에 담기
@@ -150,10 +138,27 @@ HRESULT BattleScene::init()
 		_battleCharacters[i + 4].enemy->setBattleShadowMemoryAddressLink(_battleCharacters[2].player);
 		_battleCharacters[i + 4].enemy->setBattleCelesMemoryAddressLink(_battleCharacters[3].player);
 	}
-	//플레이어에 배틀씬 주소 넘기기
+	//아이템 매니져에 플레이어 주소 넘기기
+	_im->setBattleTinaMemoryAddressLink(_battleCharacters[0].player);
+	_im->setBattleRockeMemoryAddressLink(_battleCharacters[1].player);
+	_im->setBattleCelesMemoryAddressLink(_battleCharacters[2].player);
+	_im->setBattleShadowMemoryAddressLink(_battleCharacters[3].player);
+	//플레이어에 배틀씬 주소 넘기기 
 	for (int i = 0; i < 4; ++i)
 	{
 		_battleCharacters[i].player->setBattleScene(this);
+	}
+	//플레이어 인덱스 순서에 맞게 조정
+	for (int j = 0; j < 4; ++j)
+	{
+		for (int i = j; i < 4; ++i)
+		{
+			if (i != j && _battleCharacters[i].player->getPartyIdx() == j)
+			{
+				swap(_battleCharacters[j], _battleCharacters[i]);
+				break;
+			}
+		}
 	}
 	return S_OK;
 }
