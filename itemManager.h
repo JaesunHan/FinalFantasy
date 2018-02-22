@@ -30,10 +30,13 @@ public:
 	void loadInventory(char* fileName);						//키값의 파일로부터 인벤토리 로드
 	int getItemVNum(int num);								//아이템 인벤토리에 저장된 순서의 번호로 아이텐 정보 벡터의 번호 반환
 	int getItemCount(int num);								//아이템 인벤토리에 저장된 순서의 번호의 갯수 반환
+	int getItemCountByVector(int vNum);						//아이템 인벤토리에 저장된 순서의 번호를 벡터 번호로 검색해서 반환
 	int getWeaponVNum(int num);								//무기 인벤토리에 저장된 순서의 번호로 아이텐 정보 벡터의 번호 반환
 	int getWeaponCount(int num);							//무기 인벤토리에 저장된 순서의 번호의 갯수 반환
+	int getWeaponCountByVector(int vNum);					//무기 인벤토리에 저장된 순서의 번호를 벡터 번호로 검색해서 반환
 	int getArmorVNum(int num);								//방어구 인벤토리에 저장된 순서의 번호로 아이텐 정보 벡터의 번호 반환
 	int getArmorCount(int num);								//방어구 인벤토리에 저장된 순서의 번호의 갯수 반환
+	int getArmorCountByVector(int vNum);					//방어구 인벤토리에 저장된 순서의 번호를 벡터 번호로 검색해서 반환
 	void setItemInventory(int vectorNum, int count);		//아이템 인벤토리에 벡터 번호의 아이템을 해당 갯수만큼 넣어준다
 	void setItemInventory(string keyName, int count);		//아이템 인벤토리에 키값 이름의 아이템을 해당 갯수만큼 넣어준다
 	void changeItemNumber(int vectorNum, int number);		//아이템 인벤토리에 벡터 번호의 아이템을 해당 갯수만큼 증감한다

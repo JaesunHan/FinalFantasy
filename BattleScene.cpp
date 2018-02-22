@@ -721,7 +721,7 @@ void BattleScene::playerMenuSelect()
 				case(BATTLE_SKILL):
 					break;
 				case(BATTLE_ITEM):
-					//if (_im->getVItem()[_im->getItemVNum(_itemSelectNum)]->)
+					if (_im->getVItem()[_im->getItemVNum(_itemSelectNum)]->)
 
 
 					break;
@@ -773,7 +773,7 @@ void BattleScene::playerMenuSelect()
 						_magicSelect = false;
 					}
 				}
-				else if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getIsHeal() == false)// && _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getManaCost() <= _battleCharacters[_currentTurn].player->getCurMP())
+				else if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getIsHeal() == false && _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getManaCost() <= _battleCharacters[_currentTurn].player->getCurMP())
 				{
 					_enemySelect = true;
 					_enemyNum = 4;
