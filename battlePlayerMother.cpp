@@ -118,7 +118,14 @@ void battlePlayerMother::update()
 			if (_selectMagic->getIsHeal() || _selectMagic->getIsRevive())
 			{
 				EFFECTMANAGER->play(_selectMagic->getMaicEffectKey(), _mAllyTarget->getPosX(), _mAllyTarget->getPosY());
-
+				//그리고 피 회복 시키기
+				int improveHP = _mAllyTarget->getCurHP() + _selectMagic->getAbilityPower();
+				//회복 시킨 후 적용될 CurHP 가 MaxHP 를 넘어서면 MaxHP 로 적용한다.
+				if (improveHP >= _mAllyTarget->getMaxHP())
+				{
+					improveHP = _mAllyTarget->getMaxHP();
+				}
+				_mAllyTarget->setCurHP(improveHP);
 			}
 			else
 			{
