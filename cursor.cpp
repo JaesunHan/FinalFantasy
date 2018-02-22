@@ -215,7 +215,7 @@ void cursor::keyControlXY(float moveValueX, float moveValueY, int maxNumX, int m
 	{
 		SOUNDMANAGER->play("menuSelectLow", CH_MENUSCENE, EFFECTVOLUME);
 
-		if (_currentPos % maxNumX > (maxNumX - 1) || _currentPos == maxListNum - 1) _currentPos = (_currentPos / maxNumX) * maxNumX;
+		if (_currentPos % maxNumX == (maxNumX - 1) || _currentPos == maxListNum - 1) _currentPos = (_currentPos / maxNumX) * maxNumX;
 		else _currentPos++;
 	
 		_x = _minX + moveValueX * (_currentPos % maxNumX);

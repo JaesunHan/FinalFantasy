@@ -103,6 +103,24 @@ void storeScene::keyControl(void)
 			_currentPos = POS_BUY_SELL;
 			_listSelectCursor.init(CURSOR_RIGHT, 20, 240);
 		}
+
+		if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+		{
+			switch (_vendorList[_cursorIndex]->getItmeKind())
+			{
+			case ITEM_EXPENDABLE:
+				_im->setItemInventory(_vendorList[_listSelectCursor.getCursorPos()]->getItemName(), 1);
+				break;
+			case ITEM_WEAPON:
+				_im->setWeaponInventory(_vendorList[_listSelectCursor.getCursorPos()]->getItemName(), 1);
+				break;
+			case ITEM_ARMOR: case ITEM_HELMET: case ITEM_SUB_WEAPON: case ITEM_ACCESSORY:
+				_im->setArmorInventory(_vendorList[_listSelectCursor.getCursorPos()]->getItemName(), 1);
+				break;
+			default:
+				break;
+			}
+		}
 	}
 	if (_currentPos == POS_SELL_LIST)
 	{
@@ -138,7 +156,7 @@ void storeScene::drawVendorList(void)
 {
 	for (int i = 0; i < _vendorList.size(); i++)
 	{
-		if (i == _listSelectCursor.getCursorPos()) IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 1, 0);
+		if (i == _listSelectCursor.getCursorPos())IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 1, 0);
 		else IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 0, 0);
 
 		TextOut(getMemDC(), 75 + (i % 3) * 280, 235 + (i / 3) * 90, _vendorList[i]->getItemName(), strlen(_vendorList[i]->getItemName()));
