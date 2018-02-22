@@ -721,7 +721,7 @@ void BattleScene::playerMenuSelect()
 				case(BATTLE_SKILL):
 					break;
 				case(BATTLE_ITEM):
-					if (_im->getVItem()[_im->getItemVNum(_itemSelectNum)]->)
+					//if (_im->getVItem()[_im->getItemVNum(_itemSelectNum)]->)
 
 
 					break;
