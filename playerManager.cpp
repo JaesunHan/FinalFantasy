@@ -396,18 +396,44 @@ void playerManager::playerLevelUp()
 		wsprintf(subjectName, "player%d", i);
 		int curExp = INIDATA->loadDataInterger(fileName, subjectName, "exp");
 		int maxExp = INIDATA->loadDataInterger(fileName, subjectName, "maxExp");
+
+		int curHP = INIDATA->loadDataInterger(fileName, subjectName, "hp");
+		int maxHP = INIDATA->loadDataInterger(fileName, subjectName, "maxHp");
+		int curMP = INIDATA->loadDataInterger(fileName, subjectName, "mp");
+		int maxMP = INIDATA->loadDataInterger(fileName, subjectName, "maxMp");
 		int lv = INIDATA->loadDataInterger(fileName, subjectName, "level");
 		//ÀÌ ¶§ ·¾¾÷ÇØ¾ßµÊ
 		if (curExp >= maxExp)
 		{
 			lv += 1;	maxExp = maxExpValue[lv];
+			for (int i =0; i<lv; ++i)
+			{
+				maxHP += improveHPValue[i];
+				maxMP += improveMPValue[i];
+			}
+			curHP += improveHPValue[lv - 1];
+			curMP += improveMPValue[lv - 1];
+
 			char strMaxExp[256];
 			wsprintf(strMaxExp, "%d", maxExp);
 			char strLv[256];
 			wsprintf(strLv, "%d", lv);
-		
+			char strCurHP[256];
+			wsprintf(strCurHP, "%d", curHP);
+			char strMaxHP[256];
+			wsprintf(strMaxHP, "%d", maxHP);
+			char strCurMP[256];
+			wsprintf(strCurMP, "%d", curMP);
+			char strMaxMP[256];
+			wsprintf(strMaxMP, "%d", maxMP);
+
 			INIDATA->addData(subjectName, "maxExp", strMaxExp);
 			INIDATA->addData(subjectName, "level", strLv);
+			INIDATA->addData(subjectName, "hp", strCurHP);
+			INIDATA->addData(subjectName, "maxHp", strMaxHP);
+			INIDATA->addData(subjectName, "mp", strCurMP);
+			INIDATA->addData(subjectName, "maxMp", strMaxMP);
+
 			INIDATA->iniSave(fileName);
 		}
 	}
