@@ -23,7 +23,10 @@ HRESULT worldMapTreasureBox::init(int enemyX, int enemyY, ENEMYMOVEPATTERN enemy
 
 	_treasureCount = 0;
 
-	_isBox = true;
+	_isBox = false;
+
+	//¹Ì¹ÍÀÌ´Ì ¾Æ´Ï´Ì
+	_isMimic = RND->getFromIntTo(1, 2);
 
 	_enemyMovePattern = enemyPattern;
 	return S_OK;
@@ -35,6 +38,7 @@ void worldMapTreasureBox::release()
 
 void worldMapTreasureBox::update()
 {
+	isMimic();
 	worldMapEnemy::update();
 	this->move();
 	worldEnemyImageFrameControl();
@@ -58,23 +62,25 @@ void worldMapTreasureBox::move()
 
 void worldMapTreasureBox::worldEnemyImageFrameControl()
 {
-	
-	_count++;
-
-	if (_count % 10 == 0)
+	if (_isBox && _isCollision)
 	{
-		_enemyCurrentFrameX++;
+		_count++;
 
-		if (_enemyCurrentFrameX == _image->getMaxFrameX())
+		if (_count % 10 == 0)
 		{
-			_enemyCurrentFrameX = 0;
+			_enemyCurrentFrameX++;
+
+			if (_enemyCurrentFrameX == _image->getMaxFrameX())
+			{
+				_enemyCurrentFrameX = 0;
+			}
 		}
 	}
 }
 
 void worldMapTreasureBox::worldEnemyImageControl(HDC hdc, POINT movePt)
 {
-	if()
+
 }
 
 
@@ -86,10 +92,22 @@ void worldMapTreasureBox::worldEnemyDetect()
 
 void worldMapTreasureBox::worldEnemyCollision()
 {
+	
 	if (getDistance(_enemy.x, _enemy.y, _wp->getWorldMapPlayerPoint().x, _wp->getWorldMapPlayerPoint().y) <= TILE_SIZEX)
 	{
 		_isCollision = true;
 	}
 }
 
+void worldMapTreasureBox::isMimic()
+{
+	if (_isMimic == 1)
+	{
+		_isBox = true;
+	}
+	else if (_isMimic == 2)
+	{
+		_isBox = false;
+	}
+}
 

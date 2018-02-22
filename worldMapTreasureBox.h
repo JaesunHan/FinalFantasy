@@ -10,9 +10,10 @@ public:
 
 
 	int _treasureCount;
-
+	int _isMimic;
 	//보물상자인지 아닌지 체크
 	bool _isBox;
+
 
 	//init에서 좌표값을 받는 이유는 씬이 바뀔때 해당씬에서 위치를 지정할수 있기 위함이다.
 	virtual HRESULT init(int enemyX, int enemyY, ENEMYMOVEPATTERN enemyPattern);
@@ -33,6 +34,8 @@ public:
 	//에너미 디텍트
 	void worldEnemyDetect();
 
+	//미믹인지 체크함수
+	void isMimic();
 
 
 };
