@@ -183,7 +183,6 @@ void BattleScene::update()
 
 void BattleScene::render() 
 {
-	//배틀 백그라운드 랜더
 	IMAGEMANAGER->findImage("battleBG")->render(getMemDC());
 
 	characterDraw();
@@ -661,6 +660,7 @@ void BattleScene::playerMenuSelect()
 					break;
 				case(BATTLE_MAGIC):
 					_battleCharacters[_currentTurn].player->setMAllyTarget(_battleCharacters[_playerSelectNum].player);
+					//_battleCharacters[_currentTurn].player->setCurMP(_battleCharacters[_currentTurn].player->getCurMP() - _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getManaCost());
 					_battleCharacters[_currentTurn].player->setStatus(BATTLE_PLAYER_MAGIC_ATTACK_STANDBY);
 					_battleCharacters[_currentTurn].selectAction = true;
 					_battleCharacters[_currentTurn].menuSelect = BATTLE_MAGIC_HEAL;
@@ -695,6 +695,7 @@ void BattleScene::playerMenuSelect()
 					break;
 				case(BATTLE_MAGIC):
 					_battleCharacters[_currentTurn].player->setStatus(BATTLE_PLAYER_MAGIC_ATTACK_STANDBY);
+					//_battleCharacters[_currentTurn].player->setCurMP(_battleCharacters[_currentTurn].player->getCurMP() - _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getManaCost());
 					_battleCharacters[_currentTurn].selectAction = true;
 					_battleCharacters[_currentTurn].menuSelect = BATTLE_MAGIC_ATTACK;
 					_battleTurn.push(&_battleCharacters[_currentTurn]);
@@ -833,12 +834,12 @@ void BattleScene::playerMenuSelect()
 		}
 	}
 	
-	if (KEYMANAGER->isOnceKeyDown('R'))
-	{
-		_im->setItemInventory("포션", 3);
-		_im->setItemInventory(5, 4);
-		_im->setItemInventory("X-포션", 3);
-	}
+	//if (KEYMANAGER->isOnceKeyDown('R'))
+	//{
+	//	_im->setItemInventory("포션", 3);
+	//	_im->setItemInventory(5, 4);
+	//	_im->setItemInventory("X-포션", 3);
+	//}
 	//if (KEYMANAGER->isOnceKeyDown('T'))
 	//{
 	//	SOUNDMANAGER->getChannel(CH_BGM)->setPosition(3900, FMOD_TIMEUNIT_MS);
@@ -1428,7 +1429,19 @@ void BattleScene::victoryMessage()
 			drawText(32, _message2, tempDialogueRC, DT_CENTER, true);
 			break;
 		case(16):
-			drawText(32, "소지금이 늘 것 같은 기분이 든다.", tempDialogueRC, DT_CENTER, true);
+			int gold;
+			gold = 0;
+			for (int i = 0; i < _maxMonster; ++i)
+			{
+				gold += _battleCharacters[4 + i].enemy->getGold();
+			}
+			if (_dialogue == true)
+			{
+				_im->setMoney(_im->getMoney() + gold);
+				_dialogue = false;
+			}
+			wsprintf(_message0, "%d Gil을 얻었다.", gold);
+			drawText(32, _message0, tempDialogueRC, DT_CENTER, true);
 			break;
 		case(17):
 			drawText(32, "아이템을 얻은 것 같은 그런 느낌이다.", tempDialogueRC, DT_CENTER, true);
