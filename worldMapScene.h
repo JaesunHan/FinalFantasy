@@ -21,6 +21,7 @@ private:
 
 	//Ãæµ¹Çß´ÂÁö °ËÃâ
 	bool _isCollision;
+	bool _isEncounter;
 
 	//µµ¸Á°¬´Ì
 	bool _isEscape;
@@ -63,5 +64,5 @@ public:
 	void setIsEscape(bool isEscape) { _isEscape = isEscape; }
 
 	void setPlayerPos(void);
-
+	void resetIsEncounter(void) { _isEncounter = false; SOUNDMANAGER->stop(CH_ENCOUNTER); }
 };

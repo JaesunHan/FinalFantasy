@@ -18,6 +18,7 @@ HRESULT worldMapScene::init()
 	//==============뉴게임을 했을시 타임이 먹는다!============
 
 	SOUNDMANAGER->addSound("worldMapBGM", ".//sound//worldMapSound//01. Tina.mp3", true, true);
+	SOUNDMANAGER->addSound("encounterSound", ".//sound//worldMapSound//encounter.wav", false, false);
 	SOUNDMANAGER->play("worldMapBGM", CH_BGM, 1.0f);
 	CAMERAMANAGER->init(getMemDC());
 	CAMERAMANAGER->createDC(PointMake(TILE_SIZEX, TILE_SIZEY), PointMake(30, 20));
@@ -37,6 +38,7 @@ HRESULT worldMapScene::init()
 
 	_isEscape = false;
 	_isCollision = false;
+	_isEncounter = false;
 
 	_enemyNum = -1;
 
@@ -62,6 +64,7 @@ void worldMapScene::update()
 	if (!SOUNDMANAGER->isPlaySound(CH_BGM))
 	{
 		SOUNDMANAGER->addSound("worldMapBGM", ".//sound//worldMapSound//01. Tina.mp3", true, true);
+		SOUNDMANAGER->addSound("encounterSound", ".//sound//worldMapSound//encounter.wav", false, false);
 		SOUNDMANAGER->play("worldMapBGM", CH_BGM, 1.0f);
 	}
 
@@ -126,7 +129,12 @@ void worldMapScene::getCollision()
 		{
 			//충돌한 녀석의 인덱스를 변수에 저장한다.
 			_enemyNum = i;
-			SOUNDMANAGER->stop(CH_BGM);
+			//SOUNDMANAGER->stop(CH_BGM);
+			if (!_isEncounter)
+			{
+				_isEncounter = true;
+				SOUNDMANAGER->play("encounterSound", CH_ENCOUNTER, 1.0f);
+			}
 			SCENEMANAGER->changeSceneType1("배틀씬");
 			break;
 		}

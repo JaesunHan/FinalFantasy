@@ -7,10 +7,19 @@ class itemManager;
 
 enum CURSOR_POS
 {
+	POS_MESSAGEBOX,
 	POS_BUY_SELL,
 	POS_BUY_LIST,
 	POS_SELL_LIST,
+	POS_AMOUNT_SELECT,
 	POS_END
+};
+
+enum MESSAGEBOX_TYPE
+{
+	MESSAGE_NO_MONEY,
+	MESSAGE_OVER_ITEM,
+	MESSAGE_NONE
 };
 
 enum INVENTORY_KIND
@@ -29,6 +38,8 @@ private:
 	string _storeName;
 	char str[128];
 
+	MESSAGEBOX_TYPE _mbType;
+
 private:
 	cursor _buySellSelectCursor;
 	cursor _listSelectCursor;
@@ -39,7 +50,7 @@ private:
 	int _currentInventory;
 
 private:
-	CURSOR_POS _currentPos;
+	CURSOR_POS _currentPos, _prevPos;
 	int _cursorIndex;
 	int _listSelectIndex;
 	int _listMaxIndex;
@@ -58,6 +69,7 @@ public:
 	void drawStoreInterface(void);
 	void drawVendorList(void);
 	void drawSellItemList(void);
+	void drawAlertScreen(void);
 
 	void setStoreKey(string key);
 

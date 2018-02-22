@@ -1545,6 +1545,7 @@ void BattleScene::sceneChange()
 	{
 		_pm->playerLevelUp();
 		this->release();
+		((worldMapScene*)SCENEMANAGER->findScene("¿ùµå¸Ê¾À"))->resetIsEncounter();
 		SCENEMANAGER->changeSceneType0("¿ùµå¸Ê¾À", false);
 	}
 }

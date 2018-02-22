@@ -16,6 +16,7 @@ HRESULT storeScene::init()
 	IMAGEMANAGER->addImage("storeScreen", ".//image//userInterface//Store.bmp", 1200, 640, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("buySellButton", ".//image//userInterface//button_fantasy.bmp", 406, 49, 2, 1, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("storeButton", ".//image//userInterface//itemButton.bmp", 456, 65, 2, 1, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("messageBox", ".//image//userInterface//messageBox.bmp", 697, 206, true, RGB(255, 0, 255));
 
 	AddFontResourceEx(
 		"SDMiSaeng.ttf", 	// font file name
@@ -23,15 +24,19 @@ HRESULT storeScene::init()
 		NULL            	// reserved
 	);
 
-	_currentPos = POS_BUY_SELL;
+	_currentPos = _prevPos = POS_BUY_SELL;
 	_cursorIndex = 0;
 	_listSelectIndex = 0;
 	_listMaxIndex = 0;
 
 	_currentInventory = INVENTORY_ITEM;
+	_mbType = MESSAGE_NONE;
 
 	_buySellSelectCursor.init(CURSOR_RIGHT, 130, 130);
 	_listSelectCursor.init(CURSOR_RIGHT, 20, 240);
+
+	// 임시로 돈 세팅
+	_im->setMoney(500000);
 
 	return S_OK;
 }
@@ -70,8 +75,8 @@ void storeScene::render()
 	newFont = CreateFont(20, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
 	SelectObject(getMemDC(), newFont);
 
-	if (_currentPos == POS_BUY_LIST) drawVendorList();
-	else if (_currentPos == POS_SELL_LIST) drawSellItemList();
+	if (_currentPos == POS_BUY_LIST || (_prevPos == POS_BUY_LIST && _currentPos == POS_MESSAGEBOX)) drawVendorList();
+	else if (_currentPos == POS_SELL_LIST || (_prevPos == POS_SELL_LIST && _currentPos == POS_MESSAGEBOX)) drawSellItemList();
 	
 	SetTextColor(getMemDC(), RGB(0, 0, 0));
 	SelectObject(getMemDC(), oldFont);
@@ -80,6 +85,8 @@ void storeScene::render()
 
 	_buySellSelectCursor.render();
 	if (_currentPos == POS_BUY_LIST || _currentPos == POS_SELL_LIST) _listSelectCursor.render();
+
+	if (_mbType != MESSAGE_NONE) drawAlertScreen();
 }
 
 void storeScene::keyControl(void)
@@ -106,19 +113,53 @@ void storeScene::keyControl(void)
 
 		if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 		{
-			switch (_vendorList[_cursorIndex]->getItmeKind())
+			if (_im->getMoney() >= _vendorList[_listSelectCursor.getCursorPos()]->getPrice())
 			{
-			case ITEM_EXPENDABLE:
-				_im->setItemInventory(_vendorList[_listSelectCursor.getCursorPos()]->getItemName(), 1);
-				break;
-			case ITEM_WEAPON:
-				_im->setWeaponInventory(_vendorList[_listSelectCursor.getCursorPos()]->getItemName(), 1);
-				break;
-			case ITEM_ARMOR: case ITEM_HELMET: case ITEM_SUB_WEAPON: case ITEM_ACCESSORY:
-				_im->setArmorInventory(_vendorList[_listSelectCursor.getCursorPos()]->getItemName(), 1);
-				break;
-			default:
-				break;
+				switch (_vendorList[_cursorIndex]->getItmeKind())
+				{
+				case ITEM_EXPENDABLE:
+					if (_im->getItemCountByVector(_vendorList[_listSelectCursor.getCursorPos()]->getItemNumber() - 1) + 1 > 99)
+					{
+						_prevPos = _currentPos;
+						_currentPos = POS_MESSAGEBOX;
+						_mbType = MESSAGE_OVER_ITEM;
+						return;
+					}
+					_im->changeItemNumber(_vendorList[_listSelectCursor.getCursorPos()]->getItemName(), 1);
+					break;
+				case ITEM_WEAPON:
+					if (_im->getWeaponCountByVector(_vendorList[_listSelectCursor.getCursorPos()]->getItemNumber() - 1) + 10 > 99)
+					{
+						_prevPos = _currentPos;
+						_currentPos = POS_MESSAGEBOX;
+						_mbType = MESSAGE_OVER_ITEM;
+						return;
+					}
+					_im->changeWeaponNumber(_vendorList[_listSelectCursor.getCursorPos()]->getItemName(), 10);
+					break;
+				case ITEM_ARMOR: case ITEM_HELMET: case ITEM_SUB_WEAPON: case ITEM_ACCESSORY:
+					if (_im->getArmorCountByVector(_vendorList[_listSelectCursor.getCursorPos()]->getItemNumber() - 1) + 1 > 99)
+					{
+						_prevPos = _currentPos;
+						_currentPos = POS_MESSAGEBOX;
+						_mbType = MESSAGE_OVER_ITEM;
+						return;
+					}
+					_im->changeArmorNumber(_vendorList[_listSelectCursor.getCursorPos()]->getItemName(), 1);
+					break;
+				default:
+					break;
+				}
+
+				
+
+				_im->setMoney(_im->getMoney() - _vendorList[_listSelectCursor.getCursorPos()]->getPrice());
+			}
+			else if (_im->getMoney() < _vendorList[_listSelectCursor.getCursorPos()]->getPrice())
+			{
+				_prevPos = _currentPos;
+				_currentPos = POS_MESSAGEBOX;
+				_mbType = MESSAGE_NO_MONEY;
 			}
 		}
 	}
@@ -140,16 +181,64 @@ void storeScene::keyControl(void)
 			else _currentInventory = 0;
 			_listSelectCursor.init(CURSOR_RIGHT, 20, 240);
 		}
+
+		if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+		{
+			if (_currentInventory == INVENTORY_WEAPON)
+			{
+				if (_im->getWeaponInventorySize() <= 0) return;
+				_im->setMoney(_im->getMoney() + _im->getVItem()[_im->getWeaponVNum(_listSelectCursor.getCursorPos())]->getPrice() / 2);
+				_im->changeWeaponNumber(_im->getVItem()[_im->getWeaponVNum(_listSelectCursor.getCursorPos())]->getItemName(), -1);
+			}
+			else if (_currentInventory == INVENTORY_ARMOR)
+			{
+				if (_im->getArmorInventorySize() <= 0) return;
+				_im->setMoney(_im->getMoney() + _im->getVItem()[_im->getArmorVNum(_listSelectCursor.getCursorPos())]->getPrice() / 2);
+				_im->changeArmorNumber(_im->getVItem()[_im->getArmorVNum(_listSelectCursor.getCursorPos())]->getItemName(), -1);
+			}
+			else if (_currentInventory == INVENTORY_ITEM)
+			{
+				if (_im->getItemInventorySize() <= 0) return;
+				_im->setMoney(_im->getMoney() + _im->getVItem()[_im->getItemVNum(_listSelectCursor.getCursorPos())]->getPrice() / 2);
+				_im->changeItemNumber(_im->getVItem()[_im->getItemVNum(_listSelectCursor.getCursorPos())]->getItemName(), -1);
+			}
+		}
+	}
+	if (_currentPos == POS_MESSAGEBOX)
+	{
+		if (KEYMANAGER->isOnceKeyDown(VK_BACK) || KEYMANAGER->isOnceKeyDown(VK_RETURN))
+		{
+			_currentPos = _prevPos;
+			_mbType = MESSAGE_NONE;
+		}
 	}
 }
 
 void storeScene::drawStoreInterface(void)
 {
+	HFONT newFont = CreateFont(40, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+	HFONT oldFont = (HFONT)SelectObject(getMemDC(), newFont);
+	SetTextColor(getMemDC(), RGB(255, 255, 255));
+	
+	// 구매 판매 버튼 출력
 	IMAGEMANAGER->frameRender("buySellButton", getMemDC(), 150, 118, !_buySellSelectCursor.getCursorXNum(), 0);
 	IMAGEMANAGER->frameRender("buySellButton", getMemDC(), 550, 118, _buySellSelectCursor.getCursorXNum(), 0);
 
 	outlineTextOut(getMemDC(), 230, 122, "구매", GetTextColor(getMemDC()), RGB(0, 0, 0), GetTextColor(getMemDC()), 40);
 	outlineTextOut(getMemDC(), 620, 122, "판매", GetTextColor(getMemDC()), RGB(0, 0, 0), GetTextColor(getMemDC()), 40);
+
+	DeleteObject(newFont);
+	newFont = CreateFont(20, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+	SetTextAlign(getMemDC(), TA_RIGHT);
+
+	// 소지금 출력
+	outlineTextOut(getMemDC(), 1100, 580, to_string(_im->getMoney()).c_str(), RGB(255, 255, 255), RGB(0, 0, 0), RGB(255, 255, 255), 20);
+
+	SetTextColor(getMemDC(), RGB(40, 5, 0));
+	TextOut(getMemDC(), 1150, 580, "Gil", strlen("Gil"));
+
+	SetTextColor(getMemDC(), RGB(255, 255, 255));
+	SetTextAlign(getMemDC(), TA_LEFT);
 }
 
 void storeScene::drawVendorList(void)
@@ -236,6 +325,26 @@ void storeScene::drawSellItemList(void)
 			SetTextAlign(getMemDC(), TA_LEFT);
 		}
 	}
+}
+
+void storeScene::drawAlertScreen(void)
+{
+	IMAGEMANAGER->render("messageBox", getMemDC(), 100, 265);
+
+	HFONT newFont = CreateFont(20, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+	HFONT oldFont = (HFONT)SelectObject(getMemDC(), newFont);
+	
+	if (_mbType == MESSAGE_NO_MONEY)
+	{
+		outlineTextOut(getMemDC(), 200, 300, "소지금이 부족합니다.", RGB(255, 255, 255), RGB(0, 0, 0), RGB(255, 255, 255), 20);
+	}
+
+	if (_mbType == MESSAGE_OVER_ITEM)
+	{
+		outlineTextOut(getMemDC(), 200, 300, "해당 아이템의 최대 보유수를 초과합니다.", RGB(255, 255, 255), RGB(0, 0, 0), RGB(255, 255, 255), 20);
+	}
+
+
 }
 
 void storeScene::setStoreKey(string key)
