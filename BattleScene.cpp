@@ -1602,7 +1602,10 @@ void BattleScene::playerMagicAttack()
 	}
 	if (_hit == true)                                                                  //맞앗으면 데미지 공식 적용
 	{
-		//_damage = (float)_battleTurn.front()->player->getMyUsableMagic()[0]-> * 4 + ((float)_battleTurn.front()->player->getLv() * (float)_battleTurn.front()->player->getMagic() * _spellPower / 32);         // 스킬 데미지 공식
+		//스킬 데미지 공식
+		float spellPower;
+		spellPower = (float)_battleTurn.front()->player->getMyUsableMagic()[_battleTurn.front()->magicSelect]->getAbilityPower();
+		_damage = spellPower * 4 + ((float)_battleTurn.front()->player->getLv() * (float)_battleTurn.front()->player->getMagic() * spellPower / 32);         
 	}
 	_isDamaged = true;
 }
