@@ -96,6 +96,10 @@ void playerManager::release()
 }
 void playerManager::setPlayerInfoToBattlePlayer()
 {
+	_celes = new celes;
+	_locke = new Locke;
+	_shadow = new shadow;
+	_tina = new Tina;
 	//먼저 현재 씬매니저에 등록되어 있는 배틀씬을 가져온다
 	_battleScene = (BattleScene*)SCENEMANAGER->findScene("배틀씬");
 
@@ -111,6 +115,7 @@ void playerManager::setPlayerInfoToBattlePlayer()
 	bCeles->setArmor(_celes->getArmor());
 	bCeles->setHelmet(_celes->getHelmet());
 	bCeles->setSubWeapon(_celes->getSubWeapon());
+	bCeles->setMyUsableMagic(_celes->getMyUsableMagic());
 	
 	battleLocke* bLocke = (battleLocke*)_battleScene->getLockeAddress();
 	bLocke->setAllBattlePlayerInfo(_locke->getLv(), _locke->getCurEXP(), _locke->getMaxEXP(),
@@ -122,6 +127,7 @@ void playerManager::setPlayerInfoToBattlePlayer()
 	bLocke->setArmor(_locke->getArmor());
 	bLocke->setHelmet(_locke->getHelmet());
 	bLocke->setSubWeapon(_locke->getSubWeapon());
+	bLocke->setMyUsableMagic(_locke->getMyUsableMagic());
 
 	battleShadow* bShadow = (battleShadow*)_battleScene->getShadowAddress();
 	bShadow->setAllBattlePlayerInfo(_shadow->getLv(), _shadow->getCurEXP(), _shadow->getMaxEXP(),
@@ -133,6 +139,7 @@ void playerManager::setPlayerInfoToBattlePlayer()
 	bShadow->setArmor(_shadow->getArmor());
 	bShadow->setHelmet(_shadow->getHelmet());
 	bShadow->setSubWeapon(_shadow->getSubWeapon());
+	bShadow->setMyUsableMagic(_shadow->getMyUsableMagic());
 	
 	battleTina* bTina = (battleTina*)_battleScene->getTinaAddress();
 	bTina->setAllBattlePlayerInfo(_tina->getLv(), _tina->getCurEXP(), _tina->getMaxEXP(),
@@ -144,6 +151,7 @@ void playerManager::setPlayerInfoToBattlePlayer()
 	bTina->setArmor(_tina->getArmor());
 	bTina->setHelmet(_tina->getHelmet());
 	bTina->setSubWeapon(_tina->getSubWeapon());
+	bTina->setMyUsableMagic(_tina->getMyUsableMagic());
 	
 	//================================== End 그 배틀씬의 배틀플레이어들의 정보를 저장한다.====================================
 }

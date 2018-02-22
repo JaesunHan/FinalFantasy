@@ -15,6 +15,19 @@ celes::celes()
 	_partyIdx = 2;
 
 	_spellPower = _Lv;
+
+	//==============================마법 공격 세팅
+	//마법 공격 1 - 아군 힐
+	magic* tmpMagic = new magic;
+	IMAGEMANAGER->addFrameImage("Celes::Heal Magic", "./image/playerImg/playerEffectImage/playerSkill2.bmp", 445, 45, 5, 1, true, RGB(255, 0, 255));
+	tmpMagic->init("Celes::Heal Magic", "./image/playerImg/playerEffectImage/playerSkill2.bmp", "힐!", 10, 5, 0, 1, 0);
+	_myUsableMagic.push_back(tmpMagic);
+
+	//마법공격 2 - 번개 공격
+	tmpMagic = new magic;
+	IMAGEMANAGER->addFrameImage("Celes::Thunder Magic", "./image/playerImg/playerEffectImage/playerSkill5.bmp", 472, 126, 8, 1, true, RGB(255, 0, 255));
+	tmpMagic->init("Celes::Thunder Magic", "./image/playerImg/playerEffectImage/playerSkill5.bmp", "뇌신!", 62, 21, 150, 0, 0);
+	_myUsableMagic.push_back(tmpMagic);
 }
 
 

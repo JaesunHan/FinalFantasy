@@ -1,4 +1,5 @@
 #pragma once
+#include "magic.h"
 
 class weaponItem;
 class armorItem;
@@ -31,6 +32,9 @@ protected:
 	armorItem* _myArmor;			//내가 장착한 갑옷
 	armorItem* _myHelmet;			//내가 장착한 투구
 	armorItem* _mySubWeapon;		//내가 장착한 보조무기
+
+	//마법 공격
+	vector<magic*> _myUsableMagic;
 public:
 	playerMother();
 	~playerMother();
@@ -77,6 +81,11 @@ public:
 
 	inline TCHAR* getName() { return _name; }	inline void setName(char str[256]) { wsprintf(_name, "%s", str); }
 	inline TCHAR* getJob() { return _job; }		inline void setJob(char str[256]) { wsprintf(_job, "%s", str); }
+
+	//플레이어가 보유하고 있는 마법 목록 게터
+	inline vector<magic*> getMyUsableMagic() {
+		return _myUsableMagic;
+	}
 
 	//============================== End 접근자 설정자 ======================================
 

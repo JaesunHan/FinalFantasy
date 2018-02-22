@@ -184,6 +184,7 @@ public:
 	inline vector<magic*> getMyUsableMagic() {
 		return _myUsableMagic;	
 	}
+	inline void setMyUsableMagic(vector<magic*> vMagic) { _myUsableMagic = vMagic; }
 
 	//====================================== End 접근자 설정자 ======================================
 

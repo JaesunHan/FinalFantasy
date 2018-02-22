@@ -118,6 +118,7 @@ void battlePlayerMother::update()
 			if (_selectMagic->getIsHeal() || _selectMagic->getIsRevive())
 			{
 				EFFECTMANAGER->play(_selectMagic->getMaicEffectKey(), _mAllyTarget->getPosX(), _mAllyTarget->getPosY());
+
 			}
 			else
 			{
