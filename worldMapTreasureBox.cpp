@@ -1,0 +1,95 @@
+#include "stdafx.h"
+#include "worldMapTreasureBox.h"
+
+
+worldMapTreasureBox::worldMapTreasureBox()
+{
+}
+
+
+worldMapTreasureBox::~worldMapTreasureBox()
+{
+}
+
+HRESULT worldMapTreasureBox::init(int enemyX, int enemyY, ENEMYMOVEPATTERN enemyPattern)
+{
+	//마더클래스 init 한번 돌아서 기본 정보 가져오고 
+	worldMapEnemy::init(enemyX, enemyY, enemyPattern);
+	//추가로 가져야 하는 정보들.
+
+	_image = IMAGEMANAGER->addFrameImage("월드맵박스", ".//image//enemyImg//treasureBox.bmp", 120, 29, 4, 1, true, RGB(255, 0, 255));
+
+	_enemyType = ENEMY_TREASUREBOX;
+
+	_treasureCount = 0;
+
+	_isBox = true;
+
+	_enemyMovePattern = enemyPattern;
+	return S_OK;
+}
+
+void worldMapTreasureBox::release()
+{
+}
+
+void worldMapTreasureBox::update()
+{
+	worldMapEnemy::update();
+	this->move();
+	worldEnemyImageFrameControl();
+	worldEnemyCollision();
+}
+
+void worldMapTreasureBox::render(HDC hdc, POINT movePt)
+{
+	worldEnemyImageControl(hdc, movePt);
+
+	if (_isDebug)
+	{
+		Rectangle(hdc, _rc.left - movePt.x, _rc.top - movePt.y, _rc.right - movePt.x, _rc.bottom - movePt.y);
+	}
+}
+
+void worldMapTreasureBox::move()
+{
+	//미믹또는 보물상자라 움직임 없음. 
+}
+
+void worldMapTreasureBox::worldEnemyImageFrameControl()
+{
+	
+	_count++;
+
+	if (_count % 10 == 0)
+	{
+		_enemyCurrentFrameX++;
+
+		if (_enemyCurrentFrameX == _image->getMaxFrameX())
+		{
+			_enemyCurrentFrameX = 0;
+		}
+	}
+}
+
+void worldMapTreasureBox::worldEnemyImageControl(HDC hdc, POINT movePt)
+{
+	if()
+}
+
+
+void worldMapTreasureBox::worldEnemyDetect()
+{
+	
+}
+
+
+void worldMapTreasureBox::worldEnemyCollision()
+{
+	if (getDistance(_enemy.x, _enemy.y, _wp->getWorldMapPlayerPoint().x, _wp->getWorldMapPlayerPoint().y) <= TILE_SIZEX)
+	{
+		_isCollision = true;
+	}
+}
+
+

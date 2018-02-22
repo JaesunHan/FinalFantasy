@@ -459,6 +459,9 @@
     <ClInclude Include="cursor.h">
       <Filter>playGround</Filter>
     </ClInclude>
+    <ClInclude Include="worldMapTreasureBox.h">
+      <Filter>playGround\MapScene\worldMapEnemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -760,6 +763,9 @@
     </ClCompile>
     <ClCompile Include="cursor.cpp">
       <Filter>playGround</Filter>
+    </ClCompile>
+    <ClCompile Include="worldMapTreasureBox.cpp">
+      <Filter>playGround\MapScene\worldMapEnemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

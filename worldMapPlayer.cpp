@@ -325,5 +325,9 @@ void worldMapPlayer::checkAttribute()
 void worldMapPlayer::successEscape()
 {
 	_player.x = _player.x - 100;
+	if (_player.x <= 0)
+	{
+		_player.x = 0;
+	}
 }
 

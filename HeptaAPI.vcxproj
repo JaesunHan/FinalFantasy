@@ -186,6 +186,7 @@
     <ClInclude Include="worldMapEnemyVectorPup.h" />
     <ClInclude Include="worldMapPlayer.h" />
     <ClInclude Include="worldMapScene.h" />
+    <ClInclude Include="worldMapTreasureBox.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="abilitiesMenu.cpp" />
@@ -291,6 +292,7 @@
     <ClCompile Include="worldMapEnemyVectorPup.cpp" />
     <ClCompile Include="worldMapPlayer.cpp" />
     <ClCompile Include="worldMapScene.cpp" />
+    <ClCompile Include="worldMapTreasureBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FinalFantasy1.rc" />

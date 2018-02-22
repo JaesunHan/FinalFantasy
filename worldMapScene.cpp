@@ -40,7 +40,7 @@ HRESULT worldMapScene::init()
 
 	_enemyNum = -1;
 
-	for (int i = 0; i < WORLDMAPENEMY; ++i)
+	for (int i = 0; i < _wMEM->getVWME().size(); ++i)
 	{
 		_wMEM->getVWME()[i]->setEnemyAddressLinkWithWM(_worldMap);
 		_wMEM->getVWME()[i]->setEnemyAddressLinkWihtPlayer(_worldMapPlayer);

@@ -25,10 +25,6 @@ HRESULT worldMapEnemyVectorPup::init(int enemyX, int enemyY, ENEMYMOVEPATTERN en
 	_vectorPupCount = 0;
 	return S_OK;
 
-
-
-
-	return S_OK;
 }
 
 void worldMapEnemyVectorPup::release()
