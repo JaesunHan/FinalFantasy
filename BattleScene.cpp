@@ -189,7 +189,7 @@ void BattleScene::render()
 	characterDraw();
 	drawUI(); 
 	renderDamage(60);
-	temporaryMessage();
+	victoryMessage();
 
 	EFFECTMANAGER->render();
 }
@@ -227,7 +227,7 @@ void BattleScene::ATBGauzeTimer()
 		}
 	}
 }
-
+//캐릭터의 턴이 되면 해당 캐릭터의 업데이트를 돌리는 함수
 void BattleScene::updateWhenCharacterTurn()
 {
 	if (_battleTurn.size() > 0 && _battleTurn.front()->characterType <= 3)
@@ -408,7 +408,7 @@ void BattleScene::updateWhenCharacterTurn()
 		}
 	}
 }
-
+//플레이어 메뉴 선택 함수
 void BattleScene::playerMenuSelect()
 {
 	if (_victory == false)
@@ -844,7 +844,7 @@ void BattleScene::playerMenuSelect()
 	//	SOUNDMANAGER->getChannel(CH_BGM)->setPosition(3900, FMOD_TIMEUNIT_MS);
 	//}
 }
-
+//캐릭터 그리는 함수
 void BattleScene::characterDraw()
 {
 	//플레이어 및 에너미 랜더
@@ -876,7 +876,7 @@ void BattleScene::characterDraw()
 		}
 	}
 }
-
+//UI 그리는 함수
 void BattleScene::drawUI()
 {
 	SetTextColor(getMemDC(), RGB(255, 255, 255));
@@ -1107,7 +1107,7 @@ void BattleScene::drawUI()
 	wsprintf(test, "%d", _position);
 	TextOut(getMemDC(), 500, 0, test, strlen(test));
 }
-
+//플레이어 애니메이션 프레임 업데이트
 void BattleScene::playerFrameUpdate()
 {
 	//플레이어 애니메이션 프레임 업데이트
@@ -1116,7 +1116,7 @@ void BattleScene::playerFrameUpdate()
 		_battleCharacters[i].player->animationFrameUpdate();
 	}
 }
-
+//사운드 컨트롤
 void BattleScene::soundControl()
 {
 	SOUNDMANAGER->getChannel(CH_BGM)->getPosition(&_position, FMOD_TIMEUNIT_MS);
@@ -1140,74 +1140,9 @@ void BattleScene::soundControl()
 		_sfx01 = true;
 	}
 }
-
-void BattleScene::playerAttack()
-{
-	//플레이어 공격 알고리즘 계산
-	_damageRC = { _battleTurn.front()->enemy->getX() - 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() / 2, _battleTurn.front()->enemy->getX() + 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() / 2 + 30 };
-	float BlockValue = (255 - _battleTurn.front()->enemy->getMDef() * 2) + 1;
-	if (BlockValue > 255) BlockValue = 255;
-	if (BlockValue < 1) BlockValue = 1;
-	if ((_battleTurn.front()->player->getHitRate() * BlockValue / 256) > RND->getFromFloatTo(0, 0.99f))
-	{
-		_hit = true;
-	}
-	else
-	{
-		_hit = false;
-	}
-	if (_hit == true)
-	{
-		float Vigor2 = _battleTurn.front()->player->getStrength() * 2;
-		if (Vigor2 > 255) Vigor2 = 255;
-		float Attack = _battleTurn.front()->player->getAttack() + Vigor2;
-		_damage = (float)_battleTurn.front()->player->getAttack() + (((float)_battleTurn.front()->player->getLv() * (float)_battleTurn.front()->player->getLv() * Attack) / 256) * 3 / 2;
-		_damage = (_damage * (float)RND->getFromIntTo(224, 255) / 256) + 1;
-		_damage = (_damage * (255 - (float)_battleTurn.front()->enemy->getADef()) / 256) + 1;
-		_battleTurn.front()->enemy->setCurHP(_battleTurn.front()->enemy->getCurHP() - _damage);
-	}
-	_isDamaged = true;
-}
-
-void BattleScene::playerMagicAttack()
-{
-	//플레이어 마법 공격 알고리즘 계산
-	_damageRC = { _battleTurn.front()->enemy->getX() - 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() / 2, _battleTurn.front()->enemy->getX() + 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() / 2 + 30 };
-	float BlockValue = (255 - _battleTurn.front()->enemy->getMDef() * 2) + 1;
-	if (BlockValue > 255) BlockValue = 255;
-	if (BlockValue < 1) BlockValue = 1;
-	if ((_battleTurn.front()->player->getHitRate() * BlockValue / 256) > RND->getFromFloatTo(0, 0.99f))
-	{
-		_hit = true;                                                                  //맞았다!
-	}
-	else
-	{
-		_hit = false;                                                                  //빗나감 ㅠㅠ
-	}
-	if (_hit == true)                                                                  //맞앗으면 데미지 공식 적용
-	{
-		//_damage = (float)_battleTurn.front()->player->getMyUsableMagic()[0]-> * 4 + ((float)_battleTurn.front()->player->getLv() * (float)_battleTurn.front()->player->getMagic() * _spellPower / 32);         // 스킬 데미지 공식
-	}
-	_isDamaged = true;
-}
-
-void BattleScene::drawText(int fontSize, char* str, RECT rc, int position, bool dialogue)
-{
-	if (dialogue == true)
-	{
-		IMAGEMANAGER->findImage("battleUI2")->render(getMemDC(), 0, 0);
-	}
-	newFont = CreateFont(fontSize, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
-	oldFont = (HFONT)SelectObject(getMemDC(), newFont);
-	DrawText(getMemDC(), str, -1, &rc, position | DT_WORDBREAK);
-	SelectObject(getMemDC(), oldFont);
-	DeleteObject(oldFont);
-	DeleteObject(newFont);
-}
-
+//데미지 렌더
 void BattleScene::renderDamage(int endPoint)
 {
-	//데미지 렌더
 	if (_isDamaged == true)
 	{
 		_messageCounter++;
@@ -1229,10 +1164,9 @@ void BattleScene::renderDamage(int endPoint)
 		}
 	}
 }
-
-void BattleScene::temporaryMessage()
+//전투 종료시 메시지 표시
+void BattleScene::victoryMessage()
 {
-	//전투 종료시 메시지 표시
 	RECT tempDialogueRC = { 25, 48, WINSIZEX - 275, 80 };
 	if (_victoryCounter > 70 && _dialogueCounter < 18)
 	{
@@ -1514,10 +1448,9 @@ void BattleScene::temporaryMessage()
 		}
 	}
 }
-
+//승리 조건
 void BattleScene::victoryCondition()
 {
-	//승리 조건
 	for (int i = 0; i < _maxMonster; ++i)
 	{
 		_victory = false;
@@ -1549,10 +1482,9 @@ void BattleScene::victoryCondition()
 		_changeScene = true;
 	}
 }
-
+//게임 오버 조건
 void BattleScene::gameOverCondition()
 {
-	//게임 오버 조건
 	int deathCount = 0;
 	for (int i = 0; i < 4; ++i)
 	{
@@ -1578,13 +1510,76 @@ void BattleScene::gameOverCondition()
 		SCENEMANAGER->changeSceneType0("게임오버");
 	}
 }
-
+//씬 전환
 void BattleScene::sceneChange()
 {
-	//씬 전환
 	if (_changeScene == true)
 	{
 		this->release();
 		SCENEMANAGER->changeSceneType0("월드맵씬", false);
 	}
+}
+//텍스트 그리는 함수
+void BattleScene::drawText(int fontSize, char* str, RECT rc, int position, bool dialogue)
+{
+	if (dialogue == true)
+	{
+		IMAGEMANAGER->findImage("battleUI2")->render(getMemDC(), 0, 0);
+	}
+	newFont = CreateFont(fontSize, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+	oldFont = (HFONT)SelectObject(getMemDC(), newFont);
+	DrawText(getMemDC(), str, -1, &rc, position | DT_WORDBREAK);
+	SelectObject(getMemDC(), oldFont);
+	DeleteObject(oldFont);
+	DeleteObject(newFont);
+}
+//플레이어 물리 공격 함수
+void BattleScene::playerAttack()
+{
+	//플레이어 공격 알고리즘 계산
+	_damageRC = { _battleTurn.front()->enemy->getX() - 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() / 2, _battleTurn.front()->enemy->getX() + 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() / 2 + 30 };
+	float BlockValue = (255 - _battleTurn.front()->enemy->getMDef() * 2) + 1;
+	if (BlockValue > 255) BlockValue = 255;
+	if (BlockValue < 1) BlockValue = 1;
+	if ((_battleTurn.front()->player->getHitRate() * BlockValue / 256) > RND->getFromFloatTo(0, 0.99f))
+	{
+		_hit = true;
+	}
+	else
+	{
+		_hit = false;
+	}
+	if (_hit == true)
+	{
+		float Vigor2 = _battleTurn.front()->player->getStrength() * 2;
+		if (Vigor2 > 255) Vigor2 = 255;
+		float Attack = _battleTurn.front()->player->getAttack() + Vigor2;
+		_damage = (float)_battleTurn.front()->player->getAttack() + (((float)_battleTurn.front()->player->getLv() * (float)_battleTurn.front()->player->getLv() * Attack) / 256) * 3 / 2;
+		_damage = (_damage * (float)RND->getFromIntTo(224, 255) / 256) + 1;
+		_damage = (_damage * (255 - (float)_battleTurn.front()->enemy->getADef()) / 256) + 1;
+		_battleTurn.front()->enemy->setCurHP(_battleTurn.front()->enemy->getCurHP() - _damage);
+	}
+	_isDamaged = true;
+}
+//플레이어 마법 공격 함수
+void BattleScene::playerMagicAttack()
+{
+	//플레이어 마법 공격 알고리즘 계산
+	_damageRC = { _battleTurn.front()->enemy->getX() - 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() / 2, _battleTurn.front()->enemy->getX() + 200, _battleTurn.front()->enemy->getY() + _battleTurn.front()->enemy->getImageHeight() / 2 + 30 };
+	float BlockValue = (255 - _battleTurn.front()->enemy->getMDef() * 2) + 1;
+	if (BlockValue > 255) BlockValue = 255;
+	if (BlockValue < 1) BlockValue = 1;
+	if ((_battleTurn.front()->player->getHitRate() * BlockValue / 256) > RND->getFromFloatTo(0, 0.99f))
+	{
+		_hit = true;                                                                  //맞았다!
+	}
+	else
+	{
+		_hit = false;                                                                  //빗나감 ㅠㅠ
+	}
+	if (_hit == true)                                                                  //맞앗으면 데미지 공식 적용
+	{
+		//_damage = (float)_battleTurn.front()->player->getMyUsableMagic()[0]-> * 4 + ((float)_battleTurn.front()->player->getLv() * (float)_battleTurn.front()->player->getMagic() * _spellPower / 32);         // 스킬 데미지 공식
+	}
+	_isDamaged = true;
 }

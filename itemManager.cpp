@@ -196,6 +196,7 @@ void itemManager::saveInventory(char* fileName)
 	char itemListA[1024];
 	char weaponListA[1024];
 	char armorListA[1024];
+	char gil[1024];
 	itemListI = 1;
 	weaponListI = 1;
 	armorListI = 1;
@@ -223,9 +224,11 @@ void itemManager::saveInventory(char* fileName)
 	itoa(itemListI, itemListA, 10);
 	itoa(weaponListI, weaponListA, 10);
 	itoa(armorListI, armorListA, 10);
+	itoa(_gil, gil, 10);
 	INIDATA->addData("Inventory", "ItemList", itemListA);
 	INIDATA->addData("Inventory", "WeaponList", weaponListA);
 	INIDATA->addData("Inventory", "ArmorList", armorListA);
+	INIDATA->addData("Inventory", "Gil", gil);
 	INIDATA->iniSave(fileName);
 }
 
@@ -239,6 +242,7 @@ void itemManager::loadInventory(char* fileName)
 	itemListI = INIDATA->loadDataInterger(fileName, "Inventory", "ItemList");
 	weaponListI = INIDATA->loadDataInterger(fileName, "Inventory", "WeaponList");
 	armorListI = INIDATA->loadDataInterger(fileName, "Inventory", "ArmorList");
+	_gil = INIDATA->loadDataInterger(fileName, "Inventory", "Gil");
 	while (1)
 	{
 		if (itemListI < 100)
@@ -290,7 +294,16 @@ void itemManager::setItemInventory(string keyName, int count)
 
 void itemManager::changeItemNumber(int vectorNum, int number)
 {
-	_arrItemInventory[_vItem[vectorNum]->getItemName()].second += number;
+	_iterInventory = _arrItemInventory.find(_vItem[vectorNum]->getItemName());
+	if (_iterInventory != _arrItemInventory.end())
+	{
+		_arrItemInventory[_vItem[vectorNum]->getItemName()].second += number;
+	}
+	else if (number > 0)
+	{
+		_element = make_pair(vectorNum, number);
+		_arrItemInventory.insert(make_pair(_vItem[vectorNum]->getItemName(), _element));
+	}
 	if (_arrItemInventory[_vItem[vectorNum]->getItemName()].second <= 0)
 	{
 		_arrItemInventory.erase(_vItem[vectorNum]->getItemName());
@@ -299,7 +312,22 @@ void itemManager::changeItemNumber(int vectorNum, int number)
 
 void itemManager::changeItemNumber(string keyName, int number)
 {
-	_arrItemInventory[keyName].second += number;
+	_iterInventory = _arrItemInventory.find(keyName);
+	if (_iterInventory != _arrItemInventory.end())
+	{
+		_arrItemInventory[keyName].second += number;
+	}
+	else if (number > 0)
+	{
+		for (int i = 0; i < _vItem.size(); ++i)
+		{
+			if (_vItem[i]->getItemName() == keyName)
+			{
+				setItemInventory(i, number);
+				break;
+			}
+		}
+	}
 	if (_arrItemInventory[keyName].second <= 0)
 	{
 		_arrItemInventory.erase(keyName);
@@ -342,7 +370,16 @@ void itemManager::setWeaponInventory(string keyName, int count)
 
 void itemManager::changeWeaponNumber(int vectorNum, int number)
 {
-	_arrWeaponInventory[_vItem[vectorNum]->getItemName()].second += number;
+	_iterInventory = _arrWeaponInventory.find(_vItem[vectorNum]->getItemName());
+	if (_iterInventory != _arrWeaponInventory.end())
+	{
+		_arrWeaponInventory[_vItem[vectorNum]->getItemName()].second += number;
+	}
+	else if (number > 0)
+	{
+		_element = make_pair(vectorNum, number);
+		_arrWeaponInventory.insert(make_pair(_vItem[vectorNum]->getItemName(), _element));
+	}
 	if (_arrWeaponInventory[_vItem[vectorNum]->getItemName()].second <= 0)
 	{
 		_arrWeaponInventory.erase(_vItem[vectorNum]->getItemName());
@@ -351,7 +388,22 @@ void itemManager::changeWeaponNumber(int vectorNum, int number)
 
 void itemManager::changeWeaponNumber(string keyName, int number)
 {
-	_arrWeaponInventory[keyName].second += number;
+	_iterInventory = _arrWeaponInventory.find(keyName);
+	if (_iterInventory != _arrWeaponInventory.end())
+	{
+		_arrWeaponInventory[keyName].second += number;
+	}
+	else if (number > 0)
+	{
+		for (int i = 0; i < _vItem.size(); ++i)
+		{
+			if (_vItem[i]->getItemName() == keyName)
+			{
+				setWeaponInventory(i, number);
+				break;
+			}
+		}
+	}
 	if (_arrWeaponInventory[keyName].second <= 0)
 	{
 		_arrWeaponInventory.erase(keyName);
@@ -394,7 +446,16 @@ void itemManager::setArmorInventory(string keyName, int count)
 
 void itemManager::changeArmorNumber(int vectorNum, int number)
 {
-	_arrArmorInventory[_vItem[vectorNum]->getItemName()].second += number;
+	_iterInventory = _arrArmorInventory.find(_vItem[vectorNum]->getItemName());
+	if (_iterInventory != _arrArmorInventory.end())
+	{
+		_arrArmorInventory[_vItem[vectorNum]->getItemName()].second += number;
+	}
+	else if (number > 0)
+	{
+		_element = make_pair(vectorNum, number);
+		_arrArmorInventory.insert(make_pair(_vItem[vectorNum]->getItemName(), _element));
+	}
 	if (_arrArmorInventory[_vItem[vectorNum]->getItemName()].second <= 0)
 	{
 		_arrArmorInventory.erase(_vItem[vectorNum]->getItemName());
@@ -403,7 +464,22 @@ void itemManager::changeArmorNumber(int vectorNum, int number)
 
 void itemManager::changeArmorNumber(string keyName, int number)
 {
-	_arrArmorInventory[keyName].second += number;
+	_iterInventory = _arrArmorInventory.find(keyName);
+	if (_iterInventory != _arrArmorInventory.end())
+	{
+		_arrArmorInventory[keyName].second += number;
+	}
+	else if (number > 0)
+	{
+		for (int i = 0; i < _vItem.size(); ++i)
+		{
+			if (_vItem[i]->getItemName() == keyName)
+			{
+				setArmorInventory(i, number);
+				break;
+			}
+		}
+	}
 	if (_arrArmorInventory[keyName].second <= 0)
 	{
 		_arrArmorInventory.erase(keyName);

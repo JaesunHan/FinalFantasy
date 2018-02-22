@@ -109,7 +109,7 @@ public:
 	void soundControl();
 	void drawText(int fontSize, char* str, RECT rc, int position, bool dialogue = false);
 	void renderDamage(int endPoint);
-	void temporaryMessage();
+	void victoryMessage();
 	void playerAttack();
 	void playerMagicAttack();
 	void victoryCondition();
