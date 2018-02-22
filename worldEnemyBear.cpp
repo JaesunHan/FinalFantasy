@@ -23,6 +23,8 @@ HRESULT worldEnemyBear::init(int enemyX, int enemyY, ENEMYMOVEPATTERN enemyPatte
 	_enemyType = ENEMY_BEAR;
 
 	_bearCount = 0;
+	
+	
 
 	_enemyMovePattern = enemyPattern;
 	return S_OK;

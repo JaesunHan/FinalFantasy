@@ -3,6 +3,7 @@
 #include "worldEnemyBear.h"
 #include "worldMapEnemySamurai.h"
 #include "worldMapEnemyVectorPup.h"
+#include "worldMapTreasureBox.h"
 #include <vector>
 
 //============월드에너미 매니저===============//
@@ -35,6 +36,7 @@ private:
 	worldEnemyBear* _worldEnemyBear;
 	worldMapEnemySamurai _worldMapEmeneySamurai[10];
 	worldMapEnemyVectorPup* _worldMapEnemyVectorPup;
+	worldMapTreasureBox _worldMapTreasureBox;
 
 public:
 

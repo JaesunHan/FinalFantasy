@@ -38,7 +38,7 @@ HRESULT worldMapEnemy::init(int enemyX, int enemyY, ENEMYMOVEPATTERN enemyPatter
 
 	_isCollision = false;
 	_isDetect = false;
-
+	_isBox = false;
 	return S_OK;
 }
 
@@ -332,13 +332,16 @@ BOOL operator==(RECT sour, RECT dest)
 
 void worldMapEnemy::worldEnemyDetect()
 {
-	if (getDistance(_enemy.x, _enemy.y, _wp->getWorldMapPlayerPoint().x, _wp->getWorldMapPlayerPoint().y) <TILE_SIZEX+100)
+	if (!_isBox)
 	{
-		_isDetect = true;
-	}
-	else if (getDistance(_enemy.x, _enemy.y, _wp->getWorldMapPlayerPoint().x, _wp->getWorldMapPlayerPoint().y) > TILE_SIZEX + 200)
-	{
-		_isDetect = false;
+		if (getDistance(_enemy.x, _enemy.y, _wp->getWorldMapPlayerPoint().x, _wp->getWorldMapPlayerPoint().y) < TILE_SIZEX + 100)
+		{
+			_isDetect = true;
+		}
+		else if (getDistance(_enemy.x, _enemy.y, _wp->getWorldMapPlayerPoint().x, _wp->getWorldMapPlayerPoint().y) > TILE_SIZEX + 200)
+		{
+			_isDetect = false;
+		}
 	}
 }
 

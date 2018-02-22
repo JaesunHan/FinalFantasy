@@ -54,6 +54,8 @@ HRESULT worldMapEnemyManager::init()
 	}
 	
 
+	_worldMapTreasureBox.init(100, 100, ENEMYPATTERN_ONE);
+	_vWME.push_back(&_worldMapTreasureBox);
 
 	return S_OK;
 }
@@ -99,6 +101,6 @@ void worldMapEnemyManager::afterRender(HDC hdc, POINT movePt)
 
 void worldMapEnemyManager::worldEmenyDelete(int arrNum)
 {
-	SAFE_DELETE(_vWME[arrNum]);
+	//SAFE_DELETE(_vWME[arrNum]);
 	_vWME.erase(_vWME.begin() + arrNum);
 }

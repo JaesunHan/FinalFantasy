@@ -58,11 +58,19 @@ void worldMapTreasureBox::render(HDC hdc, POINT movePt)
 void worldMapTreasureBox::move()
 {
 	//미믹또는 보물상자라 움직임 없음. 
+	if (!_isDetect)
+	{
+		switch (_enemyMovePattern)
+		{
+		case ENEMYPATTERN_ONE:
+		break;
+		}
+	}
 }
 
 void worldMapTreasureBox::worldEnemyImageFrameControl()
 {
-	if (_isBox && _isCollision)
+	/*if (_isBox)
 	{
 		_count++;
 
@@ -72,14 +80,24 @@ void worldMapTreasureBox::worldEnemyImageFrameControl()
 
 			if (_enemyCurrentFrameX == _image->getMaxFrameX())
 			{
-				_enemyCurrentFrameX = 0;
+				_enemyCurrentFrameX = _image->getMaxFrameX();
 			}
 		}
-	}
+	}*/
 }
 
 void worldMapTreasureBox::worldEnemyImageControl(HDC hdc, POINT movePt)
 {
+	switch (_enemyDirection)
+	{
+	case ENEMYDIRECTION_RIGHT: _image = IMAGEMANAGER->findImage("월드맵박스");
+		_image->frameRender(hdc, _enemy.x - movePt.x, _enemy.y - movePt.y, _enemyCurrentFrameX, 0);
+
+		break;
+	case ENEMYDIRECTION_LEFT: _image = IMAGEMANAGER->findImage("월드맵박스");
+		_image->frameRender(hdc, _enemy.x - movePt.x, _enemy.y - movePt.y, _enemyCurrentFrameX, 0);
+		break;
+	}
 
 }
 

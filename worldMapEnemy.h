@@ -77,6 +77,12 @@ public:
 	bool _isCollision;
 
 
+	//미믹용
+	int _isMimic;
+	//보물상자인지 아닌지 체크
+	bool _isBox;
+
+
 	//a*
 	aStar* _ast;
 	vector<tile> _vCloseList;
@@ -99,7 +105,7 @@ public:
 	void move();
 
 	//월드에너미 이미지 프레임 컨트롤
-	void worldEnemyImageFrameControl();
+	virtual void worldEnemyImageFrameControl();
 
 	//월드에너미 이미지 컨트롤
 	virtual void worldEnemyImageControl(HDC hdc, POINT movePt);
@@ -122,6 +128,9 @@ public:
 	POINT getWorldMapEnemyPoint() { return _enemy; }
 	void setWorldMapEnemyPoint(POINT enemy) { _enemy = enemy; }
 
+
+	ENEMYTYPE getEnemyType() { return _enemyType; }
+
 	bool getWorldMapEnemyCollision() { return _isCollision; }
 	void setWorldMapEnemyCollision(bool collision) { _isCollision = collision; }
 
@@ -133,4 +142,6 @@ public:
 	bool getIsCollision() { return _isCollision; }
 
 
+	int getIsMimic() { return _isMimic; }
+	bool getIsBox() { return _isBox; }
 };

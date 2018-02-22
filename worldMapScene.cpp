@@ -78,7 +78,7 @@ void worldMapScene::update()
 	//플레이어 현재 좌표를 받아서 계속 npc매니저쪽으로 넣어준다.
 	//_npcManager->setPlayerPos(_worldMapPlayer->getWorldMapPlayerPoint());
 
-	
+
 	if (_isEscape) successEscape();
 	else
 	{
@@ -94,13 +94,13 @@ void worldMapScene::update()
 
 	enterTownMap();
 	getCollision();
-	
+
 }
 
 void worldMapScene::render()
 {
 	_worldMap->render(CAMERAMANAGER->getCameraDC());
-	
+
 	_wMEM->render(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
 	//업데이트에서 받은 플레이어의 실시간 좌표를 NPC와 비교하여 
 	//플레이어보다 먼저 그려주는 이미지 -> 플레이어 이미지 -> 플레이어보다 다음에 그려주는 이미지 순으로 랜더를 한다.
@@ -110,7 +110,7 @@ void worldMapScene::render()
 
 	CAMERAMANAGER->render(getMemDC());
 
-	
+
 	//_worldMap->render(getMemDC());
 	//
 	//_wMEM->render(getMemDC());
@@ -127,16 +127,25 @@ void worldMapScene::getCollision()
 	{
 		if (_wMEM->getVWME()[i]->getIsCollision())
 		{
-			//충돌한 녀석의 인덱스를 변수에 저장한다.
-			_enemyNum = i;
-			//SOUNDMANAGER->stop(CH_BGM);
-			if (!_isEncounter)
+			//50%확율로 결정되어진 보물상자면
+			if (_wMEM->getVWME()[i]->getIsBox())
 			{
-				_isEncounter = true;
-				SOUNDMANAGER->play("encounterSound", CH_ENCOUNTER, 1.0f);
+				_wMEM->worldEmenyDelete(i);
+				break;
 			}
-			SCENEMANAGER->changeSceneType1("배틀씬");
-			break;
+			else
+			{
+				//충돌한 녀석의 인덱스를 변수에 저장한다.
+				_enemyNum = i;
+				//SOUNDMANAGER->stop(CH_BGM);
+				if (!_isEncounter)
+				{
+					_isEncounter = true;
+					SOUNDMANAGER->play("encounterSound", CH_ENCOUNTER, 1.0f);
+				}
+				SCENEMANAGER->changeSceneType1("배틀씬");
+				break;
+			}
 		}
 	}
 
@@ -152,7 +161,7 @@ void worldMapScene::successEscape()
 
 void worldMapScene::enterTownMap()
 {
-	if(_worldMapPlayer->getIsEnter())
+	if (_worldMapPlayer->getIsEnter())
 	{
 		SCENEMANAGER->changeSceneType1("타운맵씬");
 		//SOUNDMANAGER->stop(CH_BGM);
