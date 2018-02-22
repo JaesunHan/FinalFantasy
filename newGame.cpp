@@ -119,8 +119,8 @@ void newGame::update()
 			saveIniPlayerData(_saveFileNum, 3, "SHADOW", "Assassin",         3, 74, 74, 17, 17, maxExpValue[2],
 				maxExpValue[3], 39, 38, 30, 33, 23, 47, 25, 28, 9, 3, "0", "-1", "-2", "-3", true);
 
-			saveIniSlotGameData(_saveFileNum, "OVER WORLD",3000 , 0, true);			//게임데이터: 세이브파일에 저장
-			saveIniGameData(_saveFileNum, "OVER WORLD");							//게임데이터: 데이터베이스에 저장
+			saveIniSlotGameData(_saveFileNum, "OVER WORLD",100000 , 0, true);			//게임데이터: 세이브파일에 저장
+			saveIniGameData(_saveFileNum, "OVER WORLD");								//게임데이터: 데이터베이스에 저장
 
 			//아이템 저장
 			itemSave(MENUITEM_ITEM, 1, 2, true, _saveFileNum);

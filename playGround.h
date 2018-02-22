@@ -31,9 +31,6 @@ private:
 	itemManager* _item;
 	BattleScene* _bts;
 
-	newGame* _nGame;
-	saveLoadMenu* _saveMenu;
-	loadGame* _loadGame;
 
 	//bool _isBattle;
 public:

@@ -15,6 +15,7 @@ public:
 	void render();
 
 
+	void buttonOnActive();
 
 	statusMenu();
 	~statusMenu();

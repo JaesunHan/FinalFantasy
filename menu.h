@@ -141,6 +141,7 @@ struct tagItem
 };
 
 class itemManager;
+class playerManager;
 
 class menu : public gameNode
 {
@@ -187,9 +188,12 @@ protected:
 	//====== BG 이미지 =======
 	image*    _bgImage;
 
-	//========= ITEM =========
+	//========= 전방선언 =========
+    //----------------- item
 	itemManager* _iM;
 	tagItem _posItem;
+	//----------------- player
+	playerManager* _pM;
 
 public:
 	virtual HRESULT init();
@@ -217,8 +221,9 @@ public:
 	virtual void playerSlotAniStart(int slotNum, bool aniStart);
 	//-------------------------------  status  ------------------------------
 	virtual void playerStatusInit(int strength, int speed, int stamina, int magic, int attack,
-		int attackDefence, int magicDefence, int evation, int magicEvation, int partyIdx);
-	virtual void playerStatusRender();
+		int attackDefence, int magicDefence, int evation, int magicEvation, int partyIdx,
+		string weapon, string armor, string helmet, string subWeapon);
+	virtual void playerStatusRender(int SlotNum);
 	virtual void playerStatusRemove();
 	//------------------------------  fileLoad  -----------------------------
 	virtual void fileLoad(int fileNum, int playerNum = -1, bool tmpFile = false);
@@ -261,7 +266,10 @@ public:
 	int setIsSavePoint(bool isSave) { _isSavePoint = isSave; }
 	//================================ getter ===============================
 
+	//============================= AddressLink =============================
 	void setItemManagerAddressLink(itemManager* im) { _iM = im; }
+	void setPlayerManagerAddressLink(playerManager* pm) { _pM = pm; }
+	//============================= AddressLink =============================
 
 
 

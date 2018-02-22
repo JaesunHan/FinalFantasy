@@ -5,7 +5,7 @@
 class characterStatus : public menu
 {
 private:
-
+	int _selectPlayerNum;
 
 public:
 	HRESULT init();

@@ -18,9 +18,11 @@ HRESULT abilitiesMenu::init()
 	//백그라운드 이미지
 	_bgImage = IMAGEMANAGER->findImage("능력메뉴");
 
-	//선택한 세이브 파일 가져오기 
+	//tmp 파일 가져오기 (skgFile)
+	fileLoad(0, -1, true);
+
+	//플레이어 인원수
 	int saveFileNum = INIDATA->loadDataInterger("gameData", "gameData", "fileNum");
-	fileLoad(saveFileNum);
 	int playerNum = INIDATA->loadDataBodyNum(saveFileNum);  //플레이어 인원수
 
 	//버튼

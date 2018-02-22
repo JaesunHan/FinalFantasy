@@ -42,13 +42,16 @@ HRESULT playGround::init()
 	//=========================== 메뉴씬 =========================== by won
 	SCENEMANAGER->addScene("로딩", new loadingScene);
 	SCENEMANAGER->addScene("타이틀", new titleScene);
-	_saveMenu = (saveLoadMenu*)SCENEMANAGER->addScene("세이브로드", new saveLoadMenu);
-	_saveMenu->setItemManagerAddressLink(_item);
+    SCENEMANAGER->addScene("세이브로드", new saveLoadMenu);
+	((saveLoadMenu*)SCENEMANAGER->findScene("세이브로드"))->setItemManagerAddressLink(_item);
+	((saveLoadMenu*)SCENEMANAGER->findScene("세이브로드"))->setPlayerManagerAddressLink(_pm);
 	SCENEMANAGER->addScene("옵션", new optionMenu);
-	_nGame = (newGame*)SCENEMANAGER->addScene("뉴게임", new newGame);
-	_nGame->setItemManagerAddressLink(_item);
-	_loadGame = (loadGame*)SCENEMANAGER->addScene("로드게임", new loadGame);
-	_loadGame->setItemManagerAddressLink(_item);
+	SCENEMANAGER->addScene("뉴게임", new newGame);
+	((newGame*)SCENEMANAGER->findScene("뉴게임"))->setItemManagerAddressLink(_item);
+	((newGame*)SCENEMANAGER->findScene("뉴게임"))->setPlayerManagerAddressLink(_pm);
+	SCENEMANAGER->addScene("로드게임", new loadGame);
+	((loadGame*)SCENEMANAGER->findScene("로드게임"))->setItemManagerAddressLink(_item);
+	((loadGame*)SCENEMANAGER->findScene("로드게임"))->setPlayerManagerAddressLink(_pm);
 	SCENEMANAGER->addScene("능력치", new abilitiesMenu);
 	SCENEMANAGER->addScene("사운드", new configMenu);
 	SCENEMANAGER->addScene("장비", new equipMenu);
