@@ -53,5 +53,7 @@ public:
 
 	inline void setItemManagerAddressLink(itemManager* im) { _itemManager = im; }
 
+	//배틀에서 렙업하면 이 함수를 호출해서 렙업을 처리한다.
+	void playerLevelUp();
 };
 

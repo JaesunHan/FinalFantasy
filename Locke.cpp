@@ -7,7 +7,7 @@ Locke::Locke()
 	playerMother::playerMother();
 	wsprintf(_name, "LOCKE");
 	wsprintf(_job, "Treasure Hunter");
-	_Lv = 3, _curEXP =96; _maxEXP = 96;
+	_Lv = 3, _curEXP =96; _maxEXP = 208;
 	_curHP = 48 + 23, _maxHP = 48 + 23, _curMP = 7 + 11, _maxMP = 7 + 11;
 	_strength = 37, _speed = 40, _stamina = 31;
 	_magic = 28, _attack = 14, _a_Def = 46;

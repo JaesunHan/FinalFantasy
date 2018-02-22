@@ -78,6 +78,9 @@ void playerManager::update()
 		}
 	}
 
+	//플레이어가 렙업했으면 렙업한 정보를 저장한다.
+	playerLevelUp();
+
 }
 void playerManager::render() 
 {
@@ -379,7 +382,28 @@ void playerManager::searchPlayerItem(int weaponNum, int armorNum, int helmetNum,
 
 			tempPlayer->setSubWeapon(tempItem);
 		}
-
 	}
+}
 
+void playerManager::playerLevelUp()
+{
+	char fileName[256];
+	wsprintf(fileName, "%s", "skgFile");
+
+	for (int i = 0; i < MAXPLAYERNUMBER; ++i)
+	{
+		char subjectName[256];
+		wsprintf(subjectName, "player%d", i);
+		int curExp = INIDATA->loadDataInterger(fileName, subjectName, "exp");
+		int maxExp = INIDATA->loadDataInterger(fileName, subjectName, "maxExp");
+		int lv = INIDATA->loadDataInterger(fileName, subjectName, "level");
+		//이 때 렙업해야됨
+		if (curExp >= maxExp)
+		{
+			lv += 1;	maxExp = maxExpValue[lv];
+			INIDATA->addData(subjectName, "maxExp", changeIntToTChar(maxExp));
+			INIDATA->addData(subjectName, "level", changeIntToTChar(lv));
+			INIDATA->iniSave(fileName);
+		}
+	}
 }
