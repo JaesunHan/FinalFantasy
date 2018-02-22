@@ -250,8 +250,7 @@ void BattleScene::updateWhenCharacterTurn()
 				//플레이어 공격 전 에너미 선택 처리
 				if (_battleTurn.front()->attackReady == false)
 				{
-					//플레이어에 선택한 에너미 주소 할당
-					//해당 에너미가 죽었을 경우엔 살아있는애로 할당
+					//플레이어에 선택한 에너미 주소 할당 //해당 에너미가 죽었을 경우엔 살아있는애로 할당
 					if (_battleTurn.front()->enemy != NULL)
 					{
 						if (_battleTurn.front()->enemy->getCurHP() > 0)
@@ -295,8 +294,7 @@ void BattleScene::updateWhenCharacterTurn()
 				//플레이어 공격 전 에너미 선택 처리
 				if (_battleTurn.front()->attackReady == false && _battleTurn.front()->menuSelect == BATTLE_MAGIC_ATTACK)
 				{
-					//플레이어에 선택한 에너미 주소 할당
-					//해당 에너미가 죽었을 경우엔 살아있는애로 할당
+					//플레이어에 선택한 에너미 주소 할당 //해당 에너미가 죽었을 경우엔 살아있는애로 할당
 					if (_battleTurn.front()->enemy != NULL)
 					{
 						if (_battleTurn.front()->enemy->getCurHP() > 0)
@@ -439,7 +437,7 @@ void BattleScene::playerMenuSelect()
 				_playerSelectNum--;
 				if (_playerSelectNum < 0) _playerSelectNum = 3;
 				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
-				if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelect]->getIsRevive() == true)
+				if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getIsRevive() == true)
 				{
 					for (int i = 0; i < 4; ++i)
 					{
@@ -454,7 +452,7 @@ void BattleScene::playerMenuSelect()
 						}
 					}
 				}
-				if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelect]->getIsHeal() == true)
+				if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getIsHeal() == true)
 				{
 					for (int i = 0; i < 4; ++i)
 					{
@@ -512,7 +510,7 @@ void BattleScene::playerMenuSelect()
 				_playerSelectNum++;
 				if (_playerSelectNum > 3) _playerSelectNum = 0;
 				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT01, 1.0f);
-				if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelect]->getIsRevive() == true)
+				if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getIsRevive() == true)
 				{
 					for (int i = 0; i < 4; ++i)
 					{
@@ -527,7 +525,7 @@ void BattleScene::playerMenuSelect()
 						}
 					}
 				}
-				if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelect]->getIsHeal() == true)
+				if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getIsHeal() == true)
 				{
 					for (int i = 0; i < 4; ++i)
 					{
@@ -673,6 +671,7 @@ void BattleScene::playerMenuSelect()
 					_battleCharacters[_currentTurn].selectAction = true;
 					_battleCharacters[_currentTurn].menuSelect = BATTLE_MAGIC_HEAL;
 					_battleTurn.push(&_battleCharacters[_currentTurn]);
+					_magicSelectNum = 0;
 					_playerSelectNum = 0;
 					_magicSelect = false;
 					_playerSelect = false;
@@ -682,6 +681,9 @@ void BattleScene::playerMenuSelect()
 				case(BATTLE_SKILL):
 					break;
 				case(BATTLE_ITEM):
+
+
+
 					break;
 				case(BATTLE_ESCAPE):
 					break;
@@ -698,6 +700,7 @@ void BattleScene::playerMenuSelect()
 					_battleCharacters[_currentTurn].selectAction = true;
 					_battleCharacters[_currentTurn].menuSelect = BATTLE_ATTACK;
 					_battleTurn.push(&_battleCharacters[_currentTurn]);
+					_enemyNum = 4;
 					_enemySelect = false;
 					_playerTurn = false;
 					break;
@@ -708,6 +711,8 @@ void BattleScene::playerMenuSelect()
 					_battleCharacters[_currentTurn].selectAction = true;
 					_battleCharacters[_currentTurn].menuSelect = BATTLE_MAGIC_ATTACK;
 					_battleTurn.push(&_battleCharacters[_currentTurn]);
+					_enemyNum = 4;
+					_magicSelectNum = 0;
 					_magicSelect = false;
 					_enemySelect = false;
 					_playerTurn = false;
@@ -716,7 +721,7 @@ void BattleScene::playerMenuSelect()
 				case(BATTLE_SKILL):
 					break;
 				case(BATTLE_ITEM):
-
+					//if (_im->getVItem()[_im->getItemVNum(_itemSelectNum)]->)
 
 
 					break;
@@ -730,7 +735,6 @@ void BattleScene::playerMenuSelect()
 				_battleCharacters[_currentTurn].player->setSelectMagic(_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]);
 				if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getIsRevive() == true)// && _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getManaCost() <= _battleCharacters[_currentTurn].player->getCurMP())
 				{
-					_playerSelect = true;
 					_playerSelectNum = 0;
 					for (int i = 0; i < 4; ++i)
 					{
@@ -741,10 +745,9 @@ void BattleScene::playerMenuSelect()
 						}
 						else
 						{
+							_playerSelect = true;
 							break;
 						}
-						_playerSelectNum = 0;
-						_magicSelectNum = 0;
 						_counterRoll = true;
 						_playerSelect = false;
 						_magicSelect = false;
@@ -752,7 +755,6 @@ void BattleScene::playerMenuSelect()
 				}
 				else if (_battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getIsHeal() == true)// && _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getManaCost() <= _battleCharacters[_currentTurn].player->getCurMP())
 				{
-					_playerSelect = true;
 					_playerSelectNum = 0;
 					for (int i = 0; i < 4; ++i)
 					{
@@ -763,10 +765,9 @@ void BattleScene::playerMenuSelect()
 						}
 						else
 						{
+							_playerSelect = true;
 							break;
 						}
-						_playerSelectNum = 0;
-						_magicSelectNum = 0;
 						_counterRoll = true;
 						_playerSelect = false;
 						_magicSelect = false;
