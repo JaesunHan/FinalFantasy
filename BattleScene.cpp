@@ -321,6 +321,13 @@ void BattleScene::updateWhenCharacterTurn()
 					//플레이어 공격 준비 완료
 					_battleTurn.front()->attackReady = true;
 				}
+				else if (_battleTurn.front()->attackReady == false && _battleTurn.front()->menuSelect == BATTLE_MAGIC_HEAL)
+				{
+					//플레이어 상태를 마법 어택으로
+					if (_battleTurn.front()->player->getStatus() == BATTLE_PLAYER_MAGIC_ATTACK_STANDBY) _battleTurn.front()->player->setStatus(BATTLE_PLAYER_MAGIC_ATTACK);
+					//플레이어 공격 준비 완료
+					_battleTurn.front()->attackReady = true;
+				}
 				_battleTurn.front()->player->update();
 				//턴 종료시 큐에서 삭제
 				if (_battleTurn.front()->player->getTurnEnd() == true)
@@ -660,6 +667,7 @@ void BattleScene::playerMenuSelect()
 					break;
 				case(BATTLE_MAGIC):
 					_battleCharacters[_currentTurn].player->setMAllyTarget(_battleCharacters[_playerSelectNum].player);
+					_battleCharacters[_currentTurn].magicSelect = _magicSelectNum;
 					//_battleCharacters[_currentTurn].player->setCurMP(_battleCharacters[_currentTurn].player->getCurMP() - _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getManaCost());
 					_battleCharacters[_currentTurn].player->setStatus(BATTLE_PLAYER_MAGIC_ATTACK_STANDBY);
 					_battleCharacters[_currentTurn].selectAction = true;
@@ -694,6 +702,7 @@ void BattleScene::playerMenuSelect()
 					_playerTurn = false;
 					break;
 				case(BATTLE_MAGIC):
+					_battleCharacters[_currentTurn].magicSelect = _magicSelectNum;
 					_battleCharacters[_currentTurn].player->setStatus(BATTLE_PLAYER_MAGIC_ATTACK_STANDBY);
 					//_battleCharacters[_currentTurn].player->setCurMP(_battleCharacters[_currentTurn].player->getCurMP() - _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getManaCost());
 					_battleCharacters[_currentTurn].selectAction = true;
