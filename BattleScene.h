@@ -42,6 +42,7 @@ struct tagBattleCharacters
 	int menuSelect;				//메뉴 선택 번호
 	int magicSelect;			//마법 선택 번호
 	int itemSelect;				//아이템 선택 번호
+	int playerSelect;			//플레이어 선택 번호
 	unsigned int ATBcounter;	//배틀 카운터
 	Enemy* enemy;				//에너미 주소
 	battlePlayerMother* player;	//플레이어 주소
@@ -69,6 +70,7 @@ private:
 	int _messageCounter = 0;						//메시지 표시 카운터
 	int _victoryCounter = 0;						//승리 카운터
 	int _dialogueCounter = 0;						//다이얼로그 카운터
+	int _itemTurnCounter = 0;						//아이템 턴일때 이펙트 기다리는 카운터
 	int _gameOver = 0;								//게임 오버니?
 	float _damage = 0;								//상호 주고 받는 데미지를 입력받는 변수
 	unsigned int _position;							//사운드 포지션			
