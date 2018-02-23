@@ -13,6 +13,23 @@ enum SELECTSUBJECT
 	SELECT_EFFECT
 };
 
+enum SELECTTITLE
+{
+	SELECT_0_00F,		//볼륨 값 : 0.0f
+	SELECT_0_25F,		//볼륨 값 : 0.25f
+	SELECT_0_50F,		//볼륨 값 : 0.5f
+	SELECT_0_75F,		//볼륨 값 : 0.75f
+	SELECT_1_00F		//볼륨 값 : 1.0f
+};
+
+struct tagConfigButton
+{
+	image*	btnImg;			//버튼 이미지
+	char	btnTxt;			//버튼 이미지위에 출력될 글자
+	int		btnVolume;		//이 버튼이 갖는 볼륨값
+
+};
+
 class configMenu : public menu
 {
 private:
@@ -32,7 +49,11 @@ private:
 	//playerManager* _pm;
 
 	//BGM을 선택햇는지 아니면 EFFECT를 선택했는지 판별하는 불값
-	bool isSelect[MAXCURSORSUBJECT];
+	bool _isSelect[MAXCURSORSUBJECT];
+	//BGM 이나 EFFECT 쪽에서 커서가 출력되어야 하는 상황에는 이 값이 true이다\
+	만약 BGM 이나 EFECT 중에 무언가를 선택해서 \
+	커서가 오른쪽에 5항목을 가리켜야 하는 상황이라면 이 값이 false 이다
+	bool _isSubject;
 
 public:
 	HRESULT init();

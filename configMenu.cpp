@@ -63,9 +63,10 @@ HRESULT configMenu::init()
 	_cursor->init(CURSOR_RIGHT, _rcCTRLNum[_cursorIdx].left + 10, _rcCTRLNum[_cursorIdx].top + (_rcCTRLNum[_cursorIdx].bottom - _rcCTRLNum[_cursorIdx].top) / 2-10);
 
 	//처음에는 아무것도 선택을 안한 상태이므로 모두 false 로 세팅한다.
-	isSelect[SELECT_BGM] = false;
-	isSelect[SELECT_EFFECT] = false;
-	
+	_isSelect[SELECT_BGM] = false;
+	_isSelect[SELECT_EFFECT] = false;
+	//맨 처음에는 BGM와 EFFEC 가 있는 쪽에 커서가 출력되어야 한다.
+	_isSubject = true;
 
 	//연산은 버린다!
 	//for (int i = 0; i < 2; ++i)
@@ -84,11 +85,27 @@ void configMenu::release()
 
 void configMenu::update()
 {
-	_cursor->keyControlY(_rcCTRLNum[1].top - _rcCTRLNum[0].top, 2);
+	if (_isSubject)	//커서가 왼쪽의 subject 를 가리켜야 한다
+	{
+		_cursor->keyControlY(_rcCTRLNum[1].top - _rcCTRLNum[0].top, 2);
+	}
+	else			//커서가 오른쪽의 title을 가리켜야 한다(5 개의 항목)
+	{
+		//_cursor->keyControlX()
+		//_cursor->keyControlY()
+	}
+	
 	
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{
-
+		if (_cursor->getCursorYNum() == SELECT_BGM)
+		{
+			_isSelect[SELECT_BGM] = true;
+		}
+		if (_cursor->getCursorYNum() == SELECT_EFFECT)
+		{
+			_isSelect[SELECT_EFFECT] = true;
+		}
 	}
 
 	//옵션 메뉴가기
