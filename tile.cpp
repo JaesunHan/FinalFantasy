@@ -191,7 +191,7 @@ void tile::updateTerrainAttr(void)
 //오브젝트의 종류에 따라 타일 속성 적용
 void tile::updateObjectAttr(void)
 {
-	if (_object == OBJ_NONE || _object == OBJ_TREE || _object == OBJ_CAVE || _object == OBJ_CASTLE || _object == OBJ_TOWN
+	if (_object == OBJ_NONE || _object == OBJ_TREE || _object == OBJ_CAVE || _object == OBJ_CASTLE || _object == OBJ_TOWN ||_object == OBJ_SAVE
 		|| _object == OBJ_HOUSE_BOT_PASS || _object == OBJ_PLANT || _object == OBJ_BRIDGE_TOP || _object == OBJ_STALL_BOTTOM
 		|| _object == OBJ_WORLD_MAP)
 		_objectAttribute = ATTR_MOVE;

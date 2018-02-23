@@ -8,6 +8,7 @@
 
 
 
+
 //======월드맵 씬	 =======//
 //		제작자 : 한재환		//
 //		2월 12일				//
@@ -15,6 +16,7 @@
 
 //인벤토리 가져오기 위한 전방선언 월드맵에서 인벤토리를 건드립니다 흿흿!
 class itemManager;
+class menu;
 
 class worldMapScene : public gameNode
 {
@@ -43,6 +45,9 @@ private:
 
 	//인벤토리용
 	itemManager* _im;
+
+	//메뉴클래스 
+	menu* _menu;
 
 	POINT _curPlayerPos;
 	POINT _curCameraPos;
@@ -83,7 +88,10 @@ public:
 
 	void battleEncount();
 
+	void savePoint();
+
 	//겟셋추가!!!!
 	void setItemManagerAddressLink(itemManager* im) { _im = im; }
+	void setMenuMemoryAddressLink(menu* menu) { _menu = menu; }
 
 };

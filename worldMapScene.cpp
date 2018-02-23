@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "worldMapScene.h"
 #include "itemManager.h"
-
+#include "menu.h"
 
 worldMapScene::worldMapScene()
 {
@@ -115,6 +115,7 @@ void worldMapScene::update()
 	enterTownMap();
 	getCollision();
 	battleEncount();
+	savePoint();
 
 }
 
@@ -234,4 +235,14 @@ void worldMapScene::battleEncount()
 		SCENEMANAGER->changeSceneType1("¹èÆ²¾À");
 	}
 	_worldMapPlayer->setIsEncount(false);
+}
+
+void worldMapScene::savePoint()
+{
+	if (_worldMapPlayer->getIsSavePoint())
+	{
+		_menu->setIsSavePoint(true);
+		_worldMapPlayer->setIsSavePoint(false);
+	}
+	
 }

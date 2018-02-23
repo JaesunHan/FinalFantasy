@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "worldMapPlayer.h"
 #include "generalMap.h"
-#include "menu.h"
+
 
 worldMapPlayer::worldMapPlayer()
 {
@@ -33,6 +33,7 @@ HRESULT worldMapPlayer::init(int playerX, int playerY)
 	_isEscapeSuccess = false;
 	_isEnter = false;
 	_isWorldMapEnter = false;
+	_isSavePoint = false;
 
 	_battleCount = 0;
 	_isEncount = false;
@@ -120,12 +121,12 @@ void worldMapPlayer::worldPlayerKeyControl()
 		{
 			_player.x += _moveSpeed;
 		}
-		else if (_curMap->getMapTile()[tileNum(_rc.left, _rc.top + 3)].getTerrainAttr() == ATTR_SLOW ||
+		if (_curMap->getMapTile()[tileNum(_rc.left, _rc.top + 3)].getTerrainAttr() == ATTR_SLOW ||
 			_curMap->getMapTile()[tileNum(_rc.left, _rc.bottom - 3)].getTerrainAttr() == ATTR_SLOW)
 		{
 			_player.x += _moveSpeed/2;
 		}
-		else if (_curMap->getMapTile()[tileNum(_rc.left, _rc.top + 3)].getTerrainAttr() == ATTR_FAST ||
+		if (_curMap->getMapTile()[tileNum(_rc.left, _rc.top + 3)].getTerrainAttr() == ATTR_FAST ||
 			_curMap->getMapTile()[tileNum(_rc.left, _rc.bottom - 3)].getTerrainAttr() == ATTR_FAST)
 		{
 			_player.x -= _moveSpeed*2;
@@ -147,9 +148,12 @@ void worldMapPlayer::worldPlayerKeyControl()
 			_player.x = _player.x - 15;
 			_isWorldMapEnter = true;
 		}
-		
-
-
+		if (_curMap->getMapTile()[tileNum(_rc.left, _rc.top + 3)].getObject() == OBJ_SAVE ||
+			_curMap->getMapTile()[tileNum(_rc.left, _rc.bottom - 3)].getObject() == OBJ_SAVE)
+		{
+			_player.y = _player.y - 15;
+			_isSavePoint = true;
+		}
 	}
 	else if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
 	{
@@ -163,12 +167,12 @@ void worldMapPlayer::worldPlayerKeyControl()
 		{
 			_player.x -= _moveSpeed;
 		}
-		else if (_curMap->getMapTile()[tileNum(_rc.right, _rc.top + 3)].getTerrainAttr() == ATTR_SLOW ||
+		if (_curMap->getMapTile()[tileNum(_rc.right, _rc.top + 3)].getTerrainAttr() == ATTR_SLOW ||
 			_curMap->getMapTile()[tileNum(_rc.right, _rc.bottom - 3)].getTerrainAttr() == ATTR_SLOW)
 		{
 			_player.x -= _moveSpeed/2;
 		}
-		else if (_curMap->getMapTile()[tileNum(_rc.right, _rc.top + 3)].getTerrainAttr() == ATTR_FAST ||
+		if (_curMap->getMapTile()[tileNum(_rc.right, _rc.top + 3)].getTerrainAttr() == ATTR_FAST ||
 			_curMap->getMapTile()[tileNum(_rc.right, _rc.bottom - 3)].getTerrainAttr() == ATTR_FAST)
 		{
 			_player.x += _moveSpeed *2;
@@ -190,6 +194,12 @@ void worldMapPlayer::worldPlayerKeyControl()
 			_player.x = _player.x + 15;
 			_isWorldMapEnter = true;
 		}
+		if (_curMap->getMapTile()[tileNum(_rc.left, _rc.top + 3)].getObject() == OBJ_SAVE ||
+			_curMap->getMapTile()[tileNum(_rc.left, _rc.bottom - 3)].getObject() == OBJ_SAVE)
+		{
+			_player.y = _player.y - 15;
+			_isSavePoint = true;
+		}
 
 	}
 	else if (KEYMANAGER->isStayKeyDown(VK_UP))
@@ -204,12 +214,12 @@ void worldMapPlayer::worldPlayerKeyControl()
 		{
 			_player.y += _moveSpeed;
 		}
-		else if (_curMap->getMapTile()[tileNum(_rc.left + 3, _rc.top)].getTerrainAttr() == ATTR_SLOW ||
+		if (_curMap->getMapTile()[tileNum(_rc.left + 3, _rc.top)].getTerrainAttr() == ATTR_SLOW ||
 			_curMap->getMapTile()[tileNum(_rc.right - 3, _rc.top)].getTerrainAttr() == ATTR_SLOW)
 		{
 			_player.y += _moveSpeed/2;
 		}
-		else if (_curMap->getMapTile()[tileNum(_rc.left + 3, _rc.top)].getTerrainAttr() == ATTR_FAST ||
+		if (_curMap->getMapTile()[tileNum(_rc.left + 3, _rc.top)].getTerrainAttr() == ATTR_FAST ||
 			_curMap->getMapTile()[tileNum(_rc.right - 3, _rc.top)].getTerrainAttr() == ATTR_FAST)
 		{
 			_player.y -= _moveSpeed * 2;
@@ -231,6 +241,12 @@ void worldMapPlayer::worldPlayerKeyControl()
 			_player.y = _player.y + 15;
 			_isWorldMapEnter = true;
 		}
+		if (_curMap->getMapTile()[tileNum(_rc.left, _rc.top + 3)].getObject() == OBJ_SAVE ||
+			_curMap->getMapTile()[tileNum(_rc.left, _rc.bottom - 3)].getObject() == OBJ_SAVE)
+		{
+			_player.y = _player.y - 15;
+			_isSavePoint = true;
+		}
 	}
 	else if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 	{
@@ -244,12 +260,12 @@ void worldMapPlayer::worldPlayerKeyControl()
 		{
 			_player.y -= _moveSpeed;
 		}
-		else if (_curMap->getMapTile()[tileNum(_rc.left + 3, _rc.bottom)].getTerrainAttr() == ATTR_SLOW ||
+		if (_curMap->getMapTile()[tileNum(_rc.left + 3, _rc.bottom)].getTerrainAttr() == ATTR_SLOW ||
 			_curMap->getMapTile()[tileNum(_rc.right - 3, _rc.bottom)].getTerrainAttr() == ATTR_SLOW)
 		{
 			_player.y -= _moveSpeed/2;
 		}
-		else if (_curMap->getMapTile()[tileNum(_rc.left + 3, _rc.bottom)].getTerrainAttr() == ATTR_FAST ||
+		if (_curMap->getMapTile()[tileNum(_rc.left + 3, _rc.bottom)].getTerrainAttr() == ATTR_FAST ||
 			_curMap->getMapTile()[tileNum(_rc.right - 3, _rc.bottom)].getTerrainAttr() == ATTR_FAST)
 		{
 			_player.y += _moveSpeed * 2;
@@ -270,6 +286,12 @@ void worldMapPlayer::worldPlayerKeyControl()
 		{
 			_player.y = _player.y - 15;
 			_isWorldMapEnter = true;
+		}
+		if (_curMap->getMapTile()[tileNum(_rc.left, _rc.top + 3)].getObject() == OBJ_SAVE ||
+			_curMap->getMapTile()[tileNum(_rc.left, _rc.bottom - 3)].getObject() == OBJ_SAVE)
+		{
+			_player.y = _player.y - 15;
+			_isSavePoint = true;
 		}
 	}
 

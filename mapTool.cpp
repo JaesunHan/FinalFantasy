@@ -335,7 +335,8 @@ void mapTool::objectTileSetInit()
 
 			if ((i >= 0 && i <= 2) || i == 6 || i == 7 || (i >= 8 && i <= 10) || (i >= 16 && i <= 18)
 				|| (i >= 24 && i <= 26) || (i >= 32 && i <= 34) || (i >= 40 && i <= 42)) _objectTileSet[i].setObject(OBJ_TREE);
-			else if (i == 39 || i == 47) _objectTileSet[i].setObject(OBJ_TOWN);
+			else if (i == 39) _objectTileSet[i].setObject(OBJ_TOWN);
+			else if (i == 47) _objectTileSet[i].setObject(OBJ_SAVE);
 		}
 		else if (_objectTileImageKey == "townHouse1")
 		{

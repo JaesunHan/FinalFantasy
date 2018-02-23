@@ -24,7 +24,6 @@ enum WORLDPLAYERDIRECTION
 
 //전방선언
 class generalMap;
-class menu;
 
 class worldMapPlayer : public gameNode
 {
@@ -38,8 +37,7 @@ public:
 	//월드맵클래스
 	generalMap* _curMap;
 	
-	//메뉴클래스 
-	menu* _menu;
+
 
 	//플레이어 좌표
 	POINT _player;
@@ -60,6 +58,11 @@ public:
 	
 	bool _checkRc;
 	bool _isEscapeSuccess;
+
+	//세이브포인트용 변수
+	bool _isSavePoint;
+
+
 	//마을 입장용
 	bool _isEnter;
 
@@ -125,7 +128,7 @@ public:
 	void setIsEncount(bool isEncount) { _isEncount = isEncount; }
 
 
-	void setMenuMemoryAddressLink(menu* menu) { _menu = menu; }
-
+	bool getIsSavePoint() { return _isSavePoint; }
+	void setIsSavePoint(bool isSavePoint) { _isSavePoint = isSavePoint; }
 };
 

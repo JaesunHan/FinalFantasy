@@ -26,6 +26,7 @@
 
 
 
+
 class playGround : public gameNode
 {
 private:
@@ -34,6 +35,7 @@ private:
 	BattleScene* _bts;
 
 	menu* _menu;
+
 
 	//bool _isBattle;
 public:
