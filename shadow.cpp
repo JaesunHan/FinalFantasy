@@ -17,6 +17,16 @@ shadow::shadow()
 	_spellPower = _Lv;
 
 
+	
+}
+
+
+shadow::~shadow()
+{
+}
+
+void shadow::setShadowMagic()
+{
 	//========================= 마법 공격 세팅 ======================
 	//마법 공격 1 - 그림자 공격
 	magic* tmpMagic = new magic;
@@ -28,13 +38,4 @@ shadow::shadow()
 	IMAGEMANAGER->addFrameImage("Shadow::Holy Magic", "./image/playerImg/playerEffectImage/playerSkill6.bmp", 472, 126, 8, 1, true, RGB(255, 0, 255));
 	tmpMagic->init("Shadow::Holy Magic", "./image/playerImg/playerEffectImage/playerSkill6.bmp", "홀리!", 108, 40, 150, 0, 0);
 	_myUsableMagic.push_back(tmpMagic);
-}
-
-
-shadow::~shadow()
-{
-}
-
-void shadow::setShadowMagic()
-{
 }
