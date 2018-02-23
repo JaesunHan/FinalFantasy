@@ -1008,7 +1008,7 @@ void BattleScene::playerMenuSelect()
 	}
 	if (KEYMANAGER->isOnceKeyDown('1'))
 	{
-		_im->useItemInBattle(ITEM_TINA, 0);
+		_im->useItemInBattle(ITEM_TINA, 1);
 	}
 }
 //캐릭터 그리는 함수
@@ -1335,7 +1335,7 @@ void BattleScene::renderDamage(int endPoint)
 void BattleScene::victoryMessage()
 {
 	RECT tempDialogueRC = { 25, 48, WINSIZEX - 275, 80 };
-	if (_victoryCounter > 70 && _dialogueCounter < 18)
+	if (_victoryCounter > 70 && _dialogueCounter < 20)
 	{
 		bool skip;
 		skip = false;
