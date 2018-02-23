@@ -131,9 +131,9 @@ void newGame::update()
 			//아이템 저장
 			itemSave(MENUITEM_ITEM, 1, 2, true, _saveFileNum);
 			itemSave(MENUITEM_ITEM, 3, 2, true, _saveFileNum);
-			//itemSave(MENUITEM_ITEM, 2, 2, true, _saveFileNum);
-			//itemSave(MENUITEM_ITEM, 7, 1, true, _saveFileNum);
-			//itemSave(MENUITEM_ITEM, 10, 1, true, _saveFileNum);
+			itemSave(MENUITEM_ITEM, 2, 2, true, _saveFileNum);
+			itemSave(MENUITEM_ITEM, 7, 1, true, _saveFileNum);
+			itemSave(MENUITEM_ITEM, 10, 1, true, _saveFileNum);
 
 			itemSave(MENUITEM_ARMOR, 2, 2, true, _saveFileNum);
 			itemSave(MENUITEM_WEAPON, 2, 2, true, _saveFileNum);

@@ -238,12 +238,32 @@ void itemMenu::buttonOnActiveA()
 	//아이템 버튼 선택시
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{
-	    
+		_cursorI->init(CURSOR_RIGHT, 950, 120);
+
 		switch (_cursorI->getCursorPos())
 		{
 			case 0:
+				
+			break;
+			case 1:
 
 			break;
+			case 2:
+
+			break;
+			case 3:
+
+			break;
+			case 4:
+
+			break;
+		}
+
+		//나가기
+		if (KEYMANAGER->isOnceKeyDown(VK_BACK))
+		{
+			_cursorI->init(CURSOR_RIGHT, 150 - 50, 10 + 20);
+			_itemButtonOn = false;
 		}
 	}
 
@@ -272,27 +292,27 @@ void itemMenu::itemButtonSet(int buttonNum)
 			case 0: case 1: case 2:
 				//아이템 버튼 & 이름
 				_button->buttonSet("버튼아이템힐", buttonX + (i * intervalX),
-					buttonY,_iM->getVItem()[_iM->getItemVNum(i)]->getItemName(), 20, 2, true, _iM->getItemCount(i));			
+					buttonY, _iM->getVItem()[itemGetNum(_iM->getItemVNum(i))]->getItemName(), 20, 2, true, _iM->getItemCount(i));
 			break;
 			case 3: case 4: case 5:
 				_button->buttonSet("버튼아이템힐", buttonX + ((i - 3) * intervalX),
-					buttonY + (1 * intervalY), _iM->getVItem()[_iM->getItemVNum(i)]->getItemName(), 20, 2, true, _iM->getItemCount(i));
+					buttonY + (1 * intervalY), _iM->getVItem()[itemGetNum(_iM->getItemVNum(i))]->getItemName(), 20, 2, true, _iM->getItemCount(i));
 			break;
 			case 6: case 7: case 8:
 				_button->buttonSet("버튼아이템힐", buttonX + ((i - 6) * intervalX),
-					buttonY + (2 * intervalY), _iM->getVItem()[i]->getItemName(), 20, 2, true, _iM->getItemCount(_iM->getVItem()[i]->getItemNumber()));
+					buttonY + (2 * intervalY), _iM->getVItem()[itemGetNum(_iM->getItemVNum(i))]->getItemName(), 20, 2, true, _iM->getItemCount(_iM->getVItem()[i]->getItemNumber()));
 			break;
 			case 9: case 10: case 11:
 				_button->buttonSet("버튼아이템힐", buttonX + ((i - 9) * intervalX),
-					buttonY + (3 * intervalY), _iM->getVItem()[i]->getItemName(), 20, 2, true, _iM->getItemCount(_iM->getVItem()[i]->getItemNumber()));
+					buttonY + (3 * intervalY), _iM->getVItem()[itemGetNum(_iM->getItemVNum(i))]->getItemName(), 20, 2, true, _iM->getItemCount(_iM->getVItem()[i]->getItemNumber()));
 			break;
 			case 12: case 13: case 14:
 				_button->buttonSet("버튼아이템힐", buttonX + ((i - 12) * intervalX),
-					buttonY + (4 * intervalY), _iM->getVItem()[i]->getItemName(), 20, 2, true, _iM->getItemCount(_iM->getVItem()[i]->getItemNumber()));
+					buttonY + (4 * intervalY), _iM->getVItem()[itemGetNum(_iM->getItemVNum(i))]->getItemName(), 20, 2, true, _iM->getItemCount(_iM->getVItem()[i]->getItemNumber()));
 			break;
 			case 15: case 16: case 17:
 				_button->buttonSet("버튼아이템힐", buttonX + ((i - 15) * intervalX),
-					buttonY + (5 * intervalY), _iM->getVItem()[i]->getItemName(), 20, 2, true, _iM->getItemCount(_iM->getVItem()[i]->getItemNumber()));
+					buttonY + (5 * intervalY), _iM->getVItem()[itemGetNum(_iM->getItemVNum(i))]->getItemName(), 20, 2, true, _iM->getItemCount(_iM->getVItem()[i]->getItemNumber()));
 			break;
 		}
 	}

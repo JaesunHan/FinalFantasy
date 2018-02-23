@@ -561,13 +561,13 @@ void menu::playerStatusRender(int SlotNum)
 		sprintf(strMagicE, "%d%%", _vPlayerStatus[i].magicEvation);
 
 		char strWeapon[INTCHARBUFF];	
-		sprintf(strWeapon, "%s", _iM->getVItem()[_iM->getWeaponVNum(_vPlayerStatus[i].weapon)]->getItemName());
+		sprintf(strWeapon, "%s", _iM->getVItem()[itemGetNum(_vPlayerStatus[i].weapon)]->getItemName());
 		char strArmor[INTCHARBUFF];
-		sprintf(strArmor, "%d", _vPlayerStatus[i].armor);
+		sprintf(strArmor, "%s", _iM->getVItem()[itemGetNum(_vPlayerStatus[i].armor)]->getItemName());
 		char strHelmet[INTCHARBUFF];
-		sprintf(strHelmet, "%d", _vPlayerStatus[i].helmet);
+		sprintf(strHelmet, "%s", _iM->getVItem()[itemGetNum(_vPlayerStatus[i].helmet)]->getItemName());
 		char strSubweapon[INTCHARBUFF];
-		sprintf(strSubweapon, "%d", _vPlayerStatus[i].subWeapon);
+		sprintf(strSubweapon, "%s", _iM->getVItem()[itemGetNum(_vPlayerStatus[i].subWeapon)]->getItemName());
 
 		char strCommand0[INTCHARBUFF];
 		sprintf(strCommand0, "%s", playerCommandReturn(_vPlayerStatus[i].command[0]).c_str());
@@ -1454,6 +1454,19 @@ void menu::itemDataLoad(int fileNum, bool tmpFile)
 	INIDATA->addData("Inventory", "ArmorList", armorList);
 
 	INIDATA->iniSave(saveFileNum);
+}
+
+int menu::itemGetNum(int num)
+{
+	for (int i = 0; i < _iM->getVItem().size(); ++i)
+	{
+		if (_iM->getVItem()[i]->getItemNumber() == num)
+		{
+			return i;
+		}
+	}
+
+	return NULL;
 }
 
 //================================ item ==============================

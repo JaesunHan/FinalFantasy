@@ -260,6 +260,7 @@ public:
 	//================================= item ================================
 	virtual void itemSave(int itemKind, int itemName, int itemNum, bool saveFile = false, int saveFileNum = 0);
 	virtual void itemDataLoad(int fileNum, bool tmpFile = false);
+	virtual int itemGetNum(int num);
 	//================================= item =================================
 
 	//=============================== gameTime ==============================
@@ -268,7 +269,7 @@ public:
 
 	//================================ getter ===============================
 	int getSaveFileNum() { return _saveFileNum; }
-	int setIsSavePoint(bool isSave) { _isSavePoint = isSave; }
+	void setIsSavePoint(bool isSave) { _isSavePoint = isSave; }
 	//================================ getter ===============================
 
 	//============================= AddressLink =============================
