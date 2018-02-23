@@ -1004,13 +1004,11 @@ void BattleScene::playerMenuSelect()
 	
 	if (KEYMANAGER->isOnceKeyDown('R'))
 	{
-		_im->changeItemNumber("포션", 3);
-		_im->changeItemNumber("피닉스깃털", 3);
-		_im->changeItemNumber("침낭", 3);
+		_im->changeItemNumber("메가엘릭서", 5);
 	}
 	if (KEYMANAGER->isOnceKeyDown('1'))
 	{
-		_im->useItemInBattle(ITEM_TINA, 2);
+		_im->useItemInBattle(ITEM_TINA, 0);
 	}
 }
 //캐릭터 그리는 함수
@@ -1617,6 +1615,60 @@ void BattleScene::victoryMessage()
 				if (RND->getInt(2) == 0)
 				{
 					wsprintf(_message0, "%s 을(를) 얻었다.", _battleCharacters[4].enemy->getItemName());
+					if (_im->getItemKind(_battleCharacters[4].enemy->getItemName()) == ITEM_EXPENDABLE)
+					{
+						_im->changeItemNumber(_battleCharacters[4].enemy->getItemName(), 1);
+					}
+					else if (_im->getItemKind(_battleCharacters[4].enemy->getItemName()) == ITEM_WEAPON)
+					{
+						_im->changeItemNumber(_battleCharacters[4].enemy->getItemName(), 1);
+					}
+				}
+				else
+				{
+					skip = true;
+				}
+				_dialogue = false;
+			}
+			drawText(32, _message0, tempDialogueRC, DT_CENTER, true);
+			break;
+		case(18):
+			if (_dialogue == true)
+			{
+				if (RND->getInt(2) == 0 && _maxMonster >= 2)
+				{
+					wsprintf(_message0, "%s 을(를) 얻었다.", _battleCharacters[4].enemy->getItemName());
+					if (_im->getItemKind(_battleCharacters[4].enemy->getItemName()) == ITEM_EXPENDABLE)
+					{
+						_im->changeItemNumber(_battleCharacters[4].enemy->getItemName(), 1);
+					}
+					else if (_im->getItemKind(_battleCharacters[4].enemy->getItemName()) == ITEM_WEAPON)
+					{
+						_im->changeItemNumber(_battleCharacters[4].enemy->getItemName(), 1);
+					}
+				}
+				else
+				{
+					skip = true;
+				}
+				_dialogue = false;
+			}
+			drawText(32, _message0, tempDialogueRC, DT_CENTER, true);
+			break;
+		case(19):
+			if (_dialogue == true)
+			{
+				if (RND->getInt(2) == 0 && _maxMonster >= 3)
+				{
+					wsprintf(_message0, "%s 을(를) 얻었다.", _battleCharacters[4].enemy->getItemName());
+					if (_im->getItemKind(_battleCharacters[4].enemy->getItemName()) == ITEM_EXPENDABLE)
+					{
+						_im->changeItemNumber(_battleCharacters[4].enemy->getItemName(), 1);
+					}
+					else if (_im->getItemKind(_battleCharacters[4].enemy->getItemName()) == ITEM_WEAPON)
+					{
+						_im->changeItemNumber(_battleCharacters[4].enemy->getItemName(), 1);
+					}
 				}
 				else
 				{
