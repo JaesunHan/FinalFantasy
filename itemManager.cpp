@@ -216,41 +216,70 @@ HRESULT itemManager::init()
 
 void itemManager::saveInventory(char* fileName)
 {
-	int itemListI;
-	int weaponListI;
-	int armorListI;
-	char itemListA[1024];
-	char weaponListA[1024];
-	char armorListA[1024];
+	char itemListA[2048];
+	char weaponListA[2048];
+	char armorListA[2048];
+
+	char maxItem[128];
+	char maxWeapon[128];
+	char maxArmor[128];
+
 	char gil[1024];
-	itemListI = 1;
-	weaponListI = 1;
-	armorListI = 1;
+
+	char tempPairFirst[128];
+	char tempPairSecond[128];
+
+	ZeroMemory(itemListA, sizeof(itemListA));
+	ZeroMemory(weaponListA, sizeof(weaponListA));
+	ZeroMemory(armorListA, sizeof(armorListA));
+
+	ZeroMemory(maxItem, sizeof(maxItem));
+	ZeroMemory(maxWeapon, sizeof(maxWeapon));
+	ZeroMemory(maxArmor, sizeof(maxArmor));
+
+	ZeroMemory(gil, sizeof(gil));
+
+	ZeroMemory(tempPairFirst, sizeof(tempPairFirst));
+	ZeroMemory(tempPairSecond, sizeof(tempPairSecond));
+
+	wsprintf(maxItem, "%d", _arrItemInventory.size());
+	wsprintf(maxWeapon, "%d", _arrWeaponInventory.size());
+	wsprintf(maxArmor, "%d", _arrArmorInventory.size());
+
+	itoa(_gil, gil, 10);
+
+	strncat_s(itemListA, sizeof(itemListA), maxItem, sizeof(maxItem));
+	strncat_s(weaponListA, sizeof(weaponListA), maxWeapon, sizeof(maxWeapon));
+	strncat_s(armorListA, sizeof(armorListA), maxArmor, sizeof(maxArmor));
+
 	for (_iterInventory = _arrItemInventory.begin(); _iterInventory != _arrItemInventory.end(); ++_iterInventory)
 	{
-		itemListI = itemListI * 100;
-		itemListI += _iterInventory->second.first;
-		itemListI = itemListI * 100;
-		itemListI += _iterInventory->second.second;
+		wsprintf(tempPairFirst, "%d", _iterInventory->second.first);
+		wsprintf(tempPairSecond, "%d", _iterInventory->second.second);
+		strcat(itemListA, ",");
+		strncat_s(itemListA, sizeof(itemListA), tempPairFirst, sizeof(tempPairFirst));
+		strcat(itemListA, ",");
+		strncat_s(itemListA, sizeof(itemListA), tempPairSecond, sizeof(tempPairSecond));
 	}
 	for (_iterInventory = _arrWeaponInventory.begin(); _iterInventory != _arrWeaponInventory.end(); ++_iterInventory)
 	{
-		weaponListI = weaponListI * 100;
-		weaponListI += _iterInventory->second.first;
-		weaponListI = weaponListI * 100;
-		weaponListI += _iterInventory->second.second;
+		wsprintf(tempPairFirst, "%d", _iterInventory->second.first);
+		wsprintf(tempPairSecond, "%d", _iterInventory->second.second);
+		strcat(weaponListA, ",");
+		strncat_s(weaponListA, sizeof(weaponListA), tempPairFirst, sizeof(tempPairFirst));
+		strcat(weaponListA, ",");
+		strncat_s(weaponListA, sizeof(weaponListA), tempPairSecond, sizeof(tempPairSecond));
 	}
 	for (_iterInventory = _arrArmorInventory.begin(); _iterInventory != _arrArmorInventory.end(); ++_iterInventory)
 	{
-		armorListI = armorListI * 100;
-		armorListI += _iterInventory->second.first;
-		armorListI = armorListI * 100;
-		armorListI += _iterInventory->second.second;
+		wsprintf(tempPairFirst, "%d", _iterInventory->second.first);
+		wsprintf(tempPairSecond, "%d", _iterInventory->second.second);
+		strcat(armorListA, ",");
+		strncat_s(armorListA, sizeof(armorListA), tempPairFirst, sizeof(tempPairFirst));
+		strcat(armorListA, ",");
+		strncat_s(armorListA, sizeof(armorListA), tempPairSecond, sizeof(tempPairSecond));
 	}
-	itoa(itemListI, itemListA, 10);
-	itoa(weaponListI, weaponListA, 10);
-	itoa(armorListI, armorListA, 10);
-	itoa(_gil, gil, 10);
+
 	INIDATA->addData("Inventory", "ItemList", itemListA);
 	INIDATA->addData("Inventory", "WeaponList", weaponListA);
 	INIDATA->addData("Inventory", "ArmorList", armorListA);
@@ -260,28 +289,73 @@ void itemManager::saveInventory(char* fileName)
 
 void itemManager::loadInventory(char* fileName)
 {
-	int itemListI;
-	int weaponListI;
-	int armorListI;
+	vector<string> vArrayItem;
+	vector<string> vArrayWeapon;
+	vector<string> vArrayArmor;
+	
+	char* separator = ",";
+	char* token;
+
+	char* itemContext;
+	char* weaponContext;
+	char* armorContext;
+
+	int maxItemI;
+	int maxWeaponI;
+	int maxArmorI;
+
+	char str[256];
+	char dir[256];
+
+	ZeroMemory(dir, sizeof(dir));
+	sprintf(dir, "\\%s.ini", fileName);
+
+	GetCurrentDirectory(256, str);
+	strncat_s(str, 256, dir, 254);
+
+	char itemData[2048] = { NULL };
+	char weaponData[2048] = { NULL };
+	char armorData[2048] = { NULL };
+
+	GetPrivateProfileString("Inventory", "ItemList", NULL, itemData, 2048, str);
+	GetPrivateProfileString("Inventory", "WeaponList", NULL, weaponData, 2048, str);
+	GetPrivateProfileString("Inventory", "ArmorList", NULL, armorData, 2048, str);
+
+	token = strtok_s(itemData, separator, &itemContext);
+	maxItemI = atoi(token);
+	token = strtok_s(weaponData, separator, &weaponContext);
+	maxWeaponI = atoi(token);
+	token = strtok_s(armorData, separator, &armorContext);
+	maxArmorI = atoi(token);
+
 	int tempVectorNum;
 	int tempCount;
-	itemListI = INIDATA->loadDataInterger(fileName, "Inventory", "ItemList");
-	weaponListI = INIDATA->loadDataInterger(fileName, "Inventory", "WeaponList");
-	armorListI = INIDATA->loadDataInterger(fileName, "Inventory", "ArmorList");
-	_gil = INIDATA->loadDataInterger(fileName, "Inventory", "Gil");
-	while (1)
+	for (int i = 0; i < maxItemI; ++i)
 	{
-		if (itemListI < 100)
-		{
-			break;
-		}
-		tempCount = itemListI % 100;
-		itemListI = itemListI / 100;
-		tempVectorNum = itemListI % 100;
-		itemListI = itemListI / 100;
+		token = strtok_s(NULL, separator, &itemContext);
+		tempVectorNum = atoi(token);
+		token = strtok_s(NULL, separator, &itemContext);
+		tempCount = atoi(token);
 		setItemInventory(tempVectorNum, tempCount);
 	}
+	for (int i = 0; i < maxWeaponI; ++i)
+	{
+		token = strtok_s(NULL, separator, &weaponContext);
+		tempVectorNum = atoi(token);
+		token = strtok_s(NULL, separator, &weaponContext);
+		tempCount = atoi(token);
+		setWeaponInventory(tempVectorNum, tempCount);
+	}
+	for (int i = 0; i < maxArmorI; ++i)
+	{
+		token = strtok_s(NULL, separator, &armorContext);
+		tempVectorNum = atoi(token);
+		token = strtok_s(NULL, separator, &armorContext);
+		tempCount = atoi(token);
+		setArmorInventory(tempVectorNum, tempCount);
+	}
 
+	_gil = INIDATA->loadDataInterger(fileName, "Inventory", "Gil");
 }
 
 void itemManager::setItemInventory(int vectorNum, int count)
