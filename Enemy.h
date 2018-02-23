@@ -2,6 +2,7 @@
 #include "gameNode.h"
 #include "effect.h"
 #include "itemManager.h"
+#include <vector>
 
 //에너미 상태값
 enum EnemyState
@@ -10,6 +11,13 @@ enum EnemyState
 	ENEMY_SPELL,
 	ENEMY_DIE,
 	ENEMY_NULL
+};
+
+//에너미 아이템 드롭 확률을 위한 구조체
+struct tagDROPITEM
+{
+	int dropRate;
+	char itemName[128];
 };
 
 class battlePlayerMother;					//배틀플레이어 부모클래스 전방선언
@@ -53,6 +61,8 @@ protected:
 	char _damageNum[128];					//데미지를 넣기 위한 변수
 	char _itemString[128];					//아이템 이름을 가져오자
 
+	vector<tagDROPITEM> _vItemDropRate;		//아이템 드랍 확률
+
 	effect* _atkEffect;						//에너미 기본공격 이펙트
 	effect* _spellEffect;					//에너미 스킬공격 이펙트
 	effect* _spellEffect2;					//보스 두번째 스킬 이펙트
@@ -77,6 +87,9 @@ public:
 	virtual void damageAlgorithm();					//데미지 공식 함수
 
 	virtual void glitter();							//에너미 턴일때 어떤 에너미의 턴인지 알기위한 함수 (반짝거림)
+
+	void setItemDropRate(int num1, int num2, int num3, int num4, int num5, int num6, int num7, int num8, int num9, int num10, int num11);
+	void setItemString();
 
 	//======================================= 전방선언 ========================================================
 	void setBattleCelesMemoryAddressLink(battlePlayerMother* celes) { _celes = celes; }

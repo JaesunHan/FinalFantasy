@@ -34,12 +34,12 @@ HRESULT Enemy::init(int x, int y)
 	_turnEnd = false;
 	_effectFire = true;
 
+
 	return S_OK;
 }
 
 void Enemy::update()
 {
-	_enemyItemNum = RND->getFromIntTo(1, 100);
 
 	if (_turnEnd == false)
 	{
@@ -165,5 +165,58 @@ void Enemy::glitter()
 	else
 	{
 		_frameX = 0;
+	}
+}
+
+void Enemy::setItemDropRate(int num1, int num2, int num3, int num4, int num5, int num6, int num7, int num8, int num9, int num10, int num11)
+{
+	_enemyItemNum = RND->getFromIntTo(1, 100);
+
+	tagDROPITEM temp;
+	temp.dropRate = num1;
+	wsprintf(temp.itemName, "¸Þ°¡¿¤¸¯¼­");
+	_vItemDropRate.push_back(temp);
+	temp.dropRate = num2;
+	wsprintf(temp.itemName, "¿¤¸¯¼­");
+	_vItemDropRate.push_back(temp);
+	temp.dropRate = num3;
+	wsprintf(temp.itemName, "¿¡Å×¸£");
+	_vItemDropRate.push_back(temp);
+	temp.dropRate = num4;
+	wsprintf(temp.itemName, "À°Æ÷");
+	_vItemDropRate.push_back(temp);
+	temp.dropRate = num5;
+	wsprintf(temp.itemName, "Åä´Ð");
+	_vItemDropRate.push_back(temp);
+	temp.dropRate = num6;
+	wsprintf(temp.itemName, "Æ÷¼Ç");
+	_vItemDropRate.push_back(temp);
+	temp.dropRate = num7;
+	wsprintf(temp.itemName, "Ä§³¶");
+	_vItemDropRate.push_back(temp);
+	temp.dropRate = num8;
+	wsprintf(temp.itemName, "Thief Knife");
+	_vItemDropRate.push_back(temp);
+	temp.dropRate = num9;
+	wsprintf(temp.itemName, "Striker");
+	_vItemDropRate.push_back(temp);
+	temp.dropRate = num10;
+	wsprintf(temp.itemName, "Illumina");
+	_vItemDropRate.push_back(temp);
+	temp.dropRate = num11;
+	wsprintf(temp.itemName, "Wing Edge");
+	_vItemDropRate.push_back(temp);
+}
+
+void Enemy::setItemString()
+{
+	for (int i = 0; i < 11; ++i)
+	{
+		_enemyItemNum -= _vItemDropRate[i].dropRate;
+		if (_enemyItemNum <= 0)
+		{
+			strcpy(_itemString, _vItemDropRate[i].itemName);
+			break;
+		}
 	}
 }
