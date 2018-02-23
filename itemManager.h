@@ -45,30 +45,40 @@ public:
 
 	void saveInventory(char* fileName);						//인벤토리를 키값의 파일에 저장
 	void loadInventory(char* fileName);						//키값의 파일로부터 인벤토리 로드
+
+	itemKind getItemKind(string keyName);					//키값으로 아이템 타잎 반환
+
 	int getItemVNum(int num);								//아이템 인벤토리에 저장된 순서의 번호로 아이텐 정보 벡터의 번호 반환
 	int getItemCount(int num);								//아이템 인벤토리에 저장된 순서의 번호의 갯수 반환
 	int getItemCountByVector(int vNum);						//아이템 인벤토리에 저장된 순서의 번호를 벡터 번호로 검색해서 반환
+
 	int getWeaponVNum(int num);								//무기 인벤토리에 저장된 순서의 번호로 아이텐 정보 벡터의 번호 반환
 	int getWeaponCount(int num);							//무기 인벤토리에 저장된 순서의 번호의 갯수 반환
 	int getWeaponCountByVector(int vNum);					//무기 인벤토리에 저장된 순서의 번호를 벡터 번호로 검색해서 반환
+
 	int getArmorVNum(int num);								//방어구 인벤토리에 저장된 순서의 번호로 아이텐 정보 벡터의 번호 반환
 	int getArmorCount(int num);								//방어구 인벤토리에 저장된 순서의 번호의 갯수 반환
 	int getArmorCountByVector(int vNum);					//방어구 인벤토리에 저장된 순서의 번호를 벡터 번호로 검색해서 반환
+
 	void setItemInventory(int vectorNum, int count);		//아이템 인벤토리에 벡터 번호의 아이템을 해당 갯수만큼 넣어준다
 	void setItemInventory(string keyName, int count);		//아이템 인벤토리에 키값 이름의 아이템을 해당 갯수만큼 넣어준다
 	void changeItemNumber(int vectorNum, int number);		//아이템 인벤토리에 벡터 번호의 아이템을 해당 갯수만큼 증감한다
 	void changeItemNumber(string keyName, int number);		//아이템 인벤토리에 키값 이름의 아이템을 해당 갯수만큼 증감한다
+
 	void setWeaponInventory(int vectorNum, int count);		//무기 인벤토리에 벡터 번호의 아이템을 해당 갯수만큼 넣어준다
 	void setWeaponInventory(string keyName, int count);		//무기 인벤토리에 키값 이름의 아이템을 해당 갯수만큼 넣어준다
 	void changeWeaponNumber(int vectorNum, int number);		//무기 인벤토리에 벡터 번호의 아이템을 해당 갯수만큼 증감준다
 	void changeWeaponNumber(string keyName, int number);	//무기 인벤토리에 키값 이름의 아이템을 해당 갯수만큼 증감준다
+
 	void setArmorInventory(int vectorNum, int count);		//방어구 인벤토리에 벡터 번호의 아이템을 해당 갯수만큼 넣어준다
 	void setArmorInventory(string keyName, int count);		//방어구 인벤토리에 키값 이름의 아이템을 해당 갯수만큼 넣어준다
 	void changeArmorNumber(int vectorNum, int number);		//방어구 인벤토리에 벡터 번호의 아이템을 해당 갯수만큼 증감준다
 	void changeArmorNumber(string keyName, int number);		//방어구 인벤토리에 키값 이름의 아이템을 해당 갯수만큼 증감준다
+
 	inline int getItemInventorySize() { return _arrItemInventory.size(); }		//아이템 인벤토리 사이즈 반환
 	inline int getWeaponInventorySize() { return _arrWeaponInventory.size(); }	//무기 인벤토리 사이즈 반환
 	inline int getArmorInventorySize() { return _arrArmorInventory.size(); }	//방어구 인벤토리 사이즈 반환
+
 	inline unsigned int getMoney() { return _gil; }								//소지금 반환
 	inline void setMoney(unsigned int money) { _gil = money; }					//소지금 설정
 

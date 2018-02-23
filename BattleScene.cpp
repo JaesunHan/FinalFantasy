@@ -773,7 +773,7 @@ void BattleScene::playerMenuSelect()
 				case(BATTLE_MAGIC):
 					_battleCharacters[_currentTurn].playerSelect = _playerSelectNum;
 					_battleCharacters[_currentTurn].magicSelect = _magicSelectNum;
-					//_battleCharacters[_currentTurn].player->setCurMP(_battleCharacters[_currentTurn].player->getCurMP() - _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getManaCost());
+					_battleCharacters[_currentTurn].player->setCurMP(_battleCharacters[_currentTurn].player->getCurMP() - _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getManaCost());
 					_battleCharacters[_currentTurn].player->setStatus(BATTLE_PLAYER_MAGIC_ATTACK_STANDBY);
 					_battleCharacters[_currentTurn].selectAction = true;
 					_battleCharacters[_currentTurn].menuSelect = BATTLE_MAGIC_HEAL;
@@ -822,7 +822,7 @@ void BattleScene::playerMenuSelect()
 				case(BATTLE_MAGIC):
 					_battleCharacters[_currentTurn].magicSelect = _magicSelectNum;
 					_battleCharacters[_currentTurn].player->setStatus(BATTLE_PLAYER_MAGIC_ATTACK_STANDBY);
-					//_battleCharacters[_currentTurn].player->setCurMP(_battleCharacters[_currentTurn].player->getCurMP() - _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getManaCost());
+					_battleCharacters[_currentTurn].player->setCurMP(_battleCharacters[_currentTurn].player->getCurMP() - _battleCharacters[_currentTurn].player->getMyUsableMagic()[_magicSelectNum]->getManaCost());
 					_battleCharacters[_currentTurn].selectAction = true;
 					_battleCharacters[_currentTurn].menuSelect = BATTLE_MAGIC_ATTACK;
 					_battleTurn.push(&_battleCharacters[_currentTurn]);
@@ -1612,7 +1612,19 @@ void BattleScene::victoryMessage()
 			drawText(32, _message0, tempDialogueRC, DT_CENTER, true);
 			break;
 		case(17):
-			drawText(32, "아이템을 얻은 것 같은 그런 느낌이다.", tempDialogueRC, DT_CENTER, true);
+			if (_dialogue == true)
+			{
+				if (RND->getInt(2) == 0)
+				{
+					wsprintf(_message0, "%s 을(를) 얻었다.", _battleCharacters[4].enemy->getItemName());
+				}
+				else
+				{
+					skip = true;
+				}
+				_dialogue = false;
+			}
+			drawText(32, _message0, tempDialogueRC, DT_CENTER, true);
 			break;
 		}
 		if (skip == true)

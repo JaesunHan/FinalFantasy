@@ -906,3 +906,14 @@ bool itemManager::useItemInBattle(int itemTarget, int invenNum)
 		return false;
 	}
 }
+
+itemKind itemManager::getItemKind(string keyName)
+{
+	for (int i = 0; i < _vItem.size(); ++i)
+	{
+		if (_vItem[i]->getItemName() == keyName)
+		{
+			return _vItem[i]->getItmeKind();
+		}
+	}
+}
