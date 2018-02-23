@@ -56,7 +56,7 @@ void fButton::buttonSet(string keyName, float x, float y)
 }
 
 //					    버튼이미지 키값  위치XY           텍스트            텍스트크기
-void fButton::buttonSet(string keyName, float x, float y, char* buttonText, float textSize, int textSortType)
+void fButton::buttonSet(string keyName, float x, float y, char* buttonText, float textSize, int textSortType, bool isAddText, int subTextNum)
 {
 	//-------------------------------------------- keyName 형변환
 	char temp[128];
@@ -88,6 +88,10 @@ void fButton::buttonSet(string keyName, float x, float y, char* buttonText, floa
 	int arrAni[] = { 0, 1 };
 	KEYANIMANAGER->addArrayFrameAnimation(aniTemp, temp, arrAni, 2, 2, true);
 	_button.ani = KEYANIMANAGER->findAnimation(aniTemp);
+
+	if (isAddText) wsprintf(_button.subText, "%d", subTextNum);
+	_button.isAddText = isAddText;
+
 
 	_vButton.push_back(_button);
 
@@ -127,10 +131,24 @@ void fButton::render()
 				case 1:
 					textPrint(getMemDC(), _vButton[i].text, _vButton[i].centerX - 40, _vButton[i].centerY - 5, _vButton[i].textSize, 20, "Viner Hand ITC", RGB(255, 255, 255), false);
 				break;
+				case 2:
+					textPrint(getMemDC(), _vButton[i].text, _vButton[i].centerX - 50, _vButton[i].centerY, _vButton[i].textSize, 20, "휴먼모음T", RGB(255, 255, 255), false);
+				break;
 			}
-		
+		}		
+		if (_vButton[i].isAddText)
+		{
+			textPrint(getMemDC(), _vButton[i].subText, _vButton[i].centerX + 50, _vButton[i].centerY, _vButton[i].textSize, 20, "휴먼모음T", RGB(0, 0, 0), false);
+		}
+
+		if (KEYMANAGER->isToggleKey(VK_TAB))
+		{
+			char tmpI[4];
+			sprintf(tmpI, "%d", i);
+			textPrint(getMemDC(), tmpI, _vButton[i].x, _vButton[i].y, _vButton[i].textSize, 10, "휴먼모음T", RGB(255, 255, 255), false);
 		}
 			
+
 	}
 }
 
@@ -155,3 +173,4 @@ void fButton::buttonRemoveOne(int buttonNum)
 	SAFE_DELETE(_vButton[buttonNum].ani);
 	_vButton.erase(_vButton.begin() + buttonNum);
 }
+

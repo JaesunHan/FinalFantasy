@@ -7,6 +7,7 @@ class newGame : public menu
 private:
 
 
+
 public:
 	HRESULT init();
 	void release();

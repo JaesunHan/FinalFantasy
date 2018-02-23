@@ -126,15 +126,15 @@ void newGame::update()
 			saveIniSlotGameData(_saveFileNum, "OVER WORLD",30000 , 0, true);			//게임데이터: 세이브파일에 저장
 			saveIniGameData(_saveFileNum, "OVER WORLD");								//게임데이터: 데이터베이스에 저장
 
-			//플레이어 기본무기 셋팅
-			for (int i = 0; i < MAXPLAYERNUMBER; ++i)
-			{
-				//_pM->getVPlayer()[i]->setWeaponItem(_iM->getWeaponVNum());
-			}
-	
+
+
 			//아이템 저장
 			itemSave(MENUITEM_ITEM, 1, 2, true, _saveFileNum);
-			itemSave(MENUITEM_ITEM, 2, 2, true, _saveFileNum);
+			itemSave(MENUITEM_ITEM, 3, 2, true, _saveFileNum);
+			//itemSave(MENUITEM_ITEM, 2, 2, true, _saveFileNum);
+			//itemSave(MENUITEM_ITEM, 7, 1, true, _saveFileNum);
+			//itemSave(MENUITEM_ITEM, 10, 1, true, _saveFileNum);
+
 			itemSave(MENUITEM_ARMOR, 2, 2, true, _saveFileNum);
 			itemSave(MENUITEM_WEAPON, 2, 2, true, _saveFileNum);
 			//================================== 저장파일 생성 ================================== 

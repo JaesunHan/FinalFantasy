@@ -56,7 +56,9 @@ HRESULT playGround::init()
 	SCENEMANAGER->addScene("사운드", new configMenu);
 	SCENEMANAGER->addScene("장비", new equipMenu);
 	SCENEMANAGER->addScene("아이템", new itemMenu);
+	((itemMenu*)SCENEMANAGER->findScene("아이템"))->setItemManagerAddressLink(_item);
 	SCENEMANAGER->addScene("상태", new statusMenu);
+	((statusMenu*)SCENEMANAGER->findScene("아이템"))->setItemManagerAddressLink(_item);
 	SCENEMANAGER->addScene("캐릭터능력", new characterAbility);
 	SCENEMANAGER->addScene("캐릭터상태", new characterStatus);
 	//=========================== 메뉴씬 ===========================

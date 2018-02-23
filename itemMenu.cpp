@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "itemMenu.h"
+#include "itemManager.h"
 
 
 itemMenu::itemMenu()
@@ -37,8 +38,9 @@ HRESULT itemMenu::init()
 
 
 	//---------------------- 커서 ----------------------
+	_cursorI = new cursor;
 	_cursorXNum = 3;
-	cursorInit(CUSOR_RIGHT, buttonX - 50, buttonY + 20);
+	_cursorI->init(CURSOR_RIGHT, buttonX - 50, buttonY + 20);
 	//---------------------- 커서 ----------------------
 
 
@@ -120,12 +122,17 @@ HRESULT itemMenu::init()
 		}
 	}
 
-	//----------------------------------------------------------------- 아이템
-	itemButtonSet(0);
+	//---------------------------------------------------------------- 아이템
+
+
+	//_iM->saveInventory("skgFile");
+	//_iM->loadInventory("skgFile");
+	itemButtonSet(_iM->getItemInventorySize());
 
 
 
 	//--------------------------------------- 버튼 ---------------------------------------
+	_itemButtonOn = false;  //아이템버튼 활성화 여부
 
 
 
@@ -141,26 +148,27 @@ void itemMenu::release()
 void itemMenu::update()
 {
 	//커서
-	cursorUpdate();
-
-	//커서 컨트롤X  
-	cursorKeyControlX(210, _cursorXNum);
-
+	_cursorI->update();
 	//버튼
 	_button->update();
 
-	//선택
-	switch (_cursor.currentXNum)
+
+	//커서 컨트롤X: 메뉴버튼
+	if (!_itemButtonOn)
 	{
-		case 0:
-			buttonOnActive();
-		break;
-		case 1:
-			buttonOnActive();
-		break;
-		case 2:
-			buttonOnActive();
-		break;
+		_cursorI->keyControlX(210, _cursorXNum);
+
+
+		buttonOnActive();
+	}
+	else
+	{
+		_cursorI->keyControlXY(250, 65, 3, 5);
+
+
+		//선택
+		buttonOnActiveA();
+
 	}
 
 
@@ -188,7 +196,10 @@ void itemMenu::render()
 	_mShadow.img->aniRender(getMemDC(), _mShadow.x, _mShadow.y, _mShadow.ani);
 	//--------------------------------- 버튼 ---------------------------------
 
-	cursorRender();                //커서
+	itemDescriptionRender(_cursorI->getCursorPos());      //아이템 설명
+
+	_cursorI->render();
+
 }
 
 
@@ -196,17 +207,33 @@ void itemMenu::render()
 void itemMenu::buttonOnActive()
 {
 	//버튼 에니메이션 활성화
-	_button->setVButtonAniStart(_cursor.currentXNum, true);
+	_button->setVButtonAniStart(_cursorI->getCursorXNum(), true);
 	for (int i = 0; i < _cursorXNum; ++i)
 	{
-		if (i == _cursor.currentXNum) continue;
+		if (i == _cursorI->getCursorXNum()) continue;
 		_button->setVButtonAniStart(i, false);
 	}
 
+
+	//상단 메뉴버튼 선택시
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{
-
+		_cursorI->init(CURSOR_RIGHT, 50 , 160);
+		_itemButtonOn = true;
 	}
+
+}
+
+void itemMenu::buttonOnActiveA()
+{
+	//버튼 에니메이션 활성화
+	_button->setVButtonAniStart(_cursorI->getCursorPos() + 7, true);
+	for (int i = 7; i < _button->getButtonNum(); ++i)
+	{
+		if (i == _cursorI->getCursorPos() + 7) continue;
+		_button->setVButtonAniStart(i, false);
+	}
+
 }
 
 //아이템 버튼 셋팅
@@ -218,40 +245,48 @@ void itemMenu::itemButtonSet(int buttonNum)
 	int buttonX = 100;
 	int buttonY = 150;
 
+
+
 	//버튼
 	for (int i = 0; i < buttonNum; ++i)
 	{
 		int intervalX = 250;
 		int intervalY = 70;
+
 		switch (i)
 		{
 			case 0: case 1: case 2:
+				//아이템 버튼 & 이름
 				_button->buttonSet("버튼아이템힐", buttonX + (i * intervalX),
-					buttonY, "Positon", 30, 1);
+					buttonY,_iM->getVItem()[_iM->getItemVNum(i)]->getItemName(), 20, 2, true, _iM->getItemCount(i));			
 			break;
 			case 3: case 4: case 5:
 				_button->buttonSet("버튼아이템힐", buttonX + ((i - 3) * intervalX),
-					buttonY + (1 * intervalY), "Positon", 30, 1);
+					buttonY + (1 * intervalY), _iM->getVItem()[_iM->getItemVNum(i)]->getItemName(), 20, 2, true, _iM->getItemCount(i));
 			break;
 			case 6: case 7: case 8:
 				_button->buttonSet("버튼아이템힐", buttonX + ((i - 6) * intervalX),
-					buttonY + (2 * intervalY), "Positon", 30, 1);
+					buttonY + (2 * intervalY), _iM->getVItem()[i]->getItemName(), 20, 2, true, _iM->getItemCount(_iM->getVItem()[i]->getItemNumber()));
 			break;
 			case 9: case 10: case 11:
 				_button->buttonSet("버튼아이템힐", buttonX + ((i - 9) * intervalX),
-					buttonY + (3 * intervalY), "Positon", 30, 1);
+					buttonY + (3 * intervalY), _iM->getVItem()[i]->getItemName(), 20, 2, true, _iM->getItemCount(_iM->getVItem()[i]->getItemNumber()));
 			break;
 			case 12: case 13: case 14:
 				_button->buttonSet("버튼아이템힐", buttonX + ((i - 12) * intervalX),
-					buttonY + (4 * intervalY), "Positon", 30, 1);
+					buttonY + (4 * intervalY), _iM->getVItem()[i]->getItemName(), 20, 2, true, _iM->getItemCount(_iM->getVItem()[i]->getItemNumber()));
 			break;
 			case 15: case 16: case 17:
 				_button->buttonSet("버튼아이템힐", buttonX + ((i - 15) * intervalX),
-					buttonY + (5 * intervalY), "Positon", 30, 1);
+					buttonY + (5 * intervalY), _iM->getVItem()[i]->getItemName(), 20, 2, true, _iM->getItemCount(_iM->getVItem()[i]->getItemNumber()));
 			break;
 		}
 	}
 
+}
 
 
+void itemMenu::itemDescriptionRender(int itemNum)
+{
+	textPrint(getMemDC(), _iM->getVItem()[_iM->getItemVNum(itemNum)]->getItemDescription(), 50, 520, 20, 20, "HY견고딕", COLOR_BLUE, false);
 }
