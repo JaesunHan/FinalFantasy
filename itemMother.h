@@ -19,7 +19,7 @@ protected:
 	//================================== 공통 =======================================
 
 	itemKind _itemKind;								//아이템 종류
-	int _itemNumber;						//아이템 넘버링
+	int _itemNumber;								//아이템 넘버링(-3, -2, -1, 0, 1, 2, 3, 4, 5, ...)
 
 	char _name[MAXNAMESIZE];						//아이템 이름
 	char _description[MAXNAMESIZE];					//아이템 설명

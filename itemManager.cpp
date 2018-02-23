@@ -15,6 +15,28 @@ itemManager::~itemManager()
 
 HRESULT itemManager::init()
 {
+	//======================================== 디폴트 ========================================
+	
+	//기본 무기 세팅
+	weaponItem* defaultWeapon = new weaponItem;
+	defaultWeapon->init(0, ITEM_WEAPON, "DefaultWeapon", "맨주먹공격무기이다", 0, 10, 100);
+	_vItem.push_back(defaultWeapon);
+
+	//기본 갑옷 세팅
+	armorItem* defaultArmor = new armorItem;
+	defaultArmor->init(-1, ITEM_ARMOR, "", "", 0, 0, 0);
+	_vItem.push_back(defaultArmor);
+
+	//기본 헬멧 세팅
+	armorItem* defaultHelmet = new armorItem;
+	defaultHelmet->init(-2, ITEM_HELMET, "", "", 0, 0, 0);
+	_vItem.push_back(defaultHelmet);
+
+	//기본 서브 무기 세팅
+	armorItem* defaultSubWeapon = new armorItem;
+	defaultSubWeapon->init(-3, ITEM_SUB_WEAPON, "", "", 0, 0, 0);
+	_vItem.push_back(defaultSubWeapon);
+
 	//======================================== 소모품 ========================================
 	
 	expendablesItem* expendables = new expendablesItem;

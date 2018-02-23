@@ -345,36 +345,36 @@ void playerManager::loadGameData()
 
 void playerManager::searchPlayerItem(int weaponNum, int armorNum, int helmetNum, int subWeapon, playerMother* tempPlayer)
 {
-	//그 아이템 번호가 0이면 기본무기로 저장하고
-	if (weaponNum == 0)
-	{
-		//기본무기 아이템을 생성해서
-		weaponItem* temWeapon = new weaponItem;
-		temWeapon->init(0, ITEM_WEAPON, "DefaultWeapon", "맨주먹공격무기이다", 0, 10, 100);
-		tempPlayer->setDefaultWeapon(temWeapon);
-	}
-
-	if (armorNum == -1)
-	{
-		//기본 갑옷 세팅
-		armorItem* tempArmor = new armorItem;
-		tempArmor->init(-1, ITEM_ARMOR, "", "", 0, 0, 0);
-		tempPlayer->setArmor(tempArmor);
-	}
-
-	if (helmetNum == -2)
-	{
-		armorItem* tempHelmet = new armorItem;
-		tempHelmet->init(-2, ITEM_HELMET, "", "", 0, 0, 0);
-		tempPlayer->setHelmet(tempHelmet);
-	}
-
-	if (subWeapon == -3)
-	{
-		armorItem* tempSubWeapon = new armorItem;
-		tempSubWeapon->init(-3, ITEM_SUB_WEAPON, "", "", 0, 0, 0);
-		tempPlayer->setSubWeapon(tempSubWeapon);
-	}
+	////그 아이템 번호가 0이면 기본무기로 저장하고
+	//if (weaponNum == 0)
+	//{
+	//	//기본무기 아이템을 생성해서
+	//	weaponItem* temWeapon = new weaponItem;
+	//	temWeapon->init(0, ITEM_WEAPON, "DefaultWeapon", "맨주먹공격무기이다", 0, 10, 100);
+	//	tempPlayer->setDefaultWeapon(temWeapon);
+	//}
+	//
+	//if (armorNum == -1)
+	//{
+	//	//기본 갑옷 세팅
+	//	armorItem* tempArmor = new armorItem;
+	//	tempArmor->init(-1, ITEM_ARMOR, "", "", 0, 0, 0);
+	//	tempPlayer->setArmor(tempArmor);
+	//}
+	//
+	//if (helmetNum == -2)
+	//{
+	//	armorItem* tempHelmet = new armorItem;
+	//	tempHelmet->init(-2, ITEM_HELMET, "", "", 0, 0, 0);
+	//	tempPlayer->setHelmet(tempHelmet);
+	//}
+	//
+	//if (subWeapon == -3)
+	//{
+	//	armorItem* tempSubWeapon = new armorItem;
+	//	tempSubWeapon->init(-3, ITEM_SUB_WEAPON, "", "", 0, 0, 0);
+	//	tempPlayer->setSubWeapon(tempSubWeapon);
+	//}
 	for (int i = 0; i < _itemManager->getVItem().size(); ++i)
 	{
 		//================= 무기 아이템 ===================
