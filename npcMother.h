@@ -73,6 +73,7 @@ public:
 	POINT getNpcPoint() { return _npc; }
 	//ÄÝ¸®Àü Çß´Ì? ¾ÈÇß´Ì? 
 	bool getNpcCollison() { return _isCollision; }
+	void setNpcCollision(bool isCollision) { _isCollision = isCollision; }
 	//NPCÅ¸ÀÔ °ÙÇÔ¼ö
 	NPCTYPE getNpcType() { return _npctype; }
 

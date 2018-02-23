@@ -45,7 +45,7 @@ HRESULT worldMapScene::init()
 	_isEncounter = false;
 	_isOpenBox = false;
 	_isNotEnemyVector = false;
-
+	_isGetGongChi = false;
 	_enemyNum = -1;
 
 
@@ -160,7 +160,8 @@ void worldMapScene::getCollision()
 				//충돌한 녀석의 인덱스를 변수에 저장한다.
 				_enemyNum = i;
 				tempPoint = _wMEM->getVWME()[i]->getWorldMapEnemyPoint();
-				getGongChi();
+				getGongChi();				
+				//_wMEM->getVWME()[i]->setIsCollision(false);
 				//상자 오픈 이미지 띄우고 
 				//상자 아이템 획득 이미지 띄우고 
 				//상자를 벡터에서 지워주고. <- 벡터에서 지워주는게 나은지 아니면 그냥 열린 이미지 그대로 있는게 나은지는 생각해봐야지.
@@ -198,6 +199,7 @@ void worldMapScene::enterTownMap()
 {
 	if (_worldMapPlayer->getIsEnter())
 	{
+		SOUNDMANAGER->releaseAllSound();
 		SCENEMANAGER->changeSceneType1("타운맵씬");
 		//SOUNDMANAGER->stop(CH_BGM);
 		//_worldMapPlayer->setWorldMapPlayerTempPoint(_worldMapPlayer->getWorldMapPlayerPoint());
@@ -219,7 +221,11 @@ void worldMapScene::setPlayerPos(void)
 void worldMapScene::getGongChi()
 {
 	//이 함수는 보물상자를 열었을때 인벤토리에 꽁치 아이템을 추가해주는 함수.
-	_im->changeWeaponNumber("KKongChi", 1);
+	if (!_isGetGongChi)
+	{
+		_im->changeWeaponNumber("KKongChi", 1);
+	}
+	_isGetGongChi = true;
 }
 
 void worldMapScene::battleEncount()

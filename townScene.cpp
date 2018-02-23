@@ -84,6 +84,7 @@ void townScene::enterWorldMap()
 	if(_worldMapPlayer->getIsWorldMapEnter())
 	{
 		//부딪친 오브젝트가 타운에서 월드맵 속성을 가졌으면
+		SOUNDMANAGER->releaseAllSound();
 		SCENEMANAGER->changeSceneType1("월드맵씬", false);
 		((worldMapScene*)SCENEMANAGER->findScene("월드맵씬"))->setPlayerPos();
 		_worldMapPlayer->setWorldMapPlayerPoint(PointMake(_worldMapPlayer->getWorldMapPlayerPoint().x, _worldMapPlayer->getWorldMapPlayerPoint().y));
@@ -102,20 +103,23 @@ void townScene::entershop()
 			//만약 플레이어와 npc의 겟디스턴스 거리가 TILE_SIZEX 미만일때 /iscollision = true일때
 			if (_npcManager->getVNpc()[i]->getNpcCollison())
 			{
+				_npcManager->getVNpc()[i]->setNpcCollision(false);
 				if (_npcManager->getVNpc()[i]->getNpcType() == NPC_WEAPON)
 				{
 					((storeScene*)SCENEMANAGER->findScene("storeScene"))->setStoreKey("weaponStore");
-					SCENEMANAGER->changeSceneType1("storeScene");
+					SCENEMANAGER->changeSceneType1("storeScene");	
 				}
 				else if (_npcManager->getVNpc()[i]->getNpcType() == NPC_POTION)
 				{
 					((storeScene*)SCENEMANAGER->findScene("storeScene"))->setStoreKey("itemShop");
 					SCENEMANAGER->changeSceneType1("storeScene");
+					//_npcManager->getVNpc()[i]->setNpcCollision(false);
 				}
 				else if (_npcManager->getVNpc()[i]->getNpcType() == NPC_DEFENCE)
 				{
 					((storeScene*)SCENEMANAGER->findScene("storeScene"))->setStoreKey("armorStore");
 					SCENEMANAGER->changeSceneType1("storeScene");
+					//_npcManager->getVNpc()[i]->setNpcCollision(false);
 				}
 			}
 		}

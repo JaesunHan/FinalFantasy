@@ -30,6 +30,7 @@ private:
 	bool _isCollision;
 	bool _isEncounter;
 	bool _isNotEnemyVector;
+	bool _isGetGongChi;
 
 	//µµ¸Á°¬´Ì
 	bool _isEscape;
