@@ -19,7 +19,7 @@ HRESULT itemManager::init()
 	
 	//기본 무기 세팅
 	weaponItem* defaultWeapon = new weaponItem;
-	defaultWeapon->init(0, ITEM_WEAPON, "DefaultWeapon", "맨주먹공격무기이다", 0, 10, 100);
+	defaultWeapon->init(0, ITEM_WEAPON, "맨손주먹", "맨손주먹공격무기이다", 0, 10, 100);
 	_vItem.push_back(defaultWeapon);
 
 	//기본 갑옷 세팅

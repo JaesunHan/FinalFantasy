@@ -62,6 +62,9 @@ HRESULT configMenu::init()
 	_cursor = new cursor;
 	_cursor->init(CURSOR_RIGHT, _rcCTRLNum[_cursorIdx].left + 10, _rcCTRLNum[_cursorIdx].top + (_rcCTRLNum[_cursorIdx].bottom - _rcCTRLNum[_cursorIdx].top) / 2-10);
 
+	//처음에는 아무것도 선택을 안한 상태이므로 모두 false 로 세팅한다.
+	isSelect[SELECT_BGM] = false;
+	isSelect[SELECT_EFFECT] = false;
 	
 
 	//연산은 버린다!
@@ -81,23 +84,12 @@ void configMenu::release()
 
 void configMenu::update()
 {
-	//아래 방향 누르면 
-	if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+	_cursor->keyControlY(_rcCTRLNum[1].top - _rcCTRLNum[0].top, 2);
+	
+	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{
-		_cursorIdx++;
-		//최대 인덱스 값보다 큰 값일 때는 최대 인덱스 값으로 저장
-		if (_cursorIdx >= MAXCURSORPOS)	_cursorIdx = MAXCURSORPOS - 1;
-		_cursor->keyControlY(_rcCTRLNum[1].top - _rcCTRLNum[0].top, 1);
-	}
-	if (KEYMANAGER->isOnceKeyDown(VK_UP))
-	{
-		_cursorIdx--;
-		//최소 인덱스 값보다 작은 값일 때는 최소 인덱스 값으로 저장
-		if (_cursorIdx < 0)	_cursorIdx = 0;
-		_cursor->keyControlY(_rcCTRLNum[0].top - _rcCTRLNum[1].top, 1);
-	}
 
-
+	}
 
 	//옵션 메뉴가기
 	if (KEYMANAGER->isOnceKeyDown(VK_BACK))
