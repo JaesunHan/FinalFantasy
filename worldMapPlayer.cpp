@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "worldMapPlayer.h"
 #include "generalMap.h"
+#include "menu.h"
 
 worldMapPlayer::worldMapPlayer()
 {
@@ -33,6 +34,8 @@ HRESULT worldMapPlayer::init(int playerX, int playerY)
 	_isEnter = false;
 	_isWorldMapEnter = false;
 
+	_battleCount = 0;
+	_isEncount = false;
 	return S_OK;
 }
 
@@ -102,6 +105,8 @@ void worldMapPlayer::worldPlayerKeyControl()
 {
 	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
 	{
+					//랜덤성을 위해서 
+		_battleCount += INCRESECOUNTRANGE;
 		_worldPlayerDirection = WPLEFT;
 		_player.x -= _moveSpeed;
 		_rc = RectMake(_player.x, _player.y + 30, TILE_SIZEX, TILE_SIZEY / 2);
@@ -142,11 +147,14 @@ void worldMapPlayer::worldPlayerKeyControl()
 			_player.x = _player.x - 15;
 			_isWorldMapEnter = true;
 		}
-		//오브젝트어트리뷰트도 추가해야한당
-		//오브젝트 속성 OBJ_MOUNTAIN, OBJ_CAVE, OBJ_TOWN, OBJ_CASTLE, OBJ_NPC, OBJ_ENEMY,
+		
+
+
 	}
 	else if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
 	{
+		//랜덤성을 위해서 
+		_battleCount += INCRESECOUNTRANGE;
 		_worldPlayerDirection = WPRIGHT;
 		_player.x += _moveSpeed;
 		_rc = RectMake(_player.x, _player.y + 30, TILE_SIZEX, TILE_SIZEY / 2);
@@ -186,6 +194,8 @@ void worldMapPlayer::worldPlayerKeyControl()
 	}
 	else if (KEYMANAGER->isStayKeyDown(VK_UP))
 	{
+		//랜덤성을 위해서 
+		_battleCount += INCRESECOUNTRANGE;
 		_worldPlayerDirection = WPUP;
 		_player.y -= _moveSpeed;
 		_rc = RectMake(_player.x, _player.y + 30, TILE_SIZEX, TILE_SIZEY / 2);
@@ -224,6 +234,8 @@ void worldMapPlayer::worldPlayerKeyControl()
 	}
 	else if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 	{
+		//랜덤성을 위해서 
+		_battleCount += INCRESECOUNTRANGE;
 		_worldPlayerDirection = WPDOWN;
 		_player.y += _moveSpeed;
 		_rc = RectMake(_player.x, _player.y + 30, TILE_SIZEX, TILE_SIZEY / 2);
@@ -259,6 +271,13 @@ void worldMapPlayer::worldPlayerKeyControl()
 			_player.y = _player.y - 15;
 			_isWorldMapEnter = true;
 		}
+	}
+
+	//걸어다닐때 몹 엔카운터 랜덤랜덤
+	if (_battleCount >= MAXENCOUNT)
+	{
+		_isEncount = true;
+		_battleCount = 0;
 	}
 
 	int test = CAMERAMANAGER->getMapTotalSize().x;

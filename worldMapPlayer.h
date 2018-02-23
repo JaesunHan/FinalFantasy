@@ -8,6 +8,10 @@
 //		2월 12일				//
 //==========================//
 
+
+#define MAXENCOUNT 10000000
+#define INCRESECOUNTRANGE RND->getFromIntTo(1,5)
+
 enum WORLDPLAYERDIRECTION
 {
 	WPRIGHT,
@@ -17,8 +21,10 @@ enum WORLDPLAYERDIRECTION
 	WPEND
 };
 
-class generalMap;
 
+//전방선언
+class generalMap;
+class menu;
 
 class worldMapPlayer : public gameNode
 {
@@ -32,6 +38,8 @@ public:
 	//월드맵클래스
 	generalMap* _curMap;
 	
+	//메뉴클래스 
+	menu* _menu;
 
 	//플레이어 좌표
 	POINT _player;
@@ -45,6 +53,11 @@ public:
 	int _currentFrameX;
 	int	_currentFrameY;
 	int _count;
+
+	//배틀엔카운터용 변수
+	int _battleCount;
+	bool _isEncount;
+	
 	bool _checkRc;
 	bool _isEscapeSuccess;
 	//마을 입장용
@@ -98,11 +111,8 @@ public:
 
 	void setCurMapAddressLink(generalMap* curMap) { _curMap = curMap; }
 
-
-
 	POINT getWorldMapPlayerTempPoint() { return _playerTemp; }
 	void setWorldMapPlayerTempPoint(POINT playerTemp) { _playerTemp = playerTemp; }
-
 
 
 	bool getIsEnter() { return _isEnter; }
@@ -110,6 +120,12 @@ public:
 
 	bool getIsWorldMapEnter() { return _isWorldMapEnter; }
 	void setIsWorldMapeEnter(bool isWorldMapEnter) { _isWorldMapEnter = isWorldMapEnter; }
+
+	bool getIsEncount() { return _isEncount; }
+	void setIsEncount(bool isEncount) { _isEncount = isEncount; }
+
+
+	void setMenuMemoryAddressLink(menu* menu) { _menu = menu; }
 
 };
 

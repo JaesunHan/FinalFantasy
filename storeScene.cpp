@@ -310,8 +310,8 @@ void storeScene::drawSellItemList(void)
 			if (i == _listSelectCursor.getCursorPos()) IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 1, 0);
 			else IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 0, 0);
 
-			//맵정보에는 아이템, 웨폰, 아머 이렇게 있다. 접근시 아이템매니저 벡터를 접근한뒤 해당 아이템의 맵정보에 접근가능하다. 
-			//아이템 이름 불러온다.                  //아이템 매니저의 벡터를 돌아 -> 맵정보에 [아이템]맵에 있는 벡터arry넘버를 반환받아-> 인벤토리의 아이템 이름을 받아온다.
+																	//맵정보에는 아이템, 웨폰, 아머 이렇게 있다. 접근시 아이템매니저 벡터를 접근한뒤 해당 아이템의 맵정보에 접근가능하다. 
+			//아이템 이름 불러온다.									 //아이템 매니저의 벡터를 돌아 -> 맵정보에 [아이템]맵에 있는 벡터arry넘버를 반환받아-> 인벤토리의 아이템 이름을 받아온다.
 			TextOut(getMemDC(), 75 + (i % 3) * 280, 235 + (i / 3) * 90, _im->getVItem()[_im->getArmorVNum(i)]->getItemName(), strlen(_im->getVItem()[_im->getArmorVNum(i)]->getItemName()));
 			//아이템 [가격] 출력
 			sprintf(str, "가격");

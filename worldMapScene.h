@@ -6,12 +6,15 @@
 #include "npcManager.h"
 #include "worldMapEnemyManager.h"
 
+
+
 //======월드맵 씬	 =======//
 //		제작자 : 한재환		//
 //		2월 12일				//
 //==========================//
 
-
+//인벤토리 가져오기 위한 전방선언 월드맵에서 인벤토리를 건드립니다 흿흿!
+class itemManager;
 
 class worldMapScene : public gameNode
 {
@@ -19,9 +22,12 @@ private:
 	//충돌한 녀석 인덱스 보관용
 	int _enemyNum;
 
+
+
 	//충돌했는지 검출
 	bool _isCollision;
 	bool _isEncounter;
+	bool _isNotEnemyVector;
 
 	//도망갔늬
 	bool _isEscape;
@@ -34,6 +40,9 @@ private:
 
 	//에너미 등장용
 	worldMapEnemyManager* _wMEM;
+
+	//인벤토리용
+	itemManager* _im;
 
 	POINT _curPlayerPos;
 	POINT _curCameraPos;
@@ -69,4 +78,12 @@ public:
 
 	void setPlayerPos(void);
 	void resetIsEncounter(void) { _isEncounter = false; SOUNDMANAGER->stop(CH_ENCOUNTER); }
+
+	void getGongChi();
+
+	void battleEncount();
+
+	//겟셋추가!!!!
+	void setItemManagerAddressLink(itemManager* im) { _im = im; }
+
 };

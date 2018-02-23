@@ -18,7 +18,7 @@ HRESULT worldMapTreasureBox::init(int enemyX, int enemyY, ENEMYMOVEPATTERN enemy
 	//Ãß°¡·Î °¡Á®¾ß ÇÏ´Â Á¤º¸µé.
 
 	_image = IMAGEMANAGER->addFrameImage("¿ùµå¸Ê¹Ú½º", ".//image//enemyImg//treasureBox.bmp", 120, 29, 4, 1, true, RGB(255, 0, 255));
-
+	IMAGEMANAGER->addImage("¿ÀÇÂ¹Ú½º", ".//image//enemyImg//treasureBoxOpen.bmp", 31, 29, true, RGB(255, 0, 255));
 	_enemyType = ENEMY_TREASUREBOX;
 
 	_treasureCount = 0;
@@ -26,7 +26,7 @@ HRESULT worldMapTreasureBox::init(int enemyX, int enemyY, ENEMYMOVEPATTERN enemy
 	_isBox = false;
 
 	//¹Ì¹ÍÀÌ´Ì ¾Æ´Ï´Ì
-	_isMimic = RND->getFromIntTo(1, 3);
+	_isMimic = RND->getFromIntTo(1, 1);
 
 	_enemyMovePattern = enemyPattern;
 	return S_OK;
@@ -97,6 +97,12 @@ void worldMapTreasureBox::worldEnemyImageControl(HDC hdc, POINT movePt)
 	case ENEMYDIRECTION_LEFT: _image = IMAGEMANAGER->findImage("¿ùµå¸Ê¹Ú½º");
 		_image->frameRender(hdc, _enemy.x - movePt.x, _enemy.y - movePt.y, _enemyCurrentFrameX, 0);
 		break;
+	}
+	
+	if (_isBox && _isCollision)
+	{
+		_image = IMAGEMANAGER->findImage("¿ÀÇÂ¹Ú½º");
+		_image->render(hdc, _enemy.x - movePt.x, _enemy.y - movePt.y);
 	}
 
 }

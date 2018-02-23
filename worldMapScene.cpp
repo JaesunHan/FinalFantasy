@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "worldMapScene.h"
+#include "itemManager.h"
 
 
 worldMapScene::worldMapScene()
@@ -43,9 +44,12 @@ HRESULT worldMapScene::init()
 	_isCollision = false;
 	_isEncounter = false;
 	_isOpenBox = false;
+	_isNotEnemyVector = false;
 
 	_enemyNum = -1;
 
+
+	//에너미 사이즈만큼 계속 플러그 꼽아준다.
 	for (int i = 0; i < _wMEM->getVWME().size(); ++i)
 	{
 		_wMEM->getVWME()[i]->setEnemyAddressLinkWithWM(_worldMap);
@@ -70,6 +74,7 @@ void worldMapScene::update()
 		SOUNDMANAGER->addSound("worldMapBGM", ".//sound//worldMapSound//01. Tina.mp3", true, true);
 		SOUNDMANAGER->addSound("encounterSound", ".//sound//worldMapSound//encounter.wav", false, false);
 		SOUNDMANAGER->play("worldMapBGM", CH_BGM, 1.0f);
+		
 	}
 
 	_worldMap->update();
@@ -83,13 +88,24 @@ void worldMapScene::update()
 	//_npcManager->setPlayerPos(_worldMapPlayer->getWorldMapPlayerPoint());
 
 
-	if (_isEscape) successEscape();
+	if (_isEscape)
+	{
+		if (_isNotEnemyVector)
+		{
+			_worldMapPlayer->successEscape();
+			_enemyNum = -1;
+			_isEscape = false;
+		}
+		else successEscape();
+	}
 	else
 	{
 		for (int i = 0; i < _wMEM->getVWME().size(); ++i)
 		{
-			if (i == _enemyNum)
+			//만약에 에너미랑 부딪쳤는데 arry넘버 i가 임시저장된 enemyNum과 같고, 보물상자가 아닌경우에는 
+			if (i == _enemyNum && !_wMEM->getVWME()[i]->getIsBox())
 			{
+				//벡터에서 에너미를 삭제해줘라.
 				_wMEM->worldEmenyDelete(i);
 				_enemyNum = -1;
 			}
@@ -98,6 +114,7 @@ void worldMapScene::update()
 
 	enterTownMap();
 	getCollision();
+	battleEncount();
 
 }
 
@@ -105,18 +122,18 @@ void worldMapScene::render()
 {
 	_worldMap->render(CAMERAMANAGER->getCameraDC());
 
-	_wMEM->render(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
+	_wMEM->beforeRender(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
 	//업데이트에서 받은 플레이어의 실시간 좌표를 NPC와 비교하여 
 	//플레이어보다 먼저 그려주는 이미지 -> 플레이어 이미지 -> 플레이어보다 다음에 그려주는 이미지 순으로 랜더를 한다.
 	//_npcManager->beforeRender(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
 	
 	//_npcManager->afterRender(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
-	if (_isOpenBox)
+	/*if (_isOpenBox)
 	{
-		IMAGEMANAGER->findImage("오픈박스")->render(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt().x+ tempPoint.x, CAMERAMANAGER->getMovePt().y+tempPoint.y);
-	}
+		IMAGEMANAGER->findImage("오픈박스")->render(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt().x- tempPoint.x, CAMERAMANAGER->getMovePt().y-tempPoint.y);
+	}*/
 	_worldMapPlayer->render(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
-	
+	_wMEM->afterRender(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
 	CAMERAMANAGER->render(getMemDC());
 
 
@@ -142,11 +159,12 @@ void worldMapScene::getCollision()
 				//충돌한 녀석의 인덱스를 변수에 저장한다.
 				_enemyNum = i;
 				tempPoint = _wMEM->getVWME()[i]->getWorldMapEnemyPoint();
+				getGongChi();
 				//상자 오픈 이미지 띄우고 
 				//상자 아이템 획득 이미지 띄우고 
 				//상자를 벡터에서 지워주고. <- 벡터에서 지워주는게 나은지 아니면 그냥 열린 이미지 그대로 있는게 나은지는 생각해봐야지.
-				_isOpenBox = true;
-				_wMEM->worldEmenyDelete(i);
+				//_isOpenBox = true;
+				//_wMEM->worldEmenyDelete(i);
 				break;
 			}
 			else
@@ -195,4 +213,25 @@ void worldMapScene::setPlayerPos(void)
 {
 	_worldMapPlayer->setWorldMapPlayerPoint(_curPlayerPos);
 	CAMERAMANAGER->setMovePt(_curCameraPos);
+}
+
+void worldMapScene::getGongChi()
+{
+	//이 함수는 보물상자를 열었을때 인벤토리에 꽁치 아이템을 추가해주는 함수.
+	_im->changeWeaponNumber("KKongChi", 1);
+}
+
+void worldMapScene::battleEncount()
+{
+	if (_worldMapPlayer->getIsEncount())
+	{
+		_isNotEnemyVector = true;
+		if (!_isEncounter)
+		{
+			_isEncounter = true;
+			SOUNDMANAGER->play("encounterSound", CH_ENCOUNTER, 1.0f);
+		}
+		SCENEMANAGER->changeSceneType1("배틀씬");
+	}
+	_worldMapPlayer->setIsEncount(false);
 }

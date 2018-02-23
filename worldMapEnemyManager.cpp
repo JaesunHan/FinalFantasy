@@ -13,7 +13,7 @@ worldMapEnemyManager::~worldMapEnemyManager()
 
 HRESULT worldMapEnemyManager::init()
 {
-	for (int i = 0; i < WORLDMAPENEMY; ++i)
+	/*for (int i = 0; i < WORLDMAPENEMY; ++i)
 	{
 		worldMapEnemy* _worldMapEnemy;
 
@@ -35,26 +35,26 @@ HRESULT worldMapEnemyManager::init()
 		}
 
 		_vWME.push_back(_worldMapEnemy);
-	}
+	}*/
 
-	for (int i = 0; i < 10; ++i)
-	{
-		//_worldMapEmeneySamurai[i] = new worldMapEnemySamurai;
-		_worldMapEmeneySamurai[0].init(1300, 600, ENEMYPATTERN_ONE);
-		_worldMapEmeneySamurai[1].init(1400, 200, ENEMYPATTERN_TWO);
-		_worldMapEmeneySamurai[2].init(1100, 600, ENEMYPATTERN_THREE);
-		_worldMapEmeneySamurai[3].init(1000, 900, ENEMYPATTERN_TWO);
-		_worldMapEmeneySamurai[4].init(900, 400, ENEMYPATTERN_THREE);
-		_worldMapEmeneySamurai[5].init(800, 400, ENEMYPATTERN_ONE);
-		_worldMapEmeneySamurai[6].init(700, 400, ENEMYPATTERN_ONE);
-		_worldMapEmeneySamurai[7].init(600, 400, ENEMYPATTERN_THREE);
-		_worldMapEmeneySamurai[8].init(1500, 400, ENEMYPATTERN_TWO);
-		_worldMapEmeneySamurai[9].init(300, 1500, ENEMYPATTERN_THREE);
-		_vWME.push_back(&_worldMapEmeneySamurai[i]);
-	}
-	
+	//for (int i = 0; i < 10; ++i)
+	//{
+	//	//_worldMapEmeneySamurai[i] = new worldMapEnemySamurai;
+	//	_worldMapEmeneySamurai[0].init(1300, 600, ENEMYPATTERN_ONE);
+	//	_worldMapEmeneySamurai[1].init(1400, 200, ENEMYPATTERN_TWO);
+	//	_worldMapEmeneySamurai[2].init(1100, 600, ENEMYPATTERN_THREE);
+	//	_worldMapEmeneySamurai[3].init(1000, 900, ENEMYPATTERN_TWO);
+	//	_worldMapEmeneySamurai[4].init(900, 400, ENEMYPATTERN_THREE);
+	//	_worldMapEmeneySamurai[5].init(800, 400, ENEMYPATTERN_ONE);
+	//	_worldMapEmeneySamurai[6].init(700, 400, ENEMYPATTERN_ONE);
+	//	_worldMapEmeneySamurai[7].init(600, 400, ENEMYPATTERN_THREE);
+	//	_worldMapEmeneySamurai[8].init(1500, 400, ENEMYPATTERN_TWO);
+	//	_worldMapEmeneySamurai[9].init(300, 1500, ENEMYPATTERN_THREE);
+	//	_vWME.push_back(&_worldMapEmeneySamurai[i]);
+	//}
+	//
 
-	_worldMapTreasureBox.init(100, 100, ENEMYPATTERN_ONE);
+	_worldMapTreasureBox.init(1536, 1500, ENEMYPATTERN_ONE);
 	_vWME.push_back(&_worldMapTreasureBox);
 
 	_worldEnemyBear.init(400, 1400, ENEMYPATTERN_ONE);

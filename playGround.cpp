@@ -29,6 +29,7 @@ HRESULT playGround::init()
 	SCENEMANAGER->addScene("mapToolScene", new mapTool);
 	SCENEMANAGER->addScene("¹èÆ²¾À", _bts);
 	SCENEMANAGER->addScene("¿ùµå¸Ê¾À", new worldMapScene);
+	((worldMapScene*)SCENEMANAGER->findScene("¿ùµå¸Ê¾À"))->setItemManagerAddressLink(_item);
 	SCENEMANAGER->addScene("Å¸¿î¸Ê¾À", new townScene);
 	SCENEMANAGER->addScene("storeScene", new storeScene);
 	SCENEMANAGER->addScene("°ÔÀÓ¿À¹ö", new gameOverScene);
