@@ -87,7 +87,7 @@ void configMenu::update()
 		_cursorIdx++;
 		//최대 인덱스 값보다 큰 값일 때는 최대 인덱스 값으로 저장
 		if (_cursorIdx >= MAXCURSORPOS)	_cursorIdx = MAXCURSORPOS - 1;
-		_cursor->keyControlY()
+		//_cursor->keyControlY()
 	}
 	if (KEYMANAGER->isOnceKeyDown(VK_UP))
 	{
