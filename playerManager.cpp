@@ -80,7 +80,7 @@ void playerManager::update()
 	}
 
 	//플레이어가 렙업했으면 렙업한 정보를 저장한다.
-	playerLevelUp();
+	//playerLevelUp();
 
 
 	////테스트용
@@ -428,39 +428,54 @@ void playerManager::playerLevelUp()
 		int curMP = INIDATA->loadDataInterger(fileName, subjectName, "mp");
 		int maxMP = INIDATA->loadDataInterger(fileName, subjectName, "maxMp");
 		int lv = INIDATA->loadDataInterger(fileName, subjectName, "level");
+		////이 때 렙업해야됨
+		//if (curExp >= maxExp)
+		//{
+		//	lv += 1;	maxExp = maxExpValue[lv];
+		//	for (int i =0; i<lv; ++i)
+		//	{
+		//		maxHP += improveHPValue[i];
+		//		maxMP += improveMPValue[i];
+		//	}
+		//	curHP += improveHPValue[lv - 1];
+		//	curMP += improveMPValue[lv - 1];
 		//이 때 렙업해야됨
-		if (curExp >= maxExp)
+		while (1)
 		{
-			lv += 1;	maxExp = maxExpValue[lv];
-			for (int i =0; i<lv; ++i)
+			if (curExp >= maxExp)
 			{
-				maxHP += improveHPValue[i];
-				maxMP += improveMPValue[i];
+				lv += 1;
+				maxExp = maxExpValue[lv];
+				maxHP += improveHPValue[lv - 1];
+				maxMP += improveMPValue[lv - 1];
+				curHP += improveHPValue[lv - 1];
+				curMP += improveMPValue[lv - 1];
 			}
-			curHP += improveHPValue[lv - 1];
-			curMP += improveMPValue[lv - 1];
-
-			char strMaxExp[256];
-			wsprintf(strMaxExp, "%d", maxExp);
-			char strLv[256];
-			wsprintf(strLv, "%d", lv);
-			char strCurHP[256];
-			wsprintf(strCurHP, "%d", curHP);
-			char strMaxHP[256];
-			wsprintf(strMaxHP, "%d", maxHP);
-			char strCurMP[256];
-			wsprintf(strCurMP, "%d", curMP);
-			char strMaxMP[256];
-			wsprintf(strMaxMP, "%d", maxMP);
-
-			INIDATA->addData(subjectName, "maxExp", strMaxExp);
-			INIDATA->addData(subjectName, "level", strLv);
-			INIDATA->addData(subjectName, "hp", strCurHP);
-			INIDATA->addData(subjectName, "maxHp", strMaxHP);
-			INIDATA->addData(subjectName, "mp", strCurMP);
-			INIDATA->addData(subjectName, "maxMp", strMaxMP);
-
-			INIDATA->iniSave(fileName);
+			else
+			{
+				break;
+			}
 		}
+		char strMaxExp[256];
+		wsprintf(strMaxExp, "%d", maxExp);
+		char strLv[256];
+		wsprintf(strLv, "%d", lv);
+		char strCurHP[256];
+		wsprintf(strCurHP, "%d", curHP);
+		char strMaxHP[256];
+		wsprintf(strMaxHP, "%d", maxHP);
+		char strCurMP[256];
+		wsprintf(strCurMP, "%d", curMP);
+		char strMaxMP[256];
+		wsprintf(strMaxMP, "%d", maxMP);
+
+		INIDATA->addData(subjectName, "maxExp", strMaxExp);
+		INIDATA->addData(subjectName, "level", strLv);
+		INIDATA->addData(subjectName, "hp", strCurHP);
+		INIDATA->addData(subjectName, "maxHp", strMaxHP);
+		INIDATA->addData(subjectName, "mp", strCurMP);
+		INIDATA->addData(subjectName, "maxMp", strMaxMP);
+
+		INIDATA->iniSave(fileName);
 	}
 }
