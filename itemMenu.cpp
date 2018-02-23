@@ -234,6 +234,20 @@ void itemMenu::buttonOnActiveA()
 		_button->setVButtonAniStart(i, false);
 	}
 
+
+	//아이템 버튼 선택시
+	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+	{
+	    
+		switch (_cursorI->getCursorPos())
+		{
+			case 0:
+
+			break;
+		}
+	}
+
+
 }
 
 //아이템 버튼 셋팅

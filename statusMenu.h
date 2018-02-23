@@ -17,6 +17,8 @@ public:
 
 	void buttonOnActive();
 
+
+
 	statusMenu();
 	~statusMenu();
 };

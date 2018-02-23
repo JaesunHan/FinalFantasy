@@ -30,7 +30,7 @@ HRESULT optionMenu::init()
 
 	//사운드 추가
 	menu::init();
-	_isSavePoint = true;  //************************************************ test : 세이브포인트 도착
+	//_isSavePoint = true;  //************************************************ test : 세이브포인트 도착
 
 	//버튼
 	_button = new fButton;

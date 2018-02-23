@@ -560,8 +560,8 @@ void menu::playerStatusRender(int SlotNum)
 		char strMagicE[INTCHARBUFF];
 		sprintf(strMagicE, "%d%%", _vPlayerStatus[i].magicEvation);
 
-		char strWeapon[INTCHARBUFF];
-		sprintf(strWeapon, "%d", _vPlayerStatus[i].weapon);
+		char strWeapon[INTCHARBUFF];	
+		sprintf(strWeapon, "%s", _iM->getVItem()[_iM->getWeaponVNum(_vPlayerStatus[i].weapon)]->getItemName());
 		char strArmor[INTCHARBUFF];
 		sprintf(strArmor, "%d", _vPlayerStatus[i].armor);
 		char strHelmet[INTCHARBUFF];

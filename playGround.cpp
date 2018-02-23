@@ -58,9 +58,12 @@ HRESULT playGround::init()
 	SCENEMANAGER->addScene("아이템", new itemMenu);
 	((itemMenu*)SCENEMANAGER->findScene("아이템"))->setItemManagerAddressLink(_item);
 	SCENEMANAGER->addScene("상태", new statusMenu);
-	((statusMenu*)SCENEMANAGER->findScene("아이템"))->setItemManagerAddressLink(_item);
 	SCENEMANAGER->addScene("캐릭터능력", new characterAbility);
+	((characterAbility*)SCENEMANAGER->findScene("캐릭터능력"))->setItemManagerAddressLink(_item);
 	SCENEMANAGER->addScene("캐릭터상태", new characterStatus);
+	((characterStatus*)SCENEMANAGER->findScene("캐릭터상태"))->setItemManagerAddressLink(_item);
+	_menu = new menu;
+	_menu->setItemManagerAddressLink(_item);
 	//=========================== 메뉴씬 ===========================
 
 	//======================오프닝 무비씬 추가======================

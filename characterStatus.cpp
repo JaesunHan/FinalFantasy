@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "characterStatus.h"
+#include "itemManager.h"
 
 
 characterStatus::characterStatus()

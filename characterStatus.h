@@ -14,6 +14,7 @@ public:
 	void render();
 
 
+	void setPlayerManagerAddressLink(playerManager* pm) { _pM = pm; }
 
 	characterStatus();
 	~characterStatus();
