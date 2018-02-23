@@ -16,7 +16,7 @@
 
 //인벤토리 가져오기 위한 전방선언 월드맵에서 인벤토리를 건드립니다 흿흿!
 class itemManager;
-class menu;
+class optionMenu;
 
 class worldMapScene : public gameNode
 {
@@ -48,7 +48,7 @@ private:
 	itemManager* _im;
 
 	//메뉴클래스 
-	menu* _menu;
+	optionMenu* _optionMenu;
 
 	POINT _curPlayerPos;
 	POINT _curCameraPos;
@@ -93,7 +93,7 @@ public:
 
 	//겟셋추가!!!!
 	void setItemManagerAddressLink(itemManager* im) { _im = im; }
-	void setMenuMemoryAddressLink(menu* menu) { _menu = menu; }
+	void setMenuMemoryAddressLink(optionMenu* optionMenu) { _optionMenu = optionMenu; }
 	
 	//월드맵 플레이어 정보 가져온다.
 	worldMapPlayer* getworldMapPlayer() { return _worldMapPlayer; }

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "worldMapScene.h"
 #include "itemManager.h"
-#include "menu.h"
+#include "optionMenu.h"
 
 worldMapScene::worldMapScene()
 {
@@ -247,7 +247,7 @@ void worldMapScene::savePoint()
 {
 	if (_worldMapPlayer->getIsSavePoint())
 	{
-		_menu->setIsSavePoint(true);
+		_optionMenu->setIsSavePoint(true);
 		_worldMapPlayer->setIsSavePoint(false);
 	}
 	

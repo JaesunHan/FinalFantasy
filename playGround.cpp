@@ -64,10 +64,12 @@ HRESULT playGround::init()
 	((characterAbility*)SCENEMANAGER->findScene("ƒ≥∏Ø≈Õ¥…∑¬"))->setItemManagerAddressLink(_item);
 	SCENEMANAGER->addScene("ƒ≥∏Ø≈ÕªÛ≈¬", new characterStatus);
 	((characterStatus*)SCENEMANAGER->findScene("ƒ≥∏Ø≈ÕªÛ≈¬"))->setItemManagerAddressLink(_item);
+
+	((worldMapScene*)SCENEMANAGER->findScene("ø˘µÂ∏ æ¿"))->setMenuMemoryAddressLink((optionMenu*)SCENEMANAGER->findScene("ø…º«"));
 	_menu = new menu;
 	_menu->setItemManagerAddressLink(_item);
 
-	((worldMapScene*)SCENEMANAGER->findScene("ø˘µÂ∏ æ¿"))->setMenuMemoryAddressLink(_menu);
+	
 
 	//=========================== ∏ﬁ¥∫æ¿ ===========================
 
@@ -123,7 +125,7 @@ void playGround::update(void)
 	if (KEYMANAGER->isOnceKeyDown('B'))
 	{
 		SOUNDMANAGER->stop(CH_BGM);
-		SCENEMANAGER->changeSceneType0("πË∆≤æ¿");			//_isBattle = true;
+		SCENEMANAGER->changeSceneType1("πË∆≤æ¿");	//_isBattle = true;
 	}
 	//================================ πË∆≤æ¿ ================================
 
