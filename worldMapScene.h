@@ -54,7 +54,9 @@ private:
 	POINT _curCameraPos;
 
 	image* _openBox;
+	image* _messageBox;
 	bool _isOpenBox;
+	bool _isMessageBox;
 
 	POINT tempPoint;
 public:

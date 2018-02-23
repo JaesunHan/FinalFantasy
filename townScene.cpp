@@ -50,6 +50,7 @@ void townScene::update()
 		SOUNDMANAGER->play("townMapBGM", CH_BGM, 1.0f);
 	}
 	
+	_worldMapPlayer->setIsSavePoint(true);
 	_townMap->update();
 	_worldMapPlayer->update();
 	_npcManager->update();
