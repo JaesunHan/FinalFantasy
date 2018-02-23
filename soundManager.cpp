@@ -148,7 +148,7 @@ void soundManager::play(string keyName, float volume)
 
 void soundManager::play(string keyName, CHANNELTYPE channel, float volume)
 {
-	_channel[channel]->stop();
+ 	_channel[channel]->stop();
 
 	arrSoundsIter iter = _mTotalSounds.begin();
 
