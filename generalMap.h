@@ -31,6 +31,7 @@ public:
 
 	//맵 로드용 함수
 	void mapLoad(string mapFilePath);
+	void setCamera(void) { CAMERAMANAGER->setMapTotalSize(PointMake(_mapTileNum.x * TILE_SIZEX, _mapTileNum.y * TILE_SIZEY)); }
 
 	//===============겟셋 모음==================
 

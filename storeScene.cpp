@@ -39,7 +39,7 @@ HRESULT storeScene::init()
 	_currentAmount = 1;
 
 	// 임시로 돈 세팅
-	_im->setMoney(500000);
+	//_im->setMoney(500000);
 
 	return S_OK;
 }
@@ -527,6 +527,8 @@ void storeScene::drawAlertScreen(void)
 
 void storeScene::setStoreKey(string key)
 {
+	this->release();
+
 	_storeKey = key;
 
 	if (key == "weaponStore")

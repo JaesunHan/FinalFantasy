@@ -199,6 +199,8 @@ void worldMapScene::enterTownMap()
 {
 	if (_worldMapPlayer->getIsEnter())
 	{
+		_curCameraPos = CAMERAMANAGER->getMovePt();
+
 		SOUNDMANAGER->releaseAllSound();
 		SCENEMANAGER->changeSceneType1("Å¸¿î¸Ê¾À");
 		//SOUNDMANAGER->stop(CH_BGM);
@@ -206,7 +208,6 @@ void worldMapScene::enterTownMap()
 		_worldMapPlayer->setWorldMapPlayerPoint(PointMake(_worldMapPlayer->getWorldMapPlayerPoint().x - 100, _worldMapPlayer->getWorldMapPlayerPoint().y));
 
 		_curPlayerPos = _worldMapPlayer->getWorldMapPlayerPoint();
-		_curCameraPos = CAMERAMANAGER->getMovePt();
 	}
 	_worldMapPlayer->setIsEnter(false);
 
@@ -215,6 +216,7 @@ void worldMapScene::enterTownMap()
 void worldMapScene::setPlayerPos(void)
 {
 	_worldMapPlayer->setWorldMapPlayerPoint(_curPlayerPos);
+	_worldMap->setCamera();
 	CAMERAMANAGER->setMovePt(_curCameraPos);
 }
 

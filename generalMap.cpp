@@ -159,7 +159,7 @@ void generalMap::mapLoad(string mapFilePath)
 
 	}
 
-	CAMERAMANAGER->setMapTotalSize(PointMake(_mapTileNum.x * TILE_SIZEX, _mapTileNum.y * TILE_SIZEY));
+	setCamera();
 
 	CloseHandle(file);
 }
