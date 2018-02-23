@@ -43,6 +43,6 @@ void Tina::setTinaMagic()
 	//마법 공격 3 - 아군 되살리기
 	tmpMagic = new magic;
 	IMAGEMANAGER->addFrameImage("Tina::Revive Magic", "./image/playerImg/playerEffectImage/playerSkill8.bmp", 6110, 242, 26, 1, true, RGB(255, 0, 255));
-	tmpMagic->init("Tina::Revive Magic", "./image/playerImg/playerEffectImage/playerSkill8.bmp", "리바이브!", 2, 30, 0, 0, 1);
+	tmpMagic->init("Tina::Revive Magic", "./image/playerImg/playerEffectImage/playerSkill8.bmp", "리바이브!", 30, 30, 0, 0, 1);
 	_myUsableMagic.push_back(tmpMagic);
 }

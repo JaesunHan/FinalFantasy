@@ -126,6 +126,7 @@ void battlePlayerMother::update()
 					improveHP = _mAllyTarget->getMaxHP();
 				}
 				_mAllyTarget->setCurHP(improveHP);
+				_mAllyTarget->setStatus(BATTLE_PLAYER_IDLE);
 			}
 			else
 			{
