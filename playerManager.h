@@ -16,6 +16,9 @@ class itemManager;
 //class weaponItem;
 //class newGame;
 //class loadGame;
+//테스트용
+//class configMenu;
+
 
 class playerManager : public gameNode
 {

@@ -139,16 +139,14 @@ void battlePlayerMother::update()
 			setPlayerStatusToIdle(_magicAtkAnim);	
 			_turnEnd = true;
 			_playAnimList[BATTLE_PLAYER_MAGIC_ATTACK] = false;
+			_playAnimList[BATTLE_PLAYER_MAGIC_ATTACK_STANDBY] = false;
 
 			if (!(_selectMagic->getIsHeal() || _selectMagic->getIsRevive()))
 			{
 				_BS->playerMagicAttack();
 			}
-		}
-		
+		}	
 	}
-
-	
 }
 void battlePlayerMother::render() 
 {

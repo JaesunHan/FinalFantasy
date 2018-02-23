@@ -6,6 +6,7 @@
 #include "battleShadow.h"
 #include "battleTina.h"
 #include "itemManager.h"
+#include "configMenu.h"
 //#include "weaponItem.h"
 //#include "newGame.h"
 //#include "loadGame.h"
@@ -81,6 +82,15 @@ void playerManager::update()
 	//플레이어가 렙업했으면 렙업한 정보를 저장한다.
 	playerLevelUp();
 
+
+	////테스트용
+	//if (KEYMANAGER->isOnceKeyDown('Q'))
+	//{
+	//	configMenu* cm = new configMenu;
+	//	cm->setPlayerManagerAddressLink(this);
+	//	cm->init();
+	//
+	//}
 }
 void playerManager::render() 
 {
