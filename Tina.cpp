@@ -37,7 +37,7 @@ void Tina::setTinaMagic()
 	//마법 공격 2 - 아군 힐
 	tmpMagic = new magic;
 	IMAGEMANAGER->addFrameImage("Tina::Heal Magic", "./image/playerImg/playerEffectImage/playerSkill2.bmp", 445, 45, 5, 1, true, RGB(255, 0, 255));
-	tmpMagic->init("Tina::Heal Magic", "./image/playerImg/playerEffectImage/playerSkill2.bmp", "힐!", 66, 40, 0, 1, 0);
+	tmpMagic->init("Tina::Heal Magic", "./image/playerImg/playerEffectImage/playerSkill2.bmp", "힐!", 30, 40, 0, 1, 0);	//30은 30%를 말함(피를 30% 만큽 회복한다.)
 	_myUsableMagic.push_back(tmpMagic);
 
 	//마법 공격 3 - 아군 되살리기

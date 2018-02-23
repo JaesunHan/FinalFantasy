@@ -19,12 +19,14 @@ battlePlayerMother::~battlePlayerMother()
 
 HRESULT battlePlayerMother::init()
 {
-
+	_itemEffectImg = new image;
+	//_itemEffectImg= IMAGEMANAGER->addFrameImage("아이템 이팩트 효과", "")
+	//_itemEffect = new effect;
+	//EFFECTMANAGER->addEffect(_maicEffectKeyString, magicImgFileName, _magicImg->getWidth(), _magicImg->getHeight(), _magicImg->getFrameWidth(), _magicImg->getFrameHeight(), 1.0f, 0.5f, 2);
 	return S_OK;
 }
 void battlePlayerMother::update() 
 {
-	
 	//attack 일때
 	if (_status == BATTLE_PLAYER_ATTACK)
 	{
@@ -118,14 +120,7 @@ void battlePlayerMother::update()
 			if (_selectMagic->getIsHeal() || _selectMagic->getIsRevive())
 			{
 				EFFECTMANAGER->play(_selectMagic->getMaicEffectKey(), _mAllyTarget->getPosX(), _mAllyTarget->getPosY());
-				//그리고 피 회복 시키기
-				int improveHP = _mAllyTarget->getCurHP() + _selectMagic->getAbilityPower();
-				//회복 시킨 후 적용될 CurHP 가 MaxHP 를 넘어서면 MaxHP 로 적용한다.
-				if (improveHP >= _mAllyTarget->getMaxHP())
-				{
-					improveHP = _mAllyTarget->getMaxHP();
-				}
-				_mAllyTarget->setCurHP(improveHP);
+				calculateMagicHeal();
 				_mAllyTarget->setStatus(BATTLE_PLAYER_IDLE);
 			}
 			else
@@ -148,6 +143,12 @@ void battlePlayerMother::update()
 			}
 		}	
 	}
+
+	if (_status == BATTLE_PLAYER_ITEM)
+	{
+
+	}
+
 }
 void battlePlayerMother::render() 
 {
@@ -367,4 +368,19 @@ bool battlePlayerMother::moveToTarget(int targetX, int targetY, int motionListId
 		_posY += -sinf(_angle) * _moveSpd;
 		return false;
 	}
+}
+
+void battlePlayerMother::calculateMagicHeal()
+{
+	//그리고 피 회복 시키기
+	//int improveHP = _mAllyTarget->getCurHP() + _selectMagic->getAbilityPower();
+	int improveHP = _mAllyTarget->getCurHP()			//현재피에 
+		+ ((((float)_selectMagic->getAbilityPower())/100.0f)* _mAllyTarget->getMaxHP());	//만피*0.3(혹은 0.2) 만큼 더한다.
+	//회복 시킨 후 적용될 CurHP 가 MaxHP 를 넘어서면 MaxHP 로 적용한다.
+	if (improveHP >= _mAllyTarget->getMaxHP())
+	{
+		improveHP = _mAllyTarget->getMaxHP();
+	}
+	_mAllyTarget->setCurHP(improveHP);
+	
 }

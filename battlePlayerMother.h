@@ -14,6 +14,7 @@ enum baattlePlayerStatus
 	BATTLE_PLAYER_DEAD,
 	BATTLE_PLAYER_WIN_BEFORE,
 	BATTLE_PLAYER_WIN,
+	BATTLE_PLAYER_ITEM,
 	//BATTLE_PLAYER_JUMP,
 	//BATTLE_PLAYER_MOVE,
 	BATTLE_PLAYER_NONE
@@ -94,6 +95,11 @@ protected:
 	battlePlayerMother* _mAllyTarget;
 	//선택한 마법 종류
 	magic* _selectMagic;
+
+	
+	//아이템 사용시 띄울 이팩트이다
+	image* _itemEffectImg;
+	effect* _itemEffect;
 
 	float _targetX, _targetY;
 	int _targetWidth, _targetHeight;
@@ -212,6 +218,7 @@ public:
 	//선택한 마법 세팅
 	void setSelectMagic(magic* m) { _selectMagic = m; }
 
-
+	//마법 힐 할 때 힐퍼센트를 힐해줄 대상에게 적용하기
+	void calculateMagicHeal();
 };
 
