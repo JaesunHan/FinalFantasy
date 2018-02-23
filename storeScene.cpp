@@ -104,6 +104,12 @@ void storeScene::keyControl(void)
 			if (!_buySellSelectCursor.getCursorXNum()) _currentPos = POS_BUY_LIST;
 			else if (_buySellSelectCursor.getCursorXNum()) _currentPos = POS_SELL_LIST;
 		}
+
+		if (KEYMANAGER->isOnceKeyDown(VK_BACK))
+		{
+			SCENEMANAGER->changeSceneType0("Å¸¿î¸Ê¾À", false);
+			return;
+		}
 	}
 	if (_currentPos == POS_BUY_LIST)
 	{

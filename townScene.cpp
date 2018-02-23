@@ -105,17 +105,17 @@ void townScene::entershop()
 				if (_npcManager->getVNpc()[i]->getNpcType() == NPC_WEAPON)
 				{
 					((storeScene*)SCENEMANAGER->findScene("storeScene"))->setStoreKey("weaponStore");
-					SCENEMANAGER->changeSceneType0("storeScene");
+					SCENEMANAGER->changeSceneType1("storeScene");
 				}
 				else if (_npcManager->getVNpc()[i]->getNpcType() == NPC_POTION)
 				{
 					((storeScene*)SCENEMANAGER->findScene("storeScene"))->setStoreKey("itemShop");
-					SCENEMANAGER->changeSceneType0("storeScene");
+					SCENEMANAGER->changeSceneType1("storeScene");
 				}
 				else if (_npcManager->getVNpc()[i]->getNpcType() == NPC_DEFENCE)
 				{
 					((storeScene*)SCENEMANAGER->findScene("storeScene"))->setStoreKey("armorStore");
-					SCENEMANAGER->changeSceneType0("storeScene");
+					SCENEMANAGER->changeSceneType1("storeScene");
 				}
 			}
 		}
