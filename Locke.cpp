@@ -17,6 +17,15 @@ Locke::Locke()
 	_spellPower = _Lv;
 
 
+	
+}
+
+Locke::~Locke()
+{
+}
+
+void Locke::setLockeMagic()
+{
 	//========================== 마법 공격 세팅=========================
 	//마법 공격 1 - 불 공격
 	magic* tmpMagic = new magic;
@@ -29,8 +38,4 @@ Locke::Locke()
 	IMAGEMANAGER->addFrameImage("Locke::fire Magic2", "./image/playerImg/playerEffectImage/playerSkill3.bmp", 3720, 245, 15, 1, true, RGB(255, 0, 255));
 	tmpMagic->init("Locke::fire Magic2", "./image/playerImg/playerEffectImage/playerSkill3.bmp", "화염 폭발!", 60, 45, 150, 0, 0);
 	_myUsableMagic.push_back(tmpMagic);
-}
-
-Locke::~Locke()
-{
 }

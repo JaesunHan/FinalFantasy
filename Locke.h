@@ -5,5 +5,7 @@ class Locke : public playerMother
 public:
 	Locke();
 	~Locke();
+	void setLockeMagic();
+
 };
 

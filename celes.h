@@ -5,5 +5,7 @@ class celes : public playerMother
 public:
 	celes();
 	~celes();
+
+	void setCelesMagic();
 };
 

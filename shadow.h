@@ -5,5 +5,7 @@ class shadow : public playerMother
 public:
 	shadow();
 	~shadow();
+
+	void setShadowMagic();
 };
 

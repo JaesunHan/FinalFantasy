@@ -18,6 +18,15 @@ Tina::Tina()
 	_spellPower = _Lv;
 
 
+	
+}
+
+
+Tina::~Tina()
+{
+}
+void Tina::setTinaMagic()
+{
 	//======================== 마법 공격 세팅===================
 	//마법 공격 1 - 물 공격
 	magic* tmpMagic = new magic;
@@ -36,9 +45,4 @@ Tina::Tina()
 	IMAGEMANAGER->addFrameImage("Tina::Revive Magic", "./image/playerImg/playerEffectImage/playerSkill8.bmp", 6110, 242, 26, 1, true, RGB(255, 0, 255));
 	tmpMagic->init("Tina::Revive Magic", "./image/playerImg/playerEffectImage/playerSkill8.bmp", "리바이브!", 2, 30, 0, 0, 1);
 	_myUsableMagic.push_back(tmpMagic);
-}
-
-
-Tina::~Tina()
-{
 }

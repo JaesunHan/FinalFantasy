@@ -16,9 +16,7 @@ HRESULT configMenu::init()
 {
 	_bgImage = IMAGEMANAGER->findImage("컨피그메뉴");
 
-	_cursorIdx = 0;
-	_cursor = new cursor;
-	//_cursor->init(CURSOR_RIGHT, )
+	
 	
 
 	//모든 볼륨조절 버튼을 세팅하기(BGM, EFFECT)
@@ -59,6 +57,13 @@ HRESULT configMenu::init()
 	_rcW = 146, _rcH = 60;
 	_rcCTRLNum[0] = RectMake(15, 198, _rcW, _rcH);
 	_rcCTRLNum[1] = RectMake(15, 394, _rcW, _rcH);
+
+	_cursorIdx = 0;
+	_cursor = new cursor;
+	_cursor->init(CURSOR_RIGHT, _rcCTRLNum[_cursorIdx].left + 10, _rcCTRLNum[_cursorIdx].top + (_rcCTRLNum[_cursorIdx].bottom - _rcCTRLNum[_cursorIdx].top) / 2-10);
+
+	
+
 	//연산은 버린다!
 	//for (int i = 0; i < 2; ++i)
 	//{
@@ -100,6 +105,10 @@ void configMenu::update()
 		//delete _button;
 		SCENEMANAGER->changeScene("옵션");
 	}
+
+	_cursor->update();
+
+
 }
 
 void configMenu::render()
@@ -119,6 +128,7 @@ void configMenu::render()
 			Rectangle(getMemDC(), _rcCTRLNum[i].left, _rcCTRLNum[i].top, _rcCTRLNum[i].right, _rcCTRLNum[i].bottom);
 		}
 	}
+	_cursor->render();
 }
 
 //테스트 해볼 사항들\

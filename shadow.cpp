@@ -34,3 +34,7 @@ shadow::shadow()
 shadow::~shadow()
 {
 }
+
+void shadow::setShadowMagic()
+{
+}

@@ -53,7 +53,7 @@ HRESULT playerManager::init()
 	//	}
 	//}
 
-	int a = maxExpValue[0];
+	//int a = maxExpValue[0];
 
 	return S_OK;
 }
@@ -106,10 +106,6 @@ void playerManager::release()
 }
 void playerManager::setPlayerInfoToBattlePlayer()
 {
-	_celes = new celes;
-	_locke = new Locke;
-	_shadow = new shadow;
-	_tina = new Tina;
 	//먼저 현재 씬매니저에 등록되어 있는 배틀씬을 가져온다
 	_battleScene = (BattleScene*)SCENEMANAGER->findScene("배틀씬");
 
@@ -278,7 +274,9 @@ void playerManager::loadGameData()
 	//tempFile 에서 데이터 읽어오기
 	for (int i = 0; i < MAXPLAYERNUMBER; ++i)
 	{
+
 		playerMother* tempPlayer = new playerMother;
+
 		TCHAR playerSubject[256];
 		wsprintf(playerSubject, "player%d", i);
 		TCHAR str[256];
@@ -312,26 +310,36 @@ void playerManager::loadGameData()
 		//int subWeaponNum = 33;
 		searchPlayerItem(weaponNum, armorNum, helmetNum, subWeaponNum, tempPlayer);
 
-		_vPlayer.push_back(tempPlayer);
-
 		//개발 초반에, 배틀씬에 플레이어 정보를 넘길 때 전역변수로 생성한 플레이어들을 이용해서 넘기는 걸로 해놔서....
-		//어쩔수 없이 이런 방법으로...
+		//어쩔수 없이 이런 방법으로..
 		if (!strcmp("TINA", tempPlayer->getName()))
 		{
 			_tina = (Tina*)tempPlayer;
+			_tina->setTinaMagic();
+			tempPlayer = _tina;
 		}
 		else if (!strcmp("LOCKE", tempPlayer->getName()))
 		{
 			_locke = (Locke*)tempPlayer;
+			_locke->setLockeMagic();
+			tempPlayer = _locke;
 		}
 		else if (!strcmp("CELES", tempPlayer->getName()))
 		{
 			_celes = (celes*)tempPlayer;
+			_celes->setCelesMagic();
+			tempPlayer = _celes;
 		}
 		else if (!strcmp("SHADOW", tempPlayer->getName()))
 		{
 			_shadow = (shadow*)tempPlayer;
+			_shadow->setShadowMagic();
+			tempPlayer = _shadow;
 		}
+
+		_vPlayer.push_back(tempPlayer);
+
+		
 	}
 }
 

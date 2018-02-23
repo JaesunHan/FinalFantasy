@@ -6,5 +6,7 @@ class Tina : public playerMother
 public:
 	Tina();
 	~Tina();
+
+	void setTinaMagic();
 };
 

@@ -16,6 +16,16 @@ celes::celes()
 
 	_spellPower = _Lv;
 
+	
+}
+
+
+celes::~celes()
+{
+}
+
+void celes::setCelesMagic()
+{
 	//==============================마법 공격 세팅
 	//마법 공격 1 - 아군 힐
 	magic* tmpMagic = new magic;
@@ -30,7 +40,3 @@ celes::celes()
 	_myUsableMagic.push_back(tmpMagic);
 }
 
-
-celes::~celes()
-{
-}

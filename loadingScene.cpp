@@ -31,6 +31,7 @@ HRESULT loadingScene::init()
 	_loading->loadImage("로드게임메뉴", ".//prevProjectResource//SceneImage//menu_continueGame.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	_loading->loadImage("세이브메뉴", ".//prevProjectResource//SceneImage//menu_save.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	_loading->loadImage("로드메뉴", ".//prevProjectResource//SceneImage//menu_load.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	_loading->loadImage("컨피그메뉴", ".//image//configMenu//config_backgroundImg.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 
 	//버튼 이미지
 	_loading->loadFrameImage("선택커서", ".//prevProjectResource//SceneImage//selectCursor.bmp",54, 27, 2, 1, true, RGB(255, 0, 255));
