@@ -68,6 +68,7 @@ HRESULT playGround::init()
 	((worldMapScene*)SCENEMANAGER->findScene("¿ùµå¸Ê¾À"))->setMenuMemoryAddressLink((optionMenu*)SCENEMANAGER->findScene("¿É¼Ç"));
 	_menu = new menu;
 	_menu->setItemManagerAddressLink(_item);
+	_menu->setWorldMapAddressLink((worldMapScene*)SCENEMANAGER->findScene("¿ùµå¸Ê¾À"));
 
 	
 
@@ -109,6 +110,7 @@ void playGround::update(void)
 	//¿É¼Ç¸Þ´º
 	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE) && SCENEMANAGER->getCurrentSceneName() == "¿ùµå¸Ê¾À")
 	{
+		_menu->setCurrentScene(SCENEMANAGER->getCurrentSceneName());
 		SCENEMANAGER->changeSceneType1("¿É¼Ç");
 	}
 	//================================ ¸Þ´º¾À ================================
