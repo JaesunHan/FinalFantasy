@@ -22,6 +22,7 @@
 #include "characterStatus.h"
 #include "storeScene.h"
 #include "openingMovie.h"
+#include "menu.h"
 
 
 
@@ -32,6 +33,7 @@ private:
 	itemManager* _item;
 	BattleScene* _bts;
 
+	menu* _menu;
 
 	//bool _isBattle;
 public:
