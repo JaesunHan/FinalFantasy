@@ -61,10 +61,11 @@ HRESULT playGround::init()
 	SCENEMANAGER->addScene("캐릭터상태", new characterStatus);
 	//=========================== 메뉴씬 ===========================
 
-
+	//======================오프닝 무비씬 추가======================
+	SCENEMANAGER->addScene("오프닝무비", new oPeningMovie);
 
 	
-	SCENEMANAGER->changeScene("로딩");
+	SCENEMANAGER->changeScene("오프닝무비");
 
 	return S_OK;
 }
@@ -149,6 +150,7 @@ void playGround::update(void)
 //그리는거.......
 void playGround::render(void)
 {
+	if (SCENEMANAGER->getCurrentScene() == SCENEMANAGER->findScene("오프닝무비"))return;
 	PatBlt(getMemDC(), 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
 	//================== 이 위는 손대지 마시오 =========================
 

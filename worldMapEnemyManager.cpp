@@ -49,13 +49,16 @@ HRESULT worldMapEnemyManager::init()
 		_worldMapEmeneySamurai[6].init(700, 400, ENEMYPATTERN_ONE);
 		_worldMapEmeneySamurai[7].init(600, 400, ENEMYPATTERN_THREE);
 		_worldMapEmeneySamurai[8].init(1500, 400, ENEMYPATTERN_TWO);
-		_worldMapEmeneySamurai[9].init(1200, 400, ENEMYPATTERN_THREE);
+		_worldMapEmeneySamurai[9].init(300, 1500, ENEMYPATTERN_THREE);
 		_vWME.push_back(&_worldMapEmeneySamurai[i]);
 	}
 	
 
 	_worldMapTreasureBox.init(100, 100, ENEMYPATTERN_ONE);
 	_vWME.push_back(&_worldMapTreasureBox);
+
+	_worldEnemyBear.init(400, 1400, ENEMYPATTERN_ONE);
+	_vWME.push_back(&_worldEnemyBear);
 
 	return S_OK;
 }

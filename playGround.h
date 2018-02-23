@@ -21,6 +21,7 @@
 #include "characterAbility.h"
 #include "characterStatus.h"
 #include "storeScene.h"
+#include "openingMovie.h"
 
 
 

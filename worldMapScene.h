@@ -38,6 +38,10 @@ private:
 	POINT _curPlayerPos;
 	POINT _curCameraPos;
 
+	image* _openBox;
+	bool _isOpenBox;
+
+	POINT tempPoint;
 public:
 	worldMapScene();
 	~worldMapScene();

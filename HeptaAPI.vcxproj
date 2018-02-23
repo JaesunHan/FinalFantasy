@@ -142,6 +142,7 @@
     <ClInclude Include="npc5.h" />
     <ClInclude Include="npcManager.h" />
     <ClInclude Include="npcMother.h" />
+    <ClInclude Include="openingMovie.h" />
     <ClInclude Include="openingScene.h" />
     <ClInclude Include="optionMenu.h" />
     <ClInclude Include="playerImproveInfo.h" />
@@ -250,6 +251,7 @@
     <ClCompile Include="npc5.cpp" />
     <ClCompile Include="npcManager.cpp" />
     <ClCompile Include="npcMother.cpp" />
+    <ClCompile Include="openingMovie.cpp" />
     <ClCompile Include="openingScene.cpp" />
     <ClCompile Include="optionMenu.cpp" />
     <ClCompile Include="playerImproveInfo.cpp" />

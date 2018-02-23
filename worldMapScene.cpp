@@ -23,6 +23,9 @@ HRESULT worldMapScene::init()
 	CAMERAMANAGER->init(getMemDC());
 	CAMERAMANAGER->createDC(PointMake(TILE_SIZEX, TILE_SIZEY), PointMake(30, 20));
 
+	_openBox = IMAGEMANAGER->addImage("오픈박스", ".//image//enemyImg//treasureBoxOpen.bmp", 31, 29, true, RGB(255, 0, 255));
+
+
 	_worldMap = new generalMap;
 	_worldMap->init(".//50X50.map");
 
@@ -39,6 +42,7 @@ HRESULT worldMapScene::init()
 	_isEscape = false;
 	_isCollision = false;
 	_isEncounter = false;
+	_isOpenBox = false;
 
 	_enemyNum = -1;
 
@@ -105,9 +109,14 @@ void worldMapScene::render()
 	//업데이트에서 받은 플레이어의 실시간 좌표를 NPC와 비교하여 
 	//플레이어보다 먼저 그려주는 이미지 -> 플레이어 이미지 -> 플레이어보다 다음에 그려주는 이미지 순으로 랜더를 한다.
 	//_npcManager->beforeRender(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
-	_worldMapPlayer->render(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
+	
 	//_npcManager->afterRender(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
-
+	if (_isOpenBox)
+	{
+		IMAGEMANAGER->findImage("오픈박스")->render(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt().x+ tempPoint.x, CAMERAMANAGER->getMovePt().y+tempPoint.y);
+	}
+	_worldMapPlayer->render(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
+	
 	CAMERAMANAGER->render(getMemDC());
 
 
@@ -130,6 +139,13 @@ void worldMapScene::getCollision()
 			//50%확율로 결정되어진 보물상자면
 			if (_wMEM->getVWME()[i]->getIsBox())
 			{
+				//충돌한 녀석의 인덱스를 변수에 저장한다.
+				_enemyNum = i;
+				tempPoint = _wMEM->getVWME()[i]->getWorldMapEnemyPoint();
+				//상자 오픈 이미지 띄우고 
+				//상자 아이템 획득 이미지 띄우고 
+				//상자를 벡터에서 지워주고. <- 벡터에서 지워주는게 나은지 아니면 그냥 열린 이미지 그대로 있는게 나은지는 생각해봐야지.
+				_isOpenBox = true;
 				_wMEM->worldEmenyDelete(i);
 				break;
 			}
