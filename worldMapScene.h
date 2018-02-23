@@ -93,5 +93,8 @@ public:
 	//겟셋추가!!!!
 	void setItemManagerAddressLink(itemManager* im) { _im = im; }
 	void setMenuMemoryAddressLink(menu* menu) { _menu = menu; }
+	
+	//월드맵 플레이어 정보 가져온다.
+	worldMapPlayer* getworldMapPlayer() { return _worldMapPlayer; }
 
 };

@@ -38,5 +38,9 @@ public:
 	//상점으로 넘어가는 함수
 	void entershop();
 
+
+	//월드맵 플레이어 정보 가져온다.
+	worldMapPlayer* getWorldMapPlayer() { return _worldMapPlayer; }
+
 };
 
