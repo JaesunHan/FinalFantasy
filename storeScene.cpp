@@ -39,7 +39,7 @@ HRESULT storeScene::init()
 	_currentAmount = 1;
 
 	// 임시로 돈 세팅
-	_im->setMoney(500);
+	_im->setMoney(500000);
 
 	return S_OK;
 }
@@ -212,7 +212,7 @@ void storeScene::keyControl(void)
 	}
 	if (_currentPos == POS_AMOUNT_SELECT && _prevPos == POS_BUY_LIST)
 	{
-		if (KEYMANAGER->isOnceKeyDown(VK_UP))
+		if (KEYMANAGER->isStayKeyDown(VK_UP))
 		{
 			if (_im->getMoney() >= _vendorList[_listSelectCursor.getCursorPos()]->getPrice() * (_currentAmount + 1))
 			{
@@ -235,7 +235,7 @@ void storeScene::keyControl(void)
 				}
 			}
 		}
-		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+		if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 		{
 			if (_currentAmount > 1) --_currentAmount;
 		}
@@ -273,7 +273,7 @@ void storeScene::keyControl(void)
 	}
 	if (_currentPos == POS_AMOUNT_SELECT && _prevPos == POS_SELL_LIST)
 	{
-		if (KEYMANAGER->isOnceKeyDown(VK_UP))
+		if (KEYMANAGER->isStayKeyDown(VK_UP))
 		{
 			if (_currentInventory == INVENTORY_WEAPON)
 			{
@@ -291,7 +291,7 @@ void storeScene::keyControl(void)
 				if (_currentAmount + 1 <= _im->getItemCount(_listSelectCursor.getCursorPos())) ++_currentAmount;
 			}
 		}
-		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
+		if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 		{
 			if (_currentAmount > 1) --_currentAmount;
 		}
@@ -507,17 +507,17 @@ void storeScene::drawAlertScreen(void)
 {
 	IMAGEMANAGER->render("messageBox", getMemDC(), 100, 265);
 
-	HFONT newFont = CreateFont(20, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+	HFONT newFont = CreateFont(40, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
 	HFONT oldFont = (HFONT)SelectObject(getMemDC(), newFont);
 	
 	if (_mbType == MESSAGE_NO_MONEY)
 	{
-		outlineTextOut(getMemDC(), 200, 300, "소지금이 부족합니다.", RGB(255, 255, 255), RGB(0, 0, 0), RGB(255, 255, 255), 20);
+		outlineTextOut(getMemDC(), 180, 330, "소지금이 부족합니다.", RGB(255, 255, 255), RGB(0, 0, 0), RGB(255, 255, 255), 60);
 	}
 
 	if (_mbType == MESSAGE_OVER_ITEM)
 	{
-		outlineTextOut(getMemDC(), 200, 300, "해당 아이템의 최대 보유수를 초과합니다.", RGB(255, 255, 255), RGB(0, 0, 0), RGB(255, 255, 255), 20);
+		outlineTextOut(getMemDC(), 180, 330, "해당 아이템의 최대 보유수를 초과합니다.", RGB(255, 255, 255), RGB(0, 0, 0), RGB(255, 255, 255), 40);
 	}
 
 	SelectObject(getMemDC(), oldFont);
@@ -534,7 +534,7 @@ void storeScene::setStoreKey(string key)
 		_storeName = "무기 상점";
 		for (int i = 0; i < _im->getVItem().size(); i++)
 		{
-			if (_im->getVItem()[i]->getItmeKind() == ITEM_WEAPON && _im->getVItem()[i]->getPrice() != 2)
+			if (_im->getVItem()[i]->getItmeKind() == ITEM_WEAPON && (_im->getVItem()[i]->getPrice() != 0 && _im->getVItem()[i]->getPrice() != 2))
 			{
 				_vendorList.push_back(_im->getVItem()[i]);
 			}
@@ -546,7 +546,7 @@ void storeScene::setStoreKey(string key)
 		for (int i = 0; i < _im->getVItem().size(); i++)
 		{
 			if ((_im->getVItem()[i]->getItmeKind() == ITEM_ARMOR || _im->getVItem()[i]->getItmeKind() == ITEM_HELMET
-				|| _im->getVItem()[i]->getItmeKind() == ITEM_SUB_WEAPON) && _im->getVItem()[i]->getPrice() != 2)
+				|| _im->getVItem()[i]->getItmeKind() == ITEM_SUB_WEAPON) && (_im->getVItem()[i]->getPrice() != 0 && _im->getVItem()[i]->getPrice() != 2))
 			{
 				_vendorList.push_back(_im->getVItem()[i]);
 			}
@@ -557,7 +557,7 @@ void storeScene::setStoreKey(string key)
 		_storeName = "도구 상점";
 		for (int i = 0; i < _im->getVItem().size(); i++)
 		{
-			if (_im->getVItem()[i]->getItmeKind() == ITEM_EXPENDABLE && _im->getVItem()[i]->getPrice() != 2)
+			if (_im->getVItem()[i]->getItmeKind() == ITEM_EXPENDABLE && (_im->getVItem()[i]->getPrice() != 0 && _im->getVItem()[i]->getPrice() != 2))
 			{
 				_vendorList.push_back(_im->getVItem()[i]);
 			}
