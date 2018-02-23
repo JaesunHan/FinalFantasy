@@ -77,6 +77,86 @@ void VectorPup::update()
 	Enemy::update();
 	wsprintf(_basicAttack, "vectorPup기본공격");
 	wsprintf(_skillAttack, "vectorPup스킬공격");
+
+	switch (_enemyItemNum)
+	{
+		case 1:
+			if (_enemyItemNum == 1)
+			{
+				wsprintf(_itemString, "메가엘릭서");
+			}
+		break;
+
+		case 2:
+			if (_enemyItemNum >= 2 && _enemyItemNum <= 3)
+			{
+				wsprintf(_itemString, "엘릭서");
+			}
+		break;
+
+		case 3:
+			if (_enemyItemNum >= 4 && _enemyItemNum <= 33)
+			{
+				wsprintf(_itemString, "에테르");
+			}
+		break;
+
+		case 4:
+			if (_enemyItemNum >= 34 && _enemyItemNum <= 63)
+			{
+				wsprintf(_itemString, "육포");
+			}
+		break;
+
+		case 5:
+			if (_enemyItemNum >= 64 && _enemyItemNum <= 78)
+			{
+				wsprintf(_itemString, "토닉");
+			}
+		break;
+
+		case 6:
+			if (_enemyItemNum >= 79 && _enemyItemNum <= 90)
+			{
+				wsprintf(_itemString, "포션");
+			}
+		break;
+
+		case 7:
+			if (_enemyItemNum >= 91 && _enemyItemNum <= 96)
+			{
+				wsprintf(_itemString, "침낭");
+			}
+		break;
+
+		case 8:
+			if (_enemyItemNum >= 97 && _enemyItemNum <= 99)
+			{
+				wsprintf(_itemString, "Thief Knife");
+			}
+		break;
+
+		case 9:
+			if (_enemyItemNum == 100)
+			{
+				wsprintf(_itemString, "Striker");
+			}
+		break;
+
+		//case 10:
+		//	if (_enemyItemNum >= 91 && _enemyItemNum <= 100)
+		//	{
+		//		wsprintf(_itemString, "Wing Edge");
+		//	}
+		//break;
+		//
+		//case 11:
+		//	if (_enemyItemNum >= 91 && _enemyItemNum <= 100)
+		//	{
+		//		wsprintf(_itemString, "Illumina");
+		//	}
+		//break;
+	}
 }
 
 void VectorPup::render() 

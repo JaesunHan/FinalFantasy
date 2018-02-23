@@ -71,6 +71,86 @@ void samurai::update()
 	Enemy::update();
 	wsprintf(_basicAttack, "samurai기본공격");
 	wsprintf(_skillAttack, "samurai스킬공격");
+
+	switch (_enemyItemNum)
+	{
+		case 1:
+			if (_enemyItemNum <= 2)
+			{
+				wsprintf(_itemString, "메가엘릭서");
+			}
+		break;
+
+		case 2:
+			if (_enemyItemNum >= 3 && _enemyItemNum <= 6)
+			{
+				wsprintf(_itemString, "엘릭서");
+			}
+		break;
+
+		case 3:
+			if (_enemyItemNum >= 7 && _enemyItemNum <= 31)
+			{
+				wsprintf(_itemString, "에테르");
+			}
+		break;
+
+		case 4:
+			if (_enemyItemNum >= 32 && _enemyItemNum <= 56)
+			{
+				wsprintf(_itemString, "육포");
+			}
+		break;
+
+		case 5:
+			if (_enemyItemNum >= 57 && _enemyItemNum <= 71)
+			{
+				wsprintf(_itemString, "토닉");
+			}
+		break;
+
+		case 6:
+			if (_enemyItemNum >= 72 && _enemyItemNum <= 81)
+			{
+				wsprintf(_itemString, "포션");
+			}
+		break;
+
+		case 7:
+			if (_enemyItemNum >= 82 && _enemyItemNum <= 86)
+			{
+				wsprintf(_itemString, "침낭");
+			}
+		break;
+
+		case 8:
+			if (_enemyItemNum >= 87 && _enemyItemNum <= 92)
+			{
+				wsprintf(_itemString, "Thief Knife");
+			}
+		break;
+
+		case 9:
+			if (_enemyItemNum >= 93 && _enemyItemNum <= 97)
+			{
+				wsprintf(_itemString, "Striker");
+			}
+		break;
+
+		case 10:
+			if (_enemyItemNum >= 98 && _enemyItemNum <= 99)
+			{
+				wsprintf(_itemString, "Wing Edge");
+			}
+		break;
+		
+		case 11:
+			if (_enemyItemNum == 100)
+			{
+				wsprintf(_itemString, "Illumina");
+			}
+		break;
+	}
 }
 
 void samurai::render()

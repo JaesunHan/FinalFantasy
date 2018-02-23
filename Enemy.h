@@ -37,7 +37,8 @@ protected:
 	unsigned int _frameX;					//이미지 프레임
 	unsigned int _alpha;					//에너미 알파 값
 	unsigned int _glitterCount;				//glitter함수에서 쓸 카운트변수
-	unsigned int _state;					//에너미들 상태값
+	unsigned int _state;					//에너미 상태값
+	unsigned int _enemyItemNum;				//에너미 아이템 번호
 	unsigned int _count = 0;
 
 	float _damage;							//최종 데미지
@@ -77,8 +78,6 @@ public:
 
 	virtual void glitter();							//에너미 턴일때 어떤 에너미의 턴인지 알기위한 함수 (반짝거림)
 
-	virtual void playerGetItem();					//플레이어가 아이템을 얻었는가?
-
 	//======================================= 전방선언 ========================================================
 	void setBattleCelesMemoryAddressLink(battlePlayerMother* celes) { _celes = celes; }
 	void setBattleLockeMemoryAddressLink(battlePlayerMother* locke) { _locke = locke; }
@@ -107,7 +106,6 @@ public:
 	inline int getBlock() { return _block; }
 	inline int getX() { return _x; }
 	inline int getY() { return _y; }
-	//inline bool getIsItem() { return _isItem; }
 	inline bool getTurnEnd() { return _turnEnd; }
 	inline bool getEffectFire() { return _effectFire; }
 	inline char* getItemName() { return _itemString; }

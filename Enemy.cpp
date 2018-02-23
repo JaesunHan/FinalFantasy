@@ -39,6 +39,8 @@ HRESULT Enemy::init(int x, int y)
 
 void Enemy::update()
 {
+	_enemyItemNum = RND->getFromIntTo(1, 100);
+
 	if (_turnEnd == false)
 	{
 		if (_count == 0) damageAlgorithm();									//에너미 턴이 되면 데미지 공식 함수를 적용
@@ -164,20 +166,4 @@ void Enemy::glitter()
 	{
 		_frameX = 0;
 	}
-}
-
-void Enemy::playerGetItem()
-{
-	//switch (switch_on)
-	//{
-	//default:
-	//	break;
-	//}
-	wsprintf(_itemString, "에테르");
-	wsprintf(_itemString, "육포");
-	wsprintf(_itemString, "메가엘릭서");
-	wsprintf(_itemString, "엘릭서");
-	wsprintf(_itemString, "침낭");
-	wsprintf(_itemString, "포션");
-	wsprintf(_itemString, "토닉");
 }
