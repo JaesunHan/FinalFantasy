@@ -23,7 +23,7 @@ HRESULT itemManager::init()
 	_vItem.push_back(expendables);
 
 	expendables = new expendablesItem;
-	expendables->init(2, ITEM_EXPENDABLE, "육포", "플레이어 체력 10% 회복", 2, 10, 0, false, false, true, true, false);
+	expendables->init(2, ITEM_EXPENDABLE, "육포", "플레이어 체력 150 회복", 2, 150, 0, false, false, true, false, false);
 	_vItem.push_back(expendables);
 
 	expendables = new expendablesItem;
@@ -39,7 +39,7 @@ HRESULT itemManager::init()
 	_vItem.push_back(expendables);
 
 	expendables = new expendablesItem;
-	expendables->init(6, ITEM_EXPENDABLE, "포션", "플레이어 체력 25% 회복", 300, 25, 0, false, false, true, true, false);
+	expendables->init(6, ITEM_EXPENDABLE, "포션", "플레이어 체력 20% 회복", 300, 20, 0, false, false, true, true, false);
 	_vItem.push_back(expendables);
 
 	expendables = new expendablesItem;
@@ -731,7 +731,154 @@ void itemManager::useItemInMenu(int partyIdx, int invenNum)
 	}
 }
 
-void itemManager::useItemInBattle(ITEMTARGET itemTarget, int invenNum)
+bool itemManager::useItemInBattle(int itemTarget, int invenNum)
 {
-
+	bool usedItem;
+	usedItem = false;
+	if (((expendablesItem*)_vItem[getItemVNum(invenNum)])->getIsInBattle() == true)
+	{
+		for (int i = 0; i < 4; ++i)
+		{
+			if (_vItem[getItemVNum(invenNum)]->getItmeKind() != ITEM_EXPENDABLE) break;
+			if (i == itemTarget)
+			{
+				if (((expendablesItem*)_vItem[getItemVNum(invenNum)])->getIsReviveItem() == true)
+				{
+					if (((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountHpRestored() > 0)
+					{
+						if (((expendablesItem*)_vItem[getItemVNum(invenNum)])->getIsPercentHP() == true)
+						{
+							_battlePlayer[i]->setCurHP((float)_battlePlayer[i]->getCurHP() + (float)_battlePlayer[i]->getMaxHP() * (float)((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountHpRestored() / 100);
+							if (_battlePlayer[i]->getCurHP() > _battlePlayer[i]->getMaxHP()) _battlePlayer[i]->setCurHP(_battlePlayer[i]->getMaxHP());
+						}
+						else
+						{
+							_battlePlayer[i]->setCurHP(_battlePlayer[i]->getCurHP() + ((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountHpRestored());
+							if (_battlePlayer[i]->getCurHP() > _battlePlayer[i]->getMaxHP()) _battlePlayer[i]->setCurHP(_battlePlayer[i]->getMaxHP());
+						}
+						usedItem = true;
+					}
+					if (((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountMpRestored() > 0)
+					{
+						if (((expendablesItem*)_vItem[getItemVNum(invenNum)])->getIsPercentMP() == true)
+						{
+							_battlePlayer[i]->setCurMP((float)_battlePlayer[i]->getCurMP() + (float)_battlePlayer[i]->getMaxMP() * (float)((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountMpRestored() / 100);
+							if (_battlePlayer[i]->getCurMP() > _battlePlayer[i]->getMaxMP()) _battlePlayer[i]->setCurMP(_battlePlayer[i]->getMaxMP());
+						}
+						else
+						{
+							_battlePlayer[i]->setCurMP(_battlePlayer[i]->getCurMP() + ((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountMpRestored());
+							if (_battlePlayer[i]->getCurMP() > _battlePlayer[i]->getMaxMP()) _battlePlayer[i]->setCurMP(_battlePlayer[i]->getMaxMP());
+						}
+						usedItem = true;
+					}
+				}
+				else if (_pm->getVPlayer()[i]->getCurHP() > 0)
+				{
+					if (((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountHpRestored() > 0)
+					{
+						if (((expendablesItem*)_vItem[getItemVNum(invenNum)])->getIsPercentHP() == true)
+						{
+							_battlePlayer[i]->setCurHP((float)_battlePlayer[i]->getCurHP() + (float)_battlePlayer[i]->getMaxHP() * (float)((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountHpRestored() / 100);
+							if (_battlePlayer[i]->getCurHP() > _battlePlayer[i]->getMaxHP()) _battlePlayer[i]->setCurHP(_battlePlayer[i]->getMaxHP());
+						}
+						else
+						{
+							_battlePlayer[i]->setCurHP(_battlePlayer[i]->getCurHP() + ((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountHpRestored());
+							if (_battlePlayer[i]->getCurHP() > _battlePlayer[i]->getMaxHP()) _battlePlayer[i]->setCurHP(_battlePlayer[i]->getMaxHP());
+						}
+						usedItem = true;
+					}
+					if (((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountMpRestored() > 0)
+					{
+						if (((expendablesItem*)_vItem[getItemVNum(invenNum)])->getIsPercentMP() == true)
+						{
+							_battlePlayer[i]->setCurMP((float)_battlePlayer[i]->getCurMP() + (float)_battlePlayer[i]->getMaxMP() * (float)((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountMpRestored() / 100);
+							if (_battlePlayer[i]->getCurMP() > _battlePlayer[i]->getMaxMP()) _battlePlayer[i]->setCurMP(_battlePlayer[i]->getMaxMP());
+						}
+						else
+						{
+							_battlePlayer[i]->setCurMP(_battlePlayer[i]->getCurMP() + ((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountMpRestored());
+							if (_battlePlayer[i]->getCurMP() > _battlePlayer[i]->getMaxMP()) _battlePlayer[i]->setCurMP(_battlePlayer[i]->getMaxMP());
+						}
+						usedItem = true;
+					}
+				}
+			}
+			else if (((expendablesItem*)_vItem[getItemVNum(invenNum)])->getIsPartyItem() == true)
+			{
+				if (((expendablesItem*)_vItem[getItemVNum(invenNum)])->getIsReviveItem() == true)
+				{
+					if (((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountHpRestored() > 0)
+					{
+						if (((expendablesItem*)_vItem[getItemVNum(invenNum)])->getIsPercentHP() == true)
+						{
+							_battlePlayer[i]->setCurHP((float)_battlePlayer[i]->getCurHP() + (float)_battlePlayer[i]->getMaxHP() * (float)((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountHpRestored() / 100);
+							if (_battlePlayer[i]->getCurHP() > _battlePlayer[i]->getMaxHP()) _battlePlayer[i]->setCurHP(_battlePlayer[i]->getMaxHP());
+						}
+						else
+						{
+							_battlePlayer[i]->setCurHP(_battlePlayer[i]->getCurHP() + ((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountHpRestored());
+							if (_battlePlayer[i]->getCurHP() > _battlePlayer[i]->getMaxHP()) _battlePlayer[i]->setCurHP(_battlePlayer[i]->getMaxHP());
+						}
+						usedItem = true;
+					}
+					if (((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountMpRestored() > 0)
+					{
+						if (((expendablesItem*)_vItem[getItemVNum(invenNum)])->getIsPercentMP() == true)
+						{
+							_battlePlayer[i]->setCurMP((float)_battlePlayer[i]->getCurMP() + (float)_battlePlayer[i]->getMaxMP() * (float)((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountMpRestored() / 100);
+							if (_battlePlayer[i]->getCurMP() > _battlePlayer[i]->getMaxMP()) _battlePlayer[i]->setCurMP(_battlePlayer[i]->getMaxMP());
+						}
+						else
+						{
+							_battlePlayer[i]->setCurMP(_battlePlayer[i]->getCurMP() + ((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountMpRestored());
+							if (_battlePlayer[i]->getCurMP() > _battlePlayer[i]->getMaxMP()) _battlePlayer[i]->setCurMP(_battlePlayer[i]->getMaxMP());
+						}
+						usedItem = true;
+					}
+				}
+				else if (_pm->getVPlayer()[i]->getCurHP() > 0)
+				{
+					if (((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountHpRestored() > 0)
+					{
+						if (((expendablesItem*)_vItem[getItemVNum(invenNum)])->getIsPercentHP() == true)
+						{
+							_battlePlayer[i]->setCurHP((float)_battlePlayer[i]->getCurHP() + (float)_battlePlayer[i]->getMaxHP() * (float)((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountHpRestored() / 100);
+							if (_battlePlayer[i]->getCurHP() > _battlePlayer[i]->getMaxHP()) _battlePlayer[i]->setCurHP(_battlePlayer[i]->getMaxHP());
+						}
+						else
+						{
+							_battlePlayer[i]->setCurHP(_battlePlayer[i]->getCurHP() + ((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountHpRestored());
+							if (_battlePlayer[i]->getCurHP() > _battlePlayer[i]->getMaxHP()) _battlePlayer[i]->setCurHP(_battlePlayer[i]->getMaxHP());
+						}
+						usedItem = true;
+					}
+					if (((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountMpRestored() > 0)
+					{
+						if (((expendablesItem*)_vItem[getItemVNum(invenNum)])->getIsPercentMP() == true)
+						{
+							_battlePlayer[i]->setCurMP((float)_battlePlayer[i]->getCurMP() + (float)_battlePlayer[i]->getMaxMP() * (float)((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountMpRestored() / 100);
+							if (_battlePlayer[i]->getCurMP() > _battlePlayer[i]->getMaxMP()) _battlePlayer[i]->setCurMP(_battlePlayer[i]->getMaxMP());
+						}
+						else
+						{
+							_battlePlayer[i]->setCurMP(_battlePlayer[i]->getCurMP() + ((expendablesItem*)_vItem[getItemVNum(invenNum)])->getAmountMpRestored());
+							if (_battlePlayer[i]->getCurMP() > _battlePlayer[i]->getMaxMP()) _battlePlayer[i]->setCurMP(_battlePlayer[i]->getMaxMP());
+						}
+						usedItem = true;
+					}
+				}
+			}
+		}
+	}
+	if (usedItem == true)
+	{
+		changeItemNumber(getItemVNum(invenNum), -1);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }

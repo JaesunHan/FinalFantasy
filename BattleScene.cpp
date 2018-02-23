@@ -97,6 +97,7 @@ HRESULT BattleScene::init()
 		temp.ATBcounter = 25000 + RND->getInt(10000);
 		temp.menuSelect = BATTLE_NULL;
 		temp.magicSelect = 0;
+		temp.itemSelect = 0;
 		temp.turnStart = false;
 		temp.selectAction = false;
 		temp.attackReady = false;
@@ -686,9 +687,17 @@ void BattleScene::playerMenuSelect()
 				case(BATTLE_SKILL):
 					break;
 				case(BATTLE_ITEM):
-
-
-
+					_battleCharacters[_currentTurn].itemSelect = _itemSelectNum;
+					_battleCharacters[_currentTurn].player->setStatus(BATTLE_PLAYER_ATTACK_STANDBY);
+					_battleCharacters[_currentTurn].selectAction = true;
+					_battleCharacters[_currentTurn].menuSelect = BATTLE_ITEM;
+					_battleTurn.push(&_battleCharacters[_currentTurn]);
+					_itemSelectNum = 0;
+					_playerSelectNum = 0;
+					_itemSelect = false;
+					_playerSelect = false;
+					_playerTurn = false;
+					_counterRoll = true;
 					break;
 				case(BATTLE_ESCAPE):
 					break;
@@ -726,9 +735,7 @@ void BattleScene::playerMenuSelect()
 				case(BATTLE_SKILL):
 					break;
 				case(BATTLE_ITEM):
-					//if (_im->getVItem()[_im->getItemVNum(_itemSelectNum)]->)
-
-
+					_playerSelect = true;
 					break;
 				case(BATTLE_ESCAPE):
 					break;
@@ -849,12 +856,12 @@ void BattleScene::playerMenuSelect()
 		}
 	}
 	
-	//if (KEYMANAGER->isOnceKeyDown('R'))
-	//{
-	//	_im->setItemInventory("Æ÷¼Ç", 3);
-	//	_im->setItemInventory(5, 4);
-	//	_im->setItemInventory("X-Æ÷¼Ç", 3);
-	//}
+	if (KEYMANAGER->isOnceKeyDown('R'))
+	{
+		_im->changeItemNumber("Æ÷¼Ç", 3);
+		_im->changeItemNumber("À°Æ÷", 3);
+		_im->changeItemNumber("Ä§³¶", 3);
+	}
 	//if (KEYMANAGER->isOnceKeyDown('T'))
 	//{
 	//	SOUNDMANAGER->getChannel(CH_BGM)->setPosition(3900, FMOD_TIMEUNIT_MS);

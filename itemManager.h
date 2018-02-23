@@ -30,10 +30,7 @@ private:
 	map<string, pair<int, int>>::iterator		_iterInventory;
 	unsigned int								_gil;
 
-	battlePlayerMother*							_tina;
-	battlePlayerMother*							_rocke;
-	battlePlayerMother*							_celes;
-	battlePlayerMother*							_shadow;
+	battlePlayerMother*							_battlePlayer[5];
 	playerManager*								_pm;
 public:
 	itemManager();
@@ -43,8 +40,8 @@ public:
 
 	vector<itemMother*> getVItem() { return _vItem; }		//아이템 정보 저장 벡터
 
-	void useItemInMenu(int partyIdx, int invenNum);				//메뉴에서 아이템 사용
-	void useItemInBattle(ITEMTARGET itemTarget, int invenNum);	//배틀에서 아이템 사용
+	void useItemInMenu(int partyIdx, int invenNum);			//메뉴에서 아이템 사용
+	bool useItemInBattle(int itemTarget, int invenNum);		//배틀에서 아이템 사용
 
 	void saveInventory(char* fileName);						//인벤토리를 키값의 파일에 저장
 	void loadInventory(char* fileName);						//키값의 파일로부터 인벤토리 로드
@@ -75,10 +72,10 @@ public:
 	inline unsigned int getMoney() { return _gil; }								//소지금 반환
 	inline void setMoney(unsigned int money) { _gil = money; }					//소지금 설정
 
-	void setBattleTinaMemoryAddressLink(battlePlayerMother* tina) { _tina = tina; }
-	void setBattleRockeMemoryAddressLink(battlePlayerMother* rocke) { _rocke = rocke; }
-	void setBattleCelesMemoryAddressLink(battlePlayerMother* celes) { _celes = celes; }
-	void setBattleShadowMemoryAddressLink(battlePlayerMother* shadow) { _shadow = shadow; }
+	void setBattleTinaMemoryAddressLink(battlePlayerMother* tina) { _battlePlayer[ITEM_TINA] = tina; }
+	void setBattleRockeMemoryAddressLink(battlePlayerMother* rocke) { _battlePlayer[ITEM_ROCKE] = rocke; }
+	void setBattleCelesMemoryAddressLink(battlePlayerMother* celes) { _battlePlayer[ITEM_CELES] = celes; }
+	void setBattleShadowMemoryAddressLink(battlePlayerMother* shadow) { _battlePlayer[ITEM_SHADOW] = shadow; }
 	void setPlayerManagerMemoryAddressLink(playerManager* pm) { _pm = pm; }
 };
 
