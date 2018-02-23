@@ -20,6 +20,9 @@ private:
 
 	cursor* _cursorI;
 	bool _itemButtonOn;
+	bool _charButtonOn;
+
+
 
 
 public:
@@ -30,7 +33,8 @@ public:
 
 
 	void buttonOnActive();
-	void buttonOnActiveA();
+	void buttonOnActiveItem();
+	void buttonOnActiveCharacter();
 	void itemButtonSet(int buttonNum);
 	void itemDescriptionRender(int itemNum);
 

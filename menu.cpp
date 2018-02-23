@@ -1,11 +1,12 @@
 #include "stdafx.h"
 #include "menu.h"
 #include "itemManager.h"
+#include "worldMapScene.h"
 
 menu::menu()
 {
 	_slotNum = 0;
-
+	_isSavePoint = false;
 }
 menu::~menu()
 {
@@ -15,7 +16,7 @@ menu::~menu()
 HRESULT menu::init()
 {
 	//세이브포인트 도달시
-	_isSavePoint = false;
+
 
 	//사운드
 	SOUNDMANAGER->addSound("battleMenuOpen", ".\\sound\\sfx\\battleMenuOpen.wav", false, false);
@@ -1092,6 +1093,21 @@ void menu::saveIniSlotGameData(int fileNum, string stage, int gil, int playTime,
 			ZeroMemory(&tmp2, sizeof(tmp2));
 			wsprintf(tmp2, "%d", gil);
 			INIDATA->addData("Inventory", "Gil", tmp2);
+
+			char tmpPlayerX[8];
+			ZeroMemory(&tmpPlayerX, sizeof(tmpPlayerX));
+			sprintf(tmpPlayerX, "%f", _wM->getworldMapPlayer()->getWorldMapPlayerPoint().x);    //플레이어X
+			INIDATA->addData("gameData", "playerX", tmpPlayerX);
+
+			char tmpPlayerY[8];
+			ZeroMemory(&tmpPlayerY, sizeof(tmpPlayerY));
+			sprintf(tmpPlayerY, "%f", _wM->getworldMapPlayer()->getWorldMapPlayerPoint().y);    //플레이어Y
+			INIDATA->addData("gameData", "playerY", tmpPlayerY);
+
+			char tmpSaveScene[32];
+			ZeroMemory(&tmpSaveScene, sizeof(tmpSaveScene));
+			sprintf(tmpSaveScene, "%s", _currentSceneName);										//세이브포인트씬
+			INIDATA->addData("gameData", "saveScene", tmpSaveScene);
 		}
 
 		//플레이 시간
@@ -1099,6 +1115,7 @@ void menu::saveIniSlotGameData(int fileNum, string stage, int gil, int playTime,
 		ZeroMemory(&tmp3, sizeof(tmp3));
 		wsprintf(tmp3, "%d", _gameTotalTime);
 		INIDATA->addData("gameData", "playTime", tmp3);
+
 
 
 		//파일저장
@@ -1152,6 +1169,21 @@ void menu::fileCopyTmpFile(int fileNum)
 			INIDATA->addData("Inventory", "Gil", tmpGil);
 			INIDATA->addData("gameData", "playTime", tmpTime);
 
+			char tmpPlayerX[8];
+			ZeroMemory(&tmpPlayerX, sizeof(tmpPlayerX));
+			sprintf(tmpPlayerX, "%f", _wM->getworldMapPlayer()->getWorldMapPlayerPoint().x);    //플레이어X
+			INIDATA->addData("gameData", "playerX", tmpPlayerX);
+
+			char tmpPlayerY[8];
+			ZeroMemory(&tmpPlayerY, sizeof(tmpPlayerY));
+			sprintf(tmpPlayerY, "%f", _wM->getworldMapPlayer()->getWorldMapPlayerPoint().y);    //플레이어Y
+			INIDATA->addData("gameData", "playerY", tmpPlayerY);
+
+			char tmpSaveScene[32];
+			ZeroMemory(&tmpSaveScene, sizeof(tmpSaveScene));
+			sprintf(tmpSaveScene, "%s", _currentSceneName);										//세이브포인트씬
+			INIDATA->addData("gameData", "saveScene", tmpSaveScene);
+
 			INIDATA->iniSave("skgFile");
 
 			//아이템 
@@ -1201,6 +1233,21 @@ void menu::fileCopySaveFile(int fileNum)
 			INIDATA->addData("gameData", "stage", tmpPlayrInfo.stage);
 			INIDATA->addData("Inventory", "Gil", tmpGil);
 			INIDATA->addData("gameData", "playTime", tmpTime);
+
+			char tmpPlayerX[8];
+			ZeroMemory(&tmpPlayerX, sizeof(tmpPlayerX));
+			sprintf(tmpPlayerX, "%f", _wM->getworldMapPlayer()->getWorldMapPlayerPoint().x);    //플레이어X
+			INIDATA->addData("gameData", "playerX", tmpPlayerX);
+
+			char tmpPlayerY[8];
+			ZeroMemory(&tmpPlayerY, sizeof(tmpPlayerY));
+			sprintf(tmpPlayerY, "%f", _wM->getworldMapPlayer()->getWorldMapPlayerPoint().y);    //플레이어Y
+			INIDATA->addData("gameData", "playerY", tmpPlayerY);
+
+			char tmpSaveScene[8];
+			ZeroMemory(&tmpSaveScene, sizeof(tmpSaveScene));
+			sprintf(tmpSaveScene, "%s", _currentSceneName);										//세이브포인트씬
+			INIDATA->addData("gameData", "saveScene", tmpSaveScene);
 
 			INIDATA->iniSave(saveFileNum);
 
@@ -1279,6 +1326,10 @@ tagSaveData menu::loadIniPlayerData(int fileNum, int playerNumber, bool tmpFile)
 	wsprintf(tmpPlayrInfo.stage, "%s", INIDATA->loadDataString(saveFileNum, "gameData", "stage"));                      //스테이지  
 	tmpPlayrInfo.gil = INIDATA->loadDataInterger(saveFileNum, "Inventory", "Gil");										//돈  
 	tmpPlayrInfo.playTime = INIDATA->loadDataInterger(saveFileNum, "gameData", "playTime");								//플레이시간  
+
+	tmpPlayrInfo.playerXY.x = INIDATA->loadDataInterger(saveFileNum, "gameData", "playerX");							//플레이어 위치X
+	tmpPlayrInfo.playerXY.y = INIDATA->loadDataInterger(saveFileNum, "gameData", "playerY");							//플레이어 위치Y
+	wsprintf(tmpPlayrInfo.saveScene, "%s", INIDATA->loadDataString(saveFileNum, "gameData", "saveScene"));              //현재씬  
 
 	return tmpPlayrInfo;
 }

@@ -133,6 +133,7 @@ HRESULT itemMenu::init()
 
 	//--------------------------------------- 버튼 ---------------------------------------
 	_itemButtonOn = false;  //아이템버튼 활성화 여부
+	_charButtonOn = false;  //캐릭터버튼 활성화 여부
 
 
 
@@ -158,17 +159,24 @@ void itemMenu::update()
 	{
 		_cursorI->keyControlX(210, _cursorXNum);
 
-
 		buttonOnActive();
 	}
 	else
 	{
-		_cursorI->keyControlXY(250, 65, 3, 5);
+		if (!_charButtonOn)
+		{
+			_cursorI->keyControlXY(250, 65, 3, 5);
 
+			//선택
+			buttonOnActiveItem();
+		}
+		else
+		{
+			_cursorI->keyControlY(65, 4);
 
-		//선택
-		buttonOnActiveA();
-
+			buttonOnActiveCharacter();
+		}
+		
 	}
 
 
@@ -224,7 +232,7 @@ void itemMenu::buttonOnActive()
 
 }
 
-void itemMenu::buttonOnActiveA()
+void itemMenu::buttonOnActiveItem()
 {
 	//버튼 에니메이션 활성화
 	_button->setVButtonAniStart(_cursorI->getCursorPos() + 7, true);
@@ -239,35 +247,61 @@ void itemMenu::buttonOnActiveA()
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{
 		_cursorI->init(CURSOR_RIGHT, 950, 120);
-
-		switch (_cursorI->getCursorPos())
-		{
-			case 0:
-				
-			break;
-			case 1:
-
-			break;
-			case 2:
-
-			break;
-			case 3:
-
-			break;
-			case 4:
-
-			break;
-		}
-
-		//나가기
-		if (KEYMANAGER->isOnceKeyDown(VK_BACK))
-		{
-			_cursorI->init(CURSOR_RIGHT, 150 - 50, 10 + 20);
-			_itemButtonOn = false;
-		}
+		_charButtonOn = true;
 	}
 
 
+	//나가기
+	if (KEYMANAGER->isOnceKeyDown(VK_BACK))
+	{
+		_cursorI->init(CURSOR_RIGHT, 150 - 50, 10 + 20);
+		_itemButtonOn = false;
+	}
+}
+
+void itemMenu::buttonOnActiveCharacter()
+{
+	//버튼 에니메이션 활성화
+	_button->setVButtonAniStart(_cursorI->getCursorYNum() + 3, true);
+	for (int i = 3; i < 7; ++i)
+	{
+		if (i == _cursorI->getCursorYNum() + 3) continue;
+		_button->setVButtonAniStart(i, false);
+	}
+
+	//아이템 버튼 선택시
+	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+	{
+	
+
+	}
+
+	//캐릭터 선택
+	switch (_cursorI->getCursorPos())
+	{
+		case 0:
+
+		break;
+		case 1:
+
+		break;
+		case 2:
+
+		break;
+		case 3:
+
+		break;
+		case 4:
+
+		break;
+	}
+
+	//나가기
+	if (KEYMANAGER->isOnceKeyDown(VK_BACK))
+	{
+		_cursorI->init(CURSOR_RIGHT, 50, 160);
+		_charButtonOn = false;
+	}
 }
 
 //아이템 버튼 셋팅
@@ -322,5 +356,5 @@ void itemMenu::itemButtonSet(int buttonNum)
 
 void itemMenu::itemDescriptionRender(int itemNum)
 {
-	textPrint(getMemDC(), _iM->getVItem()[_iM->getItemVNum(itemNum)]->getItemDescription(), 50, 520, 20, 20, "HY견고딕", COLOR_BLUE, false);
+	textPrint(getMemDC(), _iM->getVItem()[itemGetNum(_iM->getItemVNum(itemNum))]->getItemDescription(), 50, 520, 20, 20, "HY견고딕", COLOR_BLUE, false);
 }

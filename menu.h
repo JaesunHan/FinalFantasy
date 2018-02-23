@@ -89,6 +89,8 @@ struct tagSaveData
 	TCHAR stage[CHARBUFFSHORT];	
 	int gil;
 	int playTime;
+	POINT playerXY;
+	TCHAR saveScene[CHARBUFFSHORT];
 };
 
 enum STAGE_SCENE
@@ -143,6 +145,7 @@ struct tagItem
 
 class itemManager;
 class playerManager;
+class worldMapScene;
 
 class menu : public gameNode
 {
@@ -162,6 +165,9 @@ protected:
 	bool _saveFileSelect;
 	int  _saveFileNum;
 	bool _isSavePoint;
+
+	POINT _playerPosition;
+	string _currentSceneName;
 	//======= saveLoad =======
 
 	//======== button ========
@@ -196,6 +202,8 @@ protected:
 	tagItem _posItem;
 	//----------------- player
 	playerManager* _pM;
+	//----------------- worldMap
+	worldMapScene* _wM;
 
 public:
 	virtual HRESULT init();
@@ -268,13 +276,16 @@ public:
 	//=============================== gameTime ==============================
 
 	//================================ getter ===============================
-	int getSaveFileNum() { return _saveFileNum; }
-	void setIsSavePoint(bool isSave) { _isSavePoint = isSave; }
+	virtual int getSaveFileNum() { return _saveFileNum; }
+	virtual void setIsSavePoint(bool isSave) { _isSavePoint = isSave; }
+	virtual void setCurrentScene(string sceneName) { _currentSceneName = sceneName; }
+	virtual void setCurrentScene(POINT playerXY) { _playerPosition = playerXY; }
 	//================================ getter ===============================
 
 	//============================= AddressLink =============================
 	void setItemManagerAddressLink(itemManager* im) { _iM = im; }
 	void setPlayerManagerAddressLink(playerManager* pm) { _pM = pm; }
+	void setWorldMapAddressLink(worldMapScene* wm) { _wM = wm; }
 	//============================= AddressLink =============================
 
 

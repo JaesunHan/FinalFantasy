@@ -15,7 +15,7 @@ public:
 
 
 	void setItemManagerAddressLink(itemManager* im) { _iM = im; }
-
+	void setWorldMapAddressLink(worldMapScene* wm) { _wM = wm; }
 
 	loadGame();
 	~loadGame();

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "loadGame.h"
 #include "itemManager.h"
+#include "worldMapScene.h"
 
 
 loadGame::loadGame()

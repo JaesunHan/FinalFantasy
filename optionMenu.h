@@ -20,6 +20,8 @@ public:
 	void slotAniOn();
 	void slotChangeKey();
 	
+	void setIsSavePoint(bool isSave) { _isSavePoint = isSave; }
+
 	optionMenu();
 	~optionMenu();
 };
