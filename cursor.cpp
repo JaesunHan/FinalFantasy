@@ -275,4 +275,12 @@ void cursor::resetXY(float cursorX, float cursorY)
 	_x = _startX = cursorX;
 	_y = _startY = cursorY;
 }
+void cursor::resetCursorPos()
+{
+	_currentPos = 0;
+	
+	_x = _minX;
+	_startX = _x;
+	_y = _startY;
+}
 //============================== cursor ==============================

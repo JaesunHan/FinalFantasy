@@ -37,6 +37,7 @@ public:
 	void keyControlY(float moveValueY, int downNumber);
 	void keyControlXY(float moveValueX, float moveValueY, int maxNumX, int maxListNum, bool leftMove = false);
 	void resetXY(float cursorX, float cursorY);
+	void resetCursorPos(void);
 
 	inline int getCursorXNum(void) { return _currentXNum; }
 	inline int getCursorYNum(void) { return _currentYNum; }

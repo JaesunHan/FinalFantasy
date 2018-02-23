@@ -54,6 +54,7 @@ private:
 	int _cursorIndex;
 	int _listSelectIndex;
 	int _listMaxIndex;
+	int _currentAmount;
 
 public:
 	storeScene();
@@ -69,6 +70,7 @@ public:
 	void drawStoreInterface(void);
 	void drawVendorList(void);
 	void drawSellItemList(void);
+	void drawAmountSelectScreen(void);
 	void drawAlertScreen(void);
 
 	void setStoreKey(string key);
