@@ -229,7 +229,7 @@ void cursor::keyControlXY(float moveValueX, float moveValueY, int maxNumX, int m
 		if (_currentPos % maxNumX == 0)
 		{
 			_currentPos += (maxNumX - 1);
-			if (_currentPos > maxListNum) _currentPos = maxListNum - 1;
+			if (_currentPos > maxListNum - 1) _currentPos = maxListNum - 1;
 		}
 		else _currentPos--;
 
