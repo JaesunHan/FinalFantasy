@@ -132,6 +132,7 @@ void battlePlayerMother::update()
 			}
 			else
 			{
+				_BS->playerMagicAttack();
 				EFFECTMANAGER->play(_selectMagic->getMaicEffectKey(), _mEnemyTarget->getX(), _mEnemyTarget->getY());
 				SOUNDMANAGER->play(_mAtkEffectSoundKey);
 			}
@@ -145,10 +146,10 @@ void battlePlayerMother::update()
 			_playAnimList[BATTLE_PLAYER_MAGIC_ATTACK] = false;
 			_playAnimList[BATTLE_PLAYER_MAGIC_ATTACK_STANDBY] = false;
 
-			if (!(_selectMagic->getIsHeal() || _selectMagic->getIsRevive()))
-			{
-				_BS->playerMagicAttack();
-			}
+			//if (!(_selectMagic->getIsHeal() || _selectMagic->getIsRevive()))
+			//{
+			//	
+			//}
 		}	
 	}
 

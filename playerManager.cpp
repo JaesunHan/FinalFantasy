@@ -444,7 +444,8 @@ void playerManager::playerLevelUp()
 		// =============== Status 도 1씩 올리기 위해 먼저 데이터를 불러온다 ===============
 		int str				= INIDATA->loadDataInterger(fileName, subjectName, "strength");
 		int spd				= INIDATA->loadDataInterger(fileName, subjectName, "speed");
-		int stamina			= INIDATA->loadDataInterger(fileName, subjectName, "magic");
+		int stamina			= INIDATA->loadDataInterger(fileName, subjectName, "stamina");
+		int magicatk		= INIDATA->loadDataInterger(fileName, subjectName, "magic");
 		int attack			= INIDATA->loadDataInterger(fileName, subjectName, "attack");
 		int attackDefence	= INIDATA->loadDataInterger(fileName, subjectName, "attackDefence");
 		int magicDefence	= INIDATA->loadDataInterger(fileName, fileName, "magicDefence");
@@ -477,6 +478,7 @@ void playerManager::playerLevelUp()
 				str				+= 1;
 				spd				+= 1;
 				stamina			+= 1;
+				magicatk		+= 1;
 				attack			+= 1;
 				attackDefence	+= 1;
 				magicDefence	+= 1;
@@ -502,12 +504,40 @@ void playerManager::playerLevelUp()
 		char strMaxMP[256];
 		wsprintf(strMaxMP, "%d", maxMP);
 
+		char strStrength[256];
+		wsprintf(strStrength, "%d", str);
+		char strSpeed[256];
+		wsprintf(strSpeed, "%d", spd);
+		char strStamina[256];
+		wsprintf(strStamina, "%d", stamina);
+		char strMagic[256];
+		wsprintf(strMagic, "%d", magicatk);
+		char strAttack[256];
+		wsprintf(strAttack, "%d", attack);
+		char strAttackDefence[256];
+		wsprintf(strAttackDefence, "%d", attackDefence);
+		char strMagicDefence[256];
+		wsprintf(strMagicDefence, "%d", magicDefence);
+		char strEvation[256];
+		wsprintf(strEvation, "%d", evation);
+		char strMagicEvation[256];
+		wsprintf(strMagicEvation, "%d", magicEvation);
+
 		INIDATA->addData(subjectName, "maxExp", strMaxExp);
 		INIDATA->addData(subjectName, "level", strLv);
 		INIDATA->addData(subjectName, "hp", strCurHP);
 		INIDATA->addData(subjectName, "maxHp", strMaxHP);
 		INIDATA->addData(subjectName, "mp", strCurMP);
 		INIDATA->addData(subjectName, "maxMp", strMaxMP);
+		INIDATA->addData(subjectName, "strength", strStrength);
+		INIDATA->addData(subjectName, "speed", strSpeed);
+		INIDATA->addData(subjectName, "stamina", strStamina);
+		INIDATA->addData(subjectName, "magic", strMagic);
+		INIDATA->addData(subjectName, "attack", strAttack);
+		INIDATA->addData(subjectName, "attackDefence", strAttackDefence);
+		INIDATA->addData(subjectName, "magicDefence", strMagicDefence);
+		INIDATA->addData(subjectName, "evation", strEvation);
+		INIDATA->addData(subjectName, "magicEvation", strMagicEvation);
 
 		INIDATA->iniSave(fileName);
 	}
