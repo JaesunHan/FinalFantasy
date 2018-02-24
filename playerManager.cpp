@@ -441,6 +441,16 @@ void playerManager::playerLevelUp()
 		int curMP = INIDATA->loadDataInterger(fileName, subjectName, "mp");
 		int maxMP = INIDATA->loadDataInterger(fileName, subjectName, "maxMp");
 		int lv = INIDATA->loadDataInterger(fileName, subjectName, "level");
+		// =============== Status 도 1씩 올리기 위해 먼저 데이터를 불러온다 ===============
+		int str				= INIDATA->loadDataInterger(fileName, subjectName, "strength");
+		int spd				= INIDATA->loadDataInterger(fileName, subjectName, "speed");
+		int stamina			= INIDATA->loadDataInterger(fileName, subjectName, "magic");
+		int attack			= INIDATA->loadDataInterger(fileName, subjectName, "attack");
+		int attackDefence	= INIDATA->loadDataInterger(fileName, subjectName, "attackDefence");
+		int magicDefence	= INIDATA->loadDataInterger(fileName, fileName, "magicDefence");
+		int evation			= INIDATA->loadDataInterger(fileName, fileName, "evation");
+		int magicEvation	= INIDATA->loadDataInterger(fileName, fileName, "magicEvation");
+
 		////이 때 렙업해야됨
 		//if (curExp >= maxExp)
 		//{
@@ -463,6 +473,16 @@ void playerManager::playerLevelUp()
 				maxMP += improveMPValue[lv - 1];
 				curHP += improveHPValue[lv - 1];
 				curMP += improveMPValue[lv - 1];
+
+				str += 1;
+				spd				+= 1;
+				stamina			+= 1;
+				attack			+= 1;
+				attackDefence	+= 1;
+				magicDefence	+= 1;
+				evation			+= 1;
+				magicEvation	+= 1;
+
 			}
 			else
 			{
