@@ -175,7 +175,7 @@ void itemMenu::update()
 	{
 		if (!_charButtonOn)
 		{
-			_cursorI->keyControlXY(250, 65, 3, 5);
+			_cursorI->keyControlXY(250, 65, 3, _button->getButtonNum());
 
 			//선택
 			buttonOnActiveItem();
@@ -357,23 +357,23 @@ void itemMenu::itemButtonSet(int buttonNum)
 			break;
 			case 3: case 4: case 5:
 				_button->buttonSet("버튼아이템힐", buttonX + ((i - 3) * intervalX),
-					buttonY + (1 * intervalY), _iM->getVItem()[itemGetNum(_iM->getItemVNum(i))]->getItemName(), 20, 2, true, _iM->getItemCount(i));
+					buttonY + (1 * intervalY), _iM->getVItem()[_iM->getItemVNum(i)]->getItemName(), 20, 2, true, _iM->getItemCount(i));
 			break;
 			case 6: case 7: case 8:
 				_button->buttonSet("버튼아이템힐", buttonX + ((i - 6) * intervalX),
-					buttonY + (2 * intervalY), _iM->getVItem()[itemGetNum(_iM->getItemVNum(i))]->getItemName(), 20, 2, true, _iM->getItemCount(_iM->getVItem()[i]->getItemNumber()));
+					buttonY + (2 * intervalY), _iM->getVItem()[_iM->getItemVNum(i)]->getItemName(), 20, 2, true, _iM->getItemCount(_iM->getVItem()[i]->getItemNumber()));
 			break;
 			case 9: case 10: case 11:
 				_button->buttonSet("버튼아이템힐", buttonX + ((i - 9) * intervalX),
-					buttonY + (3 * intervalY), _iM->getVItem()[itemGetNum(_iM->getItemVNum(i))]->getItemName(), 20, 2, true, _iM->getItemCount(_iM->getVItem()[i]->getItemNumber()));
+					buttonY + (3 * intervalY), _iM->getVItem()[_iM->getItemVNum(i)]->getItemName(), 20, 2, true, _iM->getItemCount(_iM->getVItem()[i]->getItemNumber()));
 			break;
 			case 12: case 13: case 14:
 				_button->buttonSet("버튼아이템힐", buttonX + ((i - 12) * intervalX),
-					buttonY + (4 * intervalY), _iM->getVItem()[itemGetNum(_iM->getItemVNum(i))]->getItemName(), 20, 2, true, _iM->getItemCount(_iM->getVItem()[i]->getItemNumber()));
+					buttonY + (4 * intervalY), _iM->getVItem()[_iM->getItemVNum(i)]->getItemName(), 20, 2, true, _iM->getItemCount(_iM->getVItem()[i]->getItemNumber()));
 			break;
 			case 15: case 16: case 17:
 				_button->buttonSet("버튼아이템힐", buttonX + ((i - 15) * intervalX),
-					buttonY + (5 * intervalY), _iM->getVItem()[itemGetNum(_iM->getItemVNum(i))]->getItemName(), 20, 2, true, _iM->getItemCount(_iM->getVItem()[i]->getItemNumber()));
+					buttonY + (5 * intervalY), _iM->getVItem()[_iM->getItemVNum(i)]->getItemName(), 20, 2, true, _iM->getItemCount(_iM->getVItem()[i]->getItemNumber()));
 			break;
 		}
 	}

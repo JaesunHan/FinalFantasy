@@ -262,7 +262,7 @@ void loadGame::update()
 					tmpPoint.x = INIDATA->loadDataInterger(strSelectFileName, "gameData", "playerX");
 					tmpPoint.y = INIDATA->loadDataInterger(strSelectFileName, "gameData", "playerY");
 
-					//if (tmpPoint.x != NULL) _wM->getworldMapPlayer()->setWorldMapPlayerPoint(tmpPoint);  //위치전달
+					if (tmpPoint.x != NULL) _wM->getworldMapPlayer()->setWorldMapPlayerPoint(tmpPoint);  //위치전달
 				
 					//파일에 저장된 스테이지 가져오기
 					TCHAR strSavePointMap[256];
