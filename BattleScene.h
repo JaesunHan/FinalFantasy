@@ -115,6 +115,7 @@ public:
 	void victoryMessage();
 	void playerAttack();
 	void playerMagicAttack();
+	void playerUseItem();
 	void victoryCondition();
 	void gameOverCondition();
 	void sceneChange();

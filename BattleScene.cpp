@@ -108,57 +108,73 @@ HRESULT BattleScene::init()
 	//배틀 플레이어에 플레이어 데이터 복사
 	_pm->loadGameData();
 	_pm->setPlayerInfoToBattlePlayer();
-	//최대 몬스터 랜덤 지정
-	_maxMonster = RND->getInt(3) + 1;
-	//에너미 동적할당 후 벡터에 담기
-	int monsterType;
-	int randomMax;
-	randomMax = 2;
-	if (_battleCharacters[0].player->getLv() >= 11) randomMax++;
-	if (_battleCharacters[0].player->getLv() >= 13) randomMax++;
-	if (_battleCharacters[0].player->getLv() >= 19) randomMax++;
-	if (_battleCharacters[0].player->getLv() >= 29) randomMax++;
-	if (_battleCharacters[0].player->getLv() >= 40) randomMax++;
-	if (_battleCharacters[0].player->getLv() >= 44) randomMax++;
-	if (_battleCharacters[0].player->getLv() >= 50) randomMax++;
-	for (int i = 0; i < _maxMonster; ++i)
+
+	
+	//보스 출현 조건
+	if (((worldMapScene*)SCENEMANAGER->findScene("월드맵씬"))->getGetIsBoss() == true)
 	{
-		monsterType = RND->getInt(randomMax);
-		temp.characterType = i + 4;
+		_maxMonster = 1;
+		temp.enemy = new bossAtma;
+		temp.characterType = 4;
 		temp.ATBcounter = 0;
-		//temp.enemy = new guard;
-		switch (monsterType)
-		{
-		case(0):
-			temp.enemy = new DarkWind;
-			break;
-		case(1):
-			temp.enemy = new guard;
-			break;
-		case(2):
-			temp.enemy = new VectorPup;
-			break;
-		case(3):
-			temp.enemy = new Bear;
-			break;
-		case(4):
-			temp.enemy = new gobbler;
-			break;
-		case(5):
-			temp.enemy = new tornadoShark;
-			break;
-		case(6):
-			temp.enemy = new samurai;
-			break;
-		case(7):
-			temp.enemy = new covert;
-			break;
-		case(8):
-			temp.enemy = new siren;
-			break;
-		}
 		_battleCharacters.push_back(temp);
 	}
+	else
+	{
+		//최대 몬스터 랜덤 지정
+		_maxMonster = RND->getInt(3) + 1;
+		//에너미 동적할당 후 벡터에 담기
+		int monsterType;
+		int randomMax;
+		randomMax = 2;
+		if (_battleCharacters[0].player->getLv() >= 11) randomMax++;
+		if (_battleCharacters[0].player->getLv() >= 13) randomMax++;
+		if (_battleCharacters[0].player->getLv() >= 19) randomMax++;
+		if (_battleCharacters[0].player->getLv() >= 29) randomMax++;
+		if (_battleCharacters[0].player->getLv() >= 40) randomMax++;
+		if (_battleCharacters[0].player->getLv() >= 44) randomMax++;
+		if (_battleCharacters[0].player->getLv() >= 50) randomMax++;
+		for (int i = 0; i < _maxMonster; ++i)
+		{
+			monsterType = RND->getInt(randomMax);
+			temp.characterType = i + 4;
+			temp.ATBcounter = 0;
+			//temp.enemy = new guard;
+			switch (monsterType)
+			{
+			case(0):
+				temp.enemy = new DarkWind;
+				break;
+			case(1):
+				temp.enemy = new guard;
+				break;
+			case(2):
+				temp.enemy = new VectorPup;
+				break;
+			case(3):
+				temp.enemy = new Bear;
+				break;
+			case(4):
+				temp.enemy = new gobbler;
+				break;
+			case(5):
+				temp.enemy = new tornadoShark;
+				break;
+			case(6):
+				temp.enemy = new samurai;
+				break;
+			case(7):
+				temp.enemy = new covert;
+				break;
+			case(8):
+				temp.enemy = new siren;
+				break;
+			}
+			_battleCharacters.push_back(temp);
+		}
+	}
+
+	
 	//에너미 클래스 init 및 플레이어 주소 어드레쓰 링크
 	for (int i = 0; i < _maxMonster; ++i)
 	{
@@ -816,6 +832,7 @@ void BattleScene::playerMenuSelect()
 				case(BATTLE_SKILL):
 					break;
 				case(BATTLE_ITEM):
+					_battleCharacters[_currentTurn].playerSelect = _playerSelectNum;
 					_battleCharacters[_currentTurn].itemSelect = _itemSelectNum;
 					_battleCharacters[_currentTurn].player->setStatus(BATTLE_PLAYER_ATTACK_STANDBY);
 					_battleCharacters[_currentTurn].selectAction = true;
@@ -1866,4 +1883,9 @@ void BattleScene::playerMagicAttack()
 		if (_battleTurn.front()->enemy->getCurHP() < 0) _battleTurn.front()->enemy->setCurHP(0);
 	}
 	_isDamaged = true;
+}
+//플레이어 아이템 사용 함수
+void BattleScene::playerUseItem()
+{
+	_im->useItemInBattle(_battleCharacters[_battleTurn.front()->playerSelect].characterType, _battleTurn.front()->itemSelect);
 }
