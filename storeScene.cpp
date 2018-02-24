@@ -476,23 +476,10 @@ void storeScene::drawStoreInterface(void)
 void storeScene::drawVendorList(void)
 {
 	int curPageItemNum;
+	char listPage[256] = "";
 
 	if (_curVendorPage < _maxVendorPage) curPageItemNum = MAX_DRAWNUM;
 	else curPageItemNum = _vendorList.size() % MAX_DRAWNUM;
-
-
-	/*for (int i = 0; i < _vendorList.size(); i++)
-	{
-		if (i == _listSelectCursor.getCursorPos())IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 1, 0);
-		else IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 0, 0);
-
-		TextOut(getMemDC(), 75 + (i % 3) * 280, 235 + (i / 3) * 90, _vendorList[i]->getItemName(), strlen(_vendorList[i]->getItemName()));
-
-		SetTextAlign(getMemDC(), TA_RIGHT);
-		TextOut(getMemDC(), 260 + (i % 3) * 280, 255 + (i / 3) * 90,
-			to_string(_vendorList[i]->getPrice()).c_str(), strlen(to_string(_vendorList[i]->getPrice()).c_str()));
-		SetTextAlign(getMemDC(), TA_LEFT);
-	}*/
 
 	for (int i = 0; i < curPageItemNum; i++)
 	{
@@ -508,11 +495,22 @@ void storeScene::drawVendorList(void)
 			strlen(to_string(_vendorList[_curVendorPage * MAX_DRAWNUM + i]->getPrice()).c_str()));
 		SetTextAlign(getMemDC(), TA_LEFT);
 	}
+
+	HFONT newFont = CreateFont(30, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+	HFONT oldFont = (HFONT)SelectObject(getMemDC(), newFont);
+
+	wsprintf(listPage, "%d of %d", _curVendorPage + 1, _maxVendorPage + 1);
+	outlineTextOut(getMemDC(), 420, 490, listPage, RGB(255, 255, 255), RGB(0, 0, 0), RGB(255, 255, 255), 20);
+
+	SelectObject(getMemDC(), oldFont);
+	DeleteObject(newFont);
+	DeleteObject(oldFont);
 }
 
 void storeScene::drawSellItemList(void)
 {
 	int curPageItemNum;
+	char listPage[256] = "";
 
 	if (_currentInventory == INVENTORY_ITEM)
 	{
@@ -598,6 +596,16 @@ void storeScene::drawSellItemList(void)
 			SetTextAlign(getMemDC(), TA_LEFT);
 		}
 	}
+
+	HFONT newFont = CreateFont(30, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+	HFONT oldFont = (HFONT)SelectObject(getMemDC(), newFont);
+
+	wsprintf(listPage, "%d of %d", _curSellPage + 1, _maxSellPage + 1);
+	outlineTextOut(getMemDC(), 420, 490, listPage, RGB(255, 255, 255), RGB(0, 0, 0), RGB(255, 255, 255), 20);
+
+	SelectObject(getMemDC(), oldFont);
+	DeleteObject(newFont);
+	DeleteObject(oldFont);
 }
 
 void storeScene::drawAmountSelectScreen(void)
