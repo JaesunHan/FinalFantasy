@@ -17,6 +17,11 @@
 #include <queue>
 #include <vector>
 
+//========배틀씬=========//
+//	제작자 : 신설륜		//
+//	2월 12일				//
+//======================//
+
 enum BATTLECHARACTER
 {
 	TINA, LOCKE, CELES, SHADOW,
