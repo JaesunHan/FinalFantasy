@@ -1036,7 +1036,7 @@ void BattleScene::playerMenuSelect()
 				}
 			}
 		}
-		else if (_victory == true)
+		else if (_victory == true && _dialogueCounter < 17)
 		{
 			_dialogueCounter++;
 			if (_dialogueCounter == 4 || _dialogueCounter == 7 || _dialogueCounter == 10 || _dialogueCounter == 13)
@@ -1380,6 +1380,43 @@ void BattleScene::renderDamage(int endPoint)
 void BattleScene::victoryMessage()
 {
 	RECT tempDialogueRC = { 25, 48, WINSIZEX - 275, 80 };
+	int exp;
+	int gold;
+	exp = 0;
+	gold = 0;
+	for (int i = 0; i < _maxMonster; ++i)
+	{
+		exp += _battleCharacters[i + 4].enemy->getMaxEXP();
+		gold += _battleCharacters[i + 4].enemy->getGold();
+	}
+	if (_victory == true && _victoryCounter == 1)
+	{
+		_im->setMoney(_im->getMoney() + gold);
+		for (int j = 0; j < 4; ++j)
+		{
+			for (int i = 0; i < 4; ++i)
+			{
+				if (j == 0 && _battleCharacters[i].characterType != TINA) continue;
+				if (j == 1 && _battleCharacters[i].characterType != LOCKE) continue;
+				if (j == 2 && _battleCharacters[i].characterType != CELES) continue;
+				if (j == 3 && _battleCharacters[i].characterType != SHADOW) continue;
+				_battleCharacters[i].player->setCurEXP(_battleCharacters[i].player->getCurEXP() + exp);
+				char playerNum[128];
+				char bodyHP[128]; 
+				char bodyMP[128];
+				char bodyEXP[128];
+				wsprintf(playerNum, "player%d", j);
+				wsprintf(bodyHP, "%d", _battleCharacters[i].player->getCurHP());
+				INIDATA->addData(playerNum, "hp", bodyHP);
+				wsprintf(bodyMP, "%d", _battleCharacters[i].player->getCurMP());
+				INIDATA->addData(playerNum, "mp", bodyMP);
+				wsprintf(bodyEXP, "%d", _battleCharacters[i].player->getCurEXP());
+				INIDATA->addData(playerNum, "exp", bodyEXP);
+				INIDATA->iniSave("skgFile");
+				break;
+			}
+		}
+	}
 	if (_victoryCounter > 70 && _dialogueCounter < 20)
 	{
 		bool skip;
@@ -1388,82 +1425,12 @@ void BattleScene::victoryMessage()
 		switch (_dialogueCounter)
 		{
 		case(1):
-			if (_dialogue == true)
-			{
-				for (int j = 0; j < 4; ++j)
-				{
-					for (int i = 0; i < 4; ++i)
-					{
-						if (j == 0 && _battleCharacters[i].characterType != TINA) continue;
-						if (j == 1 && _battleCharacters[i].characterType != LOCKE) continue;
-						if (j == 2 && _battleCharacters[i].characterType != CELES) continue;
-						if (j == 3 && _battleCharacters[i].characterType != SHADOW) continue;
-						char playerNum[128];
-						char body[128];
-						wsprintf(playerNum, "player%d", j);
-						wsprintf(body, "%d", _battleCharacters[i].player->getCurHP());
-						INIDATA->addData(playerNum, "hp", body);
-						INIDATA->iniSave("skgFile");
-						break;
-					}
-				}
-				_dialogue = false;
-			}
 			drawText(32, "팀 소꽁구 승리!", tempDialogueRC, DT_CENTER, true);
 			break;
 		case(2):
-			if (_dialogue == true)
-			{
-				for (int j = 0; j < 4; ++j)
-				{
-					for (int i = 0; i < 4; ++i)
-					{
-						if (j == 0 && _battleCharacters[i].characterType != TINA) continue;
-						if (j == 1 && _battleCharacters[i].characterType != LOCKE) continue;
-						if (j == 2 && _battleCharacters[i].characterType != CELES) continue;
-						if (j == 3 && _battleCharacters[i].characterType != SHADOW) continue;
-						char playerNum[128];
-						char body[128];
-						wsprintf(playerNum, "player%d", j);
-						wsprintf(body, "%d", _battleCharacters[i].player->getCurMP());
-						INIDATA->addData(playerNum, "mp", body);
-						INIDATA->iniSave("skgFile");
-						break;
-					}
-				}
-				_dialogue = false;
-			}
 			drawText(32, "소꽁구 만세!", tempDialogueRC, DT_CENTER, true);
 			break;
 		case(3):
-			int exp;
-			exp = 0;
-			for (int i = 0; i < _maxMonster; ++i)
-			{
-				exp += _battleCharacters[i + 4].enemy->getMaxEXP();
-			}
-			if (_dialogue == true)
-			{
-				for (int j = 0; j < 4; ++j)
-				{
-					for (int i = 0; i < 4; ++i)
-					{
-						if (j == 0 && _battleCharacters[i].characterType != TINA) continue;
-						if (j == 1 && _battleCharacters[i].characterType != LOCKE) continue;
-						if (j == 2 && _battleCharacters[i].characterType != CELES) continue;
-						if (j == 3 && _battleCharacters[i].characterType != SHADOW) continue;
-						_battleCharacters[i].player->setCurEXP(_battleCharacters[i].player->getCurEXP() + exp);
-						char playerNum[128];
-						char body[128];
-						wsprintf(playerNum, "player%d", j);
-						wsprintf(body, "%d", _battleCharacters[i].player->getCurEXP() + exp);
-						INIDATA->addData(playerNum, "exp", body);
-						INIDATA->iniSave("skgFile");
-						break;
-					}
-				}
-				_dialogue = false;
-			}
 			wsprintf(_message0, "경험치를 %d 만큼 얻었다.", exp);
 			drawText(32, _message0, tempDialogueRC, DT_CENTER, true);
 			break;
@@ -1640,17 +1607,6 @@ void BattleScene::victoryMessage()
 			drawText(32, _message2, tempDialogueRC, DT_CENTER, true);
 			break;
 		case(16):
-			int gold;
-			gold = 0;
-			for (int i = 0; i < _maxMonster; ++i)
-			{
-				gold += _battleCharacters[4 + i].enemy->getGold();
-			}
-			if (_dialogue == true)
-			{
-				_im->setMoney(_im->getMoney() + gold);
-				_dialogue = false;
-			}
 			wsprintf(_message0, "%d Gil을 얻었다.", gold);
 			drawText(32, _message0, tempDialogueRC, DT_CENTER, true);
 			break;
