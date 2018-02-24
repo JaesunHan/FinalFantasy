@@ -157,6 +157,7 @@ void battlePlayerMother::update()
 		}
 		if (!EFFECTMANAGER->isEffectEnd("¾ÆÀÌÅÛ"))
 		{
+			_BS->playerUseItem();
 			_turnEnd = true;
 			_playAnimList[BATTLE_PLAYER_ITEM] = false;
 			_status = BATTLE_PLAYER_IDLE;
