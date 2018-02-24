@@ -657,64 +657,154 @@ void menu::playerStatusRender(int SlotNum)
 	}
 }
 
-void menu::playerStatusEquipsRender(int SlotNum)
+void menu::playerStatusEquipsRender(string playerNum, bool equipSet, int myWeaponVNum, int mySubWeaponNum, int myHelmetNum, int myArmorNum)
 {
 	for (int i = 0; i < _vPlayer.size(); ++i)
 	{
 		//================== int -> string 형변환 ==================
 		//------------------------- 기본능력 -----------------------
+		int equipStrength0 = 0, equipSpeed0 = 0, equipStamina0 = 0, equipMagic0 = 0;
+		int equipAttack0 = 0, equipAttackD0 = 0, equipMagicD0 = 0;
+		int equipEvation0 = 0, equipMagicE0 = 0;
+
+		//tmp파일에서 장비 아이템넘버 가져오기
+		int myWeaponVNum0 = INIDATA->loadDataInterger("skgFile", playerNum.c_str(), "myWeapon");
+		int mySubWeaponNum0 = INIDATA->loadDataInterger("skgFile", playerNum.c_str(), "mySubWeapon");
+		int myHelmetNum0 = INIDATA->loadDataInterger("skgFile", playerNum.c_str(), "myHelmet");
+		int myArmorNum0 = INIDATA->loadDataInterger("skgFile", playerNum.c_str(), "myArmor");
+
+		//----------------------------------------------------------
+		//+능력치
+		int strengthPlus = 0, speedPlus = 0, staminaPlus = 0, magicPlus = 0, attackPlus = 0, attackDPlus = 0, magicDPlus = 0, evationPlus = 0, magicEPlus = 0;
+		int getMWAttack = 0, getSWAttack = 0, getMYHADefen = 0, getMAADefen = 0, getMHMDefen = 0, getMAMDefen = 0;
+
+		//아이템메니저->무기 능력치 가져오기
+		if (myWeaponVNum0 != 0)   getMWAttack  = ((weaponItem*)_iM->getVItem()[myWeaponVNum0])->getAttack();
+		if (mySubWeaponNum0 != 0) getSWAttack  = ((weaponItem*)_iM->getVItem()[mySubWeaponNum0])->getAttack();
+		if (myHelmetNum0 != 0)    getMYHADefen = ((armorItem*)_iM->getVItem()[myHelmetNum0])->getAttackDefRestored();
+		if (myArmorNum0 != 0)     getMAADefen  = ((armorItem*)_iM->getVItem()[myArmorNum0])->getAttackDefRestored();
+		if (myHelmetNum0 != 0)    getMHMDefen  = ((armorItem*)_iM->getVItem()[myHelmetNum0])->getMagicDefRestored();
+		if (myArmorNum0 != 0)     getMAMDefen  = ((armorItem*)_iM->getVItem()[myArmorNum0])->getMagicDefRestored();
+
+		strengthPlus = 0;
+		speedPlus	 = 0;
+		staminaPlus	 = 0;
+		magicPlus	 = 0;
+		attackPlus	 = getMWAttack + getSWAttack;
+		attackDPlus  = getMYHADefen + getMAADefen;
+		magicDPlus	 = getMHMDefen + getMAMDefen;
+		evationPlus	 = 0;
+		magicEPlus	 = 0;
+
+
+		//기본+능력치
+		equipStrength0 = _vPlayerStatus[i].strength;	 + strengthPlus;
+		equipSpeed0	   = _vPlayerStatus[i].speed;		 + speedPlus;
+		equipStamina0  = _vPlayerStatus[i].stamina;		 + staminaPlus;
+		equipMagic0    = _vPlayerStatus[i].magic;		 + magicPlus;
+		equipAttack0   = _vPlayerStatus[i].attack		 + attackPlus;
+		equipAttackD0  = _vPlayerStatus[i].attackDefence + attackDPlus;
+		equipMagicD0   = _vPlayerStatus[i].magicDefence  + magicDPlus;
+		equipEvation0  = _vPlayerStatus[i].evation;		 + evationPlus;
+		equipMagicE0   = _vPlayerStatus[i].magicEvation; + magicEPlus;
+
+		//----------------------------------------------------------
 		char strStrength[INTCHARBUFF];
-		sprintf(strStrength, "%d", _vPlayerStatus[i].strength);
+		sprintf(strStrength, "%d", equipStrength0);
 		char strSpeed[INTCHARBUFF];
-		sprintf(strSpeed, "%d", _vPlayerStatus[i].speed);
+		sprintf(strSpeed, "%d", equipSpeed0);
 		char strStamina[INTCHARBUFF];
-		sprintf(strStamina, "%d", _vPlayerStatus[i].stamina);
+		sprintf(strStamina, "%d", equipStamina0);
 		char strMagic[INTCHARBUFF];
-		sprintf(strMagic, "%d", _vPlayerStatus[i].magic);
+		sprintf(strMagic, "%d", equipMagic0);
 		char strAttack[INTCHARBUFF];
-		sprintf(strAttack, "%d", _vPlayerStatus[i].attack);
+		sprintf(strAttack, "%d", equipAttack0);
 		char strAttackD[INTCHARBUFF];
-		sprintf(strAttackD, "%d", _vPlayerStatus[i].attackDefence);
+		sprintf(strAttackD, "%d", equipAttackD0);
 		char strMagicD[INTCHARBUFF];
-		sprintf(strMagicD, "%d", _vPlayerStatus[i].magicDefence);
+		sprintf(strMagicD, "%d", equipMagicD0);
 		char strEvation[INTCHARBUFF];
-		sprintf(strEvation, "%d%%", _vPlayerStatus[i].evation);
+		sprintf(strEvation, "%d%%", equipEvation0);
 		char strMagicE[INTCHARBUFF];
-		sprintf(strMagicE, "%d%%", _vPlayerStatus[i].magicEvation);
+		sprintf(strMagicE, "%d%%", equipMagicE0);
 		//------------------------- 추가능력 -----------------------
-		int equipStrength, equipSpeed,   equipStamina, equipMagic = 0;
-		int equipAttack,   equipAttackD, equipMagicD = 0;
-		int equipEvation,  equipMagicE = 0;
+		int equipStrength = 0, equipSpeed = 0,   equipStamina = 0, equipMagic = 0;
+		int equipAttack = 0,   equipAttackD = 0, equipMagicD = 0;
+		int equipEvation = 0,  equipMagicE = 0;
 
-		//마더클래스에서 자식클래스 접근할경우
-		((weaponItem*)_iM->getVItem()[_iM->getArmorVNum(i)])->getAttack();
-		equipStrength = INIDATA->loadDataInterger("skg", "", "");
+		//----------------------------------------------------------
+		//+능력치
+		int strengthPlus1 = 0, speedPlus1 = 0, staminaPlus1 = 0, magicPlus1 = 0, attackPlus1 = 0, attackDPlus1 = 0, magicDPlus1 = 0, evationPlus1 = 0, magicEPlus1 = 0;
+		int getMWAttack1 = 0, getSWAttack1 = 0, getMYHADefen1 = 0, getMAADefen1 = 0, getMHMDefen1 = 0, getMAMDefen1 = 0;
 
+		//아이템메니저->무기 능력치 가져오기
+		if (myWeaponVNum != -1)   getMWAttack1  = ((weaponItem*)_iM->getVItem()[myWeaponVNum])->getAttack();
+		if (mySubWeaponNum != -1) getSWAttack1  = ((weaponItem*)_iM->getVItem()[mySubWeaponNum])->getAttack();
+		if (myHelmetNum != -1)    getMYHADefen1 = ((armorItem*)_iM->getVItem()[myHelmetNum])->getAttackDefRestored();
+		if (myArmorNum != -1)     getMAADefen1  = ((armorItem*)_iM->getVItem()[myArmorNum])->getAttackDefRestored();
+		if (myHelmetNum != -1)    getMHMDefen1  = ((armorItem*)_iM->getVItem()[myHelmetNum])->getMagicDefRestored();
+		if (myArmorNum != -1)     getMAMDefen1  = ((armorItem*)_iM->getVItem()[myArmorNum])->getMagicDefRestored();
+
+		strengthPlus1 = 0;
+		speedPlus1    = 0;
+		staminaPlus1  = 0;
+		magicPlus1    = 0;
+		attackPlus1   = getMWAttack1 + getSWAttack1;
+		attackDPlus1  = getMYHADefen1 + getMAADefen1;
+		magicDPlus1   = getMHMDefen1 + getMAMDefen1;
+		evationPlus1  = 0;
+		magicEPlus1   = 0;
+
+		//----------------------------------------------------------
+		equipStrength = _vPlayerStatus[i].strength + strengthPlus1;
+		equipSpeed	  = _vPlayerStatus[i].speed + speedPlus1;
+		equipStamina  = _vPlayerStatus[i].stamina + staminaPlus1;
+		equipMagic    = _vPlayerStatus[i].magic + magicPlus1;
+		equipAttack   = _vPlayerStatus[i].attack + attackPlus1;
+		equipAttackD  = _vPlayerStatus[i].attackDefence + attackDPlus1;
+		equipMagicD   = _vPlayerStatus[i].magicDefence + magicDPlus1;
+		equipEvation  = _vPlayerStatus[i].evation + evationPlus1;
+		equipMagicE   = _vPlayerStatus[i].magicEvation + magicEPlus1;
 
 		//----------------------------------------------------------
 		char strStrength1[INTCHARBUFF];
-		sprintf(strStrength1, "%d", _vPlayerStatus[i].strength);
+		sprintf(strStrength1, "%d", equipStrength);
 		char strSpeed1[INTCHARBUFF];
-		sprintf(strSpeed1, "%d", _vPlayerStatus[i].speed);
+		sprintf(strSpeed1, "%d", equipSpeed);
 		char strStamina1[INTCHARBUFF];
-		sprintf(strStamina1, "%d", _vPlayerStatus[i].stamina);
+		sprintf(strStamina1, "%d",equipStamina);
 		char strMagic1[INTCHARBUFF];
-		sprintf(strMagic1, "%d", _vPlayerStatus[i].magic);
+		sprintf(strMagic1, "%d", equipMagic);
 		char strAttack1[INTCHARBUFF];
-		sprintf(strAttack1, "%d", _vPlayerStatus[i].attack);
+		sprintf(strAttack1, "%d",equipAttack);
 		char strAttackD1[INTCHARBUFF];
-		sprintf(strAttackD1, "%d", _vPlayerStatus[i].attackDefence);
+		sprintf(strAttackD1, "%d", equipAttackD);
 		char strMagicD1[INTCHARBUFF];
-		sprintf(strMagicD1, "%d", _vPlayerStatus[i].magicDefence);
+		sprintf(strMagicD1, "%d", equipMagicD);
 		char strEvation1[INTCHARBUFF];
-		sprintf(strEvation1, "%d%%", _vPlayerStatus[i].evation);
+		sprintf(strEvation1, "%d%%", equipEvation);
 		char strMagicE1[INTCHARBUFF];
-		sprintf(strMagicE1, "%d%%", _vPlayerStatus[i].magicEvation);
+		sprintf(strMagicE1, "%d%%", equipMagicE);
 		//===========================================================
 
+		//아이템 장착시 데이터 저장
+		if (equipSet)
+		{
+			INIDATA->addData(playerNum.c_str(), "strength", strStrength1);
+			INIDATA->addData(playerNum.c_str(), "speed", strSpeed1);
+			INIDATA->addData(playerNum.c_str(), "stamina", strStamina1);
+			INIDATA->addData(playerNum.c_str(), "magic", strMagic1);
+			INIDATA->addData(playerNum.c_str(), "attack", strAttack1);
+			INIDATA->addData(playerNum.c_str(), "attackDefence", strAttackD1);
+			INIDATA->addData(playerNum.c_str(), "magicDefence", strMagicD1);
+			INIDATA->addData(playerNum.c_str(), "evation", strEvation1);
+			INIDATA->addData(playerNum.c_str(), "magicEvation", strMagicE1);
+
+			INIDATA->iniSave("skgFile");
+		}
 
 		//--------------------------- 텍스트 출력용 위치보정
-		int textX0 = _vPlayer[i].x - 20;
+		int textX0 = _vPlayer[i].x - 25;
 
 		int textX = 0;
 		textX = textX0 + 200;
@@ -730,45 +820,47 @@ void menu::playerStatusEquipsRender(int SlotNum)
 
 		//--------------------------------------------------------- 텍스트 출력 ---------------------------------------------------------
 		//플레이어 기본 능력
-		textPrint(getMemDC(), "Strength",		textX0,		  textY + textInterY[0], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"Strength"
+		textPrint(getMemDC(), "Strength",		textX0,		  textY + textInterY[0], 17, 15, "HY견고딕", COLOR_BLUE, false);	//"Strength"
 		textPrint(getMemDC(), strStrength,		textX0 + 150, textY + textInterY[0], 17, 15, "HY견고딕", COLOR_BLACK, false);	//힘
-		textPrint(getMemDC(), "Speed",			textX0,		  textY + textInterY[1], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"Speed"
+		textPrint(getMemDC(), "Speed",			textX0,		  textY + textInterY[1], 17, 15, "HY견고딕", COLOR_BLUE, false);	//"Speed"
 		textPrint(getMemDC(), strSpeed,			textX0 + 150, textY + textInterY[1], 17, 15, "HY견고딕", COLOR_BLACK, false);	//스피드
-		textPrint(getMemDC(), "Stamina",		textX0,		  textY + textInterY[2], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"Stamina"
+		textPrint(getMemDC(), "Stamina",		textX0,		  textY + textInterY[2], 17, 15, "HY견고딕", COLOR_BLUE, false);	//"Stamina"
 		textPrint(getMemDC(), strStamina,		textX0 + 150, textY + textInterY[2], 17, 15, "HY견고딕", COLOR_BLACK, false);	//내구력
-		textPrint(getMemDC(), "Magic",			textX0,		  textY + textInterY[3], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"Magic"
+		textPrint(getMemDC(), "Magic",			textX0,		  textY + textInterY[3], 17, 15, "HY견고딕", COLOR_BLUE, false);	//"Magic"
 		textPrint(getMemDC(), strMagic,			textX0 + 150, textY + textInterY[3], 17, 15, "HY견고딕", COLOR_BLACK, false);	//마법
-		textPrint(getMemDC(), "Attack",			textX0,		  textY + textInterY[4], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"Attack"
+		textPrint(getMemDC(), "Attack",			textX0,		  textY + textInterY[4], 17, 15, "HY견고딕", COLOR_BLUE, false);	//"Attack"
 		textPrint(getMemDC(), strAttack,		textX0 + 150, textY + textInterY[4], 17, 15, "HY견고딕", COLOR_BLACK, false);	//공격력
-		textPrint(getMemDC(), "AttackDefence",	textX0,		  textY + textInterY[5], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"AttackDefence"
+		textPrint(getMemDC(), "AttackDefence",	textX0,		  textY + textInterY[5], 17, 15, "HY견고딕", COLOR_BLUE, false);	//"AttackDefence"
 		textPrint(getMemDC(), strAttackD,		textX0 + 150, textY + textInterY[5], 17, 15, "HY견고딕", COLOR_BLACK, false);	//공격디펜스
-		textPrint(getMemDC(), "MagicDefence",	textX0,		  textY + textInterY[6], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"MagicDefence"
+		textPrint(getMemDC(), "MagicDefence",	textX0,		  textY + textInterY[6], 17, 15, "HY견고딕", COLOR_BLUE, false);	//"MagicDefence"
 		textPrint(getMemDC(), strMagicD,		textX0 + 150, textY + textInterY[6], 17, 15, "HY견고딕", COLOR_BLACK, false);	//마법디펜스
-		textPrint(getMemDC(), "Evation",		textX0,		  textY + textInterY[7], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"Evation"
+		textPrint(getMemDC(), "Evation",		textX0,		  textY + textInterY[7], 17, 15, "HY견고딕", COLOR_BLUE, false);	//"Evation"
 		textPrint(getMemDC(), strEvation,		textX0 + 150, textY + textInterY[7], 17, 15, "HY견고딕", COLOR_BLACK, false);	//공격회피
-		textPrint(getMemDC(), "MagicEvation",	textX0,		  textY + textInterY[8], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"MagicEvation"
+		textPrint(getMemDC(), "MagicEvation",	textX0,		  textY + textInterY[8], 17, 15, "HY견고딕", COLOR_BLUE, false);	//"MagicEvation"
 		textPrint(getMemDC(), strMagicE,		textX0 + 150, textY + textInterY[8], 17, 15, "HY견고딕", COLOR_BLACK, false);	//마법회피
 
-		//아이템 착용시 능력치		
-		textPrint(getMemDC(), "->",				textX,		 textY + textInterY[0], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"->"
-		textPrint(getMemDC(), strStrength,		textX + 50,	 textY + textInterY[0], 17, 15, "HY견고딕", COLOR_BLACK, false);	//힘
-		textPrint(getMemDC(), "->",				textX,		 textY + textInterY[1], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"->"
-		textPrint(getMemDC(), strSpeed,			textX + 50,  textY + textInterY[1], 17, 15, "HY견고딕", COLOR_BLACK, false);	//스피드
-		textPrint(getMemDC(), "->",				textX,		 textY + textInterY[2], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"->"
-		textPrint(getMemDC(), strStamina,		textX + 50,  textY + textInterY[2], 17, 15, "HY견고딕", COLOR_BLACK, false);	//내구력
-		textPrint(getMemDC(), "->",				textX,		 textY + textInterY[3], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"->"
-		textPrint(getMemDC(), strMagic,			textX + 50,  textY + textInterY[3], 17, 15, "HY견고딕", COLOR_BLACK, false);	//마법
-		textPrint(getMemDC(), "->",				textX,		 textY + textInterY[4], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"->"
-		textPrint(getMemDC(), strAttack,		textX + 50,  textY + textInterY[4], 17, 15, "HY견고딕", COLOR_BLACK, false);	//공격력
-		textPrint(getMemDC(), "->",				textX,		 textY + textInterY[5], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"->"
-		textPrint(getMemDC(), strAttackD,		textX + 50,  textY + textInterY[5], 17, 15, "HY견고딕", COLOR_BLACK, false);	//공격디펜스
-		textPrint(getMemDC(), "->",				textX,		 textY + textInterY[6], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"->"
-		textPrint(getMemDC(), strMagicD,		textX + 50,  textY + textInterY[6], 17, 15, "HY견고딕", COLOR_BLACK, false);	//마법디펜스
-		textPrint(getMemDC(), "->",				textX,		 textY + textInterY[7], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"->"
-		textPrint(getMemDC(), strEvation,		textX + 50,  textY + textInterY[7], 17, 15, "HY견고딕", COLOR_BLACK, false);	//공격회피
-		textPrint(getMemDC(), "->",				textX,		 textY + textInterY[8], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"->"
-		textPrint(getMemDC(), strMagicE,		textX + 50,  textY + textInterY[8], 17, 15, "HY견고딕", COLOR_BLACK, false);	//마법회피
 
+
+			//아이템 착용시 능력치		
+			textPrint(getMemDC(), "->", textX, textY + textInterY[0], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"->"
+			textPrint(getMemDC(), strStrength1, textX + 50, textY + textInterY[0], 17, 15, "HY견고딕", COLOR_BLACK, false);	//힘
+			textPrint(getMemDC(), "->", textX, textY + textInterY[1], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"->"
+			textPrint(getMemDC(), strSpeed1, textX + 50, textY + textInterY[1], 17, 15, "HY견고딕", COLOR_BLACK, false);	//스피드
+			textPrint(getMemDC(), "->", textX, textY + textInterY[2], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"->"
+			textPrint(getMemDC(), strStamina1, textX + 50, textY + textInterY[2], 17, 15, "HY견고딕", COLOR_BLACK, false);	//내구력
+			textPrint(getMemDC(), "->", textX, textY + textInterY[3], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"->"
+			textPrint(getMemDC(), strMagic1, textX + 50, textY + textInterY[3], 17, 15, "HY견고딕", COLOR_BLACK, false);	//마법
+			textPrint(getMemDC(), "->", textX, textY + textInterY[4], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"->"
+			textPrint(getMemDC(), strAttack1, textX + 50, textY + textInterY[4], 17, 15, "HY견고딕", COLOR_BLACK, false);	//공격력
+			textPrint(getMemDC(), "->", textX, textY + textInterY[5], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"->"
+			textPrint(getMemDC(), strAttackD1, textX + 50, textY + textInterY[5], 17, 15, "HY견고딕", COLOR_BLACK, false);	//공격디펜스
+			textPrint(getMemDC(), "->", textX, textY + textInterY[6], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"->"
+			textPrint(getMemDC(), strMagicD1, textX + 50, textY + textInterY[6], 17, 15, "HY견고딕", COLOR_BLACK, false);	//마법디펜스
+			textPrint(getMemDC(), "->", textX, textY + textInterY[7], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"->"
+			textPrint(getMemDC(), strEvation1, textX + 50, textY + textInterY[7], 17, 15, "HY견고딕", COLOR_BLACK, false);	//공격회피
+			textPrint(getMemDC(), "->", textX, textY + textInterY[8], 17, 15, "HY견고딕", COLOR_BLUE, false);		//"->"
+			textPrint(getMemDC(), strMagicE1, textX + 50, textY + textInterY[8], 17, 15, "HY견고딕", COLOR_BLACK, false);	//마법회피
+	
 	}
 }
 

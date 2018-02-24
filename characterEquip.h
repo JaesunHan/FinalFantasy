@@ -34,6 +34,12 @@ private:
 
 	int  _previousCusor;   //이전 커서위치 저장
 	bool _belongSelectOK;  //장착버튼 선택여부
+	bool _equipSetOk;      //장비장착 여부
+
+	int changeMyWVNum;     //변경할 장비 벡터넘버
+	int changeMyAVNum;	   //변경할 장비 벡터넘버
+	int changeMyHVNum;	   //변경할 장비 벡터넘버
+	int changeMySVNum;	   //변경할 장비 벡터넘버
 
 public:
 	HRESULT init();
@@ -48,7 +54,8 @@ public:
 	void equipsButtonSet(int buttonNum);
 	void belongEquiopsButtonSet(int equipKInd);
 
-	//
+	//무기교체
+	void weaponChange(string equiptype);
 
 
 	//메모리 어드레스 링크

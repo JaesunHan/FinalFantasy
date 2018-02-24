@@ -85,7 +85,7 @@ HRESULT itemManager::init()
 	_vItem.push_back(weapon);
 
 	weapon = new weaponItem;
-	weapon->init(15, ITEM_WEAPON, "Illumina", "...", 2, 255, 255);
+	weapon->init(15, ITEM_WEAPON, "lllumina", "...", 2, 255, 255);
 	_vItem.push_back(weapon);
 
 	weapon = new weaponItem;

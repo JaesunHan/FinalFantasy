@@ -53,6 +53,12 @@ HRESULT characterEquip::init()
 	_belongEquipsNum = 0;
 	_previousCusor = 0;
 	_belongSelectOK = false;
+	_equipSetOk = false;
+
+	changeMyWVNum = -1;
+	changeMyAVNum = -1;
+	changeMyHVNum = -1;
+	changeMySVNum = -1;
 
 	return S_OK;
 }
@@ -108,15 +114,10 @@ void characterEquip::render()
 	_button->render();      //버튼
 	_cursorI->render();  	//커서 
 
-	playerSlotRender(false);						//슬롯 데이터
-	playerStatusEquipsRender(_selectPlayerNum);     //상태 데이터
-
-
-	//------------------------------------------------------------------- test
-	char testBuff[32];
-	textPrint(getMemDC(), itoa(_previousCusor, testBuff, 10), 100, 100);
-	//textPrint(getMemDC(), itoa(_cursorI->getCursorPos(), testBuff, 10), 100, 120);
-	//textPrint(getMemDC(), itoa(_belongEquipsNum, testBuff, 10), 100, 140);
+	playerSlotRender(false);						    //슬롯 데이터
+	char playerNum[256];
+	sprintf(playerNum, "player%d", _selectPlayerNum);
+	playerStatusEquipsRender(playerNum, _equipSetOk, changeMyWVNum, changeMyAVNum, changeMyHVNum, changeMySVNum);   //상태 데이터
 }
 
 
@@ -152,8 +153,6 @@ void characterEquip::buttonOnActive()
 
 		break;
 	}
-
-
 }
 
 //장비선택시
@@ -190,23 +189,21 @@ void characterEquip::buttonOnEquipsActive()
 		//버튼생성
 		switch (_cursorI->getCursorPos())
 		{
-		case BUTTON_RIGHTHAND: case BUTTON_LEFTHAND:
-
-			belongEquiopsButtonSet(EQUIPS_WEAPON);
-			_belongSelectOK = true;
-
+			case BUTTON_RIGHTHAND: case BUTTON_LEFTHAND:
+				belongEquiopsButtonSet(EQUIPS_WEAPON);
+				if (_belongEquipsNum != 0) _belongSelectOK = true;
 			break;
-		case BUTTON_HEAD: case BUTTON_BODY:
-
-			belongEquiopsButtonSet(EQUIPS_ARMOR);
-			_belongSelectOK = true;
-
+			case BUTTON_HEAD:
+				belongEquiopsButtonSet(BUTTON_HEAD);
+				if (_belongEquipsNum != 0) _belongSelectOK = true;
 			break;
-		case BUTTON_RELICS1: case BUTTON_RELICS2:
-
-			belongEquiopsButtonSet(EQUIPS_RELICS);
-			_belongSelectOK = true;
-
+			case BUTTON_BODY:
+				belongEquiopsButtonSet(BUTTON_BODY);
+				if (_belongEquipsNum != 0) _belongSelectOK = true;
+			break;
+			case BUTTON_RELICS1: case BUTTON_RELICS2:
+				belongEquiopsButtonSet(BUTTON_RELICS1);
+				if (_belongEquipsNum != 0) _belongSelectOK = true;
 			break;
 		}
 
@@ -214,13 +211,8 @@ void characterEquip::buttonOnEquipsActive()
 	}
 
 
-
-
-
-
-
 	//장비선택 버튼으로(다음으로...)
-	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+	if (KEYMANAGER->isOnceKeyDown(VK_RETURN) && _belongSelectOK)
 	{
 		_cursorI->init(CURSOR_RIGHT, 950, 120);
 		_selectEquip = true;
@@ -237,6 +229,9 @@ void characterEquip::buttonOnEquipsActive()
 
 void characterEquip::buttonOnItemActive()
 {
+	_equipSetOk = false; 
+
+
 	//버튼 에니메이션 활성화
 	_button->setVButtonAniStart(9 + _cursorI->getCursorYNum(), true);
 	for (int i = 9; i < _button->getVButton().size(); ++i)
@@ -249,37 +244,88 @@ void characterEquip::buttonOnItemActive()
 	//장비를 선택하면
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{		
-		//아이템 사용
-		char tmpPlayerNum[32];
-		sprintf(tmpPlayerNum, "player%d", _selectPlayerNum);
-		int tmpPartyIdx = 0;
+		//초기화
+		changeMyWVNum = -1;
+		changeMyAVNum = -1;
+		changeMyHVNum = -1;
+		changeMySVNum = -1;
 
 		//해당 장비 장착
 		switch (_cursorI->getCursorYNum())
 		{
 			case 0:
-				//소유한 장비 차감하기
-				tmpPartyIdx = INIDATA->loadDataInterger("skgFile", tmpPlayerNum, "partyIdx");
-				//_iM->getVItem()[]
-				
-				//장비 장착하기
+				switch (_previousCusor)
+				{
+					case BUTTON_RIGHTHAND:
+						weaponChange("myWeapon");
+					break;
+					case BUTTON_LEFTHAND:
+						weaponChange("mySubWeapon");
+					break;
+					case BUTTON_HEAD:
+						weaponChange("myHelmet");
+					break;
+					case BUTTON_BODY:
+						weaponChange("myArmor");
+					break;
+				}
 			break;
 			case 1:
-
+				switch (_previousCusor)
+				{
+					case BUTTON_RIGHTHAND:
+						weaponChange("myWeapon");
+					break;
+					case BUTTON_LEFTHAND:
+						weaponChange("mySubWeapon");
+					break;
+					case BUTTON_HEAD:
+						weaponChange("myHelmet");
+					break;
+					case BUTTON_BODY:
+						weaponChange("myArmor");
+					break;
+				}
 			break;
 			case 2:
-
+				switch (_previousCusor)
+				{
+					case BUTTON_RIGHTHAND:
+						weaponChange("myWeapon");
+					break;
+					case BUTTON_LEFTHAND:
+						weaponChange("mySubWeapon");
+					break;
+					case BUTTON_HEAD:
+						weaponChange("myHelmet");
+					break;
+					case BUTTON_BODY:
+						weaponChange("myArmor");
+					break;
+				}
 			break;
 			case 3:
-
-			break;
-			case 4:
-
-			break;
-			case 5:
-
+				switch (_previousCusor)
+				{
+					case BUTTON_RIGHTHAND:
+						weaponChange("myWeapon");
+					break;
+					case BUTTON_LEFTHAND:
+						weaponChange("mySubWeapon");
+					break;
+					case BUTTON_HEAD:
+						weaponChange("myHelmet");
+					break;
+					case BUTTON_BODY:
+						weaponChange("myArmor");
+					break;
+				}
 			break;
 		}
+		//파일정보 리로딩
+		this->init();
+
+		_equipSetOk = true;  	//장비장착 능력치 tmp파일 저장 초기화
 	}
 
 
@@ -289,6 +335,197 @@ void characterEquip::buttonOnItemActive()
 		_cursorI->init(CURSOR_RIGHT, 300, 125);
 		_selectEquip = false;
 	}
+}
+
+//무기교체
+void characterEquip::weaponChange(string equiptype)
+{
+	//선택 플레이어
+	char tmpPlayerNum[32];
+	sprintf(tmpPlayerNum, "player%d", _selectPlayerNum);
+
+	//선택 장비
+	char tmpSelectEquip[32];
+	ZeroMemory(&tmpSelectEquip, sizeof(tmpSelectEquip));
+
+	//교체전 장비 아이템넘버
+	int mountingEquip = 0;
+
+	//교체할 장비 아이템넘버
+	//int changeEquipNum = 0;
+	char changeEqNum[CHARBUFFSHORT];
+	ZeroMemory(&changeEqNum, sizeof(changeEqNum));
+
+	//아이템 갯수 차감변수
+	int minusWeaponEquip = 0;
+
+	//장비타입 반환
+	int equipType = 0;
+	if		(!strcmp(equiptype.c_str(), "myWeapon"))	equipType = BUTTON_RIGHTHAND;
+	else if (!strcmp(equiptype.c_str(), "mySubWeapon"))	equipType = BUTTON_LEFTHAND;
+	else if (!strcmp(equiptype.c_str(), "myHelmet"))	equipType = BUTTON_HEAD;
+	else if (!strcmp(equiptype.c_str(), "myArmor"))		equipType = BUTTON_BODY;
+
+	mountingEquip = INIDATA->loadDataInterger("skgFile", tmpPlayerNum, equiptype.c_str());						//장착되어있는 장비 ItemNum
+
+
+	int changeEquipVNum = 0;  //교체할장비의 벡터넘버
+
+	switch (equipType)
+	{
+	case BUTTON_RIGHTHAND: case BUTTON_LEFTHAND:
+		//교체할 장비의 아이템넘버
+		for (int i = 0; i < _iM->getWeaponInventorySize(); ++i)
+		{
+			if (!strcmp(_button->getButtonText(_cursorI->getCursorYNum() + 9), _iM->getVItem()[_iM->getWeaponVNum(i)]->getItemName()))
+			{
+				if (equipType == BUTTON_RIGHTHAND)
+				{
+					changeMyWVNum = _iM->getVItem()[_iM->getWeaponVNum(i)]->getItemNumber();  //교체할 장비 ItemNum
+					sprintf(changeEqNum, "%d", changeMyWVNum);
+				}
+				else
+				{
+					changeMySVNum = _iM->getVItem()[_iM->getWeaponVNum(i)]->getItemNumber();  //교체할 장비 ItemNum
+					sprintf(changeEqNum, "%d", changeMySVNum);
+				}
+			
+			}
+		}
+
+		//교체할장비의 벡터넘버
+		if (equipType == BUTTON_RIGHTHAND)
+		{
+			for (int i = 0; i < _iM->getWeaponInventorySize(); ++i)
+			{
+				if (_iM->getVItem()[_iM->getWeaponVNum(i)]->getItemNumber() == changeMyWVNum)
+				{
+					break;
+				}
+				changeEquipVNum++;
+			}
+		}
+		else
+		{
+			for (int i = 0; i < _iM->getWeaponInventorySize(); ++i)
+			{
+				if (_iM->getVItem()[_iM->getWeaponVNum(i)]->getItemNumber() == changeMySVNum)
+				{
+					break;
+				}
+				changeEquipVNum++;
+			}
+		}
+
+
+		//예외처리: 무기가 아니면...
+		if (_iM->getVItem()[_iM->getWeaponVNum(changeEquipVNum)]->getItmeKind() != ITEM_WEAPON &&
+			_iM->getVItem()[_iM->getWeaponVNum(changeEquipVNum)]->getItmeKind() != ITEM_SUB_WEAPON) break;
+
+
+		minusWeaponEquip = _iM->getWeaponCount(changeEquipVNum) - 1;	 //선택된 장비 -> 갯수차감 
+	
+
+		if (minusWeaponEquip <= 0)
+		{
+			_iM->changeWeaponNumber(_iM->getVItem()[_iM->getWeaponVNum(changeEquipVNum)]->getItemName(), -1);
+		}
+		else
+		{
+			if (equipType == BUTTON_RIGHTHAND)
+			{
+				itemSave(MENUITEM_WEAPON, (changeMyWVNum - 1), minusWeaponEquip);  //선택된 장비 -> 갯수차감 저장
+			}
+			else
+			{
+				itemSave(MENUITEM_WEAPON, (changeMySVNum - 1), minusWeaponEquip);  //선택된 장비 -> 갯수차감 저장
+			}
+
+		}
+
+		itemSave(MENUITEM_WEAPON, (mountingEquip - 1), 1);				 //장착되어있는 장비 -> 소유장비로 저장
+		INIDATA->addData(tmpPlayerNum, equiptype.c_str(), changeEqNum);  //교체할 장비 착용
+		INIDATA->iniSave("skgFile");
+		break;
+	case BUTTON_HEAD: case BUTTON_BODY:
+
+		//교체할 장비의 아이템넘버
+		for (int i = 0; i < _iM->getArmorInventorySize(); ++i)
+		{
+			if (!strcmp(_button->getButtonText(_cursorI->getCursorYNum() + 9), _iM->getVItem()[_iM->getArmorVNum(i)]->getItemName()))
+			{
+
+				if (equipType == BUTTON_HEAD)
+				{
+					changeMyHVNum = _iM->getVItem()[_iM->getArmorVNum(i)]->getItemNumber();  //교체할 장비 ItemNum
+					sprintf(changeEqNum, "%d", changeMyHVNum);
+				}
+				else
+				{
+					changeMySVNum = _iM->getVItem()[_iM->getArmorVNum(i)]->getItemNumber();  //교체할 장비 ItemNum
+					sprintf(changeEqNum, "%d", changeMySVNum);
+				}
+		
+			}
+		}
+	
+		//교체할장비의 벡터넘버
+		if (equipType == BUTTON_HEAD)
+		{
+			for (int i = 0; i < _iM->getArmorInventorySize(); ++i)
+			{
+				if (_iM->getVItem()[_iM->getArmorVNum(i)]->getItemNumber() == changeMyHVNum)
+				{
+					break;
+				}
+				changeEquipVNum++;
+			}
+		}
+		else
+		{
+			for (int i = 0; i < _iM->getArmorInventorySize(); ++i)
+			{
+				if (_iM->getVItem()[_iM->getArmorVNum(i)]->getItemNumber() == changeMySVNum)
+				{
+					break;
+				}
+				changeEquipVNum++;
+			}
+		}
+
+		//예외처리: 갑옷이 아니면...
+		if (_iM->getVItem()[_iM->getArmorVNum(changeEquipVNum)]->getItmeKind() != ITEM_HELMET &&
+			_iM->getVItem()[_iM->getArmorVNum(changeEquipVNum)]->getItmeKind() != ITEM_ARMOR) break;
+
+
+		minusWeaponEquip = _iM->getArmorCount(changeEquipVNum) - 1;	 //선택된 장비 -> 갯수차감 
+
+		if (minusWeaponEquip <= 0)
+		{
+			_iM->changeArmorNumber(_iM->getVItem()[_iM->getArmorVNum(changeEquipVNum)]->getItemName(), -1);
+			//_iM->changeArmorNumber(changeEquipVNum, -1);  //예외처리(아이템 벡터삭제) -> 육포가 들어감!!!
+		}
+		else
+		{
+			if (equipType == BUTTON_HEAD)
+			{
+				itemSave(MENUITEM_ARMOR, (changeMyHVNum - 1), minusWeaponEquip);  //선택된 장비 -> 갯수차감 저장
+			}
+			else
+			{
+				itemSave(MENUITEM_ARMOR, (changeMySVNum - 1), minusWeaponEquip);  //선택된 장비 -> 갯수차감 저장
+			}
+		}
+
+		itemSave(MENUITEM_ARMOR, (mountingEquip - 1), 1);				 //장착되어있는 장비 -> 소유장비로 저장
+		INIDATA->addData(tmpPlayerNum, equiptype.c_str(), changeEqNum);  //교체할 장비 착용
+		INIDATA->iniSave("skgFile");
+
+		break;
+	}
+
+
+
 }
 
 
@@ -376,6 +613,8 @@ void characterEquip::belongEquiopsButtonSet(int useKInd)
 	char tmpSelectPlayer[128];
 	sprintf(tmpSelectPlayer, "player%d", _selectPlayerNum);
 
+	_belongEquipsNum = 0;
+
 	//========================== 버튼생성 ==========================
 	//---------------------------------------- 버튼갯수
 	switch (useKInd)
@@ -383,10 +622,25 @@ void characterEquip::belongEquiopsButtonSet(int useKInd)
 		case EQUIPS_WEAPON:
 			_belongEquipsNum = _iM->getWeaponInventorySize();
 		break;
-		case EQUIPS_ARMOR:
-			_belongEquipsNum = _iM->getWeaponInventorySize();
+		case BUTTON_HEAD:	
+			for (int i = 0; i < _iM->getArmorInventorySize(); ++i)
+			{
+				if (_iM->getVItem()[_iM->getArmorVNum(i)]->getItmeKind() == ITEM_HELMET)
+				{
+					_belongEquipsNum++;
+				}
+			}
 		break;
-		case EQUIPS_RELICS:
+		case BUTTON_BODY:
+			for (int i = 0; i < _iM->getArmorInventorySize(); ++i)
+			{
+				if (_iM->getVItem()[_iM->getArmorVNum(i)]->getItmeKind() == ITEM_ARMOR)
+				{
+					_belongEquipsNum++;
+				}
+			}
+		break;
+		case BUTTON_RELICS1: case BUTTON_RELICS2:
 			_belongEquipsNum = 0;
 		break;
 	}
@@ -409,7 +663,7 @@ void characterEquip::belongEquiopsButtonSet(int useKInd)
 		}
 
 		//EMPTY 버튼생성
-		if (i == _belongEquipsNum)
+		if (i == _belongEquipsNum && _belongEquipsNum != 0)
 		{
 			_button->buttonSet("버튼아이템힐", buttonX, buttonY + (i * intervalY), "EMPTY", 20, 2);
 			return;
@@ -421,10 +675,40 @@ void characterEquip::belongEquiopsButtonSet(int useKInd)
 			case EQUIPS_WEAPON:
 				_button->buttonSet("버튼아이템힐", buttonX, buttonY + (i * intervalY), _iM->getVItem()[_iM->getWeaponVNum(i)]->getItemName(), 20, 2, true, _iM->getWeaponCount(i), 70);
 			break;
-			case EQUIPS_ARMOR:
-				_button->buttonSet("버튼아이템힐", buttonX, buttonY + (i * intervalY), _iM->getVItem()[_iM->getArmorVNum(i)]->getItemName(), 20, 2, true, _iM->getWeaponCount(i), 70);
+			case BUTTON_HEAD:
+				for (int i = 0; i < _iM->getArmorInventorySize(); ++i)
+				{
+					if (_iM->getVItem()[_iM->getArmorVNum(i)]->getItmeKind() == ITEM_HELMET)
+					{
+						if (_belongEquipsNum == 1)
+						{
+							_button->buttonSet("버튼아이템힐", buttonX, buttonY + (0 * intervalY), _iM->getVItem()[_iM->getArmorVNum(i)]->getItemName(), 20, 2, true, _iM->getArmorCount(i), 75);
+						}
+						else
+						{
+							_button->buttonSet("버튼아이템힐", buttonX, buttonY + (i * intervalY), _iM->getVItem()[_iM->getArmorVNum(i)]->getItemName(), 20, 2, true, _iM->getArmorCount(i), 75);
+						}				
+					}
+				}
 			break;
-			case EQUIPS_RELICS:
+			case BUTTON_BODY:
+				for (int i = 0; i < _iM->getArmorInventorySize(); ++i)
+				{
+					if (_iM->getVItem()[_iM->getArmorVNum(i)]->getItmeKind() == ITEM_ARMOR)
+					{
+						if (_belongEquipsNum == 1)
+						{
+							_button->buttonSet("버튼아이템힐", buttonX, buttonY + (0 * intervalY), _iM->getVItem()[_iM->getArmorVNum(i)]->getItemName(), 20, 2, true, _iM->getArmorCount(i), 75);
+						}
+						else
+						{
+							_button->buttonSet("버튼아이템힐", buttonX, buttonY + (i * intervalY), _iM->getVItem()[_iM->getArmorVNum(i)]->getItemName(), 20, 2, true, _iM->getArmorCount(i), 75);
+						}
+						
+					}
+				}
+			break;
+			case BUTTON_RELICS1: case BUTTON_RELICS2:
 				//_button->buttonSet("버튼아이템힐", buttonX, buttonY + (i * intervalY), _iM->getVItem()[_iM->getArmorVNum(i)]->getItemName(), 20, 2, true, _iM->getWeaponCount(i));
 			break;
 		}	
