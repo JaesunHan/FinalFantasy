@@ -1623,7 +1623,7 @@ void BattleScene::victoryMessage()
 					}
 					else if (_im->getItemKind(_battleCharacters[4].enemy->getItemName()) == ITEM_WEAPON)
 					{
-						_im->changeItemNumber(_battleCharacters[4].enemy->getItemName(), 1);
+						_im->changeWeaponNumber(_battleCharacters[4].enemy->getItemName(), 1);
 					}
 				}
 				else
@@ -1646,7 +1646,7 @@ void BattleScene::victoryMessage()
 					}
 					else if (_im->getItemKind(_battleCharacters[4].enemy->getItemName()) == ITEM_WEAPON)
 					{
-						_im->changeItemNumber(_battleCharacters[4].enemy->getItemName(), 1);
+						_im->changeWeaponNumber(_battleCharacters[4].enemy->getItemName(), 1);
 					}
 				}
 				else
@@ -1669,7 +1669,7 @@ void BattleScene::victoryMessage()
 					}
 					else if (_im->getItemKind(_battleCharacters[4].enemy->getItemName()) == ITEM_WEAPON)
 					{
-						_im->changeItemNumber(_battleCharacters[4].enemy->getItemName(), 1);
+						_im->changeWeaponNumber(_battleCharacters[4].enemy->getItemName(), 1);
 					}
 				}
 				else
