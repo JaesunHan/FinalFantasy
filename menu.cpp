@@ -2,6 +2,7 @@
 #include "menu.h"
 #include "itemManager.h"
 #include "worldMapScene.h"
+#include "townScene.h"
 
 menu::menu()
 {

@@ -62,6 +62,7 @@ HRESULT playGround::init()
 	_menu = new menu;
 	_menu->setItemManagerAddressLink(_item);
 	_menu->setWorldMapAddressLink((worldMapScene*)SCENEMANAGER->findScene("월드맵씬"));
+	_menu->setWorldMapAddressLink((townScene*)SCENEMANAGER->findScene("타운맵씬"));
 	((saveLoadMenu*)SCENEMANAGER->findScene("세이브로드"))->setWorldMapAddressLink((worldMapScene*)SCENEMANAGER->findScene("월드맵씬"));
 	((saveLoadMenu*)SCENEMANAGER->findScene("세이브로드"))->setItemManagerAddressLink(_item);
 	((saveLoadMenu*)SCENEMANAGER->findScene("세이브로드"))->setPlayerManagerAddressLink(_pm);
@@ -70,6 +71,7 @@ HRESULT playGround::init()
 	((loadGame*)SCENEMANAGER->findScene("로드게임"))->setItemManagerAddressLink(_item);
 	((loadGame*)SCENEMANAGER->findScene("로드게임"))->setPlayerManagerAddressLink(_pm);
 	((loadGame*)SCENEMANAGER->findScene("로드게임"))->setWorldMapAddressLink((worldMapScene*)SCENEMANAGER->findScene("월드맵씬"));
+	((loadGame*)SCENEMANAGER->findScene("로드게임"))->setWorldMapAddressLink((townScene*)SCENEMANAGER->findScene("타운맵씬"));
 	((itemMenu*)SCENEMANAGER->findScene("아이템"))->setItemManagerAddressLink(_item);
 	((characterAbility*)SCENEMANAGER->findScene("캐릭터능력"))->setItemManagerAddressLink(_item);
 	((characterStatus*)SCENEMANAGER->findScene("캐릭터상태"))->setItemManagerAddressLink(_item);

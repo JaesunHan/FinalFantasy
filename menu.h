@@ -146,6 +146,7 @@ struct tagItem
 class itemManager;
 class playerManager;
 class worldMapScene;
+class townScene;
 
 class menu : public gameNode
 {
@@ -202,8 +203,9 @@ protected:
 	tagItem _posItem;
 	//----------------- player
 	playerManager* _pM;
-	//----------------- worldMap
+	//----------------- Map
 	worldMapScene* _wM;
+	townScene*     _tM;
 
 public:
 	virtual HRESULT init();
@@ -287,6 +289,7 @@ public:
 	virtual void setItemManagerAddressLink(itemManager* im) { _iM = im; }
 	virtual void setPlayerManagerAddressLink(playerManager* pm) { _pM = pm; }
 	virtual void setWorldMapAddressLink(worldMapScene* wm) { _wM = wm; }
+	virtual void setWorldMapAddressLink(townScene* tm) { _tM = tm; }
 	//============================= AddressLink =============================
 
 
