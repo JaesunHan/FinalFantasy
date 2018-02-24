@@ -75,6 +75,7 @@ HRESULT worldMapEnemyManager::init()
 	}
 
 	_worldEnemyBear[3].init(1532, 1400, ENEMYPATTERN_FOUR);
+	_worldEnemyBear[3].setIsBoss(true);
 	_vWME.push_back(&_worldEnemyBear[3]);
 
 
