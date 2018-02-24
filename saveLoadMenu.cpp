@@ -277,6 +277,23 @@ void saveLoadMenu::update()
 				ZeroMemory(&tmpTime, sizeof(tmpTime));
 				sprintf(tmpTime, "%f", _gameTotalTime);
 				INIDATA->addData("gameData", "playTime", tmpTime);
+
+				//플레이어XY & 스테이지 저장
+				char tmpPlayerX[8];
+				ZeroMemory(&tmpPlayerX, sizeof(tmpPlayerX));
+				sprintf(tmpPlayerX, "%ld", _wM->getworldMapPlayer()->getWorldMapPlayerPoint().x);    //플레이어X
+				INIDATA->addData("gameData", "playerX", tmpPlayerX);
+
+				char tmpPlayerY[8];
+				ZeroMemory(&tmpPlayerY, sizeof(tmpPlayerY));
+				sprintf(tmpPlayerY, "%ld", _wM->getworldMapPlayer()->getWorldMapPlayerPoint().y);    //플레이어Y
+				INIDATA->addData("gameData", "playerY", tmpPlayerY);
+
+				char tmpSaveScene[32];
+				ZeroMemory(&tmpSaveScene, sizeof(tmpSaveScene));
+				sprintf(tmpSaveScene, "%s", _currentSceneName.c_str());								 //세이브포인트씬
+				INIDATA->addData("gameData", "saveScene", tmpSaveScene);
+
 				INIDATA->iniSave("skgFile");
 
 				//tmpFile -> saveFile copy
