@@ -46,7 +46,7 @@ protected:
 	unsigned int _alpha;					//에너미 알파 값
 	unsigned int _glitterCount;				//glitter함수에서 쓸 카운트변수
 	unsigned int _state;					//에너미 상태값
-	unsigned int _enemyItemNum;				//에너미 아이템 번호
+	int _enemyItemNum;						//에너미 아이템 번호 -> 설류니 왔다감
 	unsigned int _count = 0;
 
 	float _damage;							//최종 데미지
