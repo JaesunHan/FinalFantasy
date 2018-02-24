@@ -785,7 +785,7 @@ void mapTool::mapSave(void)
 	ofn.nMaxFileTitle = NULL;
 	ofn.lpstrFileTitle = NULL;
 	ofn.lpstrInitialDir = NULL;
-	ofn.lpstrFilter = "Map File(*.map)\0*.map\0";
+	ofn.lpstrFilter = "Map File(*.map)\0*.map\0";			// 오픈파일네임에서 읽을수 있는 파일을 제한하는 필터 설정
 	ofn.Flags = OFN_OVERWRITEPROMPT;
 
 	if (GetSaveFileName(&ofn) == false) return;
