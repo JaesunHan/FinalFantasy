@@ -18,6 +18,13 @@
 class itemManager;
 class optionMenu;
 
+enum KEY_FOCUS
+{
+	FOCUS_PLAYER,
+	FOCUS_MESSAGEBOX,
+	FOCUS_NONE
+};
+
 class worldMapScene : public gameNode
 {
 private:
@@ -59,6 +66,8 @@ private:
 	bool _isMessageBox;
 
 	POINT tempPoint;
+
+	int _focus;
 public:
 	worldMapScene();
 	~worldMapScene();

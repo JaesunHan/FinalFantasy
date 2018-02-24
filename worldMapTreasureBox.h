@@ -3,6 +3,9 @@
 class worldMapTreasureBox :
 	public worldMapEnemy
 {
+private:
+	BOOL _isOpen;
+
 public:
 	worldMapTreasureBox();
 	~worldMapTreasureBox();
@@ -30,6 +33,8 @@ public:
 
 	//미믹인지 체크함수
 	void isMimic();
+
+	inline BOOL getIsOpen(void) { return _isOpen; }
 
 };
 

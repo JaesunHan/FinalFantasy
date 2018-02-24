@@ -24,6 +24,7 @@ HRESULT worldMapTreasureBox::init(int enemyX, int enemyY, ENEMYMOVEPATTERN enemy
 	_treasureCount = 0;
 
 	_isBox = false;
+	_isOpen = false;
 
 	//¹Ì¹ÍÀÌ´Ì ¾Æ´Ï´Ì
 	_isMimic = RND->getFromIntTo(1, 1);
@@ -101,6 +102,7 @@ void worldMapTreasureBox::worldEnemyImageControl(HDC hdc, POINT movePt)
 	
 	if (_isBox && _isCollision)
 	{
+		_isOpen = true;
 		_image = IMAGEMANAGER->findImage("¿ÀÇÂ¹Ú½º");
 		_image->render(hdc, _enemy.x - movePt.x, _enemy.y - movePt.y);
 	}

@@ -25,7 +25,7 @@ HRESULT worldMapScene::init()
 	CAMERAMANAGER->createDC(PointMake(TILE_SIZEX, TILE_SIZEY), PointMake(30, 20));
 
 	_openBox = IMAGEMANAGER->addImage("오픈박스", ".//image//enemyImg//treasureBoxOpen.bmp", 31, 29, true, RGB(255, 0, 255));
-
+	IMAGEMANAGER->addImage("messageBox", ".//image//userInterface//messageBox.bmp", 697, 206, true, RGB(255, 0, 255));
 
 	_worldMap = new generalMap;
 	_worldMap->init(".//50X50.map");
@@ -47,6 +47,8 @@ HRESULT worldMapScene::init()
 	_isNotEnemyVector = false;
 	_isGetGongChi = false;
 	_enemyNum = -1;
+
+	_focus = FOCUS_PLAYER;
 
 
 	//에너미 사이즈만큼 계속 플러그 꼽아준다.
@@ -77,45 +79,57 @@ void worldMapScene::update()
 		
 	}
 
-	_worldMap->update();
-	_worldMapPlayer->update();
-	//_npcManager->update();
-	_wMEM->update();
-
-
-	//Z오더용
-	//플레이어 현재 좌표를 받아서 계속 npc매니저쪽으로 넣어준다.
-	//_npcManager->setPlayerPos(_worldMapPlayer->getWorldMapPlayerPoint());
-
-
-	if (_isEscape)
+	if (_focus == FOCUS_PLAYER)
 	{
-		if (_isNotEnemyVector)
+		_worldMap->update();
+		_worldMapPlayer->update();
+		//_npcManager->update();
+		_wMEM->update();
+
+		//Z오더용
+		//플레이어 현재 좌표를 받아서 계속 npc매니저쪽으로 넣어준다.
+		//_npcManager->setPlayerPos(_worldMapPlayer->getWorldMapPlayerPoint());
+
+
+		if (_isEscape)
 		{
-			_worldMapPlayer->successEscape();
-			_enemyNum = -1;
-			_isEscape = false;
-		}
-		else successEscape();
-	}
-	else
-	{
-		for (int i = 0; i < _wMEM->getVWME().size(); ++i)
-		{
-			//만약에 에너미랑 부딪쳤는데 arry넘버 i가 임시저장된 enemyNum과 같고, 보물상자가 아닌경우에는 
-			if (i == _enemyNum && !_wMEM->getVWME()[i]->getIsBox())
+			if (_isNotEnemyVector)
 			{
-				//벡터에서 에너미를 삭제해줘라.
-				_wMEM->worldEmenyDelete(i);
+				_worldMapPlayer->successEscape();
 				_enemyNum = -1;
+				_isEscape = false;
+			}
+			else successEscape();
+		}
+		else
+		{
+			for (int i = 0; i < _wMEM->getVWME().size(); ++i)
+			{
+				//만약에 에너미랑 부딪쳤는데 arry넘버 i가 임시저장된 enemyNum과 같고, 보물상자가 아닌경우에는 
+				if (i == _enemyNum && !_wMEM->getVWME()[i]->getIsBox())
+				{
+					//벡터에서 에너미를 삭제해줘라.
+					_wMEM->worldEmenyDelete(i);
+					_enemyNum = -1;
+				}
 			}
 		}
+
+		enterTownMap();
+		getCollision();
+		battleEncount();
+		savePoint();
+	}
+	else if (_focus == FOCUS_MESSAGEBOX)
+	{
+		if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+		{
+			_focus = FOCUS_PLAYER;
+		}
 	}
 
-	enterTownMap();
-	getCollision();
-	battleEncount();
-	savePoint();
+
+	
 
 }
 
@@ -135,8 +149,15 @@ void worldMapScene::render()
 	}*/
 	_worldMapPlayer->render(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
 	_wMEM->afterRender(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
+
+	
+
 	CAMERAMANAGER->render(getMemDC());
 
+	if (_focus == FOCUS_MESSAGEBOX)
+	{
+		IMAGEMANAGER->render("messageBox", getMemDC(), 100, 100);
+	}
 
 	//_worldMap->render(getMemDC());
 	//
@@ -157,10 +178,13 @@ void worldMapScene::getCollision()
 			//50%확율로 결정되어진 보물상자면
 			if (_wMEM->getVWME()[i]->getIsBox())
 			{
+				if (((worldMapTreasureBox*)_wMEM->getVWME()[i])->getIsOpen()) break;
+				
 				//충돌한 녀석의 인덱스를 변수에 저장한다.
 				_enemyNum = i;
 				tempPoint = _wMEM->getVWME()[i]->getWorldMapEnemyPoint();
-				getGongChi();				
+				getGongChi();
+				_focus = FOCUS_MESSAGEBOX;
 				//_wMEM->getVWME()[i]->setIsCollision(false);
 				//상자 오픈 이미지 띄우고 
 				//상자 아이템 획득 이미지 띄우고 
