@@ -42,21 +42,22 @@ void Enemy::update()
 {
 	if (_turnEnd == false)
 	{
-		if (_count == 0) damageAlgorithm();									//에너미 턴이 되면 데미지 공식 함수를 적용
-
+		if (_count == 0)
+		{
+			damageAlgorithm();													//에너미 턴이 되면 데미지 공식 함수를 적용
+																 
+			if (_state == ENEMY_NULL)
+			{
+				//_state = ENEMY_HIT;
+				_state = RND->getFromIntTo(ENEMY_HIT, ENEMY_SPELL);				//공격 or 스펠 상태
+				_rndNum = RND->getFromIntTo(1, 10);								//스킬확률을 조절하기 위한 랜덤값
+			}
+		}
 		//카운트 쁠쁠
 		_count++;
 
 		//_count가 21보다 작으면 반짝반짝
 		if (_count < 21) glitter();
-
-		//에너미의 상태가 공격 또는 스킬쓰는 상태를 랜덤으로 받음 
-		if (_state == ENEMY_NULL)
-		{
-			//_state = ENEMY_HIT;
-			_state = RND->getFromIntTo(ENEMY_HIT, ENEMY_SPELL);				//공격 or 스펠 상태
-			_rndNum = RND->getFromIntTo(1, 10);								//스킬확률을 조절하기 위한 랜덤값
-		}
 
 		//에너미 기본 공격 상태
 		if ((_state == ENEMY_HIT && _rndNum <= 8) || (_state == ENEMY_SPELL && _rndNum <= 8))
