@@ -44,7 +44,7 @@ void townScene::release()
 
 void townScene::update()
 {
-	if (!SOUNDMANAGER->isPlaySound("townMapBGM"))
+	if (!SOUNDMANAGER->isPlaySound(CH_BGM))
 	{
 		SOUNDMANAGER->addSound("townMapBGM", ".//sound//worldMapSound//07. Edgar \& Mash", true, true);
 		SOUNDMANAGER->play("townMapBGM", CH_BGM, 1.0f);
