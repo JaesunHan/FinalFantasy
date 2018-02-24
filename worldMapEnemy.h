@@ -44,6 +44,7 @@ enum ENEMYMOVEPATTERN
 	ENEMYPATTERN_ONE,
 	ENEMYPATTERN_TWO,
 	ENEMYPATTERN_THREE,
+	ENEMYPATTERN_FOUR,
 	ENEMYPATTERN_END
 };
 
@@ -91,6 +92,8 @@ public:
 	char str[128];
 	char str1[128];
 
+
+	bool _isBoss;
 
 	worldMapEnemy();
 	~worldMapEnemy();
@@ -144,4 +147,8 @@ public:
 
 	int getIsMimic() { return _isMimic; }
 	bool getIsBox() { return _isBox; }
+
+	bool getIsBoss() { return _isBoss;}
+	void setIsBoss(bool isBoss) { _isBoss = isBoss; }
+
 };

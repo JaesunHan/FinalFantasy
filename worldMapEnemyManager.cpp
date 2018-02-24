@@ -63,12 +63,23 @@ HRESULT worldMapEnemyManager::init()
 		_worldEnemyBear[0].init(400, 1400, ENEMYPATTERN_ONE);
 		_worldEnemyBear[1].init(300, 800, ENEMYPATTERN_TWO);
 		_worldEnemyBear[2].init(1200, 600, ENEMYPATTERN_THREE);
-		_worldMapEmeneySamurai[0].init(300, 1200, ENEMYPATTERN_ONE);
-		_worldMapEmeneySamurai[1].init(1450, 400, ENEMYPATTERN_TWO);
+		_worldMapEmeneySamurai[0].init(500, 1400, ENEMYPATTERN_ONE);
+		_worldMapEmeneySamurai[1].init(1300, 400, ENEMYPATTERN_TWO);
 		_worldMapEmeneySamurai[2].init(400, 600, ENEMYPATTERN_THREE);
+		_worldMapEnemyVectorPup[0].init(200, 300, ENEMYPATTERN_ONE);
+		_worldMapEnemyVectorPup[1].init(550, 1000, ENEMYPATTERN_TWO);
+		_worldMapEnemyVectorPup[2].init(300, 1300, ENEMYPATTERN_THREE);
 		_vWME.push_back(&_worldEnemyBear[i]);
 		_vWME.push_back(&_worldMapEmeneySamurai[i]);
+		_vWME.push_back(&_worldMapEnemyVectorPup[i]);
 	}
+
+	_worldEnemyBear[3].init(1532, 1400, ENEMYPATTERN_FOUR);
+	_worldEnemyBear[3].setIsBoss(true);
+	_vWME.push_back(&_worldEnemyBear[3]);
+
+
+
 	return S_OK;
 }
 

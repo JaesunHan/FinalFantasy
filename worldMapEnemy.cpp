@@ -39,6 +39,7 @@ HRESULT worldMapEnemy::init(int enemyX, int enemyY, ENEMYMOVEPATTERN enemyPatter
 	_isCollision = false;
 	_isDetect = false;
 	_isBox = false;
+	_isBoss = false;
 	return S_OK;
 }
 

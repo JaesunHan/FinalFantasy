@@ -33,7 +33,7 @@ private:
 	//플레이어 포인트 변수 받자.
 	POINT _playerPos;
 
-	worldEnemyBear _worldEnemyBear[3];
+	worldEnemyBear _worldEnemyBear[4];
 	worldMapEnemySamurai _worldMapEmeneySamurai[3];
 	worldMapEnemyVectorPup _worldMapEnemyVectorPup[3];
 	worldMapTreasureBox _worldMapTreasureBox;
