@@ -156,11 +156,13 @@ void battlePlayerMother::update()
 	{
 		if (!_playAnimList[BATTLE_PLAYER_ITEM])
 		{
+			_playAnimList[BATTLE_PLAYER_ITEM] = true;
 			EFFECTMANAGER->play("아이템", _mAllyTarget->getPosX(), _mAllyTarget->getPosY());
 			
 			SOUNDMANAGER->play("아이템사운드");
 		}
-		if (!EFFECTMANAGER->isEffectEnd("아이템"))
+
+		if (EFFECTMANAGER->isEffectEnd("아이템"))
 		{
 			_BS->playerUseItem();
 			_turnEnd = true;
@@ -244,6 +246,10 @@ void battlePlayerMother::draw()
 	{
 		//_winImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _winAnim);
 		_winImg->aniRender(getMemDC(), _posX, _posY, _winAnim);
+	}
+	if (_status == BATTLE_PLAYER_ITEM)
+	{
+		_idleImg->aniRender(getMemDC(), _posX, _posY, _idleAnim);
 	}
 	//_idleImg->aniRender(getMemDC(), _posX, _posY, _idleAnim);
 	//================== End 상태에 따라 다른 애니메이션을 출력한다. =======================
