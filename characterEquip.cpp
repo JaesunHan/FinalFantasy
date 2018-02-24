@@ -250,6 +250,8 @@ void characterEquip::buttonOnItemActive()
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{		
 		//아이템 사용
+		char tmpPlayerNum[32];
+		sprintf(tmpPlayerNum, "player%d", _selectPlayerNum);
 		int tmpPartyIdx = 0;
 
 		//해당 장비 장착
@@ -257,7 +259,8 @@ void characterEquip::buttonOnItemActive()
 		{
 			case 0:
 				//소유한 장비 차감하기
-				tmpPartyIdx = INIDATA->loadDataInterger("skgFile", "player0", "partyIdx");
+				tmpPartyIdx = INIDATA->loadDataInterger("skgFile", tmpPlayerNum, "partyIdx");
+				//_iM->getVItem()[]
 				
 				//장비 장착하기
 			break;

@@ -279,12 +279,12 @@ void saveLoadMenu::update()
 				INIDATA->addData("gameData", "playTime", tmpTime);
 
 				//플레이어XY & 스테이지 저장
-				char tmpPlayerX[8];
+				char tmpPlayerX[32];
 				ZeroMemory(&tmpPlayerX, sizeof(tmpPlayerX));
 				sprintf(tmpPlayerX, "%ld", _wM->getworldMapPlayer()->getWorldMapPlayerPoint().x);    //플레이어X
 				INIDATA->addData("gameData", "playerX", tmpPlayerX);
 
-				char tmpPlayerY[8];
+				char tmpPlayerY[32];
 				ZeroMemory(&tmpPlayerY, sizeof(tmpPlayerY));
 				sprintf(tmpPlayerY, "%ld", _wM->getworldMapPlayer()->getWorldMapPlayerPoint().y);    //플레이어Y
 				INIDATA->addData("gameData", "playerY", tmpPlayerY);

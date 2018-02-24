@@ -236,7 +236,7 @@ void  menu::cursorRender()
 
 	if (KEYMANAGER->isToggleKey(VK_TAB))
 	{
-		char tmp[4];
+		char tmp[CHARBUFFSHORT];
 		ZeroMemory(&tmp, sizeof(tmp));
 		TextOut(getMemDC(), _cursor.x - 20, _cursor.y - 30, itoa(_cursor.x, tmp, 10), sizeof(tmp));
 		TextOut(getMemDC(), _cursor.x + 20, _cursor.y - 30, itoa(_cursor.y, tmp, 10), sizeof(tmp));
@@ -267,7 +267,7 @@ void menu::playerSlotInit(string keyName, float x, float y, int level, char* job
 	ZeroMemory(&player, sizeof(player));
 
 	//-------------------------------------------- animationKeyName
-	char aniTemp[32];
+	char aniTemp[CHARBUFFSHORT];
 	ZeroMemory(&aniTemp, sizeof(aniTemp));
 	sprintf(aniTemp, "%s%d", "슬롯시작", partyIdx);
 	//--------------------------------------------
@@ -794,56 +794,56 @@ string menu::playerCommandReturn(int num)
 	switch (num)
 	{
 		case 0:
-			char tmpCom0[32];
+			char tmpCom0[CHARBUFFSHORT];
 			ZeroMemory(&tmpCom0, sizeof(tmpCom0));
 			sprintf(tmpCom0, "%s", "Attack");
 
 			return tmpCom0;
 		break;
 		case 1:
-			char tmpCom1[32];
+			char tmpCom1[CHARBUFFSHORT];
 			ZeroMemory(&tmpCom1, sizeof(tmpCom1));
 			sprintf(tmpCom1, "%s", "Magic");
 
 			return tmpCom1;
 		break;
 		case 2:
-			char tmpCom2[32];
+			char tmpCom2[CHARBUFFSHORT];
 			ZeroMemory(&tmpCom2, sizeof(tmpCom2));
 			sprintf(tmpCom2, "%s", "Items");
 
 			return tmpCom2;
 		break;
 		case 3:
-			char tmpCom3[32];
+			char tmpCom3[CHARBUFFSHORT];
 			ZeroMemory(&tmpCom3, sizeof(tmpCom3));
 			sprintf(tmpCom3, "%s", "Escape");
 
 			return tmpCom3;
 		break;
 		case 4:
-			char tmpCom4[32];
+			char tmpCom4[CHARBUFFSHORT];
 			ZeroMemory(&tmpCom4, sizeof(tmpCom4));
 			sprintf(tmpCom4, "%s", "Transform");
 
 			return tmpCom4;
 		break;
 		case 5:
-			char tmpCom5[32];
+			char tmpCom5[CHARBUFFSHORT];
 			ZeroMemory(&tmpCom5, sizeof(tmpCom5));
 			sprintf(tmpCom5, "%s", "Steal");
 
 			return tmpCom5;
 		break;
 		case 6:
-			char tmpCom6[32];
+			char tmpCom6[CHARBUFFSHORT];
 			ZeroMemory(&tmpCom6, sizeof(tmpCom6));
 			sprintf(tmpCom6, "%s", "Magic Absorption");
 
 			return tmpCom6;
 		break;
 		case 7:
-			char tmpCom7[32];
+			char tmpCom7[CHARBUFFSHORT];
 			ZeroMemory(&tmpCom7, sizeof(tmpCom7));
 			sprintf(tmpCom7, "%s", "Pelt");
 
@@ -865,7 +865,7 @@ void menu::fileLoad(int fileNum, int playerNumber, bool tmpFile)
 	if (!_fileLoadOk[fileNum]) _selectFileCount = 2;  //버튼선택 초기화
 
 	//세이브파일 
-	char saveFileNum[32];
+	char saveFileNum[CHARBUFFSHORT];
 	ZeroMemory(&saveFileNum, sizeof(saveFileNum));
 	if (tmpFile)
 	{
@@ -984,7 +984,7 @@ void menu::fileLoad(int fileNum, int playerNumber, bool tmpFile)
                    
 tagElements menu::saveTxtData(int fileNum, string cStage)
 {
-	char tmp[36];
+	char tmp[CHARBUFFSHORT];
 	ZeroMemory(&tmp, sizeof(tmp));
 	sprintf(tmp, "saveFile%d", fileNum);
 
@@ -1017,155 +1017,155 @@ void menu::saveIniPlayerData(int fileNum, int playerNum, string cName, string jo
 	for (int i = 0; i < saveNum; ++i)
 	{
 		//파일정보 넘버
-		TCHAR tmp[4];
+		TCHAR tmp[CHARBUFFSHORT];
 		ZeroMemory(&tmp, sizeof(tmp));
 		wsprintf(tmp, "%d", fileNum);
 		INIDATA->addData("fileInfo", "fileNum", tmp);
 
 		//플레이어 넘버
-		TCHAR subjectNum[12];
+		TCHAR subjectNum[CHARBUFFSHORT];
 		ZeroMemory(&subjectNum, sizeof(subjectNum));
 		wsprintf(subjectNum, "player%d", playerNum);
 		//플레이어 이름 & 직업
 		INIDATA->addData(subjectNum, "name", cName.c_str());
 		INIDATA->addData(subjectNum, "job", job.c_str());
 		//플레이어 레벨
-		TCHAR tmp1[4];
+		TCHAR tmp1[CHARBUFFSHORT];
 		ZeroMemory(&tmp1, sizeof(tmp1));
 		wsprintf(tmp1, "%d", level);
 		INIDATA->addData(subjectNum, "level", tmp1);
 		//플레이어 체력
-		TCHAR tmp2[4];
+		TCHAR tmp2[CHARBUFFSHORT];
 		ZeroMemory(&tmp2, sizeof(tmp2));
 		wsprintf(tmp2, "%d", hp);
 		INIDATA->addData(subjectNum, "hp", tmp2);
 		//플레이어 최대체력
-		TCHAR tmp3[4];
+		TCHAR tmp3[CHARBUFFSHORT];
 		ZeroMemory(&tmp3, sizeof(tmp3));
 		wsprintf(tmp3, "%d", maxHp);
 		INIDATA->addData(subjectNum, "maxHp", tmp3);
 		//플레이어 마력
-		TCHAR tmp4[4];
+		TCHAR tmp4[CHARBUFFSHORT];
 		ZeroMemory(&tmp4, sizeof(tmp4));
 		wsprintf(tmp4, "%d", mp);
 		INIDATA->addData(subjectNum, "mp", tmp4);
 		//플레이어 최대마력
-		TCHAR tmp5[4];
+		TCHAR tmp5[CHARBUFFSHORT];
 		ZeroMemory(&tmp5, sizeof(tmp5));
 		wsprintf(tmp5, "%d", maxMp);
 		INIDATA->addData(subjectNum, "maxMp", tmp5);
 		//플레이어 경험치
-		TCHAR tmp6[4];
+		TCHAR tmp6[CHARBUFFSHORT];
 		ZeroMemory(&tmp6, sizeof(tmp6));
 		wsprintf(tmp6, "%d", exp);
 		INIDATA->addData(subjectNum, "exp", tmp6);
 		//플레이어 최대경험치
-		TCHAR tmp7[4];
+		TCHAR tmp7[CHARBUFFSHORT];
 		ZeroMemory(&tmp7, sizeof(tmp7));
 		wsprintf(tmp7, "%d", maxExp);
 		INIDATA->addData(subjectNum, "maxExp", tmp7);
 		//플레이어 힘
-		TCHAR tmp8[4];
+		TCHAR tmp8[CHARBUFFSHORT];
 		ZeroMemory(&tmp8, sizeof(tmp8));
 		wsprintf(tmp8, "%d", strength);
 		INIDATA->addData(subjectNum, "strength", tmp8);
 		//플레이어 스피드
-		TCHAR tmp9[4];
+		TCHAR tmp9[CHARBUFFSHORT];
 		ZeroMemory(&tmp9, sizeof(tmp9));
 		wsprintf(tmp9, "%d", speed);
 		INIDATA->addData(subjectNum, "speed", tmp9);
 		//플레이어 내구력
-		TCHAR tmp10[4];
+		TCHAR tmp10[CHARBUFFSHORT];
 		ZeroMemory(&tmp10, sizeof(tmp10));
 		wsprintf(tmp10, "%d", stamina);
 		INIDATA->addData(subjectNum, "stamina", tmp10);
 		//플레이어 마법
-		TCHAR tmp11[4];
+		TCHAR tmp11[CHARBUFFSHORT];
 		ZeroMemory(&tmp11, sizeof(tmp11));
 		wsprintf(tmp11, "%d", magic);
 		INIDATA->addData(subjectNum, "magic", tmp11);
 		//플레이어 공격력
-		TCHAR tmp12[4];
+		TCHAR tmp12[CHARBUFFSHORT];
 		ZeroMemory(&tmp12, sizeof(tmp12));
 		wsprintf(tmp12, "%d", attack);
 		INIDATA->addData(subjectNum, "attack", tmp12);
 		//플레이어 공격방어력
-		TCHAR tmp13[4];
+		TCHAR tmp13[CHARBUFFSHORT];
 		ZeroMemory(&tmp13, sizeof(tmp13));
 		wsprintf(tmp13, "%d", attackDefence);
 		INIDATA->addData(subjectNum, "attackDefence", tmp13);
 		//플레이어 마법방어력
-		TCHAR tmp14[4];
+		TCHAR tmp14[CHARBUFFSHORT];
 		ZeroMemory(&tmp14, sizeof(tmp14));
 		wsprintf(tmp14, "%d", magicDefence);
 		INIDATA->addData(subjectNum, "magicDefence", tmp14);
 		//플레이어 공격회피
-		TCHAR tmp15[4];
+		TCHAR tmp15[CHARBUFFSHORT];
 		ZeroMemory(&tmp15, sizeof(tmp15));
 		wsprintf(tmp15, "%d", evation);
 		INIDATA->addData(subjectNum, "evation", tmp15);
 		//플레이어 마법회피
-		TCHAR tmp16[4];
+		TCHAR tmp16[CHARBUFFSHORT];
 		ZeroMemory(&tmp16, sizeof(tmp16));
 		wsprintf(tmp16, "%d", magicEvation);
 		INIDATA->addData(subjectNum, "magicEvation", tmp16);
 		//플레이어 파티원 넘버
-		TCHAR tmp17[4];
+		TCHAR tmp17[CHARBUFFSHORT];
 		ZeroMemory(&tmp17, sizeof(tmp17));
 		wsprintf(tmp17, "%d", partyIdx);
 		INIDATA->addData(subjectNum, "partyIdx", tmp17);
 
 		//플레이어 무기
-		TCHAR tmp18[4];
+		TCHAR tmp18[CHARBUFFSHORT];
 		ZeroMemory(&tmp18, sizeof(tmp18));
 		wsprintf(tmp18, "%d", myWeapon);
 		INIDATA->addData(subjectNum, "myWeapon", tmp18);
 		//플레이어 아머
-		TCHAR tmp19[4];
+		TCHAR tmp19[CHARBUFFSHORT];
 		ZeroMemory(&tmp19, sizeof(tmp19));
 		wsprintf(tmp19, "%d", myArmor);
 		INIDATA->addData(subjectNum, "myArmor", tmp19);
 		//플레이어 헬멧
-		TCHAR tmp20[4];
+		TCHAR tmp20[CHARBUFFSHORT];
 		ZeroMemory(&tmp20, sizeof(tmp20));
 		wsprintf(tmp20, "%d", myHelmet);
 		INIDATA->addData(subjectNum, "myHelmet", tmp20);
 		//플레이어 서브무기
-		TCHAR tmp21[4];
+		TCHAR tmp21[CHARBUFFSHORT];
 		ZeroMemory(&tmp21, sizeof(tmp21));
 		wsprintf(tmp21, "%d", mySubWeapon);
 		INIDATA->addData(subjectNum, "mySubWeapon", tmp21);
 
 		//---------------- 플레이어 커맨드 ----------------
-		TCHAR tmp22[4];
+		TCHAR tmp22[CHARBUFFSHORT];
 		ZeroMemory(&tmp22, sizeof(tmp22));
 		wsprintf(tmp22, "%d", command1);
 		INIDATA->addData(subjectNum, "command0", tmp22);
-		TCHAR tmp23[4];
+		TCHAR tmp23[CHARBUFFSHORT];
 		ZeroMemory(&tmp23, sizeof(tmp23));
 		wsprintf(tmp23, "%d", command2);
 		INIDATA->addData(subjectNum, "command1", tmp23);
-		TCHAR tmp24[4];
+		TCHAR tmp24[CHARBUFFSHORT];
 		ZeroMemory(&tmp24, sizeof(tmp24));
 		wsprintf(tmp24, "%d", command3);
 		INIDATA->addData(subjectNum, "command2", tmp24);
-		TCHAR tmp25[4];
+		TCHAR tmp25[CHARBUFFSHORT];
 		ZeroMemory(&tmp25, sizeof(tmp25));
 		wsprintf(tmp25, "%d", command4);
 		INIDATA->addData(subjectNum, "command3", tmp25);
-		TCHAR tmp26[4];
+		TCHAR tmp26[CHARBUFFSHORT];
 		ZeroMemory(&tmp26, sizeof(tmp26));
 		wsprintf(tmp26, "%d", command5);
 		INIDATA->addData(subjectNum, "command4", tmp26);
-		TCHAR tmp27[4];
+		TCHAR tmp27[CHARBUFFSHORT];
 		ZeroMemory(&tmp27, sizeof(tmp27));
 		wsprintf(tmp27, "%d", command6);
 		INIDATA->addData(subjectNum, "command5", tmp27);
-		TCHAR tmp28[4];
+		TCHAR tmp28[CHARBUFFSHORT];
 		ZeroMemory(&tmp28, sizeof(tmp28));
 		wsprintf(tmp28, "%d", command7);
 		INIDATA->addData(subjectNum, "command6", tmp28);
-		TCHAR tmp29[4];
+		TCHAR tmp29[CHARBUFFSHORT];
 		ZeroMemory(&tmp29, sizeof(tmp29));
 		wsprintf(tmp29, "%d", command8);
 		INIDATA->addData(subjectNum, "command7", tmp29);
@@ -1214,29 +1214,29 @@ void menu::saveIniSlotGameData(int fileNum, string stage, int gil, int playTime,
 		}
 		else
 		{
-			TCHAR tmp2[8];
+			TCHAR tmp2[CHARBUFFSHORT];
 			ZeroMemory(&tmp2, sizeof(tmp2));
 			wsprintf(tmp2, "%d", gil);
 			INIDATA->addData("Inventory", "Gil", tmp2);
 
-			char tmpPlayerX[8];
+			char tmpPlayerX[CHARBUFFSHORT];
 			ZeroMemory(&tmpPlayerX, sizeof(tmpPlayerX));
 			sprintf(tmpPlayerX, "%ld", _wM->getworldMapPlayer()->getWorldMapPlayerPoint().x);    //플레이어X
 			INIDATA->addData("gameData", "playerX", tmpPlayerX);
 
-			char tmpPlayerY[8];
+			char tmpPlayerY[CHARBUFFSHORT];
 			ZeroMemory(&tmpPlayerY, sizeof(tmpPlayerY));
 			sprintf(tmpPlayerY, "%ld", _wM->getworldMapPlayer()->getWorldMapPlayerPoint().y);    //플레이어Y
 			INIDATA->addData("gameData", "playerY", tmpPlayerY);
 
-			char tmpSaveScene[32];
+			char tmpSaveScene[CHARBUFFSHORT];
 			ZeroMemory(&tmpSaveScene, sizeof(tmpSaveScene));
 			sprintf(tmpSaveScene, "%s", _currentSceneName.c_str());								 //세이브포인트씬
 			INIDATA->addData("gameData", "saveScene", tmpSaveScene);
 		}
 
 		//플레이 시간
-		TCHAR tmp3[32];
+		TCHAR tmp3[CHARBUFFSHORT];
 		ZeroMemory(&tmp3, sizeof(tmp3));
 		wsprintf(tmp3, "%d", _gameTotalTime);
 		INIDATA->addData("gameData", "playTime", tmp3);
@@ -1282,11 +1282,11 @@ void menu::fileCopyTmpFile(int fileNum)
 
 		if (i == 3)
 		{
-			char tmpGil[16];
+			char tmpGil[CHARBUFFSHORT];
 			ZeroMemory(&tmpGil, sizeof(tmpGil));
 			sprintf(tmpGil, "%d", tmpPlayrInfo.gil);
 
-			char tmpTime[16];
+			char tmpTime[CHARBUFFSHORT];
 			ZeroMemory(&tmpTime, sizeof(tmpTime));
 			sprintf(tmpTime, "%f", _gameTotalTime);
 
@@ -1294,17 +1294,17 @@ void menu::fileCopyTmpFile(int fileNum)
 			INIDATA->addData("Inventory", "Gil", tmpGil);
 			INIDATA->addData("gameData", "playTime", tmpTime);
 
-			char tmpPlayerX[32];
+			char tmpPlayerX[CHARBUFFSHORT];
 			ZeroMemory(&tmpPlayerX, sizeof(tmpPlayerX));
 			sprintf(tmpPlayerX, "%ld", tmpPlayrInfo.playerXY.x);							//플레이어X
 			INIDATA->addData("gameData", "playerX", tmpPlayerX);
 
-			char tmpPlayerY[32];
+			char tmpPlayerY[CHARBUFFSHORT];
 			ZeroMemory(&tmpPlayerY, sizeof(tmpPlayerY));
 			sprintf(tmpPlayerY, "%ld", tmpPlayrInfo.playerXY.y);							//플레이어Y
 			INIDATA->addData("gameData", "playerY", tmpPlayerY);
 
-			char tmpSaveScene[32];
+			char tmpSaveScene[CHARBUFFSHORT];
 			ZeroMemory(&tmpSaveScene, sizeof(tmpSaveScene));
 			sprintf(tmpSaveScene, "%s", tmpPlayrInfo.saveScene);							//세이브포인트씬
 			INIDATA->addData("gameData", "saveScene", tmpSaveScene);
@@ -1339,7 +1339,7 @@ void menu::fileCopySaveFile(int fileNum)
 			false, false);
 
 
-		char saveFileNum[32];
+		char saveFileNum[CHARBUFFSHORT];
 		ZeroMemory(&saveFileNum, sizeof(saveFileNum));
 		sprintf(saveFileNum, "saveFile%d", fileNum);
 		//INIDATA->iniSave(saveFileNum);
@@ -1347,11 +1347,11 @@ void menu::fileCopySaveFile(int fileNum)
 		if (i == 3)
 		{
 			//게임데이터
-			char tmpGil[16];
+			char tmpGil[CHARBUFFSHORT];
 			ZeroMemory(&tmpGil, sizeof(tmpGil));
 			sprintf(tmpGil, "%d", tmpPlayrInfo.gil);
 
-			char tmpTime[16];
+			char tmpTime[CHARBUFFSHORT];
 			ZeroMemory(&tmpTime, sizeof(tmpTime));
 			sprintf(tmpTime, "%d", tmpPlayrInfo.playTime);
 
@@ -1359,17 +1359,17 @@ void menu::fileCopySaveFile(int fileNum)
 			INIDATA->addData("Inventory", "Gil", tmpGil);
 			INIDATA->addData("gameData", "playTime", tmpTime);
 
-			char tmpPlayerX[32];
+			char tmpPlayerX[CHARBUFFSHORT];
 			ZeroMemory(&tmpPlayerX, sizeof(tmpPlayerX));
 			sprintf(tmpPlayerX, "%ld", tmpPlayrInfo.playerXY.x);			//플레이어X
 			INIDATA->addData("gameData", "playerX", tmpPlayerX);
 
-			char tmpPlayerY[32];
+			char tmpPlayerY[CHARBUFFSHORT];
 			ZeroMemory(&tmpPlayerY, sizeof(tmpPlayerY));
 			sprintf(tmpPlayerY, "%ld", tmpPlayrInfo.playerXY.y);			//플레이어Y
 			INIDATA->addData("gameData", "playerY", tmpPlayerY);
 
-			char tmpSaveScene[32];
+			char tmpSaveScene[CHARBUFFSHORT];
 			ZeroMemory(&tmpSaveScene, sizeof(tmpSaveScene));
 			sprintf(tmpSaveScene, "%s", tmpPlayrInfo.saveScene);			//세이브포인트씬
 			INIDATA->addData("gameData", "saveScene", tmpSaveScene);
@@ -1385,7 +1385,7 @@ void menu::fileCopySaveFile(int fileNum)
 tagSaveData menu::loadIniPlayerData(int fileNum, int playerNumber, bool tmpFile)
 {
 	//세이브파일 넘버
-	char saveFileNum[32];
+	char saveFileNum[CHARBUFFSHORT];
 	ZeroMemory(&saveFileNum, sizeof(saveFileNum));
 	if (!tmpFile)
 	{
@@ -1398,7 +1398,7 @@ tagSaveData menu::loadIniPlayerData(int fileNum, int playerNumber, bool tmpFile)
 
 
 	//플레이어 번호 담을 변수
-	char playerNum[16];
+	char playerNum[CHARBUFFSHORT];
 	ZeroMemory(&playerNum, sizeof(playerNum));
 	wsprintf(playerNum, "player%d", playerNumber);
 
@@ -1467,13 +1467,13 @@ tagSaveData menu::loadIniPlayerData(int fileNum, int playerNumber, bool tmpFile)
 void menu::saveIniGameData(int fileNum, string currentScene)
 {
 	//세이브 파일넘버
-	TCHAR tmp1[8];
+	TCHAR tmp1[CHARBUFFSHORT];
 	ZeroMemory(&tmp1, sizeof(tmp1));
 	wsprintf(tmp1, "%d", fileNum);
 	INIDATA->addData("gameData", "fileNum", tmp1);
 
 	//저장파일이름
-	TCHAR saveFileName[16];
+	TCHAR saveFileName[CHARBUFFSHORT];
 	wsprintf(saveFileName, "saveFile%d", fileNum);;
 	INIDATA->addData("gameData", "saveFileName", saveFileName);
 
@@ -1504,7 +1504,7 @@ void menu::gameDataRender(bool isNewGame)
 		{
 			for (int i = 0; i < 4; ++i)
 			{
-				char tmpSaveFileNum[16];
+				char tmpSaveFileNum[CHARBUFFSHORT];
 				ZeroMemory(&tmpSaveFileNum, sizeof(tmpSaveFileNum));
 				sprintf(tmpSaveFileNum, "saveFile%d", i);
 
@@ -1521,7 +1521,7 @@ void menu::gameDataRender(bool isNewGame)
 	//텍스트 출력
 	if (tmpGD.playTime != -1)
 	{
-		char tmpBuff[32];
+		char tmpBuff[CHARBUFFSHORT];
 		textPrint(getMemDC(), tmpGD.stage,					     1050, 392, 30, 30, "Stencil", COLOR_WHITE, true);
 		textPrint(getMemDC(), itoa(tmpGD.gil, tmpBuff, 10),		 1080, 516, 20, 20, "Stencil", COLOR_WHITE, true);
 		if (SCENEMANAGER->getCurrentSceneName() != "옵션" && SCENEMANAGER->getCurrentSceneName() != "아이템" &&
@@ -1552,7 +1552,7 @@ void menu::itemSave(int itemKind, int itemName, int itemNum, bool saveFile, int 
 				if (i == 0) _iM->saveInventory("skgFile");
 				if (i == 1)
 				{
-					char saveFile[32];
+					char saveFile[CHARBUFFSHORT];
 					ZeroMemory(&saveFile, sizeof(saveFile));
 					sprintf(saveFile, "saveFile%d", saveFileNum);
 					_iM->saveInventory(saveFile);
@@ -1566,7 +1566,7 @@ void menu::itemSave(int itemKind, int itemName, int itemNum, bool saveFile, int 
 				if (i == 0) _iM->saveInventory("skgFile");
 				if (i == 1)
 				{
-					char saveFile[32];
+					char saveFile[CHARBUFFSHORT];
 					ZeroMemory(&saveFile, sizeof(saveFile));
 					sprintf(saveFile, "saveFile%d", saveFileNum);
 					_iM->saveInventory(saveFile);
@@ -1580,7 +1580,7 @@ void menu::itemSave(int itemKind, int itemName, int itemNum, bool saveFile, int 
 				if (i == 0) _iM->saveInventory("skgFile");
 				if (i == 1)
 				{
-					char saveFile[32];
+					char saveFile[CHARBUFFSHORT];
 					ZeroMemory(&saveFile, sizeof(saveFile));
 					sprintf(saveFile, "saveFile%d", saveFileNum);
 					_iM->saveInventory(saveFile);
@@ -1593,7 +1593,7 @@ void menu::itemSave(int itemKind, int itemName, int itemNum, bool saveFile, int 
 void menu::itemDataLoad(int fileNum, bool tmpFile)
 {
 	//세이브파일 넘버
-	char saveFileNum[32];
+	char saveFileNum[CHARBUFFSHORT];
 	ZeroMemory(&saveFileNum, sizeof(saveFileNum));
 
 	//저장변수
@@ -1654,7 +1654,7 @@ int menu::itemGetNum(int num)
 void menu::gamePlayTime(float getSaveTime, bool fileLoadTime)
 {
 
-	TCHAR str[128];
+	TCHAR str[CHARBUFFSHORT];
 	if (fileLoadTime)
 	{
 		sprintf_s(str, "%f", getSaveTime);
