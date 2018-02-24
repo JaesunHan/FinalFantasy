@@ -22,16 +22,21 @@ HRESULT configMenu::init()
 	//모든 볼륨조절 버튼을 세팅하기(BGM, EFFECT)
 	for (int i = 0; i < MAXCONTROLBTN; ++i)
 	{
-		image* tmpBgmBtn = new image;
-		image* tmpEftBtn = new image;
+		tagConfigButton* tmpBgmBtn = new tagConfigButton;
+		tagConfigButton* tmpEftBtn = new tagConfigButton;
+		//image* tmpBgmBtn = new image;
+		//image* tmpEftBtn = new image;
 		char tmpStr1[128];
 		wsprintf(tmpStr1, "컨피그BGM버튼%d", i);
 		char tmpStr2[128];
 		wsprintf(tmpStr2, "컨피그EFT버튼%d", i);
 		//tmpBgmBtn = IMAGEMANAGER->findImage("컨피그버튼");
 		//tmpEftBtn = IMAGEMANAGER->findImage("컨피그버튼");
-		tmpBgmBtn = IMAGEMANAGER->addFrameImage(tmpStr1, ".//image//configMenu//configButton.bmp", 400, 65, 2, 1, true, RGB(255, 0, 255));
-		tmpEftBtn = IMAGEMANAGER->addFrameImage(tmpStr2, ".//image//configMenu//configButton.bmp", 400, 65, 2, 1, true, RGB(255, 0, 255));
+		//버튼 이미지 세팅
+		tmpBgmBtn->btnImg = IMAGEMANAGER->addFrameImage(tmpStr1, ".//image//configMenu//configButton.bmp", 400, 65, 2, 1, true, RGB(255, 0, 255));
+		tmpEftBtn->btnImg = IMAGEMANAGER->addFrameImage(tmpStr2, ".//image//configMenu//configButton.bmp", 400, 65, 2, 1, true, RGB(255, 0, 255));
+		//버튼 이미지 위에 뿌려질 텍스트 세팅
+		sprintf_s(tmpBgmBtn->btnTxt, sizeof(tmpBgmBtn->btnTxt), "%.2f", i*0.25);
 
 		_bgmCtrlBtn.push_back(tmpBgmBtn);
 		_eftCtrlBtn.push_back(tmpEftBtn);
@@ -41,17 +46,17 @@ HRESULT configMenu::init()
 	{
 		if (i < 3)
 		{
-			_bgmCtrlBtn[i]->setX(230 * i  + _bgmCtrlBtn[i]->getFrameWidth());
-			_eftCtrlBtn[i]->setX(230 * i  + _bgmCtrlBtn[i]->getFrameWidth());
-			_bgmCtrlBtn[i]->setY(130  + _bgmCtrlBtn[i]->getFrameHeight());
-			_eftCtrlBtn[i]->setY(330  + _eftCtrlBtn[i]->getFrameHeight());
+			_bgmCtrlBtn[i]->btnImg->setX(230 * i  + _bgmCtrlBtn[i]->btnImg->getFrameWidth());
+			_eftCtrlBtn[i]->btnImg->setX(230 * i  + _bgmCtrlBtn[i]->btnImg->getFrameWidth());
+			_bgmCtrlBtn[i]->btnImg->setY(130  + _bgmCtrlBtn[i]->btnImg->getFrameHeight());
+			_eftCtrlBtn[i]->btnImg->setY(330  + _eftCtrlBtn[i]->btnImg->getFrameHeight());
 		}
 		else
 		{
-			_bgmCtrlBtn[i]->setX(230 * (i%3 + 1) + _bgmCtrlBtn[i]->getFrameWidth() -100);
-			_eftCtrlBtn[i]->setX(230 * (i%3 + 1) + _bgmCtrlBtn[i]->getFrameWidth() -100);
-			_bgmCtrlBtn[i]->setY(200  + _bgmCtrlBtn[i]->getFrameHeight());
-			_eftCtrlBtn[i]->setY(400  + _eftCtrlBtn[i]->getFrameHeight());
+			_bgmCtrlBtn[i]->btnImg->setX(230 * (i%3 + 1) + _bgmCtrlBtn[i]->btnImg->getFrameWidth() -100);
+			_eftCtrlBtn[i]->btnImg->setX(230 * (i%3 + 1) + _bgmCtrlBtn[i]->btnImg->getFrameWidth() -100);
+			_bgmCtrlBtn[i]->btnImg->setY(200  + _bgmCtrlBtn[i]->btnImg->getFrameHeight());
+			_eftCtrlBtn[i]->btnImg->setY(400  + _eftCtrlBtn[i]->btnImg->getFrameHeight());
 		}
 	}
 	_rcW = 146, _rcH = 60;
@@ -91,6 +96,17 @@ void configMenu::update()
 	}
 	else			//커서가 오른쪽의 title을 가리켜야 한다(5 개의 항목)
 	{
+		//BGM 선택시 출력되어야 하는 위치
+		if (_isSelect[SELECT_BGM])
+		{
+			//윗줄은 3개 버튼이 있고 아랫줄은 2개 버튼이 있으니까 분기점으로 나눈다
+			//_cursor->keyControlY(_rcCTRLNum[1].top - _rcCTRLNum[0].top, 2);
+		}
+		//EFFECT 선택시 출력되어야 하는 위치
+		else if (_isSelect[SELECT_EFFECT])
+		{
+			//윗줄은 3개 버튼이 있고 아랫줄은 2개 버튼이 있으니까 분기점으로 나눈다
+		}
 		//_cursor->keyControlX()
 		//_cursor->keyControlY()
 	}
@@ -98,6 +114,7 @@ void configMenu::update()
 	
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 	{
+		//만약 BGM 을 선택해다면
 		if (_cursor->getCursorYNum() == SELECT_BGM)
 		{
 			_isSelect[SELECT_BGM] = true;
@@ -127,8 +144,8 @@ void configMenu::render()
 
 	for (int i = 0; i < MAXCONTROLBTN; ++i)
 	{
-		_bgmCtrlBtn[i]->frameRender(getMemDC(), _bgmCtrlBtn[i]->getX(), _bgmCtrlBtn[i]->getY());
-		_eftCtrlBtn[i]->frameRender(getMemDC(), _eftCtrlBtn[i]->getX(), _eftCtrlBtn[i]->getY());
+		_bgmCtrlBtn[i]->btnImg->frameRender(getMemDC(), _bgmCtrlBtn[i]->btnImg->getX(), _bgmCtrlBtn[i]->btnImg->getY());
+		_eftCtrlBtn[i]->btnImg->frameRender(getMemDC(), _eftCtrlBtn[i]->btnImg->getX(), _eftCtrlBtn[i]->btnImg->getY());
 	}
 
 	if (KEYMANAGER->isStayKeyDown('G'))

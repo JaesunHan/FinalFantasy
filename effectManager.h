@@ -31,6 +31,7 @@ public:
 
 	void play(string effectName, int x, int y);
 
+	bool isEffectEnd(string effectName);
 
 	effectManager();
 	~effectManager();

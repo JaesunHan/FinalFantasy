@@ -1,7 +1,7 @@
 #pragma once
 #include "gameNode.h"
 #include "magic.h"
-#define MAXANIMATIONNUM 8
+#define MAXANIMATIONNUM 9
 #define MAXATKMOTION	3
 //배틀 플레이어의 상태를 나타낼 enum
 enum baattlePlayerStatus
@@ -99,7 +99,7 @@ protected:
 	
 	//아이템 사용시 띄울 이팩트이다
 	image* _itemEffectImg;
-	effect* _itemEffect;
+	animation* _itemEffect;
 
 	float _targetX, _targetY;
 	int _targetWidth, _targetHeight;

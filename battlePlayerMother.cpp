@@ -19,10 +19,15 @@ battlePlayerMother::~battlePlayerMother()
 
 HRESULT battlePlayerMother::init()
 {
+	//아이템 사용시 출력될 이팩트 이미지
 	_itemEffectImg = new image;
-	//_itemEffectImg= IMAGEMANAGER->addFrameImage("아이템 이팩트 효과", "")
-	//_itemEffect = new effect;
-	//EFFECTMANAGER->addEffect(_maicEffectKeyString, magicImgFileName, _magicImg->getWidth(), _magicImg->getHeight(), _magicImg->getFrameWidth(), _magicImg->getFrameHeight(), 1.0f, 0.5f, 2);
+	_itemEffectImg = IMAGEMANAGER->addFrameImage("아이템 이팩트 효과", "./image/playerImg/playerEffectImage/playerItem1.bmp", 4224, 192, 22, 1, true, RGB(255, 0, 255));
+	//_itemEffect = new animation;
+	//_itemEffect->init(_itemEffectImg->getWidth(), _itemEffectImg->getHeight(), _itemEffectImg->getFrameWidth(), _itemEffectImg->getFrameHeight());
+	//int arrItem[] = { 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14, 15, 16, 17, 18, 19, 20, 21 };
+	//_itemEffect->setPlayFrame(arrItem, 22, 0);
+	//_itemEffect->setFPS(1);
+	EFFECTMANAGER->addEffect("아이템", "./image/playerImg/playerEffectImage/playerItem1.bmp", _itemEffectImg->getWidth(), _itemEffectImg->getHeight(), _itemEffectImg->getFrameWidth(), _itemEffectImg->getFrameHeight(), 1.0f, 0.5f, 1);
 	return S_OK;
 }
 void battlePlayerMother::update() 
@@ -146,7 +151,28 @@ void battlePlayerMother::update()
 
 	if (_status == BATTLE_PLAYER_ITEM)
 	{
+		if (!_playAnimList[BATTLE_PLAYER_ITEM])
+		{
+			EFFECTMANAGER->play("아이템", _mAllyTarget->getPosX(), _mAllyTarget->getPosY());
+		}
+		if (!EFFECTMANAGER->isEffectEnd("아이템"))
+		{
+			_turnEnd = true;
+			_playAnimList[BATTLE_PLAYER_ITEM] = false;
+			_status = BATTLE_PLAYER_IDLE;
+		}
+		
 
+		//if (!_playAnimList[BATTLE_PLAYER_ITEM])
+		//{
+		//	_itemEffect->start();
+		//}
+		//_itemEffect->frameUpdate(TIMEMANAGER->getElapsedTime() * 7);
+		//if (!_itemEffect->isPlay())
+		//{
+		//	_playAnimList[BATTLE_PLAYER_ITEM] = false;
+		//	_turnEnd = true;
+		//}
 	}
 
 }

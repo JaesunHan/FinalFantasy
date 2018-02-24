@@ -103,7 +103,7 @@ battleTina::battleTina()
 	_atkEffectSoundFile = "./sound/sfx/42Fire2.wav";
 	SOUNDMANAGER->addSound(_atkEffectSoundKey, _atkEffectSoundFile, false, false);
 
-	
+	battlePlayerMother::init();
 }
 
 

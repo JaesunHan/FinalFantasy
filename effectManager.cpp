@@ -136,3 +136,20 @@ void effectManager::play(string effectName, int x, int y)
 	}
 }
 
+bool effectManager::isEffectEnd(string effectName)
+{
+	iterTotalEffect vIter;
+	iterEffect mIter;
+
+	for (vIter = _vTotalEffect.begin(); vIter != _vTotalEffect.end(); ++vIter)
+	{
+		for (mIter = vIter->begin(); mIter != vIter->end(); ++mIter)
+		{
+			if (!(mIter->first == effectName)) break;
+
+			return !mIter->second[mIter->second.size() - 1]->getIsRunning();
+		}
+	}
+
+	return true;
+}

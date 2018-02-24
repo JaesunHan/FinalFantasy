@@ -107,7 +107,7 @@ battleShadow::battleShadow()
 	_atkEffectSoundFile = "./sound/sfx/8BClawSlash.wav";
 	SOUNDMANAGER->addSound(_atkEffectSoundKey, _atkEffectSoundFile, false, false);
 
-	
+	battlePlayerMother::init();
 }
 
 

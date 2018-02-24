@@ -106,7 +106,7 @@ battleCeles::battleCeles()
 	_atkEffectSoundKey = "CelesAttackSound";
 	_atkEffectSoundFile = "./sound/sfx/65SwordSlash.wav";
 	SOUNDMANAGER->addSound(_atkEffectSoundKey, _atkEffectSoundFile, false, false);
-
+	battlePlayerMother::init();
 }
 
 

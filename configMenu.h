@@ -25,7 +25,7 @@ enum SELECTTITLE
 struct tagConfigButton
 {
 	image*	btnImg;			//버튼 이미지
-	char	btnTxt;			//버튼 이미지위에 출력될 글자
+	char	btnTxt[256];			//버튼 이미지위에 출력될 글자
 	int		btnVolume;		//이 버튼이 갖는 볼륨값
 
 };
@@ -33,8 +33,10 @@ struct tagConfigButton
 class configMenu : public menu
 {
 private:
-	vector<image*> _bgmCtrlBtn;
-	vector<image*> _eftCtrlBtn;
+	//vector<image*> _bgmCtrlBtn;
+	//vector<image*> _eftCtrlBtn;
+	vector<tagConfigButton*> _bgmCtrlBtn;
+	vector<tagConfigButton*> _eftCtrlBtn;
 
 	cursor* _cursor;
 
