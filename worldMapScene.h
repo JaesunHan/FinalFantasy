@@ -70,6 +70,8 @@ private:
 
 	POINT tempPoint;
 
+	bool _getIsBoss;
+
 	int _focus;
 	int _encountNum;
 
@@ -123,5 +125,8 @@ public:
 	worldMapPlayer* getworldMapPlayer() { return _worldMapPlayer; }
 
 	worldMapEnemyManager* getWorldEnemy() { return _wMEM; }
+
+	bool getGetIsBoss() { return _getIsBoss; }
+
 
 };

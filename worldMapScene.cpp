@@ -49,6 +49,7 @@ HRESULT worldMapScene::init()
 	_isNotEnemyVector = false;
 	_isGetGongChi = false;
 	_isDoBattleEncount = false;
+	_getIsBoss = false;
 	_enemyNum = -1;
 
 	_focus = FOCUS_PLAYER;
@@ -268,7 +269,7 @@ void worldMapScene::getCollision()
 				//충돌한 녀석의 인덱스를 변수에 저장한다.
 				_enemyNum = i;
 				//SOUNDMANAGER->stop(CH_BGM);
-
+				_getIsBoss = _wMEM->getVWME()[i]->getIsBoss();
 				_focus = FOCUS_ENEMYENCOUNT;
 				if (!_isEncounter)
 				{
