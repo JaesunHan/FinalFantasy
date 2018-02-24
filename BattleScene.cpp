@@ -1760,6 +1760,7 @@ void BattleScene::sceneChange()
 {
 	if (_changeScene == true)
 	{
+		_im->saveInventory("skgFile");
 		_pm->playerLevelUp();
 		this->release();
 		((worldMapScene*)SCENEMANAGER->findScene("¿ùµå¸Ê¾À"))->resetIsEncounter();

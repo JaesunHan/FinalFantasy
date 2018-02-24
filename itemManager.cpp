@@ -825,6 +825,7 @@ void itemManager::useItemInMenu(int partyIdx, int invenNum)
 	}
 	if (usedItem == true)
 	{
+		
 		changeItemNumber(getItemVNum(invenNum), -1);
 	}
 }
