@@ -376,6 +376,10 @@ void storeScene::keyControl(void)
 	{
 		if (KEYMANAGER->isStayKeyDown(VK_UP))
 		{
+			if (SOUNDMANAGER->isPlaySound(CH_MENUSCENE)) return;
+
+			SOUNDMANAGER->play("menuSelectLow", CH_MENUSCENE, EFFECTVOLUME);
+
 			if (_currentInventory == INVENTORY_WEAPON)
 			{
 				if (_im->getWeaponInventorySize() <= 0) return;
@@ -394,6 +398,10 @@ void storeScene::keyControl(void)
 		}
 		if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 		{
+			if (SOUNDMANAGER->isPlaySound(CH_MENUSCENE)) return;
+
+			SOUNDMANAGER->play("menuSelectLow", CH_MENUSCENE, EFFECTVOLUME);
+
 			if (_currentAmount > 1) --_currentAmount;
 		}
 
