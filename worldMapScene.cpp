@@ -50,6 +50,7 @@ HRESULT worldMapScene::init()
 	_isGetGongChi = false;
 	_isDoBattleEncount = false;
 	_getIsBoss = false;
+	_isEnemyEncount = false;
 	_enemyNum = -1;
 
 	_focus = FOCUS_PLAYER;
@@ -268,15 +269,16 @@ void worldMapScene::getCollision()
 			{
 				//충돌한 녀석의 인덱스를 변수에 저장한다.
 				_enemyNum = i;
-				//SOUNDMANAGER->stop(CH_BGM);
 				_getIsBoss = _wMEM->getVWME()[i]->getIsBoss();
-				_focus = FOCUS_ENEMYENCOUNT;
-				if (!_isEncounter)
-				{
-					_isEncounter = true;
-					SOUNDMANAGER->play("encounterSound", CH_ENCOUNTER, 1.0f);
-				}
-				SCENEMANAGER->changeSceneType1("배틀씬");
+
+				//SOUNDMANAGER->stop(CH_BGM)
+					if (!_isEncounter)
+					{
+						_isEncounter = true;
+						SOUNDMANAGER->play("encounterSound", CH_ENCOUNTER, 1.0f);
+					}
+					SCENEMANAGER->changeSceneType1("배틀씬");
+				
 				break;
 			}
 		}
@@ -328,6 +330,8 @@ void worldMapScene::getGongChi()
 	}
 	_isGetGongChi = true;
 }
+
+
 
 void worldMapScene::battleEncount()
 {

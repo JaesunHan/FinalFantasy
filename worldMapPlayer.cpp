@@ -152,7 +152,8 @@ void worldMapPlayer::worldPlayerKeyControl()
 		if (_curMap->getMapTile()[tileNum(_rc.left, _rc.top + 3)].getObject() == OBJ_SAVE ||
 			_curMap->getMapTile()[tileNum(_rc.left, _rc.bottom - 3)].getObject() == OBJ_SAVE)
 		{
-			_player.y = _player.y - 15;
+			//_player.y = _player.y - 15;
+			_player.x += _moveSpeed;
 			_isSavePoint = true;
 		}
 	}
@@ -198,7 +199,8 @@ void worldMapPlayer::worldPlayerKeyControl()
 		if (_curMap->getMapTile()[tileNum(_rc.left, _rc.top + 3)].getObject() == OBJ_SAVE ||
 			_curMap->getMapTile()[tileNum(_rc.left, _rc.bottom - 3)].getObject() == OBJ_SAVE)
 		{
-			_player.y = _player.y - 15;
+			//_player.y = _player.y - 15;
+			_player.x -= _moveSpeed;
 			_isSavePoint = true;
 		}
 
@@ -245,7 +247,8 @@ void worldMapPlayer::worldPlayerKeyControl()
 		if (_curMap->getMapTile()[tileNum(_rc.left, _rc.top + 3)].getObject() == OBJ_SAVE ||
 			_curMap->getMapTile()[tileNum(_rc.left, _rc.bottom - 3)].getObject() == OBJ_SAVE)
 		{
-			_player.y = _player.y - 15;
+			//_player.y = _player.y - 15;
+			_player.y += _moveSpeed;
 			_isSavePoint = true;
 		}
 	}
@@ -291,7 +294,8 @@ void worldMapPlayer::worldPlayerKeyControl()
 		if (_curMap->getMapTile()[tileNum(_rc.left, _rc.top + 3)].getObject() == OBJ_SAVE ||
 			_curMap->getMapTile()[tileNum(_rc.left, _rc.bottom - 3)].getObject() == OBJ_SAVE)
 		{
-			_player.y = _player.y - 15;
+			//_player.y = _player.y - 15;
+			_player.y -= _moveSpeed;
 			_isSavePoint = true;
 		}
 	}

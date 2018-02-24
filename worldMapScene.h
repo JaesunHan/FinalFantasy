@@ -67,6 +67,7 @@ private:
 	bool _isOpenBox;
 	bool _isMessageBox;
 	bool _isDoBattleEncount;
+	bool _isEnemyEncount;
 
 	POINT tempPoint;
 
