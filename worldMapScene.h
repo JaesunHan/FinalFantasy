@@ -122,4 +122,6 @@ public:
 	//월드맵 플레이어 정보 가져온다.
 	worldMapPlayer* getworldMapPlayer() { return _worldMapPlayer; }
 
+	worldMapEnemyManager* getWorldEnemy() { return _wMEM; }
+
 };
