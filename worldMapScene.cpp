@@ -27,6 +27,8 @@ HRESULT worldMapScene::init()
 	_openBox = IMAGEMANAGER->addImage("오픈박스", ".//image//enemyImg//treasureBoxOpen.bmp", 31, 29, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("messageBox_small", ".//image//userInterface//messageBox_small.bmp", 400, 93, true, RGB(255, 0, 255));
 
+	_sideImg = IMAGEMANAGER->addImage("사이드이미지", ".//image//userInterface//sideImage3.bmp", 240, 640, true, RGB(255, 0, 255));
+
 	_worldMap = new generalMap;
 	_worldMap->init(".//50X50.map");
 
@@ -128,7 +130,6 @@ void worldMapScene::update()
 
 		enterTownMap();
 		getCollision();
-	
 		battleEncount();
 		doBattleEncount();
 		savePoint();
@@ -163,6 +164,7 @@ void worldMapScene::update()
 
 void worldMapScene::render()
 {
+	_sideImg->render(getMemDC(), 960, 0);
 	_worldMap->render(CAMERAMANAGER->getCameraDC());
 
 	_wMEM->beforeRender(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
@@ -250,11 +252,12 @@ void worldMapScene::getCollision()
 			//50%확율로 결정되어진 보물상자면
 			if (_wMEM->getVWME()[i]->getIsBox())
 			{
+				//보물상자에 직접 접근가능
 				if (((worldMapTreasureBox*)_wMEM->getVWME()[i])->getIsOpen()) break;
 				
 				//충돌한 녀석의 인덱스를 변수에 저장한다.
 				_enemyNum = i;
-				tempPoint = _wMEM->getVWME()[i]->getWorldMapEnemyPoint();
+				//tempPoint = _wMEM->getVWME()[i]->getWorldMapEnemyPoint();
 				getGongChi();
 				_focus = FOCUS_MESSAGEBOX;
 				//_wMEM->getVWME()[i]->setIsCollision(false);
@@ -265,12 +268,9 @@ void worldMapScene::getCollision()
 				//_wMEM->worldEmenyDelete(i);
 				break;
 			}
-			else
-			{
 				//충돌한 녀석의 인덱스를 변수에 저장한다.
 				_enemyNum = i;
 				_getIsBoss = _wMEM->getVWME()[i]->getIsBoss();
-
 				//SOUNDMANAGER->stop(CH_BGM)
 					if (!_isEncounter)
 					{
@@ -280,7 +280,7 @@ void worldMapScene::getCollision()
 					SCENEMANAGER->changeSceneType1("배틀씬");
 				
 				break;
-			}
+		
 		}
 	}
 

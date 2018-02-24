@@ -13,6 +13,8 @@ townScene::~townScene()
 
 HRESULT townScene::init()
 {
+	_sideImg = IMAGEMANAGER->addImage("사이드이미지", ".//image//userInterface//sideImage3.bmp", 240, 640, true, RGB(255, 0, 255));
+
 	SOUNDMANAGER->addSound("townMapBGM", ".//sound//worldMapSound//07. Edgar \& Mash.mp3", true, true);
 	SOUNDMANAGER->play("townMapBGM", CH_BGM, 1.0f);
 
@@ -68,6 +70,7 @@ void townScene::render()
 {
 
 	_townMap->render(CAMERAMANAGER->getCameraDC());
+	_sideImg->render(getMemDC(), 960, 0);
 	
 	//업데이트에서 받은 플레이어의 실시간 좌표를 NPC와 비교하여 
 	//플레이어보다 먼저 그려주는 이미지 -> 플레이어 이미지 -> 플레이어보다 다음에 그려주는 이미지 순으로 랜더를 한다.

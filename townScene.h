@@ -23,6 +23,7 @@ public:
 	//스토어씬용
 	storeScene* _store;
 
+	image* _sideImg;
 
 	townScene();
 	~townScene();

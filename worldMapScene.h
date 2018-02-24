@@ -78,6 +78,8 @@ private:
 
 	char str[128];
 
+	image* _sideImg;
+
 public:
 	worldMapScene();
 	~worldMapScene();
