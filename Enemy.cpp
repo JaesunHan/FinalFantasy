@@ -40,7 +40,6 @@ HRESULT Enemy::init(int x, int y)
 
 void Enemy::update()
 {
-
 	if (_turnEnd == false)
 	{
 		if (_count == 0) damageAlgorithm();									//에너미 턴이 되면 데미지 공식 함수를 적용
@@ -144,6 +143,7 @@ void Enemy::damageAlgorithm()
 		_damage = (_damage * (255 - (float)_target->getADef()) / 256) + 1;									// 데미지에서 방어력을 빼는 공식
 																											
 		_spellDamage = _spellPower * 4 + ((float)_Lv * ((float)_magic * 3 / 2) * _spellPower) / 32;			// 스킬 데미지 공식
+		_spellDamage2 = _spellPower2 * 4 + ((float)_Lv * ((float)_magic * 3 / 2) * _spellPower2) / 32;
 	}
 	else																									//빗나갔다 ㅠㅠ 데미지 스킬데미지 0
 	{

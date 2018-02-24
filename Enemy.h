@@ -25,7 +25,7 @@ class battlePlayerMother;					//배틀플레이어 부모클래스 전방선언
 class Enemy : public gameNode
 {
 protected:
-	image* _img;
+	image* _img;							//에너미 이미지
 
 	unsigned int _Lv;						//레벨
 	unsigned int _maxEXP;					//경험치
@@ -46,22 +46,26 @@ protected:
 	unsigned int _alpha;					//에너미 알파 값
 	unsigned int _glitterCount;				//glitter함수에서 쓸 카운트변수
 	unsigned int _state;					//에너미 상태값
-	int _enemyItemNum;						//에너미 아이템 번호 -> 설류니 왔다감
 	unsigned int _count = 0;
 
 	float _damage;							//최종 데미지
 	float _spellDamage;						//스킬 최종 데미지
+	float _spellDamage2;					//스킬 최종 데미지2
 	float _spellPower;						//스펠 데미지
+	float _spellPower2;						//스펠 데미지2
 
 	bool _turnEnd;							//에너미들 턴이니?
 	bool _effectFire;						//이펙트 터트리기 위한 불값
 
 	char _basicAttack[128];					//기본공격의 사운드와 이펙트를 위한 변수
-	char _skillAttack[128];					//스킬공격의 사운드와 이펙트를 위한 변수
+	char _skillAttack[128];					//스킬공격1의 사운드와 이펙트를 위한 변수
+	char _skillAttack2[128];				//스킬공격2의 사운드와 이펙트를 위한 변수
 	char _damageNum[128];					//데미지를 넣기 위한 변수
 	char _itemString[128];					//아이템 이름을 가져오자
 
-	vector<tagDROPITEM> _vItemDropRate;		//아이템 드랍 확률
+	int _enemyItemNum;						//에너미 아이템 번호 -> 설류니 왔다감
+
+	vector<tagDROPITEM> _vItemDropRate;		//아이템 드랍 확률을 위한 구조체 백터
 
 	effect* _atkEffect;						//에너미 기본공격 이펙트
 	effect* _spellEffect;					//에너미 스킬공격 이펙트
@@ -133,4 +137,3 @@ public:
 	inline void setEffectFire(bool effectFire) { _effectFire = effectFire; }
 	//========================================================================
 };
-
