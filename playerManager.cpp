@@ -190,10 +190,12 @@ void playerManager::saveGameData(char* fileName)
 		ZeroMemory(str, sizeof(str));
 		wsprintf(str, "%d", _vPlayer[i]->getCurHP());
 		INIDATA->addData(playerSubject, "hp", str);
+		INIDATA->iniSave(fileName);
 
 		ZeroMemory(str, sizeof(str));
 		wsprintf(str, "%d", _vPlayer[i]->getCurMP());
 		INIDATA->addData(playerSubject, "mp", str);
+		INIDATA->iniSave(fileName);
 		/*
 		wsprintf(playerSubject, "player%d", i);
 		INIDATA->addData(playerSubject, "name", _vPlayer[i]->getName());
@@ -268,8 +270,8 @@ void playerManager::saveGameData(char* fileName)
 		INIDATA->addData(playerSubject, "partyIdx", str);
 
 		INIDATA->addData(playerSubject, "myWeapon", _vPlayer[i]->getWeapon()->getItemName());
-		*/
 		INIDATA->iniSave(fileName);
+		*/
 
 	}
 	
@@ -489,4 +491,5 @@ void playerManager::playerLevelUp()
 
 		INIDATA->iniSave(fileName);
 	}
+	loadGameData();
 }
