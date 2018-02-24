@@ -13,7 +13,7 @@ townScene::~townScene()
 
 HRESULT townScene::init()
 {
-	_sideImg = IMAGEMANAGER->addImage("사이드이미지", ".//image//userInterface//sideImage3.bmp", 240, 640, true, RGB(255, 0, 255));
+	_sideImg = IMAGEMANAGER->addImage("사이드이미지", ".//image//userInterface//sideImage5.bmp", 240, 640, true, RGB(255, 0, 255));
 
 	SOUNDMANAGER->addSound("townMapBGM", ".//sound//worldMapSound//07. Edgar \& Mash.mp3", true, true);
 	SOUNDMANAGER->play("townMapBGM", CH_BGM, 1.0f);

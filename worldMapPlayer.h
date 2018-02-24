@@ -9,7 +9,7 @@
 //==========================//
 
 
-#define MAXENCOUNT 10000000
+#define MAXENCOUNT 1000
 #define INCRESECOUNTRANGE RND->getFromIntTo(1,5)
 
 enum WORLDPLAYERDIRECTION

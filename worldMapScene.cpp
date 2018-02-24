@@ -27,8 +27,7 @@ HRESULT worldMapScene::init()
 	_openBox = IMAGEMANAGER->addImage("오픈박스", ".//image//enemyImg//treasureBoxOpen.bmp", 31, 29, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("messageBox_small", ".//image//userInterface//messageBox_small.bmp", 400, 93, true, RGB(255, 0, 255));
 
-	IMAGEMANAGER->addImage("사이드이미지", ".//image//userInterface//sideImage3.bmp", 240, 640, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("사이드이미지1", ".//image//userInterface//sideImage4.bmp", 240, 640, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("사이드이미지", ".//image//userInterface//sideImage5.bmp", 240, 640, true, RGB(255, 0, 255));
 	_sideImgChange = RND->getFromFloatTo(1, 2);
 	_worldMap = new generalMap;
 	_worldMap->init(".//50X50.map");
@@ -165,17 +164,10 @@ void worldMapScene::update()
 
 void worldMapScene::render()
 {
-	switch(_sideImgChange)
-	{
-	case 1:
-		IMAGEMANAGER->findImage("사이드이미지")->render(getMemDC(), 960, 0);
-		break;
 
-	case 2:
-		IMAGEMANAGER->findImage("사이드이미지1")->render(getMemDC(), 960, 0);
-	break;
-	}
-	
+	IMAGEMANAGER->findImage("사이드이미지")->render(getMemDC(), 960, 0);
+
+
 	_worldMap->render(CAMERAMANAGER->getCameraDC());
 
 	_wMEM->beforeRender(CAMERAMANAGER->getCameraDC(), CAMERAMANAGER->getMovePt());
