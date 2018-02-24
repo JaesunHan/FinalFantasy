@@ -409,6 +409,7 @@ void BattleScene::updateWhenCharacterTurn()
 				//턴 종료시 큐에서 삭제
 				if (_battleTurn.front()->player->getTurnEnd() == true)
 				{
+					_battleTurn.front()->player->setStatus(BATTLE_PLAYER_IDLE);
 					_battleTurn.front()->ATBcounter = 0;
 					_battleTurn.front()->turnStart = false;
 					_battleTurn.front()->selectAction = false;

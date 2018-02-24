@@ -20,7 +20,7 @@ battlePlayerMother::~battlePlayerMother()
 HRESULT battlePlayerMother::init()
 {
 	//아이템 사용시 출력될 이팩트 이미지
-	_itemEffectImg = new image;
+	//_itemEffectImg = new image;
 	_itemEffectImg = IMAGEMANAGER->addFrameImage("아이템 이팩트 효과", "./image/playerImg/playerEffectImage/playerItem1.bmp", 4224, 192, 22, 1, true, RGB(255, 0, 255));
 	//_itemEffect = new animation;
 	//_itemEffect->init(_itemEffectImg->getWidth(), _itemEffectImg->getHeight(), _itemEffectImg->getFrameWidth(), _itemEffectImg->getFrameHeight());
