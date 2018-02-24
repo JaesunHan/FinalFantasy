@@ -77,7 +77,7 @@ private:
 	int _encountNum;
 
 	char str[128];
-
+	int _sideImgChange;
 	image* _sideImg;
 
 public:

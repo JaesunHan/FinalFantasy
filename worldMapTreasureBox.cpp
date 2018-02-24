@@ -27,7 +27,7 @@ HRESULT worldMapTreasureBox::init(int enemyX, int enemyY, ENEMYMOVEPATTERN enemy
 	_isOpen = false;
 
 	//¹Ì¹ÍÀÌ´Ì ¾Æ´Ï´Ì
-	_isMimic = RND->getFromIntTo(1, 1);
+	_isMimic = RND->getFromIntTo(1, 3);
 
 	_enemyMovePattern = enemyPattern;
 	return S_OK;
