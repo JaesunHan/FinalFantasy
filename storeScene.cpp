@@ -19,6 +19,9 @@ HRESULT storeScene::init()
 	IMAGEMANAGER->addImage("messageBox", ".//image//userInterface//messageBox.bmp", 697, 206, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("amountSelectBox", ".//image//userInterface//amountSelectBox.bmp", 410, 205, true, RGB(255, 0, 255));
 
+	SOUNDMANAGER->addSound("menuSelectLow", ".\\sound\\sfx\\menuSelectLow.wav", false, false);
+	SOUNDMANAGER->addSound("DCMenuTing", ".\\sound\\sfx\\DCMenuTing.wav", false, false);
+
 	AddFontResourceEx(
 		"SDMiSaeng.ttf", 	// font file name
 		FR_PRIVATE,         // font characteristics
@@ -91,6 +94,7 @@ void storeScene::render()
 	if (_currentPos == POS_BUY_LIST || _currentPos == POS_SELL_LIST) _listSelectCursor.render();
 
 	if (_mbType != MESSAGE_NONE) drawAlertScreen();
+
 }
 
 void storeScene::keyControl(void)
@@ -101,12 +105,16 @@ void storeScene::keyControl(void)
 
 		if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 		{
+			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT08, 1.0f);
+
 			if (!_buySellSelectCursor.getCursorXNum()) _currentPos = POS_BUY_LIST;
 			else if (_buySellSelectCursor.getCursorXNum()) _currentPos = POS_SELL_LIST;
 		}
 
 		if (KEYMANAGER->isOnceKeyDown(VK_BACK))
 		{
+			SOUNDMANAGER->play("DCMenuTing", CH_EFFECT08, 1.0f);
+
 			SCENEMANAGER->changeSceneType0("Å¸¿î¸Ê¾À", false);
 			return;
 		}
@@ -117,6 +125,8 @@ void storeScene::keyControl(void)
 
 		if (KEYMANAGER->isOnceKeyDown(VK_BACK))
 		{
+			SOUNDMANAGER->play("DCMenuTing", CH_EFFECT08, 1.0f);
+
 			_currentPos = POS_BUY_SELL;
 			_listSelectCursor.init(CURSOR_RIGHT, 20, 240);
 		}
@@ -158,10 +168,9 @@ void storeScene::keyControl(void)
 					break;
 				}
 
+				SOUNDMANAGER->play("menuSelectLow", CH_EFFECT08, 1.0f);
 				_prevPos = _currentPos;
 				_currentPos = POS_AMOUNT_SELECT;
-
-				//_im->setMoney(_im->getMoney() - _vendorList[_listSelectCursor.getCursorPos()]->getPrice());
 			}
 			else if (_im->getMoney() < _vendorList[_listSelectCursor.getCursorPos()]->getPrice())
 			{
@@ -179,6 +188,8 @@ void storeScene::keyControl(void)
 
 		if (KEYMANAGER->isOnceKeyDown(VK_BACK))
 		{
+			SOUNDMANAGER->play("DCMenuTing", CH_EFFECT08, 1.0f);
+
 			_currentPos = POS_BUY_SELL;
 			_listSelectCursor.init(CURSOR_RIGHT, 20, 240);
 		}
@@ -205,6 +216,8 @@ void storeScene::keyControl(void)
 				if (_im->getItemInventorySize() <= 0) return;
 			}
 
+			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT08, 1.0f);
+
 			_prevPos = _currentPos;
 			_currentPos = POS_AMOUNT_SELECT;
 			return;
@@ -214,6 +227,10 @@ void storeScene::keyControl(void)
 	{
 		if (KEYMANAGER->isStayKeyDown(VK_UP))
 		{
+			if (SOUNDMANAGER->isPlaySound(CH_MENUSCENE)) return;
+
+			SOUNDMANAGER->play("menuSelectLow", CH_MENUSCENE, EFFECTVOLUME);
+
 			if (_im->getMoney() >= _vendorList[_listSelectCursor.getCursorPos()]->getPrice() * (_currentAmount + 1))
 			{
 				switch (_vendorList[_cursorIndex]->getItmeKind())
@@ -237,6 +254,10 @@ void storeScene::keyControl(void)
 		}
 		if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 		{
+			if (SOUNDMANAGER->isPlaySound(CH_MENUSCENE)) return;
+
+			SOUNDMANAGER->play("menuSelectLow", CH_MENUSCENE, EFFECTVOLUME);
+
 			if (_currentAmount > 1) --_currentAmount;
 		}
 
@@ -261,12 +282,16 @@ void storeScene::keyControl(void)
 			
 			_im->setMoney(_im->getMoney() - _vendorList[_listSelectCursor.getCursorPos()]->getPrice() * _currentAmount);
 
+			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT08, 1.0f);
+
 			_currentPos = _prevPos;
 			_currentAmount = 1;
 		}
 
 		if (KEYMANAGER->isOnceKeyDown(VK_BACK))
 		{
+			SOUNDMANAGER->play("DCMenuTing", CH_EFFECT08, 1.0f);
+
 			_currentPos = _prevPos;
 			_currentAmount = 1;
 		}
@@ -322,12 +347,15 @@ void storeScene::keyControl(void)
 
 			_listSelectCursor.resetCursorPos();
 			
+			SOUNDMANAGER->play("menuSelectLow", CH_EFFECT08, 1.0f);
+
 			_currentPos = _prevPos;
 			_currentAmount = 1;
 		}
 
 		if (KEYMANAGER->isOnceKeyDown(VK_BACK))
 		{
+			SOUNDMANAGER->play("DCMenuTing", CH_EFFECT08, 1.0f);
 			_currentPos = _prevPos;
 			_currentAmount = 1;
 		}
@@ -336,6 +364,8 @@ void storeScene::keyControl(void)
 	{
 		if (KEYMANAGER->isOnceKeyDown(VK_BACK) || KEYMANAGER->isOnceKeyDown(VK_RETURN))
 		{
+			SOUNDMANAGER->play("DCMenuTing", CH_EFFECT08, 1.0f);
+
 			_currentPos = _prevPos;
 			_mbType = MESSAGE_NONE;
 		}
