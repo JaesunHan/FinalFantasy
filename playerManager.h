@@ -46,7 +46,7 @@ public:
 	void draw();
 	void release();
 	//새 게임을 시작하면 기본 캐릭터 정보를 파일에 저장
-	//void saveNewGameData();
+	void saveGameData(char* fileName);
 	//로드 게임이면 캐릭터 정볼르 불러온다.
 	void loadGameData();
 	void searchPlayerItem(int weaponNum, int armorNum, int helmetNum, int subWeapon, playerMother* tempPlayer);

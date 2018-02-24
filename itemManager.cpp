@@ -825,7 +825,7 @@ void itemManager::useItemInMenu(int partyIdx, int invenNum)
 	}
 	if (usedItem == true)
 	{
-		
+		_pm->saveGameData("skgFile");
 		changeItemNumber(getItemVNum(invenNum), -1);
 	}
 }

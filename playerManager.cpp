@@ -163,8 +163,8 @@ void playerManager::setPlayerInfoToBattlePlayer()
 }
 
 //새 게임을 시작하면 기본적으로 생성한 플레이어들의 정보를 파일에 저장한다.
-/*
-void playerManager::saveNewGameData()
+
+void playerManager::saveGameData(char* fileName)
 {
 	////먼저 newGame 클래스를 받아온다
 	//newGame* ng = new newGame;
@@ -172,18 +172,29 @@ void playerManager::saveNewGameData()
 	//int saveFileNum = ng->getSaveFileNum();
 	
 	//현재 저장하려는 파일 넘버를 받아온다.
-	TCHAR gameDataFileName[256];
-	wsprintf(gameDataFileName, "%s", "gameData");
-	int saveFileNum = INIDATA->loadDataInterger(gameDataFileName, "gameData", "fileNum");
-
-	TCHAR gameSaveFileName[256];
-	wsprintf(gameSaveFileName, "saveFile%d", saveFileNum);
+	//TCHAR gameDataFileName[256];
+	//wsprintf(gameDataFileName, "%s", "gameData");
+	//int saveFileNum = INIDATA->loadDataInterger(gameDataFileName, "gameData", "fileNum");
+	//
+	//TCHAR gameSaveFileName[256];
+	//wsprintf(gameSaveFileName, "saveFile%d", saveFileNum);
 	
 	//반복문을 돌면서 벡터의 플레이어를 파일에 저장한다.
 	for (int i = 0; i < MAXPLAYERNUMBER; ++i)
 	{
 		TCHAR str[256];
 		TCHAR playerSubject[256];
+
+		wsprintf(playerSubject, "player%d", i);
+
+		ZeroMemory(str, sizeof(str));
+		wsprintf(str, "%d", _vPlayer[i]->getCurHP());
+		INIDATA->addData(playerSubject, "hp", str);
+
+		ZeroMemory(str, sizeof(str));
+		wsprintf(str, "%d", _vPlayer[i]->getCurMP());
+		INIDATA->addData(playerSubject, "mp", str);
+		/*
 		wsprintf(playerSubject, "player%d", i);
 		INIDATA->addData(playerSubject, "name", _vPlayer[i]->getName());
 		INIDATA->addData(playerSubject, "job", _vPlayer[i]->getJob());
@@ -257,13 +268,13 @@ void playerManager::saveNewGameData()
 		INIDATA->addData(playerSubject, "partyIdx", str);
 
 		INIDATA->addData(playerSubject, "myWeapon", _vPlayer[i]->getWeapon()->getItemName());
-
-		INIDATA->iniSave(gameSaveFileName);
+		*/
+		INIDATA->iniSave(fileName);
 
 	}
 	
 }
-*/
+
 
 void playerManager::loadGameData()
 {
