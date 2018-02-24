@@ -52,14 +52,23 @@ HRESULT worldMapEnemyManager::init()
 	//	_worldMapEmeneySamurai[9].init(300, 1500, ENEMYPATTERN_THREE);
 	//	_vWME.push_back(&_worldMapEmeneySamurai[i]);
 	//}
-	//
+	//1536, 1500
 
 	_worldMapTreasureBox.init(1536, 1500, ENEMYPATTERN_ONE);
 	_vWME.push_back(&_worldMapTreasureBox);
-
-	_worldEnemyBear.init(400, 1400, ENEMYPATTERN_ONE);
-	_vWME.push_back(&_worldEnemyBear);
-
+	
+	
+	for (int i = 0; i < 3; ++i)
+	{
+		_worldEnemyBear[0].init(400, 1400, ENEMYPATTERN_ONE);
+		_worldEnemyBear[1].init(300, 800, ENEMYPATTERN_TWO);
+		_worldEnemyBear[2].init(1200, 600, ENEMYPATTERN_THREE);
+		_worldMapEmeneySamurai[0].init(300, 1200, ENEMYPATTERN_ONE);
+		_worldMapEmeneySamurai[1].init(1450, 400, ENEMYPATTERN_TWO);
+		_worldMapEmeneySamurai[2].init(400, 600, ENEMYPATTERN_THREE);
+		_vWME.push_back(&_worldEnemyBear[i]);
+		_vWME.push_back(&_worldMapEmeneySamurai[i]);
+	}
 	return S_OK;
 }
 

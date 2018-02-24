@@ -116,6 +116,7 @@ void storeScene::keyControl(void)
 			SOUNDMANAGER->play("DCMenuTing", CH_EFFECT08, 1.0f);
 
 			SCENEMANAGER->changeSceneType0("Å¸¿î¸Ê¾À", false);
+			_im->saveInventory("skgFile.ini");
 			return;
 		}
 	}

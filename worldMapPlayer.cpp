@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "worldMapPlayer.h"
 #include "generalMap.h"
+#include "worldMapEnemyManager.h"
 
 
 worldMapPlayer::worldMapPlayer()
@@ -371,4 +372,6 @@ void worldMapPlayer::successEscape()
 		_player.x = 0;
 	}
 }
+
+
 

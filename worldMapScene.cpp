@@ -25,7 +25,7 @@ HRESULT worldMapScene::init()
 	CAMERAMANAGER->createDC(PointMake(TILE_SIZEX, TILE_SIZEY), PointMake(30, 20));
 
 	_openBox = IMAGEMANAGER->addImage("오픈박스", ".//image//enemyImg//treasureBoxOpen.bmp", 31, 29, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("messageBox", ".//image//userInterface//messageBox.bmp", 697, 206, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("messageBox", ".//image//userInterface//messageBox_small.bmp", 400, 93, true, RGB(255, 0, 255));
 
 	_worldMap = new generalMap;
 	_worldMap->init(".//50X50.map");
@@ -40,15 +40,24 @@ HRESULT worldMapScene::init()
 	_wMEM = new worldMapEnemyManager;
 	_wMEM->init();
 
+	_encountNum = 0;
+
 	_isEscape = false;
 	_isCollision = false;
 	_isEncounter = false;
 	_isOpenBox = false;
 	_isNotEnemyVector = false;
 	_isGetGongChi = false;
+	_isDoBattleEncount = false;
 	_enemyNum = -1;
 
 	_focus = FOCUS_PLAYER;
+
+	AddFontResourceEx(
+		"SDMiSaeng.ttf", 	// font file name
+		FR_PRIVATE,         // font characteristics
+		NULL            	// reserved
+	);
 
 
 	//에너미 사이즈만큼 계속 플러그 꼽아준다.
@@ -117,7 +126,9 @@ void worldMapScene::update()
 
 		enterTownMap();
 		getCollision();
+	
 		battleEncount();
+		doBattleEncount();
 		savePoint();
 	}
 	else if (_focus == FOCUS_MESSAGEBOX)
@@ -125,6 +136,21 @@ void worldMapScene::update()
 		if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 		{
 			_focus = FOCUS_PLAYER;
+		}
+	}
+	else if (_focus == FOCUS_ENEMYENCOUNT)
+	{
+		if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+		{
+			_focus = FOCUS_PLAYER;
+		}
+	}
+	else if (_focus == FOCUS_BATTLEENCOUNT)
+	{
+		if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+		{
+			_focus = FOCUS_PLAYER;
+			_isDoBattleEncount = true;
 		}
 	}
 
@@ -156,7 +182,51 @@ void worldMapScene::render()
 
 	if (_focus == FOCUS_MESSAGEBOX)
 	{
-		IMAGEMANAGER->render("messageBox", getMemDC(), 100, 100);
+		IMAGEMANAGER->render("messageBox", getMemDC(), 300, 250);
+					//문자폭, 문자넓이, 문자기울기, 문자방향, 문자 		
+		HFONT newFont = CreateFont(30, 0, 0, 0, 600, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+		HFONT oldFont = (HFONT)SelectObject(getMemDC(), newFont);
+
+		SetTextColor(getMemDC(), RGB(40, 5, 0));
+		sprintf(str, "전설의 무기 : 꽁치를(을) 구했다!");
+		TextOut(getMemDC(), 350, 285, str, strlen(str));
+
+		DeleteObject(newFont);
+		newFont = CreateFont(20, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+		SelectObject(getMemDC(), newFont);
+		SetTextColor(getMemDC(), RGB(255, 255, 255));
+
+		SelectObject(getMemDC(), oldFont);
+		DeleteObject(oldFont);
+		DeleteObject(newFont);
+	}
+	
+	if (_focus == FOCUS_ENEMYENCOUNT)
+	{
+		IMAGEMANAGER->render("messageBox", getMemDC(), 300, 250);
+		//문자폭, 문자넓이, 문자기울기, 문자방향, 문자 		
+		HFONT newFont = CreateFont(30, 0, 0, 0, 600, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+		HFONT oldFont = (HFONT)SelectObject(getMemDC(), newFont);
+
+		SetTextColor(getMemDC(), RGB(40, 5, 0));
+		sprintf(str, "충돌한 몬스터가 격하게 적의를 드러낸다!");
+		TextOut(getMemDC(), 350, 285, str, strlen(str));
+
+		DeleteObject(newFont);
+		newFont = CreateFont(20, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+		SelectObject(getMemDC(), newFont);
+		SetTextColor(getMemDC(), RGB(255, 255, 255));
+
+		SelectObject(getMemDC(), oldFont);
+		DeleteObject(oldFont);
+		DeleteObject(newFont);
+	}
+
+	if (_focus == FOCUS_BATTLEENCOUNT)
+	{
+		if (_encountNum == 1) battleEncountRender1();
+		if (_encountNum == 2) battleEncountRender2();
+		if (_encountNum == 3) battleEncountRender3();
 	}
 
 	//_worldMap->render(getMemDC());
@@ -198,6 +268,8 @@ void worldMapScene::getCollision()
 				//충돌한 녀석의 인덱스를 변수에 저장한다.
 				_enemyNum = i;
 				//SOUNDMANAGER->stop(CH_BGM);
+
+				_focus = FOCUS_ENEMYENCOUNT;
 				if (!_isEncounter)
 				{
 					_isEncounter = true;
@@ -260,6 +332,18 @@ void worldMapScene::battleEncount()
 {
 	if (_worldMapPlayer->getIsEncount())
 	{
+		_encountNum = RND->getFromFloatTo(1, 3);
+		_focus = FOCUS_BATTLEENCOUNT;
+	}	
+	
+}
+
+void worldMapScene::doBattleEncount()
+{
+	/*if (_worldMapPlayer->getIsEncount())
+	{*/
+	if (_isDoBattleEncount)
+	{
 		_isNotEnemyVector = true;
 		if (!_isEncounter)
 		{
@@ -268,7 +352,9 @@ void worldMapScene::battleEncount()
 		}
 		SCENEMANAGER->changeSceneType1("배틀씬");
 	}
+	/*}*/
 	_worldMapPlayer->setIsEncount(false);
+	_isDoBattleEncount = false;
 }
 
 void worldMapScene::savePoint()
@@ -279,4 +365,67 @@ void worldMapScene::savePoint()
 		_worldMapPlayer->setIsSavePoint(false);
 	}
 	
+}
+
+void worldMapScene::battleEncountRender1()
+{
+	IMAGEMANAGER->render("messageBox", getMemDC(), 300, 250);
+	//문자폭, 문자넓이, 문자기울기, 문자방향, 문자 		
+	HFONT newFont = CreateFont(30, 0, 0, 0, 600, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+	HFONT oldFont = (HFONT)SelectObject(getMemDC(), newFont);
+
+	SetTextColor(getMemDC(), RGB(40, 5, 0));
+	sprintf(str, "으아니 몬스터라니!!!");
+	TextOut(getMemDC(), 350, 285, str, strlen(str));
+
+	DeleteObject(newFont);
+	newFont = CreateFont(20, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+	SelectObject(getMemDC(), newFont);
+	SetTextColor(getMemDC(), RGB(255, 255, 255));
+
+	SelectObject(getMemDC(), oldFont);
+	DeleteObject(oldFont);
+	DeleteObject(newFont);
+}
+
+void worldMapScene::battleEncountRender2()
+{
+	IMAGEMANAGER->render("messageBox", getMemDC(), 300, 250);
+	//문자폭, 문자넓이, 문자기울기, 문자방향, 문자 		
+	HFONT newFont = CreateFont(30, 0, 0, 0, 600, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+	HFONT oldFont = (HFONT)SelectObject(getMemDC(), newFont);
+
+	SetTextColor(getMemDC(), RGB(40, 5, 0));
+	sprintf(str, "소꽁구는 몬스터를 만났다!");
+	TextOut(getMemDC(), 350, 285, str, strlen(str));
+
+	DeleteObject(newFont);
+	newFont = CreateFont(20, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+	SelectObject(getMemDC(), newFont);
+	SetTextColor(getMemDC(), RGB(255, 255, 255));
+
+	SelectObject(getMemDC(), oldFont);
+	DeleteObject(oldFont);
+	DeleteObject(newFont);
+}
+
+void worldMapScene::battleEncountRender3()
+{
+	IMAGEMANAGER->render("messageBox", getMemDC(), 300, 250);
+	//문자폭, 문자넓이, 문자기울기, 문자방향, 문자 		
+	HFONT newFont = CreateFont(30, 0, 0, 0, 600, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+	HFONT oldFont = (HFONT)SelectObject(getMemDC(), newFont);
+
+	SetTextColor(getMemDC(), RGB(40, 5, 0));
+	sprintf(str, "소꽁구는 렙업제물을 만났다!");
+	TextOut(getMemDC(), 350, 285, str, strlen(str));
+
+	DeleteObject(newFont);
+	newFont = CreateFont(20, 0, 0, 0, 1000, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
+	SelectObject(getMemDC(), newFont);
+	SetTextColor(getMemDC(), RGB(255, 255, 255));
+
+	SelectObject(getMemDC(), oldFont);
+	DeleteObject(oldFont);
+	DeleteObject(newFont);
 }

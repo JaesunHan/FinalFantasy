@@ -22,6 +22,8 @@ enum KEY_FOCUS
 {
 	FOCUS_PLAYER,
 	FOCUS_MESSAGEBOX,
+	FOCUS_BATTLEENCOUNT,
+	FOCUS_ENEMYENCOUNT,
 	FOCUS_NONE
 };
 
@@ -64,10 +66,15 @@ private:
 	image* _messageBox;
 	bool _isOpenBox;
 	bool _isMessageBox;
+	bool _isDoBattleEncount;
 
 	POINT tempPoint;
 
 	int _focus;
+	int _encountNum;
+
+	char str[128];
+
 public:
 	worldMapScene();
 	~worldMapScene();
@@ -99,8 +106,14 @@ public:
 	void getGongChi();
 
 	void battleEncount();
+	void doBattleEncount();
 
 	void savePoint();
+
+	void battleEncountRender1();
+	void battleEncountRender2();
+	void battleEncountRender3();
+
 
 	//°Ù¼ÂÃß°¡!!!!
 	void setItemManagerAddressLink(itemManager* im) { _im = im; }
