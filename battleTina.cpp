@@ -102,6 +102,17 @@ battleTina::battleTina()
 	_atkEffectSoundKey = "TinaAttackSound";
 	_atkEffectSoundFile = "./sound/sfx/42Fire2.wav";
 	SOUNDMANAGER->addSound(_atkEffectSoundKey, _atkEffectSoundFile, false, false);
+	
+	//마법 공격할 때 터질 사운드 이팩트
+	_mAtkEffectSoundKey = "TinaMagicAttackSound";
+	_mAtkEffectSoundFile = "./sound/sfx/37Ice2Part2.wav";
+	SOUNDMANAGER->addSound(_mAtkEffectSoundKey, _mAtkEffectSoundFile, false, false);
+	//마법 힐 할 때 터질 사운드 이팩트
+	_healEffectSoundKey = "TinaHealSound";
+	_healEffectSoundFile = "./sound/sfx/7DHealingSound.wav";
+	SOUNDMANAGER->addSound(_healEffectSoundKey, _healEffectSoundFile, false, false);
+
+
 
 	battlePlayerMother::init();
 }

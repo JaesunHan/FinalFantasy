@@ -106,6 +106,15 @@ battleCeles::battleCeles()
 	_atkEffectSoundKey = "CelesAttackSound";
 	_atkEffectSoundFile = "./sound/sfx/65SwordSlash.wav";
 	SOUNDMANAGER->addSound(_atkEffectSoundKey, _atkEffectSoundFile, false, false);
+
+	//마법 공격할 때 터질 사운드 이팩트
+	_mAtkEffectSoundKey = "CelesMagicAttackSound";
+	_mAtkEffectSoundFile = "./sound/sfx/15Bolt3.wav";
+	SOUNDMANAGER->addSound(_mAtkEffectSoundKey, _mAtkEffectSoundFile, false, false);
+	//마법 힐 할 때 터질 사운드 이팩트
+	_healEffectSoundKey = "CelesHealSound";
+	_healEffectSoundFile = "./sound/sfx/7DHealingSound.wav";
+	SOUNDMANAGER->addSound(_healEffectSoundKey, _healEffectSoundFile, false, false);
 	battlePlayerMother::init();
 }
 

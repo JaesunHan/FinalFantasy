@@ -107,6 +107,11 @@ battleShadow::battleShadow()
 	_atkEffectSoundFile = "./sound/sfx/8BClawSlash.wav";
 	SOUNDMANAGER->addSound(_atkEffectSoundKey, _atkEffectSoundFile, false, false);
 
+	//마법 공격할 때 터질 사운드 이팩트
+	_mAtkEffectSoundKey = "ShadowMagicAttackSound";
+	_mAtkEffectSoundFile = "./sound/sfx/42Fire2.wav";
+	SOUNDMANAGER->addSound(_mAtkEffectSoundKey, _mAtkEffectSoundFile, false, false);
+
 	battlePlayerMother::init();
 }
 

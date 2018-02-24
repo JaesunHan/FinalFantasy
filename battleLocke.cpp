@@ -105,6 +105,11 @@ battleLocke::battleLocke()
 	_atkEffectSoundFile = "./sound/sfx/2ESwordSlashLong.wav";
 	SOUNDMANAGER->addSound(_atkEffectSoundKey, _atkEffectSoundFile, false, false);
 
+	//마법 공격할 때 터질 사운드 이팩트
+	_mAtkEffectSoundKey = "ShadowMagicAttackSound";
+	_mAtkEffectSoundFile = "./sound/sfx/BBBigClose.wav";
+	SOUNDMANAGER->addSound(_mAtkEffectSoundKey, _mAtkEffectSoundFile, false, false);
+
 	battlePlayerMother::init();
 }
 

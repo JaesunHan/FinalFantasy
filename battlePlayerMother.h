@@ -114,6 +114,13 @@ protected:
 	string _atkEffectSoundKey;
 	string _atkEffectSoundFile;
 
+	//마법 공격할 때 띄울 사운드 키값
+	string _mAtkEffectSoundKey;
+	string _mAtkEffectSoundFile;
+	//마법 힐 할 때 띄울 사운드 키값
+	string _healEffectSoundKey;
+	string _healEffectSoundFile;
+
 	//장착한 무기
 	weaponItem* _myWeapon;
 	//장착한 갑옷

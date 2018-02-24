@@ -474,7 +474,7 @@ void playerManager::playerLevelUp()
 				curHP += improveHPValue[lv - 1];
 				curMP += improveMPValue[lv - 1];
 
-				str += 1;
+				str				+= 1;
 				spd				+= 1;
 				stamina			+= 1;
 				attack			+= 1;

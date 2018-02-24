@@ -27,7 +27,8 @@ HRESULT battlePlayerMother::init()
 	//int arrItem[] = { 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14, 15, 16, 17, 18, 19, 20, 21 };
 	//_itemEffect->setPlayFrame(arrItem, 22, 0);
 	//_itemEffect->setFPS(1);
-	EFFECTMANAGER->addEffect("아이템", "./image/playerImg/playerEffectImage/playerItem1.bmp", _itemEffectImg->getWidth(), _itemEffectImg->getHeight(), _itemEffectImg->getFrameWidth(), _itemEffectImg->getFrameHeight(), 1.0f, 0.5f, 1);
+	EFFECTMANAGER->addEffect("아이템", "./image/playerImg/playerEffectImage/playerItem1.bmp", _itemEffectImg->getWidth(), _itemEffectImg->getHeight(), _itemEffectImg->getFrameWidth(), _itemEffectImg->getFrameHeight(), 1.0f, 0.2f, 1);
+	SOUNDMANAGER->addSound("아이템사운드", ".//sound//sfx//7DHealingSound.wav", false, false );
 	return S_OK;
 }
 void battlePlayerMother::update() 
@@ -124,13 +125,15 @@ void battlePlayerMother::update()
 			//힐 마법 이면 아군 이 있는 위치에 이팩트 출력
 			if (_selectMagic->getIsHeal() || _selectMagic->getIsRevive())
 			{
-				EFFECTMANAGER->play(_selectMagic->getMaicEffectKey(), _mAllyTarget->getPosX(), _mAllyTarget->getPosY());
+				EFFECTMANAGER->play(_selectMagic->getMaicEffectKey(), _mAllyTarget->getPosX()+40, _mAllyTarget->getPosY()+20);
 				calculateMagicHeal();
 				_mAllyTarget->setStatus(BATTLE_PLAYER_IDLE);
+				SOUNDMANAGER->play(_healEffectSoundKey);
 			}
 			else
 			{
 				EFFECTMANAGER->play(_selectMagic->getMaicEffectKey(), _mEnemyTarget->getX(), _mEnemyTarget->getY());
+				SOUNDMANAGER->play(_mAtkEffectSoundKey);
 			}
 		}
 		_magicAtkAnim->frameUpdate(TIMEMANAGER->getElapsedTime() * 10);
@@ -154,6 +157,8 @@ void battlePlayerMother::update()
 		if (!_playAnimList[BATTLE_PLAYER_ITEM])
 		{
 			EFFECTMANAGER->play("아이템", _mAllyTarget->getPosX(), _mAllyTarget->getPosY());
+			
+			SOUNDMANAGER->play("아이템사운드");
 		}
 		if (!EFFECTMANAGER->isEffectEnd("아이템"))
 		{
