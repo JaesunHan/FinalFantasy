@@ -58,6 +58,9 @@ private:
 	tile _selectedTerrainTile;		// 선택한 지형 타일
 	tile _selectedObjectTile;		// 선택한 오브젝트 타일
 
+	POINT _startPt;
+	BOOL _isSetArea;
+
 private:							// 버튼의 사각형 영역
 	RECT _newBtn;
 	RECT _saveBtn, _loadBtn;
@@ -88,6 +91,7 @@ public:
 
 	void clickButton(void);			// 원래는 버튼 클릭만 처리 할려고 했는데 모든 클릭 처리를 여기서 함
 	void setTerrainToMap(void);		// 맵에 지형 설정하는 함수
+	void setTerraintAreaToMap(int startX, int startY, int endX, int endY);
 	TERRAIN* getNearTerrain(int curTileIndex);	// 매개변수로 받은 인덱스 타일의 상하좌우 타일의 속성을 받아옴
 	void buttonDraw(void);						// 버튼 그리는 함수
 

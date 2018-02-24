@@ -5,6 +5,8 @@
 POINT operator+(POINT operand1, POINT operand2);
 POINT operator-(POINT operand1, POINT operand2);
 
+void intSwap(int& sour, int& dest);
+
 
 mapTool::mapTool()
 	: _hSelectTerrain(NULL), _hSelectObject(NULL)
@@ -63,6 +65,8 @@ HRESULT mapTool::init(void)
 	_mapTiles = NULL;
 	_mapSize = PointMake(0, 0);
 	_mapMove = PointMake(-32, -32);
+	_startPt = PointMake(0, 0);
+	_isSetArea = FALSE;
 
 	_currentSelectMode = MODE_TERRAIN_SELECT;
 
@@ -96,6 +100,18 @@ void mapTool::update(void)
 		if (KEYMANAGER->isStayKeyDown(VK_DOWN) && _mapTiles[_mapSize.x * _mapSize.y - 1].getCenterPt().y + TILE_SIZEY / 2 > 640) _mapMove.y += MAP_MOVE_SPEED;
 		if (KEYMANAGER->isStayKeyDown(VK_LEFT) && _mapTiles[_mapSize.x * _mapSize.y - 1].getCenterPt().x - TILE_SIZEX / 2 > 640) _mapMove.x -= MAP_MOVE_SPEED;
 		if (KEYMANAGER->isStayKeyDown(VK_RIGHT) && _mapTiles[_mapSize.x * _mapSize.y - 1].getCenterPt().x - TILE_SIZEX / 2 > 640) _mapMove.x += MAP_MOVE_SPEED;
+
+		if (KEYMANAGER->isOnceKeyDown(VK_RBUTTON))
+		{
+			_startPt = _ptMouse + PointMake(32, 32);
+			_isSetArea = TRUE;
+		}
+		if (KEYMANAGER->isOnceKeyUp(VK_RBUTTON))
+		{
+			_isSetArea = FALSE;
+			setTerraintAreaToMap(_startPt.x, _startPt.y, _ptMouse.x, _ptMouse.y);
+		}
+		
 
 		if (_mapMove.x < -TILE_SIZEX) _mapMove.x = -TILE_SIZEX;
 		if (_mapMove.y < -TILE_SIZEY) _mapMove.y = -TILE_SIZEY;
@@ -183,6 +199,23 @@ void mapTool::render(void)
 	}
 
 	buttonDraw();
+
+	if (_isSetArea)
+	{
+		HBRUSH newBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+		HBRUSH oldBrush = (HBRUSH)SelectObject(tileMapDC->getMemDC(), newBrush);
+		HPEN newPen = CreatePen(PS_SOLID, 2, RGB(100, 100, 200));
+		HPEN oldPen = (HPEN)SelectObject(tileMapDC->getMemDC(), newPen);
+
+		Rectangle(tileMapDC->getMemDC(), _startPt.x, _startPt.y, _ptMouse.x + 32, _ptMouse.y + 32);
+
+		SelectObject(tileMapDC->getMemDC(), oldBrush);
+		SelectObject(tileMapDC->getMemDC(), oldPen);
+		DeleteObject(newBrush);
+		DeleteObject(oldBrush);
+		DeleteObject(newPen);
+		DeleteObject(oldPen);
+	}
 
 	// 맵 DC에 그려진걸 최종적으로 백버퍼에 그려줌
 	// -TILE_SIZE 부터 그리는 이유는 DC영역을 벗어나면 랜더가 안되기 때문에
@@ -586,6 +619,45 @@ void mapTool::setTerrainToMap(void)
 	}
 }
 
+void mapTool::setTerraintAreaToMap(int startX, int startY, int endX, int endY)
+{
+	RECT temp;
+	RECT setArea;
+
+	if (startX > endX) intSwap(startX, endX);
+	if (startY > endY) intSwap(startY, endY);
+
+
+	setArea = { startX + _mapMove.x, startY + _mapMove.y,
+		endX + _mapMove.x + TILE_SIZEX, endY + _mapMove.y + TILE_SIZEY };
+
+
+	for (int i = 0; i < _mapSize.x * _mapSize.y; i++)
+	{
+		if (IntersectRect(&temp, &RectMakeCenter(_mapTiles[i].getCenterPt().x, _mapTiles[i].getCenterPt().y, TILE_SIZEX, TILE_SIZEY),
+			&setArea))
+		{
+			_mapTiles[i].setTerrain(_selectedTerrainTile);
+
+			for (int j = -1; j < 2; j++)
+			{
+				for (int k = -1; k < 2; k++)
+				{
+					if (k == -1 && i % _mapSize.x == 0) continue;
+					if (k == 1 && i % _mapSize.x == _mapSize.x - 1) continue;
+					if (i - j * _mapSize.x < 0) continue;
+					if (i + j * _mapSize.x > _mapSize.x * _mapSize.y) continue;
+
+					TERRAIN* nearTerrain = getNearTerrain(i + k + j * _mapSize.x);
+					//getNearTerrain(i + k + j * _mapSize.x);
+
+					_mapTiles[i + k + j * _mapSize.x].updateNearTileDif(nearTerrain[DIR_UP], nearTerrain[DIR_DOWN], nearTerrain[DIR_LEFT], nearTerrain[DIR_RIGHT]);
+				}
+			}
+		}
+	}
+}
+
 TERRAIN* mapTool::getNearTerrain(int curTileIndex)
 {
 	TERRAIN nearTerrain[4];
@@ -768,4 +840,13 @@ POINT operator+(POINT operand1, POINT operand2)
 POINT operator-(POINT operand1, POINT operand2)
 {
 	return PointMake(operand1.x - operand2.x, operand1.y - operand2.y);
+}
+
+void intSwap(int& sour, int& dest)
+{
+	int temp = 0;
+
+	temp = dest;
+	dest = sour;
+	sour = temp;
 }
