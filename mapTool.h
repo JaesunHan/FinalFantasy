@@ -12,7 +12,11 @@
 #define MAP_AREA 704
 #define MAP_MOVE_SPEED 4
 
+#define MINIMAP_SIZEX 128
+#define MINIMAP_SIZEY 128
+
 static image* tileMapDC = IMAGEMANAGER->addImage("tileMapArea", MAP_AREA, MAP_AREA);
+static image* miniMap = IMAGEMANAGER->addImage("miniMap", MINIMAP_SIZEX, MINIMAP_SIZEY);
 
 enum SELECTMODE
 {
@@ -77,6 +81,9 @@ private:
 	string _curMapFileName;			// 자동 저장을 위한 현재 작업중인 파일 이름 
 	float _autoSaveTimer;			// 자동 저장 간격을 위한 타이머
 
+private:
+
+
 public:
 	mapTool();
 	~mapTool();
@@ -94,6 +101,7 @@ public:
 	void setTerraintAreaToMap(int startX, int startY, int endX, int endY);
 	TERRAIN* getNearTerrain(int curTileIndex);	// 매개변수로 받은 인덱스 타일의 상하좌우 타일의 속성을 받아옴
 	void buttonDraw(void);						// 버튼 그리는 함수
+	void minimapDraw(void);
 
 //	void setTerrainTileSet(string tileSetKeyName, POINT tileSize);
 

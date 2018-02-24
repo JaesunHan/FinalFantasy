@@ -728,6 +728,22 @@ void mapTool::buttonDraw(void)
 	DeleteObject(oBrush);
 }
 
+void mapTool::minimapDraw(void)
+{
+	POINT miniTileSize;
+
+	PointMake((float)TILE_SIZEX * ((float)MINIMAP_SIZEX / (float)_mapSize.x * (float)TILE_SIZEX),
+		(float)TILE_SIZEY * ((float)MINIMAP_SIZEY / (float)_mapSize.y * (float)TILE_SIZEY));
+
+	if (miniTileSize.x != miniTileSize.y)
+	{
+		if (miniTileSize.x < miniTileSize.y) miniTileSize.y = miniTileSize.x;
+		if (miniTileSize.x > miniTileSize.y) miniTileSize.x = miniTileSize.y;
+	}
+
+
+}
+
 void mapTool::createDefaultMap(POINT mapSize)
 {
 	_mapSize = mapSize;

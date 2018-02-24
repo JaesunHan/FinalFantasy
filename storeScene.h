@@ -3,6 +3,8 @@
 #include "itemManager.h"
 #include "cursor.h"
 
+#define MAX_DRAWNUM 9
+
 class itemManager;
 
 enum CURSOR_POS
@@ -55,6 +57,8 @@ private:
 	int _listSelectIndex;
 	int _listMaxIndex;
 	int _currentAmount;
+	int _curVendorPage, _maxVendorPage;
+	int _curSellPage, _maxSellPage;
 
 public:
 	storeScene();

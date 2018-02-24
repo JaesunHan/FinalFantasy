@@ -41,6 +41,9 @@ HRESULT storeScene::init()
 
 	_currentAmount = 1;
 
+	_curVendorPage = 0;
+	_curSellPage = 0;
+
 	// ÀÓ½Ã·Î µ· ¼¼ÆÃ
 	//_im->setMoney(500000);
 
@@ -99,6 +102,11 @@ void storeScene::render()
 
 void storeScene::keyControl(void)
 {
+	int curPageItemNum;
+
+	if (_curVendorPage < _maxVendorPage) curPageItemNum = MAX_DRAWNUM;
+	else curPageItemNum = _vendorList.size() % MAX_DRAWNUM;
+
 	if (_currentPos == POS_BUY_SELL)
 	{
 		_buySellSelectCursor.keyControlX(400, 2);
@@ -116,13 +124,14 @@ void storeScene::keyControl(void)
 			SOUNDMANAGER->play("DCMenuTing", CH_EFFECT08, 1.0f);
 
 			SCENEMANAGER->changeSceneType0("Å¸¿î¸Ê¾À", false);
+
 			_im->saveInventory("skgFile");
 			return;
 		}
 	}
 	if (_currentPos == POS_BUY_LIST)
 	{
-		_listSelectCursor.keyControlXY(280, 90, 3, _vendorList.size());
+		_listSelectCursor.keyControlXY(280, 90, 3, curPageItemNum);
 
 		if (KEYMANAGER->isOnceKeyDown(VK_BACK))
 		{
@@ -134,12 +143,12 @@ void storeScene::keyControl(void)
 
 		if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 		{
-			if (_im->getMoney() >= _vendorList[_listSelectCursor.getCursorPos()]->getPrice())
+			if (_im->getMoney() >= _vendorList[_listSelectCursor.getCursorPos() + MAX_DRAWNUM * _curVendorPage]->getPrice())
 			{
-				switch (_vendorList[_cursorIndex]->getItmeKind())
+				switch (_vendorList[_listSelectCursor.getCursorPos() + MAX_DRAWNUM * _curVendorPage]->getItmeKind())
 				{
 				case ITEM_EXPENDABLE:
-					if (_im->getItemCountByVector(_vendorList[_listSelectCursor.getCursorPos()]->getItemNumber() - 1) + 1 > 99)
+					if (_im->getItemCountByVector(_vendorList[_listSelectCursor.getCursorPos() + MAX_DRAWNUM * _curVendorPage]->getItemNumber() - 1) + 1 > 99)
 					{
 						_prevPos = _currentPos;
 						_currentPos = POS_MESSAGEBOX;
@@ -148,7 +157,7 @@ void storeScene::keyControl(void)
 					}
 					break;
 				case ITEM_WEAPON:
-					if (_im->getWeaponCountByVector(_vendorList[_listSelectCursor.getCursorPos()]->getItemNumber() - 1) + 1 > 99)
+					if (_im->getWeaponCountByVector(_vendorList[_listSelectCursor.getCursorPos() + MAX_DRAWNUM * _curVendorPage]->getItemNumber() - 1) + 1 > 99)
 					{
 						_prevPos = _currentPos;
 						_currentPos = POS_MESSAGEBOX;
@@ -157,7 +166,7 @@ void storeScene::keyControl(void)
 					}
 					break;
 				case ITEM_ARMOR: case ITEM_HELMET: case ITEM_SUB_WEAPON: case ITEM_ACCESSORY:
-					if (_im->getArmorCountByVector(_vendorList[_listSelectCursor.getCursorPos()]->getItemNumber() - 1) + 1 > 99)
+					if (_im->getArmorCountByVector(_vendorList[_listSelectCursor.getCursorPos() + MAX_DRAWNUM * _curVendorPage]->getItemNumber() - 1) + 1 > 99)
 					{
 						_prevPos = _currentPos;
 						_currentPos = POS_MESSAGEBOX;
@@ -173,12 +182,27 @@ void storeScene::keyControl(void)
 				_prevPos = _currentPos;
 				_currentPos = POS_AMOUNT_SELECT;
 			}
-			else if (_im->getMoney() < _vendorList[_listSelectCursor.getCursorPos()]->getPrice())
+			else if (_im->getMoney() < _vendorList[_listSelectCursor.getCursorPos() + MAX_DRAWNUM * _curVendorPage]->getPrice())
 			{
 				_prevPos = _currentPos;
 				_currentPos = POS_MESSAGEBOX;
 				_mbType = MESSAGE_NO_MONEY;
 			}
+		}
+
+		if (KEYMANAGER->isOnceKeyDown(VK_PRIOR))
+		{
+			if (_curVendorPage > 0) --_curVendorPage;
+			else _curVendorPage = _maxVendorPage;
+
+			_listSelectCursor.resetCursorPos();
+		}
+		if (KEYMANAGER->isOnceKeyDown(VK_NEXT))
+		{
+			if (_curVendorPage < _maxVendorPage) ++_curVendorPage;
+			else _curVendorPage = 0;
+
+			_listSelectCursor.resetCursorPos();
 		}
 	}
 	if (_currentPos == POS_SELL_LIST)
@@ -400,7 +424,13 @@ void storeScene::drawStoreInterface(void)
 
 void storeScene::drawVendorList(void)
 {
-	for (int i = 0; i < _vendorList.size(); i++)
+	int curPageItemNum;
+
+	if (_curVendorPage < _maxVendorPage) curPageItemNum = MAX_DRAWNUM;
+	else curPageItemNum = _vendorList.size() % MAX_DRAWNUM;
+
+
+	/*for (int i = 0; i < _vendorList.size(); i++)
 	{
 		if (i == _listSelectCursor.getCursorPos())IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 1, 0);
 		else IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 0, 0);
@@ -410,6 +440,21 @@ void storeScene::drawVendorList(void)
 		SetTextAlign(getMemDC(), TA_RIGHT);
 		TextOut(getMemDC(), 260 + (i % 3) * 280, 255 + (i / 3) * 90,
 			to_string(_vendorList[i]->getPrice()).c_str(), strlen(to_string(_vendorList[i]->getPrice()).c_str()));
+		SetTextAlign(getMemDC(), TA_LEFT);
+	}*/
+
+	for (int i = 0; i < curPageItemNum; i++)
+	{
+		if (i == _listSelectCursor.getCursorPos())IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 1, 0);
+		else IMAGEMANAGER->frameRender("storeButton", getMemDC(), 55 + (i % 3) * 280, 220 + (i / 3) * 90, 0, 0);
+
+		TextOut(getMemDC(), 75 + (i % 3) * 280, 235 + (i / 3) * 90, _vendorList[_curVendorPage * MAX_DRAWNUM + i]->getItemName(),
+			strlen(_vendorList[_curVendorPage * MAX_DRAWNUM + i]->getItemName()));
+
+		SetTextAlign(getMemDC(), TA_RIGHT);
+		TextOut(getMemDC(), 260 + (i % 3) * 280, 255 + (i / 3) * 90,
+			to_string(_vendorList[_curVendorPage * MAX_DRAWNUM + i]->getPrice()).c_str(),
+			strlen(to_string(_vendorList[_curVendorPage * MAX_DRAWNUM + i]->getPrice()).c_str()));
 		SetTextAlign(getMemDC(), TA_LEFT);
 	}
 }
@@ -491,8 +536,8 @@ void storeScene::drawAmountSelectScreen(void)
 
 	if (_prevPos == POS_BUY_LIST)
 	{
-		strcpy(itemName, _vendorList[_listSelectCursor.getCursorPos()]->getItemName());
-		itemPrice = _vendorList[_listSelectCursor.getCursorPos()]->getPrice();
+		strcpy(itemName, _vendorList[_listSelectCursor.getCursorPos() + MAX_DRAWNUM * _curVendorPage]->getItemName());
+		itemPrice = _vendorList[_listSelectCursor.getCursorPos() + MAX_DRAWNUM * _curVendorPage]->getPrice();
 	}
 	else if (_prevPos == POS_SELL_LIST)
 	{
@@ -596,4 +641,6 @@ void storeScene::setStoreKey(string key)
 			}
 		}
 	}
+
+	_maxVendorPage = _vendorList.size() / 9;
 }
