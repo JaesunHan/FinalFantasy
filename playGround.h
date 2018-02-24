@@ -23,6 +23,7 @@
 #include "storeScene.h"
 #include "openingMovie.h"
 #include "menu.h"
+#include "characterEquip.h"
 
 
 

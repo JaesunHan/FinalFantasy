@@ -45,33 +45,35 @@ HRESULT playGround::init()
 	SCENEMANAGER->addScene("로딩", new loadingScene);
 	SCENEMANAGER->addScene("타이틀", new titleScene);
     SCENEMANAGER->addScene("세이브로드", new saveLoadMenu);
-	((saveLoadMenu*)SCENEMANAGER->findScene("세이브로드"))->setItemManagerAddressLink(_item);
-	((saveLoadMenu*)SCENEMANAGER->findScene("세이브로드"))->setPlayerManagerAddressLink(_pm);
 	SCENEMANAGER->addScene("옵션", new optionMenu);
 	SCENEMANAGER->addScene("뉴게임", new newGame);
-	((newGame*)SCENEMANAGER->findScene("뉴게임"))->setItemManagerAddressLink(_item);
-	((newGame*)SCENEMANAGER->findScene("뉴게임"))->setPlayerManagerAddressLink(_pm);
 	SCENEMANAGER->addScene("로드게임", new loadGame);
-	((loadGame*)SCENEMANAGER->findScene("로드게임"))->setItemManagerAddressLink(_item);
-	((loadGame*)SCENEMANAGER->findScene("로드게임"))->setPlayerManagerAddressLink(_pm);
 	SCENEMANAGER->addScene("능력치", new abilitiesMenu);
 	SCENEMANAGER->addScene("사운드", new configMenu);
 	SCENEMANAGER->addScene("장비", new equipMenu);
 	SCENEMANAGER->addScene("아이템", new itemMenu);
-	((itemMenu*)SCENEMANAGER->findScene("아이템"))->setItemManagerAddressLink(_item);
 	SCENEMANAGER->addScene("상태", new statusMenu);
 	SCENEMANAGER->addScene("캐릭터능력", new characterAbility);
-	((characterAbility*)SCENEMANAGER->findScene("캐릭터능력"))->setItemManagerAddressLink(_item);
 	SCENEMANAGER->addScene("캐릭터상태", new characterStatus);
-	((characterStatus*)SCENEMANAGER->findScene("캐릭터상태"))->setItemManagerAddressLink(_item);
+	SCENEMANAGER->addScene("캐릭터장비", new characterEquip);
 
+	//SetAddressLink
 	((worldMapScene*)SCENEMANAGER->findScene("월드맵씬"))->setMenuMemoryAddressLink((optionMenu*)SCENEMANAGER->findScene("옵션"));
 	_menu = new menu;
 	_menu->setItemManagerAddressLink(_item);
 	_menu->setWorldMapAddressLink((worldMapScene*)SCENEMANAGER->findScene("월드맵씬"));
-
-	
-
+	((saveLoadMenu*)SCENEMANAGER->findScene("세이브로드"))->setWorldMapAddressLink((worldMapScene*)SCENEMANAGER->findScene("월드맵씬"));
+	((saveLoadMenu*)SCENEMANAGER->findScene("세이브로드"))->setItemManagerAddressLink(_item);
+	((saveLoadMenu*)SCENEMANAGER->findScene("세이브로드"))->setPlayerManagerAddressLink(_pm);
+	((newGame*)SCENEMANAGER->findScene("뉴게임"))->setItemManagerAddressLink(_item);
+	((newGame*)SCENEMANAGER->findScene("뉴게임"))->setPlayerManagerAddressLink(_pm);
+	((loadGame*)SCENEMANAGER->findScene("로드게임"))->setItemManagerAddressLink(_item);
+	((loadGame*)SCENEMANAGER->findScene("로드게임"))->setPlayerManagerAddressLink(_pm);
+	((loadGame*)SCENEMANAGER->findScene("로드게임"))->setWorldMapAddressLink((worldMapScene*)SCENEMANAGER->findScene("월드맵씬"));
+	((itemMenu*)SCENEMANAGER->findScene("아이템"))->setItemManagerAddressLink(_item);
+	((characterAbility*)SCENEMANAGER->findScene("캐릭터능력"))->setItemManagerAddressLink(_item);
+	((characterStatus*)SCENEMANAGER->findScene("캐릭터상태"))->setItemManagerAddressLink(_item);
+	((characterEquip*)SCENEMANAGER->findScene("캐릭터장비"))->setItemManagerAddressLink(_item);
 	//=========================== 메뉴씬 ===========================
 
 	//======================오프닝 무비씬 추가======================
@@ -108,9 +110,10 @@ void playGround::update(void)
 		SCENEMANAGER->changeScene("로딩");
 	}
 	//옵션메뉴
-	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE) && SCENEMANAGER->getCurrentSceneName() == "월드맵씬")
+	if (KEYMANAGER->isOnceKeyDown(VK_ESCAPE) && (SCENEMANAGER->getCurrentSceneName() == "월드맵씬" || SCENEMANAGER->getCurrentSceneName() == "타운맵씬"))
 	{
-		_menu->setCurrentScene(SCENEMANAGER->getCurrentSceneName());
+		((saveLoadMenu*)SCENEMANAGER->findScene("세이브로드"))->setCurrentScene(SCENEMANAGER->getCurrentSceneName());
+		((saveLoadMenu*)SCENEMANAGER->findScene("옵션"))->setCurrentScene(SCENEMANAGER->getCurrentSceneName());
 		SCENEMANAGER->changeSceneType1("옵션");
 	}
 	//================================ 메뉴씬 ================================

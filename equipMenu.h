@@ -15,6 +15,8 @@ public:
 	void render();
 
 
+	void buttonOnActive();
+
 
 	equipMenu();
 	~equipMenu();

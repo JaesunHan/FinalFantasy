@@ -226,7 +226,7 @@ public:
 		int hp, int maxHp, int mp, int maxMp, int exp, int maxExp, int partyIdX);
 	virtual void playerSlotUpdate();
 	virtual void playerSlotKeyControl(float slotValueY, int slotNum = 137);
-	virtual void playerSlotRender();
+	virtual void playerSlotRender(bool textOut = true);
 	virtual void playerSlotRemove();
 	virtual void playerSlotAniStart(int slotNum, bool aniStart);
 	//-------------------------------  status  ------------------------------
@@ -235,6 +235,7 @@ public:
 		int weapon, int armor, int helmet, int subWeapon, int command1, int command2,
 		int command3, int command4, int command5, int command6, int command7, int command8);
 	virtual void playerStatusRender(int SlotNum);
+	virtual void playerStatusEquipsRender(int SlotNum);
 	virtual void playerStatusRemove();
 	virtual string playerCommandReturn(int num);
 	//------------------------------  fileLoad  -----------------------------
@@ -283,10 +284,11 @@ public:
 	//================================ getter ===============================
 
 	//============================= AddressLink =============================
-	void setItemManagerAddressLink(itemManager* im) { _iM = im; }
-	void setPlayerManagerAddressLink(playerManager* pm) { _pM = pm; }
-	void setWorldMapAddressLink(worldMapScene* wm) { _wM = wm; }
+	virtual void setItemManagerAddressLink(itemManager* im) { _iM = im; }
+	virtual void setPlayerManagerAddressLink(playerManager* pm) { _pM = pm; }
+	virtual void setWorldMapAddressLink(worldMapScene* wm) { _wM = wm; }
 	//============================= AddressLink =============================
+
 
 
 

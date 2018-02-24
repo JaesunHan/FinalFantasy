@@ -20,7 +20,8 @@ HRESULT loadingScene::init()
 	//메뉴 이미지
 	_loading->loadImage("능력메뉴", ".//prevProjectResource//SceneImage//menu_abilities.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	_loading->loadImage("캐릭터능력메뉴", ".//prevProjectResource//SceneImage//menu_abilitiCharacter.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
-	//_loading->loadImage("장비메뉴", ".//prevProjectResource//SceneImage//equipMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	_loading->loadImage("장비메뉴", ".//prevProjectResource//SceneImage//menu_equips.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	_loading->loadImage("캐릭터장비메뉴", ".//prevProjectResource//SceneImage//menu_equipsCharacter.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	_loading->loadImage("아이템메뉴", ".//prevProjectResource//SceneImage//menu_item.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	//_loading->loadImage("메인메뉴", ".//prevProjectResource//SceneImage//mainMenu.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	_loading->loadImage("상태메뉴", ".//prevProjectResource//SceneImage//menu_status.bmp", 0, 0, WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
@@ -50,6 +51,9 @@ HRESULT loadingScene::init()
 	_loading->loadFrameImage("아이콘아이템사용", ".//prevProjectResource//SceneImage//icon_items_use.bmp", 400, 74, 2, 1, true, RGB(255, 0, 255));
 	_loading->loadFrameImage("아이콘아이템정리", ".//prevProjectResource//SceneImage//icon_items_sort.bmp", 400, 74, 2, 1, true, RGB(255, 0, 255));
 	_loading->loadFrameImage("아이콘아이템레어", ".//prevProjectResource//SceneImage//icon_items_rare.bmp", 400, 74, 2, 1, true, RGB(255, 0, 255));
+	_loading->loadFrameImage("아이콘장비장착", ".//prevProjectResource//SceneImage//icon_equips_equips.bmp", 400, 74, 2, 1, true, RGB(255, 0, 255));
+	_loading->loadFrameImage("아이콘장비최적화", ".//prevProjectResource//SceneImage//icon_equips_optimize.bmp", 400, 74, 2, 1, true, RGB(255, 0, 255));
+	_loading->loadFrameImage("아이콘장비리셋", ".//prevProjectResource//SceneImage//icon_equips_remove.bmp", 400, 74, 2, 1, true, RGB(255, 0, 255));
 
 
 	//플레이어 이미지

@@ -17,6 +17,8 @@ public:
 
 
 	void setItemManagerAddressLink(itemManager* im) { _iM = im; }
+	void setWorldMapAddressLink(worldMapScene* wm) { _wM = wm; }
+	void setCurrentScene(string sceneName) { _currentSceneName = sceneName; }
 
 	saveLoadMenu();
 	~saveLoadMenu();

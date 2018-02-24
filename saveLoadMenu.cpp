@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "saveLoadMenu.h"
 #include "itemManager.h"
+#include "worldMapScene.h"
 
 
 saveLoadMenu::saveLoadMenu()

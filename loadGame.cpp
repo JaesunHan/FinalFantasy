@@ -250,7 +250,28 @@ void loadGame::update()
 					//템프파일에 로드된 파일 복사
 					fileCopyTmpFile(_cursor.currentXNum);
 
-					SCENEMANAGER->changeScene("월드맵씬");
+					//아이템 벡터에 담아주기
+					char strSelectFileName[32];
+					sprintf(strSelectFileName, "saveFile%d", _cursor.currentXNum);
+
+					_iM->loadInventory(strSelectFileName);
+
+					//==================================== 스테이지 & 플레이어위치 SET ====================================
+					//파일에 저장된 플레이어 위치정보 전달
+					POINT tmpPoint = { NULL };
+					tmpPoint.x = INIDATA->loadDataInterger(strSelectFileName, "gameData", "playerX");
+					tmpPoint.y = INIDATA->loadDataInterger(strSelectFileName, "gameData", "playerY");
+
+					//if (tmpPoint.x != NULL) _wM->getworldMapPlayer()->setWorldMapPlayerPoint(tmpPoint);  //위치전달
+				
+					//파일에 저장된 스테이지 가져오기
+					TCHAR strSavePointMap[256];
+					ZeroMemory(&strSavePointMap, sizeof(strSavePointMap));
+					wsprintf(strSavePointMap, "%s", INIDATA->loadDataString(strSelectFileName, "gameData", "saveScene"));
+
+					if (strcmp(strSavePointMap, "")) SCENEMANAGER->changeScene(strSavePointMap);
+					else SCENEMANAGER->changeScene("월드맵씬");
+					//==================================== 스테이지 & 플레이어위치 SET ====================================
 				}
 			break;
 			case 1:

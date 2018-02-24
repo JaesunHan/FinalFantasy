@@ -21,7 +21,8 @@ private:
 	cursor* _cursorI;
 	bool _itemButtonOn;
 	bool _charButtonOn;
-
+	bool _isSelectChar;
+	int _selectItemNum;
 
 
 
@@ -36,7 +37,9 @@ public:
 	void buttonOnActiveItem();
 	void buttonOnActiveCharacter();
 	void itemButtonSet(int buttonNum);
+
 	void itemDescriptionRender(int itemNum);
+	void playerInfoPrint();
 
 	void setItemManagerAddressLink(itemManager* im) { _iM = im; }
 

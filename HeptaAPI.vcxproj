@@ -97,6 +97,7 @@
     <ClInclude Include="cameraManager.h" />
     <ClInclude Include="celes.h" />
     <ClInclude Include="characterAbility.h" />
+    <ClInclude Include="characterEquip.h" />
     <ClInclude Include="characterStatus.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="commonMacroFunction.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="cameraManager.cpp" />
     <ClCompile Include="celes.cpp" />
     <ClCompile Include="characterAbility.cpp" />
+    <ClCompile Include="characterEquip.cpp" />
     <ClCompile Include="characterStatus.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="configMenu.cpp" />

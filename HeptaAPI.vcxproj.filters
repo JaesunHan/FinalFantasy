@@ -465,6 +465,9 @@
     <ClInclude Include="openingMovie.h">
       <Filter>playGround</Filter>
     </ClInclude>
+    <ClInclude Include="characterEquip.h">
+      <Filter>playGround\gameMenu\menu\character</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -772,6 +775,9 @@
     </ClCompile>
     <ClCompile Include="openingMovie.cpp">
       <Filter>playGround</Filter>
+    </ClCompile>
+    <ClCompile Include="characterEquip.cpp">
+      <Filter>playGround\gameMenu\menu\character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

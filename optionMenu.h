@@ -21,6 +21,7 @@ public:
 	void slotChangeKey();
 	
 	void setIsSavePoint(bool isSave) { _isSavePoint = isSave; }
+	void setCurrentScene(string sceneName) { _currentSceneName = sceneName; }
 
 	optionMenu();
 	~optionMenu();

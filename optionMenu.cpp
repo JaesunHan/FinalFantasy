@@ -5,11 +5,13 @@
 
 optionMenu::optionMenu()
 {
+
 }
 
 
 optionMenu::~optionMenu()
 {
+
 }
 
 
@@ -31,7 +33,9 @@ HRESULT optionMenu::init()
 
 	//사운드 추가
 	menu::init();
-	_isSavePoint = false;  //************************************************ test : 세이브포인트 도착
+
+	//tmp 파일 가져오기 (skgFile)
+	fileLoad(0, -1, true);
 
 	//버튼
 	_button = new fButton;
@@ -42,9 +46,6 @@ HRESULT optionMenu::init()
 	_button->buttonSet("버튼판타지", 1000, 250, "Save", 30);
 	_button->buttonSet("버튼판타지", 1000, 300, "Config", 30);
 
-
-	//tmp 파일 가져오기 (skgFile)
-	fileLoad(0, -1, true);
 
 	//슬롯변경
 	_changeSlotNum	 = -1;
@@ -63,6 +64,7 @@ void optionMenu::release()
 
 void optionMenu::update() 
 {
+	//타이머 
 	_gameTotalTime += TIMEMANAGER->getElapsedTime();
 
 	cursorUpdate();
@@ -198,7 +200,7 @@ void optionMenu::update()
 		{
 			_button->buttonRemove();
 			delete _button;
-			SCENEMANAGER->changeSceneType0("월드맵씬", false);
+			SCENEMANAGER->changeScene(_currentSceneName, false);
 		}
 	}
 	else

@@ -110,9 +110,13 @@ void newGame::update()
 			}
 
 			//================================== 历厘颇老 积己 ================================== 
-			saveIniPlayerData(_saveFileNum, 0, "TINA",   "Magician",  3, 63, 63, 27, 27, maxExpValue[2],
-				maxExpValue[3], 31, 33, 28, 39, 12, 42, 33, 5, 7, 0, 0, -1, -2, -3,
+			//test
+			saveIniPlayerData(_saveFileNum, 0, "TINA", "Magician", 3, 63, 63, 27, 27, maxExpValue[2],
+				maxExpValue[3], 31, 33, 28, 39, 12, 42, 33, 5, 7, 0, 13, 24, 29, 35,
 				0, 1, 2, 3, 4, -1, -1, -1, true);
+			//saveIniPlayerData(_saveFileNum, 0, "TINA",   "Magician",  3, 63, 63, 27, 27, maxExpValue[2],
+			//	maxExpValue[3], 31, 33, 28, 39, 12, 42, 33, 5, 7, 0, 0, -1, -2, -3,
+			//	0, 1, 2, 3, 4, -1, -1, -1, true);
 			saveIniPlayerData(_saveFileNum, 1, "LOCKE", "Treasure Hunter", 3, 71, 71, 18, 18, maxExpValue[2],
 				maxExpValue[3], 37, 40, 31, 28, 14, 46, 23, 15, 2, 1, 0, -1, -2, -3,
 				0, 1, 2, 3, -1, 5, -1, -1, true);
