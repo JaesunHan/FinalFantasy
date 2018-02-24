@@ -193,6 +193,7 @@ HRESULT BattleScene::init()
 	for (int i = 0; i < 4; ++i)
 	{
 		_battleCharacters[i].player->setBattleScene(this);
+		//_battleCharacters[i].player->init();
 	}
 	//플레이어 인덱스 순서에 맞게 조정
 	for (int j = 0; j < 4; ++j)

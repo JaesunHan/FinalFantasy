@@ -42,6 +42,7 @@ void effectManager::release()
 			else ++mIter;
 		}
 	}
+	_vTotalEffect.clear();
 }
 
 void effectManager::update() 
