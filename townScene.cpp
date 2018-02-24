@@ -89,6 +89,8 @@ void townScene::enterWorldMap()
 		SCENEMANAGER->changeSceneType1("월드맵씬", false);
 		((worldMapScene*)SCENEMANAGER->findScene("월드맵씬"))->setPlayerPos();
 		_worldMapPlayer->setWorldMapPlayerPoint(PointMake(_worldMapPlayer->getWorldMapPlayerPoint().x, _worldMapPlayer->getWorldMapPlayerPoint().y));
+		INIDATA->addData("gameData", "stage", "OVER WORLD");
+		INIDATA->iniSave("skgFile");
 	}
 	//부딪친 오브젝트가 타운에서 타운 속성을 가졌으면
 	//"월드맵씬" 전환

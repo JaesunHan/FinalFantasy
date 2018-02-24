@@ -203,6 +203,8 @@ void worldMapScene::enterTownMap()
 
 		SOUNDMANAGER->releaseAllSound();
 		SCENEMANAGER->changeSceneType1("Å¸¿î¸Ê¾À");
+		INIDATA->addData("gameData", "stage", "TOWN");
+		INIDATA->iniSave("skgFile");
 		//SOUNDMANAGER->stop(CH_BGM);
 		//_worldMapPlayer->setWorldMapPlayerTempPoint(_worldMapPlayer->getWorldMapPlayerPoint());
 		_worldMapPlayer->setWorldMapPlayerPoint(PointMake(_worldMapPlayer->getWorldMapPlayerPoint().x - 100, _worldMapPlayer->getWorldMapPlayerPoint().y));
