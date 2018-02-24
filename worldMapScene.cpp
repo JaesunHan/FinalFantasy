@@ -25,7 +25,7 @@ HRESULT worldMapScene::init()
 	CAMERAMANAGER->createDC(PointMake(TILE_SIZEX, TILE_SIZEY), PointMake(30, 20));
 
 	_openBox = IMAGEMANAGER->addImage("오픈박스", ".//image//enemyImg//treasureBoxOpen.bmp", 31, 29, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("messageBox", ".//image//userInterface//messageBox_small.bmp", 400, 93, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("messageBox_small", ".//image//userInterface//messageBox_small.bmp", 400, 93, true, RGB(255, 0, 255));
 
 	_worldMap = new generalMap;
 	_worldMap->init(".//50X50.map");
@@ -184,7 +184,7 @@ void worldMapScene::render()
 
 	if (_focus == FOCUS_MESSAGEBOX)
 	{
-		IMAGEMANAGER->render("messageBox", getMemDC(), 300, 250);
+		IMAGEMANAGER->render("messageBox_small", getMemDC(), 300, 250);
 					//문자폭, 문자넓이, 문자기울기, 문자방향, 문자 		
 		HFONT newFont = CreateFont(30, 0, 0, 0, 600, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
 		HFONT oldFont = (HFONT)SelectObject(getMemDC(), newFont);
@@ -205,7 +205,7 @@ void worldMapScene::render()
 	
 	if (_focus == FOCUS_ENEMYENCOUNT)
 	{
-		IMAGEMANAGER->render("messageBox", getMemDC(), 300, 250);
+		IMAGEMANAGER->render("messageBox_small", getMemDC(), 300, 250);
 		//문자폭, 문자넓이, 문자기울기, 문자방향, 문자 		
 		HFONT newFont = CreateFont(30, 0, 0, 0, 600, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
 		HFONT oldFont = (HFONT)SelectObject(getMemDC(), newFont);
@@ -374,7 +374,7 @@ void worldMapScene::savePoint()
 
 void worldMapScene::battleEncountRender1()
 {
-	IMAGEMANAGER->render("messageBox", getMemDC(), 300, 250);
+	IMAGEMANAGER->render("messageBox_small", getMemDC(), 300, 250);
 	//문자폭, 문자넓이, 문자기울기, 문자방향, 문자 		
 	HFONT newFont = CreateFont(30, 0, 0, 0, 600, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
 	HFONT oldFont = (HFONT)SelectObject(getMemDC(), newFont);
@@ -395,7 +395,7 @@ void worldMapScene::battleEncountRender1()
 
 void worldMapScene::battleEncountRender2()
 {
-	IMAGEMANAGER->render("messageBox", getMemDC(), 300, 250);
+	IMAGEMANAGER->render("messageBox_small", getMemDC(), 300, 250);
 	//문자폭, 문자넓이, 문자기울기, 문자방향, 문자 		
 	HFONT newFont = CreateFont(30, 0, 0, 0, 600, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
 	HFONT oldFont = (HFONT)SelectObject(getMemDC(), newFont);
@@ -416,7 +416,7 @@ void worldMapScene::battleEncountRender2()
 
 void worldMapScene::battleEncountRender3()
 {
-	IMAGEMANAGER->render("messageBox", getMemDC(), 300, 250);
+	IMAGEMANAGER->render("messageBox_small", getMemDC(), 300, 250);
 	//문자폭, 문자넓이, 문자기울기, 문자방향, 문자 		
 	HFONT newFont = CreateFont(30, 0, 0, 0, 600, 0, 0, 0, HANGUL_CHARSET, 0, 0, 0, 0, TEXT("Sandoll 미생"));
 	HFONT oldFont = (HFONT)SelectObject(getMemDC(), newFont);
