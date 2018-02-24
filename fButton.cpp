@@ -56,7 +56,7 @@ void fButton::buttonSet(string keyName, float x, float y)
 }
 
 //					    버튼이미지 키값  위치XY           텍스트            텍스트크기
-void fButton::buttonSet(string keyName, float x, float y, char* buttonText, float textSize, int textSortType, bool isAddText, int subTextNum)
+void fButton::buttonSet(string keyName, float x, float y, char* buttonText, float textSize, int textSortType, bool isAddText, int subTextNum, int textIntervalX)
 {
 	//-------------------------------------------- keyName 형변환
 	char temp[128];
@@ -91,6 +91,7 @@ void fButton::buttonSet(string keyName, float x, float y, char* buttonText, floa
 
 	if (isAddText) wsprintf(_button.subText, "%d", subTextNum);
 	_button.isAddText = isAddText;
+	_button.textIntervalX = textIntervalX;
 
 
 	_vButton.push_back(_button);
@@ -138,12 +139,12 @@ void fButton::render()
 		}		
 		if (_vButton[i].isAddText)
 		{
-			textPrint(getMemDC(), _vButton[i].subText, _vButton[i].centerX + 50, _vButton[i].centerY, _vButton[i].textSize, 20, "휴먼모음T", RGB(0, 0, 0), false);
+			textPrint(getMemDC(), _vButton[i].subText, _vButton[i].centerX + _vButton[i].textIntervalX, _vButton[i].centerY, _vButton[i].textSize, 20, "휴먼모음T", RGB(0, 0, 0), false);
 		}
 
 		if (KEYMANAGER->isToggleKey(VK_TAB))
 		{
-			char tmpI[4];
+			char tmpI[16];
 			sprintf(tmpI, "%d", i);
 			textPrint(getMemDC(), tmpI, _vButton[i].x, _vButton[i].y, _vButton[i].textSize, 10, "휴먼모음T", RGB(255, 255, 255), false);
 		}
@@ -169,8 +170,8 @@ void fButton::buttonRemove()
 
 void fButton::buttonRemoveOne(int buttonNum)
 {
-	_vButton[buttonNum].img = NULL;
-	SAFE_DELETE(_vButton[buttonNum].ani);
+	//_vButton[buttonNum].img = NULL;
+	//SAFE_DELETE(_vButton[buttonNum].ani);
 	_vButton.erase(_vButton.begin() + buttonNum);
 }
 

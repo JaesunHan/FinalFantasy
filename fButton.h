@@ -16,6 +16,7 @@ struct tagButton
 	int textSort;           //버튼 제목 위치정렬 type1
 	TCHAR subText[4];       //버튼 서브 텍스트
 	bool isAddText;         //버튼 서브 텍스트 출력여부
+	int textIntervalX;      //버튼 서브 텍스트 위치X
 };
 
 
@@ -41,7 +42,7 @@ public:
 	HRESULT init();
 	void buttonSet(string keyName, float x, float y);
 	void buttonSet(string keyName, float x, float y, char* buttonText, float textSize = 10,
-		int textSortType = 0, bool isAddText = false, int subTextNum = 0) ;
+		int textSortType = 0, bool isAddText = false, int subTextNum = 0, int textIntervalX = 50) ;
 	void release();
 	void update();
 	void render();

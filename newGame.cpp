@@ -132,15 +132,19 @@ void newGame::update()
 
 
 
-			//아이템 저장
+			//-------------------------------------------------- 아이템 저장
+			//소모품
 			itemSave(MENUITEM_ITEM, 1, 2, true, _saveFileNum);
 			itemSave(MENUITEM_ITEM, 3, 2, true, _saveFileNum);
 			itemSave(MENUITEM_ITEM, 2, 2, true, _saveFileNum);
 			itemSave(MENUITEM_ITEM, 7, 1, true, _saveFileNum);
 			itemSave(MENUITEM_ITEM, 10, 1, true, _saveFileNum);
-
-			itemSave(MENUITEM_ARMOR, 2, 2, true, _saveFileNum);
-			itemSave(MENUITEM_WEAPON, 2, 2, true, _saveFileNum);
+			//갑옷
+			itemSave(MENUITEM_ARMOR, 15, 1, true, _saveFileNum);
+			itemSave(MENUITEM_ARMOR, 17, 1, true, _saveFileNum);
+			//무기
+			itemSave(MENUITEM_WEAPON, 25, 2, true, _saveFileNum);
+			itemSave(MENUITEM_WEAPON, 27, 1, true, _saveFileNum);
 			//================================== 저장파일 생성 ================================== 
 
 			//버튼삭제 

@@ -50,7 +50,9 @@ HRESULT characterEquip::init()
 
 	_equipButtonOn = false;
 	_selectEquip = false;
-
+	_belongEquipsNum = 0;
+	_previousCusor = 0;
+	_belongSelectOK = false;
 
 	return S_OK;
 }
@@ -67,23 +69,25 @@ void characterEquip::update()
 	//버튼
 	_button->update();
 
-	//커서 컨트롤X: 메뉴버튼
-	if (!_equipButtonOn)
+	//커서 컨트롤
+	if (!_equipButtonOn)  //메뉴버튼
 	{
 		_cursorI->keyControlX(210, _cursorXNum);
 
 		buttonOnActive();
+
 	}
 	else
 	{
-		if (!_selectEquip)
+		if (!_selectEquip)  //장착버튼
 		{
 			_cursorI->keyControlXY(350, 70, 2, 6);
 			buttonOnEquipsActive();
 		}
-		else
+		else  //장착장비 선택버튼
 		{
-
+			_cursorI->keyControlY(70, _belongEquipsNum + 1);
+			buttonOnItemActive();
 		}
 
 	}
@@ -96,7 +100,6 @@ void characterEquip::update()
 		delete _button;
 		SCENEMANAGER->changeScene("장비");
 	}
-
 }
 
 void characterEquip::render() 
@@ -107,7 +110,17 @@ void characterEquip::render()
 
 	playerSlotRender(false);						//슬롯 데이터
 	playerStatusEquipsRender(_selectPlayerNum);     //상태 데이터
+
+
+	//------------------------------------------------------------------- test
+	char testBuff[32];
+	textPrint(getMemDC(), itoa(_previousCusor, testBuff, 10), 100, 100);
+	//textPrint(getMemDC(), itoa(_cursorI->getCursorPos(), testBuff, 10), 100, 120);
+	//textPrint(getMemDC(), itoa(_belongEquipsNum, testBuff, 10), 100, 140);
 }
+
+
+
 
 
 //메뉴선택시
@@ -140,6 +153,7 @@ void characterEquip::buttonOnActive()
 		break;
 	}
 
+
 }
 
 //장비선택시
@@ -147,26 +161,128 @@ void characterEquip::buttonOnEquipsActive()
 {
 	//버튼 에니메이션 활성화
 	_button->setVButtonAniStart(_cursorI->getCursorPos() + 3, true);
-	for (int i = _cursorXNum; i < _cursorXNum + 6; ++i)
+	for (int i = _cursorXNum; i < _button->getVButton().size(); ++i)
 	{
 		if (i == _cursorI->getCursorPos() + 3) continue;
 		_button->setVButtonAniStart(i, false);
 	}
 
 
-	//버튼 선택시
-	switch (_cursorI->getCursorXNum())
+	//다른 버튼을 선택하면
+	if (_previousCusor != _cursorI->getCursorPos() && _belongSelectOK)
 	{
-		case 0:
-	
-			if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+		//버튼삭제
+		if (_button->getVButton().size() > 9)
+		{
+			for (int i = 9; i < _button->getVButton().size();)
 			{
-				_cursorI->init(CURSOR_RIGHT, 300, 125);
-				_equipButtonOn = true;
+				_button->buttonRemoveOne(i);
 			}
-		break;
+		}
+
+		_belongSelectOK = false;
 	}
 
+
+	//버튼 선택시
+	if (!_belongSelectOK)
+	{
+		//버튼생성
+		switch (_cursorI->getCursorPos())
+		{
+		case BUTTON_RIGHTHAND: case BUTTON_LEFTHAND:
+
+			belongEquiopsButtonSet(EQUIPS_WEAPON);
+			_belongSelectOK = true;
+
+			break;
+		case BUTTON_HEAD: case BUTTON_BODY:
+
+			belongEquiopsButtonSet(EQUIPS_ARMOR);
+			_belongSelectOK = true;
+
+			break;
+		case BUTTON_RELICS1: case BUTTON_RELICS2:
+
+			belongEquiopsButtonSet(EQUIPS_RELICS);
+			_belongSelectOK = true;
+
+			break;
+		}
+
+		_previousCusor = _cursorI->getCursorPos();
+	}
+
+
+
+
+
+
+
+	//장비선택 버튼으로(다음으로...)
+	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+	{
+		_cursorI->init(CURSOR_RIGHT, 950, 120);
+		_selectEquip = true;
+	}
+
+
+	//뒤로 돌아가기
+	if (KEYMANAGER->isOnceKeyDown(VK_BACK))
+	{
+		_cursorI->init(CURSOR_RIGHT, 100, 30);
+		_equipButtonOn = false;
+	}
+}
+
+void characterEquip::buttonOnItemActive()
+{
+	//버튼 에니메이션 활성화
+	_button->setVButtonAniStart(9 + _cursorI->getCursorYNum(), true);
+	for (int i = 9; i < _button->getVButton().size(); ++i)
+	{
+		if (i == _cursorI->getCursorYNum() + 9) continue;
+		_button->setVButtonAniStart(i, false);
+	}
+
+
+	//장비를 선택하면
+	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
+	{
+		//해당 장비 장착
+		switch (_cursorI->getCursorYNum())
+		{
+			case 0:
+				//소유한 장비 차감하기
+				//tmpPartyIdx = INIDATA->loadDataInterger("skgFile", "player0", "partyIdx");
+				//_iM->useItemInMenu(tmpPartyIdx, _selectItemNum);
+				//장비 장착하기
+			break;
+			case 1:
+
+			break;
+			case 2:
+
+			break;
+			case 3:
+
+			break;
+			case 4:
+
+			break;
+			case 5:
+
+			break;
+		}
+	}
+
+
+	//뒤로 돌아가기
+	if (KEYMANAGER->isOnceKeyDown(VK_BACK))
+	{
+		_cursorI->init(CURSOR_RIGHT, 300, 125);
+		_selectEquip = false;
+	}
 }
 
 
@@ -184,7 +300,6 @@ void characterEquip::equipsButtonSet(int buttonNum)
 	sprintf(tmpSelectPlayer, "player%d", _selectPlayerNum);
 
 
-	
 	//아이템 버튼 & 이름
 	for (int i = 0; i < 3; ++i)
 	{
@@ -239,8 +354,73 @@ void characterEquip::equipsButtonSet(int buttonNum)
 
 		}
 	}
-	
+
+}
 
 
+//소유장비 버튼 셋팅
+void characterEquip::belongEquiopsButtonSet(int useKInd)
+{
+	//버튼위치
+	int buttonX = 1000;
+	int buttonY = 100;
+	int intervalY = 70;
 
+	//선택한 플레이어 번호
+	char tmpSelectPlayer[128];
+	sprintf(tmpSelectPlayer, "player%d", _selectPlayerNum);
+
+	//========================== 버튼생성 ==========================
+	//---------------------------------------- 버튼갯수
+	switch (useKInd)
+	{
+		case EQUIPS_WEAPON:
+			_belongEquipsNum = _iM->getWeaponInventorySize();
+		break;
+		case EQUIPS_ARMOR:
+			_belongEquipsNum = _iM->getWeaponInventorySize();
+		break;
+		case EQUIPS_RELICS:
+			_belongEquipsNum = 0;
+		break;
+	}
+	//---------------------------------------- 버튼생성
+	for (int i = 0; i < _belongEquipsNum + 1; ++i)
+	{
+		//예외처리: 항목이 없으면...
+		if (_belongEquipsNum == 0)
+		{
+			//버튼삭제
+			if (_button->getVButton().size() > 9)
+			{
+				for (int i = 9; i < _button->getVButton().size();)
+				{
+					_button->buttonRemoveOne(i);
+				}
+			}
+
+			break;
+		}
+
+		//EMPTY 버튼생성
+		if (i == _belongEquipsNum)
+		{
+			_button->buttonSet("버튼아이템힐", buttonX, buttonY + (i * intervalY), "EMPTY", 20, 2);
+			return;
+		}
+
+		//버튼생성
+		switch (useKInd)
+		{
+			case EQUIPS_WEAPON:
+				_button->buttonSet("버튼아이템힐", buttonX, buttonY + (i * intervalY), _iM->getVItem()[_iM->getWeaponVNum(i)]->getItemName(), 20, 2, true, _iM->getWeaponCount(i), 70);
+			break;
+			case EQUIPS_ARMOR:
+				_button->buttonSet("버튼아이템힐", buttonX, buttonY + (i * intervalY), _iM->getVItem()[_iM->getArmorVNum(i)]->getItemName(), 20, 2, true, _iM->getWeaponCount(i), 70);
+			break;
+			case EQUIPS_RELICS:
+				//_button->buttonSet("버튼아이템힐", buttonX, buttonY + (i * intervalY), _iM->getVItem()[_iM->getArmorVNum(i)]->getItemName(), 20, 2, true, _iM->getWeaponCount(i));
+			break;
+		}	
+	}
 }

@@ -285,7 +285,7 @@ void loadGame::update()
 					}
 					else
 					{
-						SCENEMANAGER->findScene(strSavePointMap)->init();
+						SCENEMANAGER->findScene("¿ùµå¸Ê¾À")->init();
 						if (tmpPoint.x != NULL) _wM->getworldMapPlayer()->setWorldMapPlayerPoint(tmpPoint);  //À§Ä¡Àü´Þ
 						SCENEMANAGER->changeScene("¿ùµå¸Ê¾À", false);
 					}
