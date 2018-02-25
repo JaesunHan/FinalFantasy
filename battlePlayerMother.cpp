@@ -213,7 +213,7 @@ void battlePlayerMother::draw()
 	}
 	if (_status == BATTLE_PLAYER_ATTACK)
 	{
-		TextOut(getMemDC(), 800 - (_partyIdx % 2) * 70+60, 150 + _partyIdx * 100 - 10, "공격", strlen("공격"));
+		//TextOut(getMemDC(), 800 - (_partyIdx % 2) * 70+60, 150 + _partyIdx * 100 - 10, "공격", strlen("공격"));
 		//_atkImg->aniRender(getMemDC(), 800 - (_partyIdx % 2) * 70, 150 + _partyIdx * 100, _atkAnim);
 		_atkImg->aniRender(getMemDC(), _posX, _posY, _atkAnim);
 	}

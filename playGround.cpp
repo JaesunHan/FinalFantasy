@@ -18,8 +18,10 @@ HRESULT playGround::init()
 
 	_pm = new playerManager;
 	_pm->init();
+
 	_item = new itemManager;
 	_item->init();
+
 	_bts = new BattleScene;
 	_bts->setPlayerManagerMemoryAddressLink(_pm);
 	_bts->setItemManagerMemoryAddressLink(_item);
