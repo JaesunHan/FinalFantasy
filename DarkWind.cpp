@@ -11,15 +11,6 @@ DarkWind::DarkWind()
 	//===========================================================================================================================
 
 	//================================================= 에너미 이펙트 이미지 =====================================================
-	
-	IMAGEMANAGER->addImage("darkWind기본공격이미지", ".\\image\\enemyEffect\\effect12.bmp", 310, 62, true, RGB(255, 0, 255), true);
-	IMAGEMANAGER->addImage("darkWind스킬공격이미지", ".\\image\\enemyEffect\\effect10.bmp", 679, 109, true, RGB(255, 0, 255), true);
-
-	_atkEffect = new effect;
-	_atkEffect->init(IMAGEMANAGER->findImage("darkWind기본공격이미지"), 62, 62, 1.0f, 0.5f);
-
-	_spellEffect = new effect;
-	_spellEffect->init(IMAGEMANAGER->findImage("darkWind스킬공격이미지"), 97, 109, 1.0f, 0.5f);
 
 	EFFECTMANAGER->addEffect("darkWind기본공격", ".\\image\\enemyEffect\\effect12.bmp", 310, 62, 62, 62, 1.0f, 1.0f, 2);
 	EFFECTMANAGER->addEffect("darkWind스킬공격", ".\\image\\enemyEffect\\effect10.bmp", 679, 109, 97, 109, 1.0f, 1.0f, 2);

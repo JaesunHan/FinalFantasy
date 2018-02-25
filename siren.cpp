@@ -12,15 +12,6 @@ siren::siren()
 
 	//================================================= 에너미 이펙트 이미지 =====================================================
 	
-	IMAGEMANAGER->addImage("siren기본공격이미지", ".\\image\\enemyEffect\\effect14.bmp", 608, 76, true, RGB(255, 0, 255), true);
-	IMAGEMANAGER->addImage("siren스킬공격이미지", ".\\image\\enemyEffect\\effect9.bmp", 480, 59, true, RGB(255, 0, 255), true);
-
-	_atkEffect = new effect;
-	_atkEffect->init(IMAGEMANAGER->findImage("siren기본공격이미지"), 76, 76, 1.0f, 0.5f);
-
-	_spellEffect = new effect;
-	_spellEffect->init(IMAGEMANAGER->findImage("siren스킬공격이미지"), 80, 59, 1.0f, 0.5f);
-
 	EFFECTMANAGER->addEffect("siren기본공격", ".\\image\\enemyEffect\\effect14.bmp", 608, 76, 76, 76, 1.0f, 1.0f, 2);
 	EFFECTMANAGER->addEffect("siren스킬공격", ".\\image\\enemyEffect\\effect9.bmp", 480, 59, 80, 59, 1.0f, 1.0f, 2);
 	

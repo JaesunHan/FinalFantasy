@@ -12,19 +12,6 @@ bossAtma::bossAtma()
 
 	//================================================= 에너미 이펙트 이미지 =====================================================
 	
-	//IMAGEMANAGER->addImage("bossAtma기본공격이미지", ".\\image\\enemyEffect\\effect4.bmp", 304, 64, true, RGB(255, 0, 255), true);
-	//IMAGEMANAGER->addImage("bossAtma스킬공격이미지1", ".\\image\\enemyEffect\\effect11.bmp", 583, 102, true, RGB(255, 0, 255), true);
-	//IMAGEMANAGER->addImage("bossAtma스킬공격이미지2", ".\\image\\enemyEffect\\effect6.bmp", 2100, 100, true, RGB(255, 0, 255), true);
-	//
-	//_atkEffect = new effect;
-	//_atkEffect->init(IMAGEMANAGER->findImage("bossAtma기본공격이미지"), 76, 64, 1.0f, 0.5f);
-	//
-	//_spellEffect = new effect;
-	//_spellEffect->init(IMAGEMANAGER->findImage("bossAtma스킬공격이미지1"), 53, 102, 1.0f, 0.5f);
-	//
-	//_spellEffect2 = new effect;
-	//_spellEffect2->init(IMAGEMANAGER->findImage("bossAtma스킬공격이미지2"), 100, 100, 1.0f, 0.5f);
-
 	EFFECTMANAGER->addEffect("bossAtma기본공격", ".\\image\\enemyEffect\\effect4.bmp", 304, 64, 76, 64, 1.0f, 1.0f, 2);
 	EFFECTMANAGER->addEffect("bossAtma스킬공격1", ".\\image\\enemyEffect\\effect11.bmp", 583, 102, 53, 102, 1.0f, 1.0f, 2);
 	EFFECTMANAGER->addEffect("bossAtma스킬공격2", ".\\image\\enemyEffect\\effect6.bmp", 2100, 100, 100, 100, 1.0f, 1.0f, 2);

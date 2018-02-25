@@ -11,15 +11,6 @@ covert::covert()
 	//===========================================================================================================================
 
 	//================================================= 에너미 이펙트 이미지 =====================================================
-	
-	IMAGEMANAGER->addImage("covert기본공격이미지", ".\\image\\enemyEffect\\effect2.bmp", 1536, 192, true, RGB(255, 0, 255), true);
-	IMAGEMANAGER->addImage("covert스킬공격이미지", ".\\image\\enemyEffect\\effect8.bmp", 378, 107, true, RGB(255, 0, 255), true);
-
-	_atkEffect = new effect;
-	_atkEffect->init(IMAGEMANAGER->findImage("covert기본공격이미지"), 192, 192, 1.0f, 0.5f);
-
-	_spellEffect = new effect;
-	_spellEffect->init(IMAGEMANAGER->findImage("covert스킬공격이미지"), 54, 107, 1.0f, 0.5f);
 
 	EFFECTMANAGER->addEffect("covert기본공격", ".\\image\\enemyEffect\\effect2.bmp", 1536, 192, 192, 192, 1.0f, 1.0f, 2);
 	EFFECTMANAGER->addEffect("covert스킬공격", ".\\image\\enemyEffect\\effect8.bmp", 378, 107, 54, 107, 1.0f, 1.0f, 2);

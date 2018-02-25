@@ -11,15 +11,6 @@ samurai::samurai()
 	//===========================================================================================================================
 
 	//================================================= 에너미 이펙트 이미지 =====================================================
-	
-	IMAGEMANAGER->addImage("samurai기본공격이미지", ".\\image\\enemyEffect\\effect1.bmp", 1800, 130, true, RGB(255, 0, 255), true);
-	IMAGEMANAGER->addImage("samurai스킬공격이미지", ".\\image\\enemyEffect\\effect3.bmp", 800, 50, true, RGB(255, 0, 255), true);
-
-	_atkEffect = new effect;
-	_atkEffect->init(IMAGEMANAGER->findImage("samurai기본공격이미지"), 150, 130, 1.0f, 0.5f);
-
-	_spellEffect = new effect;
-	_spellEffect->init(IMAGEMANAGER->findImage("samurai스킬공격이미지"), 100, 50, 1.0f, 0.5f);
 
 	EFFECTMANAGER->addEffect("samurai기본공격", ".\\image\\enemyEffect\\effect1.bmp", 1800, 130, 150, 130, 1.0f, 1.0f, 2);
 	EFFECTMANAGER->addEffect("samurai스킬공격", ".\\image\\enemyEffect\\effect3.bmp", 800, 50, 100, 50, 1.0f, 1.0f, 2);

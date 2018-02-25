@@ -12,15 +12,6 @@ VectorPup::VectorPup()
 
 	//================================================= 에너미 이펙트 이미지 =====================================================
 	
-	IMAGEMANAGER->addImage("vectorPup기본공격이미지", ".\\image\\enemyEffect\\effect16.bmp", 411, 134, true, RGB(255, 0, 255), true);
-	IMAGEMANAGER->addImage("vectorPup스킬공격이미지", ".\\image\\enemyEffect\\effect15.bmp", 660, 123, true, RGB(255, 0, 255), true);
-
-	_atkEffect = new effect;
-	_atkEffect->init(IMAGEMANAGER->findImage("vectorPup기본공격이미지"), 137, 134, 1.0f, 0.5f);
-
-	_spellEffect = new effect;
-	_spellEffect->init(IMAGEMANAGER->findImage("vectorPup스킬공격이미지"), 132, 123, 1.0f, 0.5f);
-
 	EFFECTMANAGER->addEffect("vectorPup기본공격", ".\\image\\enemyEffect\\effect16.bmp", 411, 134, 137, 134, 1.0f, 1.0f, 2);
 	EFFECTMANAGER->addEffect("vectorPup스킬공격", ".\\image\\enemyEffect\\effect15.bmp", 660, 123, 132, 123, 1.0f, 1.0f, 2);
 
