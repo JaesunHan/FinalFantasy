@@ -18,6 +18,7 @@
 #define COLOR_GREEN		RGB(0, 255, 0)
 #define COLOR_BLUE		RGB(0, 0, 255)
 #define COLOR_MAGENTA	RGB(255, 0, 255)
+#define COLOR_GRAY	    RGB(128, 128, 128)
 
 #define SAVEFILENUM		3
 #define EFFECTVOLUME	0.5f
@@ -237,7 +238,7 @@ public:
 		int weapon, int armor, int helmet, int subWeapon, int command1, int command2,
 		int command3, int command4, int command5, int command6, int command7, int command8);
 	virtual void playerStatusRender(int SlotNum);
-	virtual void playerStatusEquipsRender(string playerNum, bool equipSet, int myWeaponVNum, int mySubWeaponNum, int myHelmetNum, int myArmorNum);
+	virtual void playerStatusEquipsRender(string playerNum, bool equipSet, int myWeaponVNum, int mySubWeaponNum, int myHelmetNum, int myArmorNum, bool changeValue);
 	virtual void playerStatusRemove();
 	virtual string playerCommandReturn(int num);
 	//------------------------------  fileLoad  -----------------------------

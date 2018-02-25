@@ -54,6 +54,8 @@ HRESULT characterEquip::init()
 	_previousCusor = 0;
 	_belongSelectOK = false;
 	_equipSetOk = false;
+	_isChangeValue = false;
+	_preCursor = 0;
 
 	changeMyWVNum = -1;
 	changeMyAVNum = -1;
@@ -117,7 +119,7 @@ void characterEquip::render()
 	playerSlotRender(false);						    //슬롯 데이터
 	char playerNum[256];
 	sprintf(playerNum, "player%d", _selectPlayerNum);
-	playerStatusEquipsRender(playerNum, _equipSetOk, changeMyWVNum, changeMyAVNum, changeMyHVNum, changeMySVNum);   //상태 데이터
+	playerStatusEquipsRender(playerNum, _equipSetOk, changeMyWVNum, changeMyAVNum, changeMyHVNum, changeMySVNum, _isChangeValue);   //상태 데이터
 }
 
 
@@ -224,6 +226,13 @@ void characterEquip::buttonOnEquipsActive()
 	{
 		_cursorI->init(CURSOR_RIGHT, 100, 30);
 		_equipButtonOn = false;
+
+
+		//버튼 에니메이션 STOP
+		for (int i = _cursorXNum; i < _button->getVButton().size(); ++i)
+		{
+			_button->setVButtonAniStart(i, false);
+		}
 	}
 }
 
@@ -240,6 +249,93 @@ void characterEquip::buttonOnItemActive()
 		_button->setVButtonAniStart(i, false);
 	}
 
+	//장비착용후 능력치 초기화 
+	if (_cursorI->getCursorYNum() == _preCursor) _isChangeValue = true;  
+	else _isChangeValue = false;
+
+
+
+	//해당 장비 장착
+	switch (_cursorI->getCursorYNum())
+	{
+		case 0:
+			switch (_previousCusor)
+			{
+				case BUTTON_RIGHTHAND:
+				weaponChange("myWeapon");
+				break;
+				case BUTTON_LEFTHAND:
+				weaponChange("mySubWeapon");
+				break;
+				case BUTTON_HEAD:
+				weaponChange("myHelmet");
+				break;
+				case BUTTON_BODY:
+				weaponChange("myArmor");
+				break;
+			}
+
+			_preCursor = _cursorI->getCursorYNum();
+		break;
+		case 1:
+			switch (_previousCusor)
+			{
+				case BUTTON_RIGHTHAND:
+				weaponChange("myWeapon");
+				break;
+				case BUTTON_LEFTHAND:
+				weaponChange("mySubWeapon");
+				break;
+				case BUTTON_HEAD:
+				weaponChange("myHelmet");
+				break;
+				case BUTTON_BODY:
+				weaponChange("myArmor");
+				break;
+			}
+
+			_preCursor = _cursorI->getCursorYNum();
+		break;
+		case 2:
+			switch (_previousCusor)
+			{
+				case BUTTON_RIGHTHAND:
+				weaponChange("myWeapon");
+				break;
+				case BUTTON_LEFTHAND:
+				weaponChange("mySubWeapon");
+				break;
+				case BUTTON_HEAD:
+				weaponChange("myHelmet");
+				break;
+				case BUTTON_BODY:
+				weaponChange("myArmor");
+				break;
+			}
+
+			_preCursor = _cursorI->getCursorYNum();
+		break;
+		case 3:
+			switch (_previousCusor)
+			{
+				case BUTTON_RIGHTHAND:
+				weaponChange("myWeapon");
+				break;
+				case BUTTON_LEFTHAND:
+				weaponChange("mySubWeapon");
+				break;
+				case BUTTON_HEAD:
+				weaponChange("myHelmet");
+				break;
+				case BUTTON_BODY:
+				weaponChange("myArmor");
+				break;
+			}
+
+			_preCursor = _cursorI->getCursorYNum();
+		break;
+	}
+
 
 	//장비를 선택하면
 	if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
@@ -250,78 +346,6 @@ void characterEquip::buttonOnItemActive()
 		changeMyHVNum = -1;
 		changeMySVNum = -1;
 
-		//해당 장비 장착
-		switch (_cursorI->getCursorYNum())
-		{
-			case 0:
-				switch (_previousCusor)
-				{
-					case BUTTON_RIGHTHAND:
-						weaponChange("myWeapon");
-					break;
-					case BUTTON_LEFTHAND:
-						weaponChange("mySubWeapon");
-					break;
-					case BUTTON_HEAD:
-						weaponChange("myHelmet");
-					break;
-					case BUTTON_BODY:
-						weaponChange("myArmor");
-					break;
-				}
-			break;
-			case 1:
-				switch (_previousCusor)
-				{
-					case BUTTON_RIGHTHAND:
-						weaponChange("myWeapon");
-					break;
-					case BUTTON_LEFTHAND:
-						weaponChange("mySubWeapon");
-					break;
-					case BUTTON_HEAD:
-						weaponChange("myHelmet");
-					break;
-					case BUTTON_BODY:
-						weaponChange("myArmor");
-					break;
-				}
-			break;
-			case 2:
-				switch (_previousCusor)
-				{
-					case BUTTON_RIGHTHAND:
-						weaponChange("myWeapon");
-					break;
-					case BUTTON_LEFTHAND:
-						weaponChange("mySubWeapon");
-					break;
-					case BUTTON_HEAD:
-						weaponChange("myHelmet");
-					break;
-					case BUTTON_BODY:
-						weaponChange("myArmor");
-					break;
-				}
-			break;
-			case 3:
-				switch (_previousCusor)
-				{
-					case BUTTON_RIGHTHAND:
-						weaponChange("myWeapon");
-					break;
-					case BUTTON_LEFTHAND:
-						weaponChange("mySubWeapon");
-					break;
-					case BUTTON_HEAD:
-						weaponChange("myHelmet");
-					break;
-					case BUTTON_BODY:
-						weaponChange("myArmor");
-					break;
-				}
-			break;
-		}
 		//파일정보 리로딩
 		this->init();
 
@@ -334,11 +358,12 @@ void characterEquip::buttonOnItemActive()
 	{
 		_cursorI->init(CURSOR_RIGHT, 300, 125);
 		_selectEquip = false;
+		_isChangeValue = false;
 	}
 }
 
 //무기교체
-void characterEquip::weaponChange(string equiptype)
+void characterEquip::weaponChange(string equiptype, bool chageOn)
 {
 	//선택 플레이어
 	char tmpPlayerNum[32];
@@ -392,6 +417,9 @@ void characterEquip::weaponChange(string equiptype)
 			
 			}
 		}
+
+		//출력은 여기까지만 연산하고 리턴
+		if (!chageOn) return;
 
 		//교체할장비의 벡터넘버
 		if (equipType == BUTTON_RIGHTHAND)
@@ -468,6 +496,9 @@ void characterEquip::weaponChange(string equiptype)
 		
 			}
 		}
+
+		//출력은 여기까지만 연산하고 리턴
+		if (!chageOn) return;
 	
 		//교체할장비의 벡터넘버
 		if (equipType == BUTTON_HEAD)
