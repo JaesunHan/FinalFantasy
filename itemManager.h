@@ -47,6 +47,7 @@ public:
 	void loadInventory(char* fileName);						//키값의 파일로부터 인벤토리 로드
 
 	itemKind getItemKind(string keyName);					//키값으로 아이템 타잎 반환
+	int getVNumByItemNum(int itemNumber);					//인덱스 번호로 아이템 벡터 번호 반환
 
 	int getItemVNum(int num);								//아이템 인벤토리에 저장된 순서의 번호로 아이텐 정보 벡터의 번호 반환
 	int getItemCount(int num);								//아이템 인벤토리에 저장된 순서의 번호의 갯수 반환

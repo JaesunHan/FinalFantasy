@@ -193,7 +193,7 @@ HRESULT itemManager::init()
 
 	//기본 무기 세팅
 	weaponItem* defaultWeapon = new weaponItem;
-	defaultWeapon->init(0, ITEM_WEAPON, "맨손주먹", "맨손주먹공격무기이다", 0, 10, 100);
+	defaultWeapon->init(0, ITEM_WEAPON, "맨손주먹", "맨손주먹공격무기이다", 0, 10, 200);
 	_vItem.push_back(defaultWeapon);
 
 	//기본 갑옷 세팅
@@ -989,6 +989,17 @@ itemKind itemManager::getItemKind(string keyName)
 		if (_vItem[i]->getItemName() == keyName)
 		{
 			return _vItem[i]->getItmeKind();
+		}
+	}
+}
+
+int itemManager::getVNumByItemNum(int itemNumber)
+{
+	for (int i = 0; i < _vItem.size(); ++i)
+	{
+		if (_vItem[i]->getItemNumber() == itemNumber)
+		{
+			return i;
 		}
 	}
 }

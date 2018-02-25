@@ -1082,7 +1082,7 @@ void BattleScene::characterDraw()
 			_battleCharacters[i].enemy->render();
 			char enemyHp[128];
 			wsprintf(enemyHp, "%d", _battleCharacters[i].enemy->getCurHP());
-			TextOut(getMemDC(), _battleCharacters[i].enemy->getX(), _battleCharacters[i].enemy->getY(), enemyHp, strlen(enemyHp));
+			//TextOut(getMemDC(), _battleCharacters[i].enemy->getX(), _battleCharacters[i].enemy->getY(), enemyHp, strlen(enemyHp));
 		}
 		if (_battleCharacters[i].characterType <= 3)
 		{
