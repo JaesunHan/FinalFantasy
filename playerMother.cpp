@@ -7,7 +7,7 @@ playerMother::playerMother()
 {
 	//기본 무기 세팅
 	_defaultWeapon = new weaponItem;
-	_defaultWeapon->init(0, ITEM_WEAPON, "DefaultWeapon", "맨주먹공격무기이다", 0, 10, 100);
+	_defaultWeapon->init(0, ITEM_WEAPON, "DefaultWeapon", "맨주먹공격무기이다", 0, 10, 200);
 	_myWeapon = new weaponItem;
 	_myWeapon = _defaultWeapon;
 	//기본 갑옷 세팅
