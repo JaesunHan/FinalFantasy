@@ -167,7 +167,7 @@ void optionMenu::update()
 				_button->setVButtonAniStart(i, false);
 			}
 
-			if (_isSavePoint)
+			//if (_isSavePoint)
 			{
 				if (KEYMANAGER->isOnceKeyDown(VK_RETURN))
 				{
